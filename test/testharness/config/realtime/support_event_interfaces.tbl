@@ -1,0 +1,45 @@
+[name]interface[/name]=[data]Atalla Tcp Bridge[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Base24Framework[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Certificate Manager[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]HSM Load Balancer[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]MCM Server[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Postal[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]ProcessLog[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Racal Async Bridge[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Racal Tcp Bridge[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]RealtimeSDK[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Scheduler[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]SystemInfo[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Transaction Cleaner[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]Transaction Manager[/data]
+[name]retention_period[/name]=[data]8[/data]
+
+[name]interface[/name]=[data]XmlFramework[/data]
+[name]retention_period[/name]=[data]8[/data]
+

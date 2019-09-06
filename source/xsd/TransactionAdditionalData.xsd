@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xsd:element name="TransactionAdditionalData">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element minOccurs="0" maxOccurs="1" name="MiniStatement">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="MonthTran" type="xsd:string" />
+							<xsd:element name="DayTran" type="xsd:string" />
+							<xsd:element name="Nature" type="xsd:string" />
+							<xsd:element type="xsd:string" name="Description" />
+							<xsd:element name="Amount" type="xsd:string" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element minOccurs="0" maxOccurs="1" name="LinkedAccount">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="NumAccountLinked" type="xsd:string" />
+							<xsd:element name="Account1Linked" type="xsd:string" />
+							<xsd:element name="Account2Linked" type="xsd:string" />
+							<xsd:element name="Account3Linked" type="xsd:string" />
+							<xsd:element name="Account4Linked" type="xsd:string" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element minOccurs="0" maxOccurs="1" name="DepositCheck">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="OwnerId" type="xsd:string" />
+							<xsd:element name="OwnerRef" type="xsd:string" />
+							<xsd:element name="OwnerName" type="xsd:string" />
+							<xsd:element name="AccountType" type="xsd:string" />
+							<xsd:element name="Account" type="xsd:string" />
+							<xsd:element name="DepositDate" type="xsd:string" />
+							<xsd:element name="HourDeposit" type="xsd:string" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

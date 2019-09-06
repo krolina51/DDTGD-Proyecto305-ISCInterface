@@ -1,0 +1,1538 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<!Postilion v5.3.00 Trace File: C:\PROGRA~1\Postilion\Trace\DvcBogota\DvcBogota>
+<html>
+<head>
+<style type="text/css">
+
+A { font-family:Verdana, Arial; font-size:9.0pt; }
+A:visited { color:#0000FF }
+
+U { cursor:hand }
+P { font-family:Verdana, Arial; font-size:9.0pt; }
+HR { color:#527573; height:1px }
+TD { font-family:Verdana, Arial; font-size:9.0pt; }
+DIV { color:blue; text-decoration:none; font-family:Verdana, Arial; font-size:9.0pt; }
+DIV DIV { color:black; cursor:text; display:none; text-decoration:none }
+DIV DIV DIV { color:blue; cursor:text; display:block; font-family:Verdana,Arial; font-size:9.0pt; }
+DIV DIV DIV DIV { color:black; cursor:text; display:none; text-decoration:none }
+
+.header { background-color:#BDD7D6; height:88px; padding-left:8px; }
+.bar { border-top:solid 1px #527573; border-bottom:solid 1px #527573; background-color:#6BA6A5; height:23px; padding-left:5px; padding-right:5px; }
+.content { padding:10px }
+.pretext { font-family:Courier New; white-space:pre; }
+.navlink { cursor:hand; text-decoration:underline; }
+
+</style>
+
+<script>
+
+function handleClick()
+{
+	el=event.srcElement;
+	if (el.id!="clickable") 
+		return; 
+	if (!changeSetting(el,"postC",true) && !changeSetting(el,"postCb",true)) 
+		changeSetting(el,"postA",true);
+	event.cancelBubble=true
+}
+
+/*----------------------------------------------------------------------------*/
+
+function openSelected()
+{ 
+	s = document.selection; 
+	if ((s == null) || (s.type != "Text")) 
+		return; 
+	p=s.createRange().parentElement(); 
+	if ((p==null)||(p.parentElement==null))
+		return; 
+	p=p.parentElement.parentElement; 
+	changeSetting(p,"postA",false); 
+	changeSetting(p,"postC",false);
+	changeSetting(p,"postCb",false);
+}
+
+function handleClick()
+{
+	el=event.srcElement;
+	if (el.id!="clickable") 
+		return; 
+	if (!changeSetting(el,"postC",true) && !changeSetting(el,"postCb",true)) 
+		changeSetting(el,"postA",true);
+	event.cancelBubble=true
+}
+
+/*----------------------------------------------------------------------------*/
+
+function openSelected()
+{ 
+	s = document.selection; 
+	if ((s == null) || (s.type != "Text")) 
+		return; 
+	p=s.createRange().parentElement(); 
+	if ((p==null)||(p.parentElement==null))
+		return; 
+	p=p.parentElement.parentElement; 
+	changeSetting(p,"postA",false); 
+	changeSetting(p,"postC",false);
+	changeSetting(p,"postCb",false);
+}
+
+/*----------------------------------------------------------------------------*/
+
+function changeSetting(el,id,toggle)
+{ 
+	while (true)
+	{ 
+		if (el==null) 
+			return false;
+		if (el.id==id) 
+			break; 
+		el=el.parentElement;
+	}
+	els=el.children; 
+	for(i = 0;i<els.length;i++)
+	{
+		el=els[i]; 
+		st=el.style; 
+		if (el.id=="clickable")
+			continue; 
+		if((""==st.display)||(!toggle))
+		{
+			st.display="block"; 
+			if (toggle&&(id=="postA")) 
+				el.parentElement.scrollIntoView(true);
+		}
+		else 
+			st.display=""
+	} 
+	return true;
+}
+
+/*----------------------------------------------------------------------------*/
+
+function toggle(a)
+{
+  for(var i = 0; i < a.parentNode.childNodes.length; i++)
+  {
+   var n = a.parentNode.childNodes[i];
+   if(n.id == "postB" || n.id == "postD" || n.id == "postDb")
+    {
+     if(n.style.display != "block")
+     {
+       n.style.display = "block";
+     }
+     else
+     {
+       n.style.display = "none";
+     }
+     if(n.id == "postB")
+     {
+       a.parentNode.scrollIntoView(true);
+      }
+     }
+  }
+}
+
+/*----------------------------------------------------------------------------*/
+
+document.onclick=handleClick
+
+</script>
+</head>
+
+<body leftmargin="0" topmargin="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td height="88" valign=middle class="header"><a name="top">
+<table width="100%" border="0" cellspacing="2" cellpadding="0">
+<tr>
+<td width="145" valign="top"><strong>Database Server:</strong></td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>Application:</strong></td>
+<td>DvcBogota</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>Trace Instance:</strong></td>
+<td>C:\PROGRA~1\Postilion\Trace\DvcBogota\DvcBogota</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>File Created:</strong></td>
+<td>Sep 05 22h01:26.580</td>
+</tr>
+</table>
+</a></td>
+</tr>
+
+<tr>
+<td class="bar">&nbsp;</td>
+</tr>
+<tr>
+<td class="content">
+
+<p><DIV id="postA"><a href="javascript://" onClick="toggle(this)">Postilion v5.3.00.276251</a>
+<DIV id="postB"><UL><XMP>
+Database Server:      127.0.0.1
+Application:          DvcBogota
+Application Version:  Realtime Framework SDK:v5.3.00.276251 (Patches: 101);jTDS Type 4 JDBC Driver for MS SQL Server and Sybase JDBC Driver:v1.2;Sun Microsystems Inc. JVM:v1.6.0_13;DvcBogota:v2.2.00.1309051-r5.3
+Trace Instance:       C:\PROGRA~1\Postilion\Trace\DvcBogota\DvcBogota
+</XMP></UL><HR></DIV>
+</DIV></p>
+
+
+<DIV>[Sep 05 22h01:26.580] - Trace started.</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:26.580] - <a href="javascript://" onClick="toggle(this)">Node 'DvcBogota' disconnected from remote entity (0 active connection(s))</a>
+<DIV id="postB"><UL>
+Node &#039;DvcBogota&#039; has been disconnected from the remote entity at network address &#039;[unknown]&#039; on SAP &#039;[unknown]&#039;. There are now 0 active connection(s). The disconnect was initiated by DvcBogota. Reason: Application startup.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:26.674] - <a href="javascript://" onClick="toggle(this)">Disconnected from Transaction Manager</a>
+<DIV id="postB"><UL>
+DvcBogota has disconnected from Transaction Manager at [unknown] on SAP DvcBogota.sink.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:31.189] - <a href="javascript://" onClick="toggle(this)">Error event 10008</a>
+<DIV id="postB"><UL>
+The &#039;cfg_system_properties.postilion.ath_max_settlement_date&#039; parameter of the DvcBogota interchange was incorrectly configured with the value &#039;[unknown]&#039;. Consult the User Guide for valid configuration values.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:31.283] - <a href="javascript://" onClick="toggle(this)">Informational event 10001</a>
+<DIV id="postB"><UL>
+The interchange is configured with the following user parameters: 2 0 0 0 0 0 0 9999 40 5 0002 0001 0001 0001 30 5 0 0 0 0 1 180 170 ATH 0001 0 01 0 0 00230001001 11. The interchange is running as a DvcBogota interface.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:41.252] - <a href="javascript://" onClick="toggle(this)">Connected to Transaction Manager</a>
+<DIV id="postB"><UL>
+DvcBogota has connected to Transaction Manager at 192.168.142.128,1258 on SAP DvcBogota.sink.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:48.267] - <a href="javascript://" onClick="toggle(this)">Interchange 'DvcBogota' connected to remote entity</a>
+<DIV id="postB"><UL>
+Interchange &#039;DvcBogota&#039; is connected to the remote entity at network address &#039;192.168.142.128,1267&#039;.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:53.392] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message from Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0200:
+   [LLVAR  n    ..19 016] 002 [4239489002029254] 
+   [Fixed  n       6 006] 003 [214310] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n      10 010] 007 [0905220149] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       6 006] 012 [220149] 
+   [Fixed  n       4 004] 013 [0905] 
+   [Fixed  n       4 004] 014 [1412] 
+   [Fixed  n       4 004] 015 [0903] 
+   [Fixed  n       3 003] 022 [021] 
+   [Fixed  n       2 002] 025 [00] 
+   [Fixed  n       2 002] 026 [12] 
+   [Fixed  x+n     9 009] 028 [C00000000] 
+   [Fixed  x+n     9 009] 030 [C00000000] 
+   [LLVAR  n    ..11 011] 032 [10000000054] 
+   [LLVAR  z    ..37 037] 035 [4239489002029254=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [327Dpq9tu1n0] 
+   [Fixed  an      3 003] 040 [201] 
+   [Fixed  ans     8 008] 041 [00238708] 
+   [Fixed  ans    15 015] 042 [870800000000000] 
+   [Fixed  ans    40 040] 043 [EXITO LA FLORA        7600100 CALI VLLCO] 
+   [Fixed  a/n     3 003] 049 [170] 
+   [LLLVAR n       4 004] 056 [1510] 
+   [LLVAR  n    ..11 011] 100 [00230001001] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [010002304000020000003186] 
+   [LLLVAR an     15 015] 123 [21120121014C019] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000013] 
+   [Fixed  ans*   48 048] 127.003 [DummySrc    DvcBogotaSnk000001000001OfcMstNacTG ] 
+   [LLVAR  ans  ..25 015] 127.012 [Banco Occidente] 
+   [Fixed  n       8 008] 127.020 [20130903] 
+   [LLLLLVAans 99999 412] 127.022.ORIG_SETTLEMENT_DATE
+                                   [0902]
+   [LLLLLVAans 99999 412] 127.022.Postilion:MetaData
+                                   [220ORIG_SETTLEMENT_DATE111211SvcInstCode11119CH_ORIGIN111215ADDITIONAL_DATA111]
+   [LLLLLVAans 99999 412] 127.022.SvcInstCode
+                                   [&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+                                     &lt;SvcInstCode&gt;
+                                       &lt;DebitInst&gt;0036&lt;/DebitInst&gt;
+                                       &lt;CreditInst&gt;0023&lt;/CreditInst&gt;
+                                       &lt;CrossIndicator&gt;1&lt;/CrossIndicator&gt;
+                                       &lt;PayType&gt;0&lt;/PayType&gt;
+                                     &lt;/SvcInstCode&gt;]
+   [LLLLLVAans 99999 412] 127.022.ADDITIONAL_DATA
+                                   [00000000000000000000000000000000000010208544]
+   [LLLLLVAans 99999 412] 127.022.CH_ORIGIN
+                                   [CNB_EXITO]
+   [Fixed  n       4 004] 127.033 [9014] 
+   [LLVAR  ans  ..25 024] 127.036 [010002304000020000003186] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 30 30 f2 3e 04 d5  29 e0 81 00 00 00 00 00   0200.&gt;..).......
+0016(0010)  16 00 00 22 31 36 34 32  33 39 34 38 39 30 30 32   ...&quot;164239489002
+0032(0020)  30 32 39 32 35 34 32 31  34 33 31 30 30 30 30 30   0292542143100000
+0048(0030)  31 35 30 30 30 30 30 30  30 39 30 35 32 32 30 31   1500000009052201
+0064(0040)  34 39 30 30 30 30 30 31  32 32 30 31 34 39 30 39   4900000122014909
+0080(0050)  30 35 31 34 31 32 30 39  30 33 30 32 31 30 30 31   0514120903021001
+0096(0060)  32 43 30 30 30 30 30 30  30 30 43 30 30 30 30 30   2C00000000C00000
+0112(0070)  30 30 30 31 31 31 30 30  30 30 30 30 30 30 35 34   0001110000000054
+0128(0080)  33 37 34 32 33 39 34 38  39 30 30 32 30 32 39 32   3742394890020292
+0144(0090)  35 34 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   54=1412201532000
+0160(00a0)  30 30 30 30 30 30 30 33  32 37 44 70 71 39 74 75   0000000327Dpq9tu
+0176(00b0)  31 6e 30 32 30 31 30 30  32 33 38 37 30 38 38 37   1n02010023870887
+0192(00c0)  30 38 30 30 30 30 30 30  30 30 30 30 30 45 58 49   0800000000000EXI
+0208(00d0)  54 4f 20 4c 41 20 46 4c  4f 52 41 20 20 20 20 20   TO LA FLORA     
+0224(00e0)  20 20 20 37 36 30 30 31  30 30 20 43 41 4c 49 20      7600100 CALI 
+0240(00f0)  56 4c 4c 43 4f 31 37 30  30 30 34 31 35 31 30 31   VLLCO17000415101
+0256(0100)  31 30 30 32 33 30 30 30  31 30 30 31 32 31 30 30   1002300010012100
+0272(0110)  30 31 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0100000000000001
+0288(0120)  32 33 34 32 34 30 31 30  30 30 32 33 30 34 30 30   2342401000230400
+0304(0130)  30 30 32 30 30 30 30 30  30 33 31 38 36 30 31 35   0020000003186015
+0320(0140)  32 31 31 32 30 31 32 31  30 31 34 43 30 31 39 30   21120121014C0190
+0336(0150)  30 30 35 34 30 60 10 14  00 90 00 00 00 31 30 30   00540`.......100
+0352(0160)  30 30 30 30 30 30 30 31  33 44 75 6d 6d 79 53 72   000000013DummySr
+0368(0170)  63 20 20 20 20 44 76 63  42 6f 67 6f 74 61 53 6e   c    DvcBogotaSn
+0384(0180)  6b 30 30 30 30 30 31 30  30 30 30 30 31 4f 66 63   k000001000001Ofc
+0400(0190)  4d 73 74 4e 61 63 54 47  20 31 35 42 61 6e 63 6f   MstNacTG 15Banco
+0416(01a0)  20 4f 63 63 69 64 65 6e  74 65 32 30 31 33 30 39    Occidente201309
+0432(01b0)  30 33 30 30 34 31 32 32  31 38 50 6f 73 74 69 6c   0300412218Postil
+0448(01c0)  69 6f 6e 3a 4d 65 74 61  44 61 74 61 32 37 38 32   ion:MetaData2782
+0464(01d0)  32 30 4f 52 49 47 5f 53  45 54 54 4c 45 4d 45 4e   20ORIG_SETTLEMEN
+0480(01e0)  54 5f 44 41 54 45 31 31  31 32 31 31 53 76 63 49   T_DATE111211SvcI
+0496(01f0)  6e 73 74 43 6f 64 65 31  31 31 31 39 43 48 5f 4f   nstCode11119CH_O
+0512(0200)  52 49 47 49 4e 31 31 31  32 31 35 41 44 44 49 54   RIGIN111215ADDIT
+0528(0210)  49 4f 4e 41 4c 5f 44 41  54 41 31 31 31 32 32 30   IONAL_DATA111220
+0544(0220)  4f 52 49 47 5f 53 45 54  54 4c 45 4d 45 4e 54 5f   ORIG_SETTLEMENT_
+0560(0230)  44 41 54 45 31 34 30 39  30 32 32 31 31 53 76 63   DATE140902211Svc
+0576(0240)  49 6e 73 74 43 6f 64 65  33 31 37 36 3c 3f 78 6d   InstCode3176&lt;?xm
+0592(0250)  6c 20 76 65 72 73 69 6f  6e 3d 22 31 2e 30 22 20   l version=&quot;1.0&quot; 
+0608(0260)  65 6e 63 6f 64 69 6e 67  3d 22 55 54 46 2d 38 22   encoding=&quot;UTF-8&quot;
+0624(0270)  3f 3e 20 3c 53 76 63 49  6e 73 74 43 6f 64 65 3e   ?&gt; &lt;SvcInstCode&gt;
+0640(0280)  3c 44 65 62 69 74 49 6e  73 74 3e 30 30 33 36 3c   &lt;DebitInst&gt;0036&lt;
+0656(0290)  2f 44 65 62 69 74 49 6e  73 74 3e 3c 43 72 65 64   /DebitInst&gt;&lt;Cred
+0672(02a0)  69 74 49 6e 73 74 3e 30  30 32 33 3c 2f 43 72 65   itInst&gt;0023&lt;/Cre
+0688(02b0)  64 69 74 49 6e 73 74 3e  3c 43 72 6f 73 73 49 6e   ditInst&gt;&lt;CrossIn
+0704(02c0)  64 69 63 61 74 6f 72 3e  31 3c 2f 43 72 6f 73 73   dicator&gt;1&lt;/Cross
+0720(02d0)  49 6e 64 69 63 61 74 6f  72 3e 3c 50 61 79 54 79   Indicator&gt;&lt;PayTy
+0736(02e0)  70 65 3e 30 3c 2f 50 61  79 54 79 70 65 3e 3c 2f   pe&gt;0&lt;/PayType&gt;&lt;/
+0752(02f0)  53 76 63 49 6e 73 74 43  6f 64 65 3e 31 39 43 48   SvcInstCode&gt;19CH
+0768(0300)  5f 4f 52 49 47 49 4e 31  39 43 4e 42 5f 45 58 49   _ORIGIN19CNB_EXI
+0784(0310)  54 4f 32 31 35 41 44 44  49 54 49 4f 4e 41 4c 5f   TO215ADDITIONAL_
+0800(0320)  44 41 54 41 32 34 34 30  30 30 30 30 30 30 30 30   DATA244000000000
+0816(0330)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0832(0340)  30 30 30 30 30 30 30 30  30 30 30 31 30 32 30 38   0000000000010208
+0848(0350)  35 34 34 39 30 31 34 32  34 30 31 30 30 30 32 33   5449014240100023
+0864(0360)  30 34 30 30 30 30 32 30  30 30 30 30 30 33 31 38   0400002000000318
+0880(0370)  36                                                 6
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:54.877] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message to DvcBogota [192.168.142.128,1267] (online delivery)</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0200:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220149]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220149]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239489002029254=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [327Dpq9tu1n0]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  b      40 040] 043 [EXITO LA FLORA102085447600100 CALI VLLCO]
+   [Fixed  a/n     3 003] 049 [170]
+   [Fixed  an     16 016] 052 [FFFFFFFFFFFFFFFF] 
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLVAR  ans  ..28 021] 102 [003600000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..16 016] 112 [4000020000003186]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 30 30   ISO0140000500200
+0016(0010)  42 32 33 38 38 34 30 31  32 38 41 30 39 30 31 30   B238840128A09010
+0032(0020)  30 30 30 30 30 30 30 30  30 37 30 31 30 30 30 34   0000000007010004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 34 39 30 30 30 30   0009052201490000
+0080(0050)  30 31 32 32 30 31 34 39  30 39 30 35 30 39 30 32   0122014909050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 38  39 30 30 32 30 32 39 32   3742394890020292
+0128(0080)  35 34 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   54=1412201532000
+0144(0090)  30 30 30 30 30 30 30 33  32 37 44 70 71 39 74 75   0000000327Dpq9tu
+0160(00a0)  31 6e 30 30 30 32 33 38  37 30 38 30 30 30 30 37   1n00023870800007
+0176(00b0)  20 20 20 45 58 49 54 4f  20 4c 41 20 46 4c 4f 52      EXITO LA FLOR
+0192(00c0)  41 31 30 32 30 38 35 34  34 37 36 30 30 31 30 30   A102085447600100
+0208(00d0)  20 43 41 4c 49 20 56 4c  4c 43 4f 31 37 30 46 46    CALI VLLCO170FF
+0224(00e0)  46 46 46 46 46 46 46 46  46 46 46 46 46 46 30 31   FFFFFFFFFFFFFF01
+0240(00f0)  32 30 30 30 31 30 30 30  31 30 30 30 30 32 31 30   2000100010000210
+0256(0100)  30 33 36 30 30 30 30 30  30 30 30 30 30 30 30 30   0360000000000000
+0272(0110)  31 32 33 34 32 34 30 31  31 30 30 32 33 30 30 30   1234240110023000
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 31 38   0000000000000018
+0304(0130)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0320(0140)  30 30 30 31 36 34 30 30  30 30 32 30 30 30 30 30   0001640000200000
+0336(0150)  30 33 31 38 36 30 35 34  26 20 30 30 30 30 32 30   03186054&amp; 000020
+0352(0160)  30 30 35 34 21 20 51 54  30 30 30 33 32 20 35 30   0054! QT00032 50
+0368(0170)  31 30 34 33 30 30 30 30  30 30 30 30 30 30 30 30   1043000000000000
+0384(0180)  30 30 30 30 30 30 30 30  30 30 30 30 30 20         0000000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:55.221] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message from DvcBogota [192.168.142.128,1267]</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0210:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220149]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220149]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239489002029254=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [327Dpq9tu1n0]
+   [Fixed  ans     6 006] 038 [757369]
+   [Fixed  an      2 002] 039 [00]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  a/n     3 003] 049 [170]
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLLVAR ans  ..19 013] 061 [0023PRO3    P]
+   [LLLVAR b   ..144 044] 063 [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLVAR  ans  ..11 011] 100 [00230001001]
+   [LLVAR  ans  ..28 021] 102 [003600000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..25 018] 105 [123456789012345698]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 31 30   ISO0140000500210
+0016(0010)  42 32 33 38 38 34 30 31  32 45 38 30 38 30 31 41   B23884012E80801A
+0032(0020)  30 30 30 30 30 30 30 30  31 37 38 30 30 30 30 34   0000000017800004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 34 39 30 30 30 30   0009052201490000
+0080(0050)  30 31 32 32 30 31 34 39  30 39 30 35 30 39 30 32   0122014909050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 38  39 30 30 32 30 32 39 32   3742394890020292
+0128(0080)  35 34 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   54=1412201532000
+0144(0090)  30 30 30 30 30 30 30 33  32 37 44 70 71 39 74 75   0000000327Dpq9tu
+0160(00a0)  31 6e 30 37 35 37 33 36  39 30 30 30 30 32 33 38   1n07573690000238
+0176(00b0)  37 30 38 30 30 30 30 37  20 20 20 31 37 30 30 31   70800007   17001
+0192(00c0)  32 30 30 30 31 30 30 30  31 30 30 30 30 30 31 33   2000100010000013
+0208(00d0)  30 30 32 33 50 52 4f 33  20 20 20 20 50 30 34 34   0023PRO3    P044
+0224(00e0)  30 30 30 30 20 4d 45 4e  53 41 4a 45 20 41 55 54   0000 MENSAJE AUT
+0240(00f0)  20 4f 43 43 49 44 45 4e  54 45 20 20 20 20 20 20    OCCIDENTE      
+0256(0100)  20 20 20 20 20 20 20 20  20 20 20 20 31 31 30 30               1100
+0272(0110)  32 33 30 30 30 31 30 30  31 32 31 30 30 33 36 30   2300010012100360
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 31 32 33 34   0000000000001234
+0304(0130)  32 34 30 31 31 30 30 32  33 30 30 30 30 30 30 30   2401100230000000
+0320(0140)  30 30 30 30 30 30 30 30  30 30 31 38 30 30 30 30   0000000000180000
+0336(0150)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0000000000000001
+0352(0160)  38 31 32 33 34 35 36 37  38 39 30 31 32 33 34 35   8123456789012345
+0368(0170)  36 39 38 30 35 34 26 20  30 30 30 30 32 30 30 30   698054&amp; 00002000
+0384(0180)  35 34 21 20 51 54 30 30  30 33 32 20 35 30 31 30   54! QT00032 5010
+0400(0190)  34 33 30 30 30 30 30 30  30 30 30 30 30 30 30 30   4300000000000000
+0416(01a0)  30 30 30 30 30 30 30 30  30 30 30 20               00000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:55.549] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message to Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0210:
+   [Fixed  n       6 006] 003 [214310] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       4 004] 015 [0902] 
+   [Fixed  ans     6 006] 038 [757369] 
+   [Fixed  an      2 002] 039 [00] 
+   [LLVAR  ans  ..25 015] 044 [               ] 
+   [LLLVAR an* ..120 040] 054 [0001170C0000000000000002170C000000000000] 
+   [LLLVAR ans ..500 143] 059 [327Dpq9tu1n0|757369|00230001001|003600000000000001234|011002300000000000000000|0023PRO3    P|4239489002029254=14122015320000000000|000000|0902|] 
+   [LLVAR  ans  ..28 021] 102 [003600000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000013] 
+   [LLLLLVAans 99999 439] 127.022.TRAN_IDENTIFICATION
+                                   [123456789012345698]
+   [LLLLLVAans 99999 439] 127.022.DESC_ERROR
+                                   [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLLLLVAans 99999 439] 127.022.Postilion:MetaData
+                                   [210DESC_ERROR111219TRAN_IDENTIFICATION111211ISSUER_NAME111213FIELD_B24_126111210CREDIT_AUT111211ISSUER_INFO11119DEBIT_AUT111]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_NAME
+                                   [BANCO DE BOGOTA]
+   [LLLLLVAans 99999 439] 127.022.FIELD_B24_126
+                                   [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+   [LLLLLVAans 99999 439] 127.022.CREDIT_AUT
+                                   [70030000101]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_INFO
+                                   [0023PRO3    P]
+   [LLLLLVAans 99999 439] 127.022.DEBIT_AUT
+                                   [70030000101]
+   [LLVAR  ans  ..11 011] 127.031 [00230001001] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 31 30 b0 22 00 00  06 10 04 20 00 00 00 00   0210.&quot;..... ....
+0016(0010)  06 00 00 02 32 31 34 33  31 30 30 30 30 30 31 35   ....214310000015
+0032(0020)  30 30 30 30 30 30 30 30  30 30 30 31 30 39 30 32   0000000000010902
+0048(0030)  37 35 37 33 36 39 30 30  31 35 20 20 20 20 20 20   7573690015      
+0064(0040)  20 20 20 20 20 20 20 20  20 30 34 30 30 30 30 31            0400001
+0080(0050)  31 37 30 43 30 30 30 30  30 30 30 30 30 30 30 30   170C000000000000
+0096(0060)  30 30 30 32 31 37 30 43  30 30 30 30 30 30 30 30   0002170C00000000
+0112(0070)  30 30 30 30 31 34 33 33  32 37 44 70 71 39 74 75   0000143327Dpq9tu
+0128(0080)  31 6e 30 7c 37 35 37 33  36 39 7c 30 30 32 33 30   1n0|757369|00230
+0144(0090)  30 30 31 30 30 31 7c 30  30 33 36 30 30 30 30 30   001001|003600000
+0160(00a0)  30 30 30 30 30 30 30 30  31 32 33 34 7c 30 31 31   000000001234|011
+0176(00b0)  30 30 32 33 30 30 30 30  30 30 30 30 30 30 30 30   0023000000000000
+0192(00c0)  30 30 30 30 30 7c 30 30  32 33 50 52 4f 33 20 20   00000|0023PRO3  
+0208(00d0)  20 20 50 7c 34 32 33 39  34 38 39 30 30 32 30 32     P|423948900202
+0224(00e0)  39 32 35 34 3d 31 34 31  32 32 30 31 35 33 32 30   9254=14122015320
+0240(00f0)  30 30 30 30 30 30 30 30  30 7c 30 30 30 30 30 30   000000000|000000
+0256(0100)  7c 30 39 30 32 7c 32 31  30 30 33 36 30 30 30 30   |0902|2100360000
+0272(0110)  30 30 30 30 30 30 30 30  30 31 32 33 34 32 34 30   0000000001234240
+0288(0120)  31 31 30 30 32 33 30 30  30 30 30 30 30 30 30 30   1100230000000000
+0304(0130)  30 30 30 30 30 30 30 30  30 30 34 37 37 40 00 04   0000000000477@..
+0320(0140)  02 00 00 00 00 31 30 30  30 30 30 30 30 30 30 31   .....10000000001
+0336(0150)  33 30 30 34 33 39 32 31  30 44 45 53 43 5f 45 52   300439210DESC_ER
+0352(0160)  52 4f 52 32 34 34 30 30  30 30 20 4d 45 4e 53 41   ROR2440000 MENSA
+0368(0170)  4a 45 20 41 55 54 20 4f  43 43 49 44 45 4e 54 45   JE AUT OCCIDENTE
+0384(0180)  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20                   
+0400(0190)  20 20 32 31 39 54 52 41  4e 5f 49 44 45 4e 54 49     219TRAN_IDENTI
+0416(01a0)  46 49 43 41 54 49 4f 4e  32 31 38 31 32 33 34 35   FICATION21812345
+0432(01b0)  36 37 38 39 30 31 32 33  34 35 36 39 38 32 31 38   6789012345698218
+0448(01c0)  50 6f 73 74 69 6c 69 6f  6e 3a 4d 65 74 61 44 61   Postilion:MetaDa
+0464(01d0)  74 61 33 31 32 34 32 31  30 44 45 53 43 5f 45 52   ta3124210DESC_ER
+0480(01e0)  52 4f 52 31 31 31 32 31  39 54 52 41 4e 5f 49 44   ROR111219TRAN_ID
+0496(01f0)  45 4e 54 49 46 49 43 41  54 49 4f 4e 31 31 31 32   ENTIFICATION1112
+0512(0200)  31 31 49 53 53 55 45 52  5f 4e 41 4d 45 31 31 31   11ISSUER_NAME111
+0528(0210)  32 31 33 46 49 45 4c 44  5f 42 32 34 5f 31 32 36   213FIELD_B24_126
+0544(0220)  31 31 31 32 31 30 43 52  45 44 49 54 5f 41 55 54   111210CREDIT_AUT
+0560(0230)  31 31 31 32 31 31 49 53  53 55 45 52 5f 49 4e 46   111211ISSUER_INF
+0576(0240)  4f 31 31 31 31 39 44 45  42 49 54 5f 41 55 54 31   O11119DEBIT_AUT1
+0592(0250)  31 31 32 31 31 49 53 53  55 45 52 5f 4e 41 4d 45   11211ISSUER_NAME
+0608(0260)  32 31 35 42 41 4e 43 4f  20 44 45 20 42 4f 47 4f   215BANCO DE BOGO
+0624(0270)  54 41 32 31 33 46 49 45  4c 44 5f 42 32 34 5f 31   TA213FIELD_B24_1
+0640(0280)  32 36 32 35 34 26 20 30  30 30 30 32 30 30 30 35   26254&amp; 000020005
+0656(0290)  34 21 20 51 54 30 30 30  33 32 20 35 30 31 30 34   4! QT00032 50104
+0672(02a0)  33 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   3000000000000000
+0688(02b0)  30 30 30 30 30 30 30 30  30 30 20 32 31 30 43 52   0000000000 210CR
+0704(02c0)  45 44 49 54 5f 41 55 54  32 31 31 37 30 30 33 30   EDIT_AUT21170030
+0720(02d0)  30 30 30 31 30 31 32 31  31 49 53 53 55 45 52 5f   000101211ISSUER_
+0736(02e0)  49 4e 46 4f 32 31 33 30  30 32 33 50 52 4f 33 20   INFO2130023PRO3 
+0752(02f0)  20 20 20 50 31 39 44 45  42 49 54 5f 41 55 54 32      P19DEBIT_AUT2
+0768(0300)  31 31 37 30 30 33 30 30  30 30 31 30 31 31 31 30   1170030000101110
+0784(0310)  30 32 33 30 30 30 31 30  30 31                     0230001001
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:56.299] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message from Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0200:
+   [LLVAR  n    ..19 016] 002 [4239499002029253] 
+   [Fixed  n       6 006] 003 [214310] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n      10 010] 007 [0905220156] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       6 006] 012 [220156] 
+   [Fixed  n       4 004] 013 [0905] 
+   [Fixed  n       4 004] 014 [1412] 
+   [Fixed  n       4 004] 015 [0903] 
+   [Fixed  n       3 003] 022 [021] 
+   [Fixed  n       2 002] 025 [00] 
+   [Fixed  n       2 002] 026 [12] 
+   [Fixed  x+n     9 009] 028 [C00000000] 
+   [Fixed  x+n     9 009] 030 [C00000000] 
+   [LLVAR  n    ..11 011] 032 [10000000054] 
+   [LLVAR  z    ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [FnO8106a0545] 
+   [Fixed  an      3 003] 040 [201] 
+   [Fixed  ans     8 008] 041 [00238708] 
+   [Fixed  ans    15 015] 042 [870800000000000] 
+   [Fixed  ans    40 040] 043 [EXITO LA FLORA        7600100 CALI VLLCO] 
+   [Fixed  a/n     3 003] 049 [170] 
+   [LLLVAR n       4 004] 056 [1510] 
+   [LLVAR  n    ..11 011] 100 [00230001001] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [010002304000020000003186] 
+   [LLLVAR an     15 015] 123 [21120121014C019] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000014] 
+   [Fixed  ans*   48 048] 127.003 [DummySrc    DvcBogotaSnk000001000001OfcMstNacTG ] 
+   [LLVAR  ans  ..25 015] 127.012 [Banco Occidente] 
+   [Fixed  n       8 008] 127.020 [20130903] 
+   [LLLLLVAans 99999 412] 127.022.ORIG_SETTLEMENT_DATE
+                                   [0902]
+   [LLLLLVAans 99999 412] 127.022.Postilion:MetaData
+                                   [220ORIG_SETTLEMENT_DATE111211SvcInstCode11119CH_ORIGIN111215ADDITIONAL_DATA111]
+   [LLLLLVAans 99999 412] 127.022.SvcInstCode
+                                   [&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+                                     &lt;SvcInstCode&gt;
+                                       &lt;DebitInst&gt;0036&lt;/DebitInst&gt;
+                                       &lt;CreditInst&gt;0023&lt;/CreditInst&gt;
+                                       &lt;CrossIndicator&gt;1&lt;/CrossIndicator&gt;
+                                       &lt;PayType&gt;0&lt;/PayType&gt;
+                                     &lt;/SvcInstCode&gt;]
+   [LLLLLVAans 99999 412] 127.022.ADDITIONAL_DATA
+                                   [00000000000000000000000000000000000010208544]
+   [LLLLLVAans 99999 412] 127.022.CH_ORIGIN
+                                   [CNB_EXITO]
+   [Fixed  n       4 004] 127.033 [9014] 
+   [LLVAR  ans  ..25 024] 127.036 [010002304000020000003186] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 30 30 f2 3e 04 d5  29 e0 81 00 00 00 00 00   0200.&gt;..).......
+0016(0010)  16 00 00 22 31 36 34 32  33 39 34 39 39 30 30 32   ...&quot;164239499002
+0032(0020)  30 32 39 32 35 33 32 31  34 33 31 30 30 30 30 30   0292532143100000
+0048(0030)  31 35 30 30 30 30 30 30  30 39 30 35 32 32 30 31   1500000009052201
+0064(0040)  35 36 30 30 30 30 30 31  32 32 30 31 35 36 30 39   5600000122015609
+0080(0050)  30 35 31 34 31 32 30 39  30 33 30 32 31 30 30 31   0514120903021001
+0096(0060)  32 43 30 30 30 30 30 30  30 30 43 30 30 30 30 30   2C00000000C00000
+0112(0070)  30 30 30 31 31 31 30 30  30 30 30 30 30 30 35 34   0001110000000054
+0128(0080)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0144(0090)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0160(00a0)  30 30 30 30 30 30 30 46  6e 4f 38 31 30 36 61 30   0000000FnO8106a0
+0176(00b0)  35 34 35 32 30 31 30 30  32 33 38 37 30 38 38 37   5452010023870887
+0192(00c0)  30 38 30 30 30 30 30 30  30 30 30 30 30 45 58 49   0800000000000EXI
+0208(00d0)  54 4f 20 4c 41 20 46 4c  4f 52 41 20 20 20 20 20   TO LA FLORA     
+0224(00e0)  20 20 20 37 36 30 30 31  30 30 20 43 41 4c 49 20      7600100 CALI 
+0240(00f0)  56 4c 4c 43 4f 31 37 30  30 30 34 31 35 31 30 31   VLLCO17000415101
+0256(0100)  31 30 30 32 33 30 30 30  31 30 30 31 32 31 30 30   1002300010012100
+0272(0110)  30 31 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0100000000000001
+0288(0120)  32 33 34 32 34 30 31 30  30 30 32 33 30 34 30 30   2342401000230400
+0304(0130)  30 30 32 30 30 30 30 30  30 33 31 38 36 30 31 35   0020000003186015
+0320(0140)  32 31 31 32 30 31 32 31  30 31 34 43 30 31 39 30   21120121014C0190
+0336(0150)  30 30 35 34 30 60 10 14  00 90 00 00 00 31 30 30   00540`.......100
+0352(0160)  30 30 30 30 30 30 30 31  34 44 75 6d 6d 79 53 72   000000014DummySr
+0368(0170)  63 20 20 20 20 44 76 63  42 6f 67 6f 74 61 53 6e   c    DvcBogotaSn
+0384(0180)  6b 30 30 30 30 30 31 30  30 30 30 30 31 4f 66 63   k000001000001Ofc
+0400(0190)  4d 73 74 4e 61 63 54 47  20 31 35 42 61 6e 63 6f   MstNacTG 15Banco
+0416(01a0)  20 4f 63 63 69 64 65 6e  74 65 32 30 31 33 30 39    Occidente201309
+0432(01b0)  30 33 30 30 34 31 32 32  31 38 50 6f 73 74 69 6c   0300412218Postil
+0448(01c0)  69 6f 6e 3a 4d 65 74 61  44 61 74 61 32 37 38 32   ion:MetaData2782
+0464(01d0)  32 30 4f 52 49 47 5f 53  45 54 54 4c 45 4d 45 4e   20ORIG_SETTLEMEN
+0480(01e0)  54 5f 44 41 54 45 31 31  31 32 31 31 53 76 63 49   T_DATE111211SvcI
+0496(01f0)  6e 73 74 43 6f 64 65 31  31 31 31 39 43 48 5f 4f   nstCode11119CH_O
+0512(0200)  52 49 47 49 4e 31 31 31  32 31 35 41 44 44 49 54   RIGIN111215ADDIT
+0528(0210)  49 4f 4e 41 4c 5f 44 41  54 41 31 31 31 32 32 30   IONAL_DATA111220
+0544(0220)  4f 52 49 47 5f 53 45 54  54 4c 45 4d 45 4e 54 5f   ORIG_SETTLEMENT_
+0560(0230)  44 41 54 45 31 34 30 39  30 32 32 31 31 53 76 63   DATE140902211Svc
+0576(0240)  49 6e 73 74 43 6f 64 65  33 31 37 36 3c 3f 78 6d   InstCode3176&lt;?xm
+0592(0250)  6c 20 76 65 72 73 69 6f  6e 3d 22 31 2e 30 22 20   l version=&quot;1.0&quot; 
+0608(0260)  65 6e 63 6f 64 69 6e 67  3d 22 55 54 46 2d 38 22   encoding=&quot;UTF-8&quot;
+0624(0270)  3f 3e 20 3c 53 76 63 49  6e 73 74 43 6f 64 65 3e   ?&gt; &lt;SvcInstCode&gt;
+0640(0280)  3c 44 65 62 69 74 49 6e  73 74 3e 30 30 33 36 3c   &lt;DebitInst&gt;0036&lt;
+0656(0290)  2f 44 65 62 69 74 49 6e  73 74 3e 3c 43 72 65 64   /DebitInst&gt;&lt;Cred
+0672(02a0)  69 74 49 6e 73 74 3e 30  30 32 33 3c 2f 43 72 65   itInst&gt;0023&lt;/Cre
+0688(02b0)  64 69 74 49 6e 73 74 3e  3c 43 72 6f 73 73 49 6e   ditInst&gt;&lt;CrossIn
+0704(02c0)  64 69 63 61 74 6f 72 3e  31 3c 2f 43 72 6f 73 73   dicator&gt;1&lt;/Cross
+0720(02d0)  49 6e 64 69 63 61 74 6f  72 3e 3c 50 61 79 54 79   Indicator&gt;&lt;PayTy
+0736(02e0)  70 65 3e 30 3c 2f 50 61  79 54 79 70 65 3e 3c 2f   pe&gt;0&lt;/PayType&gt;&lt;/
+0752(02f0)  53 76 63 49 6e 73 74 43  6f 64 65 3e 31 39 43 48   SvcInstCode&gt;19CH
+0768(0300)  5f 4f 52 49 47 49 4e 31  39 43 4e 42 5f 45 58 49   _ORIGIN19CNB_EXI
+0784(0310)  54 4f 32 31 35 41 44 44  49 54 49 4f 4e 41 4c 5f   TO215ADDITIONAL_
+0800(0320)  44 41 54 41 32 34 34 30  30 30 30 30 30 30 30 30   DATA244000000000
+0816(0330)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0832(0340)  30 30 30 30 30 30 30 30  30 30 30 31 30 32 30 38   0000000000010208
+0848(0350)  35 34 34 39 30 31 34 32  34 30 31 30 30 30 32 33   5449014240100023
+0864(0360)  30 34 30 30 30 30 32 30  30 30 30 30 30 33 31 38   0400002000000318
+0880(0370)  36                                                 6
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:56.783] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message to DvcBogota [192.168.142.128,1267] (online delivery)</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0200:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220156]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220156]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [FnO8106a0545]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  b      40 040] 043 [EXITO LA FLORA102085447600100 CALI VLLCO]
+   [Fixed  a/n     3 003] 049 [170]
+   [Fixed  an     16 016] 052 [FFFFFFFFFFFFFFFF] 
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..16 016] 112 [4000020000003186]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 30 30   ISO0140000500200
+0016(0010)  42 32 33 38 38 34 30 31  32 38 41 30 39 30 31 30   B238840128A09010
+0032(0020)  30 30 30 30 30 30 30 30  30 37 30 31 30 30 30 34   0000000007010004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 36 30 30 30 30   0009052201560000
+0080(0050)  30 31 32 32 30 31 35 36  30 39 30 35 30 39 30 32   0122015609050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 46  6e 4f 38 31 30 36 61 30   0000000FnO8106a0
+0160(00a0)  35 34 35 30 30 32 33 38  37 30 38 30 30 30 30 37   5450023870800007
+0176(00b0)  20 20 20 45 58 49 54 4f  20 4c 41 20 46 4c 4f 52      EXITO LA FLOR
+0192(00c0)  41 31 30 32 30 38 35 34  34 37 36 30 30 31 30 30   A102085447600100
+0208(00d0)  20 43 41 4c 49 20 56 4c  4c 43 4f 31 37 30 46 46    CALI VLLCO170FF
+0224(00e0)  46 46 46 46 46 46 46 46  46 46 46 46 46 46 30 31   FFFFFFFFFFFFFF01
+0240(00f0)  32 30 30 30 31 30 30 30  31 30 30 30 30 32 31 30   2000100010000210
+0256(0100)  30 30 31 30 30 30 30 30  30 30 30 30 30 30 30 30   0010000000000000
+0272(0110)  31 32 33 34 32 34 30 31  31 30 30 32 33 30 30 30   1234240110023000
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 31 38   0000000000000018
+0304(0130)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0320(0140)  30 30 30 31 36 34 30 30  30 30 32 30 30 30 30 30   0001640000200000
+0336(0150)  30 33 31 38 36 30 35 34  26 20 30 30 30 30 32 30   03186054&amp; 000020
+0352(0160)  30 30 35 34 21 20 51 54  30 30 30 33 32 20 35 30   0054! QT00032 50
+0368(0170)  31 30 34 33 30 30 30 30  30 30 30 30 30 30 30 30   1043000000000000
+0384(0180)  30 30 30 30 30 30 30 30  30 30 30 30 30 20         0000000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:56.861] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message from DvcBogota [192.168.142.128,1267]</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0210:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220156]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220156]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [FnO8106a0545]
+   [Fixed  ans     6 006] 038 [038442]
+   [Fixed  an      2 002] 039 [00]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  a/n     3 003] 049 [170]
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLLVAR ans  ..19 013] 061 [0023PRO3    P]
+   [LLLVAR b   ..144 044] 063 [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLVAR  ans  ..11 011] 100 [00230001001]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..25 018] 105 [123456789012345698]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 31 30   ISO0140000500210
+0016(0010)  42 32 33 38 38 34 30 31  32 45 38 30 38 30 31 41   B23884012E80801A
+0032(0020)  30 30 30 30 30 30 30 30  31 37 38 30 30 30 30 34   0000000017800004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 36 30 30 30 30   0009052201560000
+0080(0050)  30 31 32 32 30 31 35 36  30 39 30 35 30 39 30 32   0122015609050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 46  6e 4f 38 31 30 36 61 30   0000000FnO8106a0
+0160(00a0)  35 34 35 30 33 38 34 34  32 30 30 30 30 32 33 38   5450384420000238
+0176(00b0)  37 30 38 30 30 30 30 37  20 20 20 31 37 30 30 31   70800007   17001
+0192(00c0)  32 30 30 30 31 30 30 30  31 30 30 30 30 30 31 33   2000100010000013
+0208(00d0)  30 30 32 33 50 52 4f 33  20 20 20 20 50 30 34 34   0023PRO3    P044
+0224(00e0)  30 30 30 30 20 4d 45 4e  53 41 4a 45 20 41 55 54   0000 MENSAJE AUT
+0240(00f0)  20 4f 43 43 49 44 45 4e  54 45 20 20 20 20 20 20    OCCIDENTE      
+0256(0100)  20 20 20 20 20 20 20 20  20 20 20 20 31 31 30 30               1100
+0272(0110)  32 33 30 30 30 31 30 30  31 32 31 30 30 30 31 30   2300010012100010
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 31 32 33 34   0000000000001234
+0304(0130)  32 34 30 31 31 30 30 32  33 30 30 30 30 30 30 30   2401100230000000
+0320(0140)  30 30 30 30 30 30 30 30  30 30 31 38 30 30 30 30   0000000000180000
+0336(0150)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0000000000000001
+0352(0160)  38 31 32 33 34 35 36 37  38 39 30 31 32 33 34 35   8123456789012345
+0368(0170)  36 39 38 30 35 34 26 20  30 30 30 30 32 30 30 30   698054&amp; 00002000
+0384(0180)  35 34 21 20 51 54 30 30  30 33 32 20 35 30 31 30   54! QT00032 5010
+0400(0190)  34 33 30 30 30 30 30 30  30 30 30 30 30 30 30 30   4300000000000000
+0416(01a0)  30 30 30 30 30 30 30 30  30 30 30 20               00000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:56.908] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message to Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0210:
+   [Fixed  n       6 006] 003 [214310] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       4 004] 015 [0902] 
+   [Fixed  ans     6 006] 038 [038442] 
+   [Fixed  an      2 002] 039 [00] 
+   [LLVAR  ans  ..25 015] 044 [               ] 
+   [LLLVAR an* ..120 040] 054 [0001170C0000000000000002170C000000000000] 
+   [LLLVAR ans ..500 143] 059 [FnO8106a0545|038442|00230001001|000100000000000001234|011002300000000000000000|0023PRO3    P|4239499002029253=14122015320000000000|000000|0902|] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [011002300000000000000000] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000014] 
+   [LLLLLVAans 99999 439] 127.022.TRAN_IDENTIFICATION
+                                   [123456789012345698]
+   [LLLLLVAans 99999 439] 127.022.DESC_ERROR
+                                   [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLLLLVAans 99999 439] 127.022.Postilion:MetaData
+                                   [210DESC_ERROR111219TRAN_IDENTIFICATION111211ISSUER_NAME111213FIELD_B24_126111210CREDIT_AUT111211ISSUER_INFO11119DEBIT_AUT111]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_NAME
+                                   [BANCO DE BOGOTA]
+   [LLLLLVAans 99999 439] 127.022.FIELD_B24_126
+                                   [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+   [LLLLLVAans 99999 439] 127.022.CREDIT_AUT
+                                   [70030000101]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_INFO
+                                   [0023PRO3    P]
+   [LLLLLVAans 99999 439] 127.022.DEBIT_AUT
+                                   [70030000101]
+   [LLVAR  ans  ..11 011] 127.031 [00230001001] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 31 30 b0 22 00 00  06 10 04 20 00 00 00 00   0210.&quot;..... ....
+0016(0010)  06 00 00 02 32 31 34 33  31 30 30 30 30 30 31 35   ....214310000015
+0032(0020)  30 30 30 30 30 30 30 30  30 30 30 31 30 39 30 32   0000000000010902
+0048(0030)  30 33 38 34 34 32 30 30  31 35 20 20 20 20 20 20   0384420015      
+0064(0040)  20 20 20 20 20 20 20 20  20 30 34 30 30 30 30 31            0400001
+0080(0050)  31 37 30 43 30 30 30 30  30 30 30 30 30 30 30 30   170C000000000000
+0096(0060)  30 30 30 32 31 37 30 43  30 30 30 30 30 30 30 30   0002170C00000000
+0112(0070)  30 30 30 30 31 34 33 46  6e 4f 38 31 30 36 61 30   0000143FnO8106a0
+0128(0080)  35 34 35 7c 30 33 38 34  34 32 7c 30 30 32 33 30   545|038442|00230
+0144(0090)  30 30 31 30 30 31 7c 30  30 30 31 30 30 30 30 30   001001|000100000
+0160(00a0)  30 30 30 30 30 30 30 30  31 32 33 34 7c 30 31 31   000000001234|011
+0176(00b0)  30 30 32 33 30 30 30 30  30 30 30 30 30 30 30 30   0023000000000000
+0192(00c0)  30 30 30 30 30 7c 30 30  32 33 50 52 4f 33 20 20   00000|0023PRO3  
+0208(00d0)  20 20 50 7c 34 32 33 39  34 39 39 30 30 32 30 32     P|423949900202
+0224(00e0)  39 32 35 33 3d 31 34 31  32 32 30 31 35 33 32 30   9253=14122015320
+0240(00f0)  30 30 30 30 30 30 30 30  30 7c 30 30 30 30 30 30   000000000|000000
+0256(0100)  7c 30 39 30 32 7c 32 31  30 30 30 31 30 30 30 30   |0902|2100010000
+0272(0110)  30 30 30 30 30 30 30 30  30 31 32 33 34 32 34 30   0000000001234240
+0288(0120)  31 31 30 30 32 33 30 30  30 30 30 30 30 30 30 30   1100230000000000
+0304(0130)  30 30 30 30 30 30 30 30  30 30 34 37 37 40 00 04   0000000000477@..
+0320(0140)  02 00 00 00 00 31 30 30  30 30 30 30 30 30 30 31   .....10000000001
+0336(0150)  34 30 30 34 33 39 32 31  30 44 45 53 43 5f 45 52   400439210DESC_ER
+0352(0160)  52 4f 52 32 34 34 30 30  30 30 20 4d 45 4e 53 41   ROR2440000 MENSA
+0368(0170)  4a 45 20 41 55 54 20 4f  43 43 49 44 45 4e 54 45   JE AUT OCCIDENTE
+0384(0180)  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20                   
+0400(0190)  20 20 32 31 39 54 52 41  4e 5f 49 44 45 4e 54 49     219TRAN_IDENTI
+0416(01a0)  46 49 43 41 54 49 4f 4e  32 31 38 31 32 33 34 35   FICATION21812345
+0432(01b0)  36 37 38 39 30 31 32 33  34 35 36 39 38 32 31 38   6789012345698218
+0448(01c0)  50 6f 73 74 69 6c 69 6f  6e 3a 4d 65 74 61 44 61   Postilion:MetaDa
+0464(01d0)  74 61 33 31 32 34 32 31  30 44 45 53 43 5f 45 52   ta3124210DESC_ER
+0480(01e0)  52 4f 52 31 31 31 32 31  39 54 52 41 4e 5f 49 44   ROR111219TRAN_ID
+0496(01f0)  45 4e 54 49 46 49 43 41  54 49 4f 4e 31 31 31 32   ENTIFICATION1112
+0512(0200)  31 31 49 53 53 55 45 52  5f 4e 41 4d 45 31 31 31   11ISSUER_NAME111
+0528(0210)  32 31 33 46 49 45 4c 44  5f 42 32 34 5f 31 32 36   213FIELD_B24_126
+0544(0220)  31 31 31 32 31 30 43 52  45 44 49 54 5f 41 55 54   111210CREDIT_AUT
+0560(0230)  31 31 31 32 31 31 49 53  53 55 45 52 5f 49 4e 46   111211ISSUER_INF
+0576(0240)  4f 31 31 31 31 39 44 45  42 49 54 5f 41 55 54 31   O11119DEBIT_AUT1
+0592(0250)  31 31 32 31 31 49 53 53  55 45 52 5f 4e 41 4d 45   11211ISSUER_NAME
+0608(0260)  32 31 35 42 41 4e 43 4f  20 44 45 20 42 4f 47 4f   215BANCO DE BOGO
+0624(0270)  54 41 32 31 33 46 49 45  4c 44 5f 42 32 34 5f 31   TA213FIELD_B24_1
+0640(0280)  32 36 32 35 34 26 20 30  30 30 30 32 30 30 30 35   26254&amp; 000020005
+0656(0290)  34 21 20 51 54 30 30 30  33 32 20 35 30 31 30 34   4! QT00032 50104
+0672(02a0)  33 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   3000000000000000
+0688(02b0)  30 30 30 30 30 30 30 30  30 30 20 32 31 30 43 52   0000000000 210CR
+0704(02c0)  45 44 49 54 5f 41 55 54  32 31 31 37 30 30 33 30   EDIT_AUT21170030
+0720(02d0)  30 30 30 31 30 31 32 31  31 49 53 53 55 45 52 5f   000101211ISSUER_
+0736(02e0)  49 4e 46 4f 32 31 33 30  30 32 33 50 52 4f 33 20   INFO2130023PRO3 
+0752(02f0)  20 20 20 50 31 39 44 45  42 49 54 5f 41 55 54 32      P19DEBIT_AUT2
+0768(0300)  31 31 37 30 30 33 30 30  30 30 31 30 31 31 31 30   1170030000101110
+0784(0310)  30 32 33 30 30 30 31 30  30 31                     0230001001
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:57.611] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message from Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0200:
+   [LLVAR  n    ..19 016] 002 [4239499002029253] 
+   [Fixed  n       6 006] 003 [401043] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n      10 010] 007 [0905220157] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       6 006] 012 [220157] 
+   [Fixed  n       4 004] 013 [0905] 
+   [Fixed  n       4 004] 014 [1412] 
+   [Fixed  n       4 004] 015 [0903] 
+   [Fixed  n       3 003] 022 [021] 
+   [Fixed  n       2 002] 025 [00] 
+   [Fixed  n       2 002] 026 [12] 
+   [Fixed  x+n     9 009] 028 [C00000000] 
+   [Fixed  x+n     9 009] 030 [C00000000] 
+   [LLVAR  n    ..11 011] 032 [10000000054] 
+   [LLVAR  z    ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [5N08103Jo096] 
+   [Fixed  an      3 003] 040 [201] 
+   [Fixed  ans     8 008] 041 [00238708] 
+   [Fixed  ans    15 015] 042 [870800000000000] 
+   [Fixed  ans    40 040] 043 [EXITO LA FLORA        7600100 CALI VLLCO] 
+   [Fixed  a/n     3 003] 049 [170] 
+   [LLLVAR n       4 004] 056 [1510] 
+   [LLVAR  n    ..11 011] 100 [00230001001] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [010002304000020000003186] 
+   [LLLVAR an     15 015] 123 [21120121014C019] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000015] 
+   [Fixed  ans*   48 048] 127.003 [DummySrc    DvcBogotaSnk000001000001OfcMstNacTG ] 
+   [LLVAR  ans  ..25 015] 127.012 [Banco Occidente] 
+   [Fixed  n       8 008] 127.020 [20130903] 
+   [LLLLLVAans 99999 412] 127.022.ORIG_SETTLEMENT_DATE
+                                   [0902]
+   [LLLLLVAans 99999 412] 127.022.Postilion:MetaData
+                                   [220ORIG_SETTLEMENT_DATE111211SvcInstCode11119CH_ORIGIN111215ADDITIONAL_DATA111]
+   [LLLLLVAans 99999 412] 127.022.SvcInstCode
+                                   [&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+                                     &lt;SvcInstCode&gt;
+                                       &lt;DebitInst&gt;0036&lt;/DebitInst&gt;
+                                       &lt;CreditInst&gt;0023&lt;/CreditInst&gt;
+                                       &lt;CrossIndicator&gt;1&lt;/CrossIndicator&gt;
+                                       &lt;PayType&gt;0&lt;/PayType&gt;
+                                     &lt;/SvcInstCode&gt;]
+   [LLLLLVAans 99999 412] 127.022.ADDITIONAL_DATA
+                                   [00000000000000000000000000000000000010208544]
+   [LLLLLVAans 99999 412] 127.022.CH_ORIGIN
+                                   [CNB_EXITO]
+   [Fixed  n       4 004] 127.033 [9014] 
+   [LLVAR  ans  ..25 024] 127.036 [010002304000020000003186] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 30 30 f2 3e 04 d5  29 e0 81 00 00 00 00 00   0200.&gt;..).......
+0016(0010)  16 00 00 22 31 36 34 32  33 39 34 39 39 30 30 32   ...&quot;164239499002
+0032(0020)  30 32 39 32 35 33 34 30  31 30 34 33 30 30 30 30   0292534010430000
+0048(0030)  31 35 30 30 30 30 30 30  30 39 30 35 32 32 30 31   1500000009052201
+0064(0040)  35 37 30 30 30 30 30 31  32 32 30 31 35 37 30 39   5700000122015709
+0080(0050)  30 35 31 34 31 32 30 39  30 33 30 32 31 30 30 31   0514120903021001
+0096(0060)  32 43 30 30 30 30 30 30  30 30 43 30 30 30 30 30   2C00000000C00000
+0112(0070)  30 30 30 31 31 31 30 30  30 30 30 30 30 30 35 34   0001110000000054
+0128(0080)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0144(0090)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0160(00a0)  30 30 30 30 30 30 30 35  4e 30 38 31 30 33 4a 6f   00000005N08103Jo
+0176(00b0)  30 39 36 32 30 31 30 30  32 33 38 37 30 38 38 37   0962010023870887
+0192(00c0)  30 38 30 30 30 30 30 30  30 30 30 30 30 45 58 49   0800000000000EXI
+0208(00d0)  54 4f 20 4c 41 20 46 4c  4f 52 41 20 20 20 20 20   TO LA FLORA     
+0224(00e0)  20 20 20 37 36 30 30 31  30 30 20 43 41 4c 49 20      7600100 CALI 
+0240(00f0)  56 4c 4c 43 4f 31 37 30  30 30 34 31 35 31 30 31   VLLCO17000415101
+0256(0100)  31 30 30 32 33 30 30 30  31 30 30 31 32 31 30 30   1002300010012100
+0272(0110)  30 31 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0100000000000001
+0288(0120)  32 33 34 32 34 30 31 30  30 30 32 33 30 34 30 30   2342401000230400
+0304(0130)  30 30 32 30 30 30 30 30  30 33 31 38 36 30 31 35   0020000003186015
+0320(0140)  32 31 31 32 30 31 32 31  30 31 34 43 30 31 39 30   21120121014C0190
+0336(0150)  30 30 35 34 30 60 10 14  00 90 00 00 00 31 30 30   00540`.......100
+0352(0160)  30 30 30 30 30 30 30 31  35 44 75 6d 6d 79 53 72   000000015DummySr
+0368(0170)  63 20 20 20 20 44 76 63  42 6f 67 6f 74 61 53 6e   c    DvcBogotaSn
+0384(0180)  6b 30 30 30 30 30 31 30  30 30 30 30 31 4f 66 63   k000001000001Ofc
+0400(0190)  4d 73 74 4e 61 63 54 47  20 31 35 42 61 6e 63 6f   MstNacTG 15Banco
+0416(01a0)  20 4f 63 63 69 64 65 6e  74 65 32 30 31 33 30 39    Occidente201309
+0432(01b0)  30 33 30 30 34 31 32 32  31 38 50 6f 73 74 69 6c   0300412218Postil
+0448(01c0)  69 6f 6e 3a 4d 65 74 61  44 61 74 61 32 37 38 32   ion:MetaData2782
+0464(01d0)  32 30 4f 52 49 47 5f 53  45 54 54 4c 45 4d 45 4e   20ORIG_SETTLEMEN
+0480(01e0)  54 5f 44 41 54 45 31 31  31 32 31 31 53 76 63 49   T_DATE111211SvcI
+0496(01f0)  6e 73 74 43 6f 64 65 31  31 31 31 39 43 48 5f 4f   nstCode11119CH_O
+0512(0200)  52 49 47 49 4e 31 31 31  32 31 35 41 44 44 49 54   RIGIN111215ADDIT
+0528(0210)  49 4f 4e 41 4c 5f 44 41  54 41 31 31 31 32 32 30   IONAL_DATA111220
+0544(0220)  4f 52 49 47 5f 53 45 54  54 4c 45 4d 45 4e 54 5f   ORIG_SETTLEMENT_
+0560(0230)  44 41 54 45 31 34 30 39  30 32 32 31 31 53 76 63   DATE140902211Svc
+0576(0240)  49 6e 73 74 43 6f 64 65  33 31 37 36 3c 3f 78 6d   InstCode3176&lt;?xm
+0592(0250)  6c 20 76 65 72 73 69 6f  6e 3d 22 31 2e 30 22 20   l version=&quot;1.0&quot; 
+0608(0260)  65 6e 63 6f 64 69 6e 67  3d 22 55 54 46 2d 38 22   encoding=&quot;UTF-8&quot;
+0624(0270)  3f 3e 20 3c 53 76 63 49  6e 73 74 43 6f 64 65 3e   ?&gt; &lt;SvcInstCode&gt;
+0640(0280)  3c 44 65 62 69 74 49 6e  73 74 3e 30 30 33 36 3c   &lt;DebitInst&gt;0036&lt;
+0656(0290)  2f 44 65 62 69 74 49 6e  73 74 3e 3c 43 72 65 64   /DebitInst&gt;&lt;Cred
+0672(02a0)  69 74 49 6e 73 74 3e 30  30 32 33 3c 2f 43 72 65   itInst&gt;0023&lt;/Cre
+0688(02b0)  64 69 74 49 6e 73 74 3e  3c 43 72 6f 73 73 49 6e   ditInst&gt;&lt;CrossIn
+0704(02c0)  64 69 63 61 74 6f 72 3e  31 3c 2f 43 72 6f 73 73   dicator&gt;1&lt;/Cross
+0720(02d0)  49 6e 64 69 63 61 74 6f  72 3e 3c 50 61 79 54 79   Indicator&gt;&lt;PayTy
+0736(02e0)  70 65 3e 30 3c 2f 50 61  79 54 79 70 65 3e 3c 2f   pe&gt;0&lt;/PayType&gt;&lt;/
+0752(02f0)  53 76 63 49 6e 73 74 43  6f 64 65 3e 31 39 43 48   SvcInstCode&gt;19CH
+0768(0300)  5f 4f 52 49 47 49 4e 31  39 43 4e 42 5f 45 58 49   _ORIGIN19CNB_EXI
+0784(0310)  54 4f 32 31 35 41 44 44  49 54 49 4f 4e 41 4c 5f   TO215ADDITIONAL_
+0800(0320)  44 41 54 41 32 34 34 30  30 30 30 30 30 30 30 30   DATA244000000000
+0816(0330)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0832(0340)  30 30 30 30 30 30 30 30  30 30 30 31 30 32 30 38   0000000000010208
+0848(0350)  35 34 34 39 30 31 34 32  34 30 31 30 30 30 32 33   5449014240100023
+0864(0360)  30 34 30 30 30 30 32 30  30 30 30 30 30 33 31 38   0400002000000318
+0880(0370)  36                                                 6
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:57.674] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message to DvcBogota [192.168.142.128,1267] (online delivery)</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0200:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220157]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220157]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [5N08103Jo096]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  b      40 040] 043 [EXITO LA FLORA102085447600100 CALI VLLCO]
+   [Fixed  a/n     3 003] 049 [170]
+   [Fixed  an     16 016] 052 [FFFFFFFFFFFFFFFF] 
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..16 016] 112 [4000020000003186]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 30 30   ISO0140000500200
+0016(0010)  42 32 33 38 38 34 30 31  32 38 41 30 39 30 31 30   B238840128A09010
+0032(0020)  30 30 30 30 30 30 30 30  30 37 30 31 30 30 30 34   0000000007010004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 37 30 30 30 30   0009052201570000
+0080(0050)  30 31 32 32 30 31 35 37  30 39 30 35 30 39 30 32   0122015709050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 35  4e 30 38 31 30 33 4a 6f   00000005N08103Jo
+0160(00a0)  30 39 36 30 30 32 33 38  37 30 38 30 30 30 30 37   0960023870800007
+0176(00b0)  20 20 20 45 58 49 54 4f  20 4c 41 20 46 4c 4f 52      EXITO LA FLOR
+0192(00c0)  41 31 30 32 30 38 35 34  34 37 36 30 30 31 30 30   A102085447600100
+0208(00d0)  20 43 41 4c 49 20 56 4c  4c 43 4f 31 37 30 46 46    CALI VLLCO170FF
+0224(00e0)  46 46 46 46 46 46 46 46  46 46 46 46 46 46 30 31   FFFFFFFFFFFFFF01
+0240(00f0)  32 30 30 30 31 30 30 30  31 30 30 30 30 32 31 30   2000100010000210
+0256(0100)  30 30 31 30 30 30 30 30  30 30 30 30 30 30 30 30   0010000000000000
+0272(0110)  31 32 33 34 32 34 30 31  32 30 30 32 33 30 30 30   1234240120023000
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 31 38   0000000000000018
+0304(0130)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0320(0140)  30 30 30 31 36 34 30 30  30 30 32 30 30 30 30 30   0001640000200000
+0336(0150)  30 33 31 38 36 30 35 34  26 20 30 30 30 30 32 30   03186054&amp; 000020
+0352(0160)  30 30 35 34 21 20 51 54  30 30 30 33 32 20 35 30   0054! QT00032 50
+0368(0170)  31 30 34 33 30 30 30 30  30 30 30 30 30 30 30 30   1043000000000000
+0384(0180)  30 30 30 30 30 30 30 30  30 30 30 30 30 20         0000000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:57.674] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message from DvcBogota [192.168.142.128,1267]</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0210:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220157]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220157]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [5N08103Jo096]
+   [Fixed  ans     6 006] 038 [254102]
+   [Fixed  an      2 002] 039 [00]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  a/n     3 003] 049 [170]
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLLVAR ans  ..19 013] 061 [0023PRO3    P]
+   [LLLVAR b   ..144 044] 063 [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLVAR  ans  ..11 011] 100 [00230001001]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..25 018] 105 [123456789012345698]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 31 30   ISO0140000500210
+0016(0010)  42 32 33 38 38 34 30 31  32 45 38 30 38 30 31 41   B23884012E80801A
+0032(0020)  30 30 30 30 30 30 30 30  31 37 38 30 30 30 30 34   0000000017800004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 37 30 30 30 30   0009052201570000
+0080(0050)  30 31 32 32 30 31 35 37  30 39 30 35 30 39 30 32   0122015709050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 35  4e 30 38 31 30 33 4a 6f   00000005N08103Jo
+0160(00a0)  30 39 36 32 35 34 31 30  32 30 30 30 30 32 33 38   0962541020000238
+0176(00b0)  37 30 38 30 30 30 30 37  20 20 20 31 37 30 30 31   70800007   17001
+0192(00c0)  32 30 30 30 31 30 30 30  31 30 30 30 30 30 31 33   2000100010000013
+0208(00d0)  30 30 32 33 50 52 4f 33  20 20 20 20 50 30 34 34   0023PRO3    P044
+0224(00e0)  30 30 30 30 20 4d 45 4e  53 41 4a 45 20 41 55 54   0000 MENSAJE AUT
+0240(00f0)  20 4f 43 43 49 44 45 4e  54 45 20 20 20 20 20 20    OCCIDENTE      
+0256(0100)  20 20 20 20 20 20 20 20  20 20 20 20 31 31 30 30               1100
+0272(0110)  32 33 30 30 30 31 30 30  31 32 31 30 30 30 31 30   2300010012100010
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 31 32 33 34   0000000000001234
+0304(0130)  32 34 30 31 32 30 30 32  33 30 30 30 30 30 30 30   2401200230000000
+0320(0140)  30 30 30 30 30 30 30 30  30 30 31 38 30 30 30 30   0000000000180000
+0336(0150)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0000000000000001
+0352(0160)  38 31 32 33 34 35 36 37  38 39 30 31 32 33 34 35   8123456789012345
+0368(0170)  36 39 38 30 35 34 26 20  30 30 30 30 32 30 30 30   698054&amp; 00002000
+0384(0180)  35 34 21 20 51 54 30 30  30 33 32 20 35 30 31 30   54! QT00032 5010
+0400(0190)  34 33 30 30 30 30 30 30  30 30 30 30 30 30 30 30   4300000000000000
+0416(01a0)  30 30 30 30 30 30 30 30  30 30 30 20               00000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:57.689] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message to Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0210:
+   [Fixed  n       6 006] 003 [401043] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       4 004] 015 [0902] 
+   [Fixed  ans     6 006] 038 [254102] 
+   [Fixed  an      2 002] 039 [00] 
+   [LLVAR  ans  ..25 015] 044 [               ] 
+   [LLLVAR an* ..120 040] 054 [0001170C0000000000000002170C000000000000] 
+   [LLLVAR ans ..500 143] 059 [5N08103Jo096|254102|00230001001|000100000000000001234|012002300000000000000000|0023PRO3    P|4239499002029253=14122015320000000000|000000|0902|] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000015] 
+   [LLLLLVAans 99999 439] 127.022.TRAN_IDENTIFICATION
+                                   [123456789012345698]
+   [LLLLLVAans 99999 439] 127.022.DESC_ERROR
+                                   [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLLLLVAans 99999 439] 127.022.Postilion:MetaData
+                                   [210DESC_ERROR111219TRAN_IDENTIFICATION111211ISSUER_NAME111213FIELD_B24_126111210CREDIT_AUT111211ISSUER_INFO11119DEBIT_AUT111]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_NAME
+                                   [BANCO DE BOGOTA]
+   [LLLLLVAans 99999 439] 127.022.FIELD_B24_126
+                                   [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+   [LLLLLVAans 99999 439] 127.022.CREDIT_AUT
+                                   [70030000101]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_INFO
+                                   [0023PRO3    P]
+   [LLLLLVAans 99999 439] 127.022.DEBIT_AUT
+                                   [70030000101]
+   [LLVAR  ans  ..11 011] 127.031 [00230001001] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 31 30 b0 22 00 00  06 10 04 20 00 00 00 00   0210.&quot;..... ....
+0016(0010)  06 00 00 02 34 30 31 30  34 33 30 30 30 30 31 35   ....401043000015
+0032(0020)  30 30 30 30 30 30 30 30  30 30 30 31 30 39 30 32   0000000000010902
+0048(0030)  32 35 34 31 30 32 30 30  31 35 20 20 20 20 20 20   2541020015      
+0064(0040)  20 20 20 20 20 20 20 20  20 30 34 30 30 30 30 31            0400001
+0080(0050)  31 37 30 43 30 30 30 30  30 30 30 30 30 30 30 30   170C000000000000
+0096(0060)  30 30 30 32 31 37 30 43  30 30 30 30 30 30 30 30   0002170C00000000
+0112(0070)  30 30 30 30 31 34 33 35  4e 30 38 31 30 33 4a 6f   00001435N08103Jo
+0128(0080)  30 39 36 7c 32 35 34 31  30 32 7c 30 30 32 33 30   096|254102|00230
+0144(0090)  30 30 31 30 30 31 7c 30  30 30 31 30 30 30 30 30   001001|000100000
+0160(00a0)  30 30 30 30 30 30 30 30  31 32 33 34 7c 30 31 32   000000001234|012
+0176(00b0)  30 30 32 33 30 30 30 30  30 30 30 30 30 30 30 30   0023000000000000
+0192(00c0)  30 30 30 30 30 7c 30 30  32 33 50 52 4f 33 20 20   00000|0023PRO3  
+0208(00d0)  20 20 50 7c 34 32 33 39  34 39 39 30 30 32 30 32     P|423949900202
+0224(00e0)  39 32 35 33 3d 31 34 31  32 32 30 31 35 33 32 30   9253=14122015320
+0240(00f0)  30 30 30 30 30 30 30 30  30 7c 30 30 30 30 30 30   000000000|000000
+0256(0100)  7c 30 39 30 32 7c 32 31  30 30 30 31 30 30 30 30   |0902|2100010000
+0272(0110)  30 30 30 30 30 30 30 30  30 31 32 33 34 32 34 30   0000000001234240
+0288(0120)  31 32 30 30 32 33 30 30  30 30 30 30 30 30 30 30   1200230000000000
+0304(0130)  30 30 30 30 30 30 30 30  30 30 34 37 37 40 00 04   0000000000477@..
+0320(0140)  02 00 00 00 00 31 30 30  30 30 30 30 30 30 30 31   .....10000000001
+0336(0150)  35 30 30 34 33 39 32 31  30 44 45 53 43 5f 45 52   500439210DESC_ER
+0352(0160)  52 4f 52 32 34 34 30 30  30 30 20 4d 45 4e 53 41   ROR2440000 MENSA
+0368(0170)  4a 45 20 41 55 54 20 4f  43 43 49 44 45 4e 54 45   JE AUT OCCIDENTE
+0384(0180)  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20                   
+0400(0190)  20 20 32 31 39 54 52 41  4e 5f 49 44 45 4e 54 49     219TRAN_IDENTI
+0416(01a0)  46 49 43 41 54 49 4f 4e  32 31 38 31 32 33 34 35   FICATION21812345
+0432(01b0)  36 37 38 39 30 31 32 33  34 35 36 39 38 32 31 38   6789012345698218
+0448(01c0)  50 6f 73 74 69 6c 69 6f  6e 3a 4d 65 74 61 44 61   Postilion:MetaDa
+0464(01d0)  74 61 33 31 32 34 32 31  30 44 45 53 43 5f 45 52   ta3124210DESC_ER
+0480(01e0)  52 4f 52 31 31 31 32 31  39 54 52 41 4e 5f 49 44   ROR111219TRAN_ID
+0496(01f0)  45 4e 54 49 46 49 43 41  54 49 4f 4e 31 31 31 32   ENTIFICATION1112
+0512(0200)  31 31 49 53 53 55 45 52  5f 4e 41 4d 45 31 31 31   11ISSUER_NAME111
+0528(0210)  32 31 33 46 49 45 4c 44  5f 42 32 34 5f 31 32 36   213FIELD_B24_126
+0544(0220)  31 31 31 32 31 30 43 52  45 44 49 54 5f 41 55 54   111210CREDIT_AUT
+0560(0230)  31 31 31 32 31 31 49 53  53 55 45 52 5f 49 4e 46   111211ISSUER_INF
+0576(0240)  4f 31 31 31 31 39 44 45  42 49 54 5f 41 55 54 31   O11119DEBIT_AUT1
+0592(0250)  31 31 32 31 31 49 53 53  55 45 52 5f 4e 41 4d 45   11211ISSUER_NAME
+0608(0260)  32 31 35 42 41 4e 43 4f  20 44 45 20 42 4f 47 4f   215BANCO DE BOGO
+0624(0270)  54 41 32 31 33 46 49 45  4c 44 5f 42 32 34 5f 31   TA213FIELD_B24_1
+0640(0280)  32 36 32 35 34 26 20 30  30 30 30 32 30 30 30 35   26254&amp; 000020005
+0656(0290)  34 21 20 51 54 30 30 30  33 32 20 35 30 31 30 34   4! QT00032 50104
+0672(02a0)  33 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   3000000000000000
+0688(02b0)  30 30 30 30 30 30 30 30  30 30 20 32 31 30 43 52   0000000000 210CR
+0704(02c0)  45 44 49 54 5f 41 55 54  32 31 31 37 30 30 33 30   EDIT_AUT21170030
+0720(02d0)  30 30 30 31 30 31 32 31  31 49 53 53 55 45 52 5f   000101211ISSUER_
+0736(02e0)  49 4e 46 4f 32 31 33 30  30 32 33 50 52 4f 33 20   INFO2130023PRO3 
+0752(02f0)  20 20 20 50 31 39 44 45  42 49 54 5f 41 55 54 32      P19DEBIT_AUT2
+0768(0300)  31 31 37 30 30 33 30 30  30 30 31 30 31 31 31 30   1170030000101110
+0784(0310)  30 32 33 30 30 30 31 30  30 31                     0230001001
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:58.252] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message from Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0200:
+   [LLVAR  n    ..19 016] 002 [4239499002029253] 
+   [Fixed  n       6 006] 003 [401043] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n      10 010] 007 [0905220158] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       6 006] 012 [220158] 
+   [Fixed  n       4 004] 013 [0905] 
+   [Fixed  n       4 004] 014 [1412] 
+   [Fixed  n       4 004] 015 [0903] 
+   [Fixed  n       3 003] 022 [021] 
+   [Fixed  n       2 002] 025 [00] 
+   [Fixed  n       2 002] 026 [12] 
+   [Fixed  x+n     9 009] 028 [C00000000] 
+   [Fixed  x+n     9 009] 030 [C00000000] 
+   [LLVAR  n    ..11 011] 032 [10000000054] 
+   [LLVAR  z    ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [7xLm013k5F4p] 
+   [Fixed  an      3 003] 040 [201] 
+   [Fixed  ans     8 008] 041 [00238708] 
+   [Fixed  ans    15 015] 042 [870800000000000] 
+   [Fixed  ans    40 040] 043 [EXITO LA FLORA        7600100 CALI VLLCO] 
+   [Fixed  a/n     3 003] 049 [170] 
+   [LLLVAR n       4 004] 056 [1510] 
+   [LLVAR  n    ..11 011] 100 [00230001001] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [010002304000020000003186] 
+   [LLLVAR an     15 015] 123 [21120121014C019] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000016] 
+   [Fixed  ans*   48 048] 127.003 [DummySrc    DvcBogotaSnk000001000001OfcMstNacTG ] 
+   [LLVAR  ans  ..25 015] 127.012 [Banco Occidente] 
+   [Fixed  n       8 008] 127.020 [20130903] 
+   [LLLLLVAans 99999 412] 127.022.ORIG_SETTLEMENT_DATE
+                                   [0902]
+   [LLLLLVAans 99999 412] 127.022.Postilion:MetaData
+                                   [220ORIG_SETTLEMENT_DATE111211SvcInstCode11119CH_ORIGIN111215ADDITIONAL_DATA111]
+   [LLLLLVAans 99999 412] 127.022.SvcInstCode
+                                   [&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;
+                                     &lt;SvcInstCode&gt;
+                                       &lt;DebitInst&gt;0036&lt;/DebitInst&gt;
+                                       &lt;CreditInst&gt;0023&lt;/CreditInst&gt;
+                                       &lt;CrossIndicator&gt;1&lt;/CrossIndicator&gt;
+                                       &lt;PayType&gt;0&lt;/PayType&gt;
+                                     &lt;/SvcInstCode&gt;]
+   [LLLLLVAans 99999 412] 127.022.ADDITIONAL_DATA
+                                   [00000000000000000000000000000000000010208544]
+   [LLLLLVAans 99999 412] 127.022.CH_ORIGIN
+                                   [CNB_EXITO]
+   [Fixed  n       4 004] 127.033 [9014] 
+   [LLVAR  ans  ..25 024] 127.036 [010002304000020000003186] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 30 30 f2 3e 04 d5  29 e0 81 00 00 00 00 00   0200.&gt;..).......
+0016(0010)  16 00 00 22 31 36 34 32  33 39 34 39 39 30 30 32   ...&quot;164239499002
+0032(0020)  30 32 39 32 35 33 34 30  31 30 34 33 30 30 30 30   0292534010430000
+0048(0030)  31 35 30 30 30 30 30 30  30 39 30 35 32 32 30 31   1500000009052201
+0064(0040)  35 38 30 30 30 30 30 31  32 32 30 31 35 38 30 39   5800000122015809
+0080(0050)  30 35 31 34 31 32 30 39  30 33 30 32 31 30 30 31   0514120903021001
+0096(0060)  32 43 30 30 30 30 30 30  30 30 43 30 30 30 30 30   2C00000000C00000
+0112(0070)  30 30 30 31 31 31 30 30  30 30 30 30 30 30 35 34   0001110000000054
+0128(0080)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0144(0090)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0160(00a0)  30 30 30 30 30 30 30 37  78 4c 6d 30 31 33 6b 35   00000007xLm013k5
+0176(00b0)  46 34 70 32 30 31 30 30  32 33 38 37 30 38 38 37   F4p2010023870887
+0192(00c0)  30 38 30 30 30 30 30 30  30 30 30 30 30 45 58 49   0800000000000EXI
+0208(00d0)  54 4f 20 4c 41 20 46 4c  4f 52 41 20 20 20 20 20   TO LA FLORA     
+0224(00e0)  20 20 20 37 36 30 30 31  30 30 20 43 41 4c 49 20      7600100 CALI 
+0240(00f0)  56 4c 4c 43 4f 31 37 30  30 30 34 31 35 31 30 31   VLLCO17000415101
+0256(0100)  31 30 30 32 33 30 30 30  31 30 30 31 32 31 30 30   1002300010012100
+0272(0110)  30 31 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0100000000000001
+0288(0120)  32 33 34 32 34 30 31 30  30 30 32 33 30 34 30 30   2342401000230400
+0304(0130)  30 30 32 30 30 30 30 30  30 33 31 38 36 30 31 35   0020000003186015
+0320(0140)  32 31 31 32 30 31 32 31  30 31 34 43 30 31 39 30   21120121014C0190
+0336(0150)  30 30 35 34 30 60 10 14  00 90 00 00 00 31 30 30   00540`.......100
+0352(0160)  30 30 30 30 30 30 30 31  36 44 75 6d 6d 79 53 72   000000016DummySr
+0368(0170)  63 20 20 20 20 44 76 63  42 6f 67 6f 74 61 53 6e   c    DvcBogotaSn
+0384(0180)  6b 30 30 30 30 30 31 30  30 30 30 30 31 4f 66 63   k000001000001Ofc
+0400(0190)  4d 73 74 4e 61 63 54 47  20 31 35 42 61 6e 63 6f   MstNacTG 15Banco
+0416(01a0)  20 4f 63 63 69 64 65 6e  74 65 32 30 31 33 30 39    Occidente201309
+0432(01b0)  30 33 30 30 34 31 32 32  31 38 50 6f 73 74 69 6c   0300412218Postil
+0448(01c0)  69 6f 6e 3a 4d 65 74 61  44 61 74 61 32 37 38 32   ion:MetaData2782
+0464(01d0)  32 30 4f 52 49 47 5f 53  45 54 54 4c 45 4d 45 4e   20ORIG_SETTLEMEN
+0480(01e0)  54 5f 44 41 54 45 31 31  31 32 31 31 53 76 63 49   T_DATE111211SvcI
+0496(01f0)  6e 73 74 43 6f 64 65 31  31 31 31 39 43 48 5f 4f   nstCode11119CH_O
+0512(0200)  52 49 47 49 4e 31 31 31  32 31 35 41 44 44 49 54   RIGIN111215ADDIT
+0528(0210)  49 4f 4e 41 4c 5f 44 41  54 41 31 31 31 32 32 30   IONAL_DATA111220
+0544(0220)  4f 52 49 47 5f 53 45 54  54 4c 45 4d 45 4e 54 5f   ORIG_SETTLEMENT_
+0560(0230)  44 41 54 45 31 34 30 39  30 32 32 31 31 53 76 63   DATE140902211Svc
+0576(0240)  49 6e 73 74 43 6f 64 65  33 31 37 36 3c 3f 78 6d   InstCode3176&lt;?xm
+0592(0250)  6c 20 76 65 72 73 69 6f  6e 3d 22 31 2e 30 22 20   l version=&quot;1.0&quot; 
+0608(0260)  65 6e 63 6f 64 69 6e 67  3d 22 55 54 46 2d 38 22   encoding=&quot;UTF-8&quot;
+0624(0270)  3f 3e 20 3c 53 76 63 49  6e 73 74 43 6f 64 65 3e   ?&gt; &lt;SvcInstCode&gt;
+0640(0280)  3c 44 65 62 69 74 49 6e  73 74 3e 30 30 33 36 3c   &lt;DebitInst&gt;0036&lt;
+0656(0290)  2f 44 65 62 69 74 49 6e  73 74 3e 3c 43 72 65 64   /DebitInst&gt;&lt;Cred
+0672(02a0)  69 74 49 6e 73 74 3e 30  30 32 33 3c 2f 43 72 65   itInst&gt;0023&lt;/Cre
+0688(02b0)  64 69 74 49 6e 73 74 3e  3c 43 72 6f 73 73 49 6e   ditInst&gt;&lt;CrossIn
+0704(02c0)  64 69 63 61 74 6f 72 3e  31 3c 2f 43 72 6f 73 73   dicator&gt;1&lt;/Cross
+0720(02d0)  49 6e 64 69 63 61 74 6f  72 3e 3c 50 61 79 54 79   Indicator&gt;&lt;PayTy
+0736(02e0)  70 65 3e 30 3c 2f 50 61  79 54 79 70 65 3e 3c 2f   pe&gt;0&lt;/PayType&gt;&lt;/
+0752(02f0)  53 76 63 49 6e 73 74 43  6f 64 65 3e 31 39 43 48   SvcInstCode&gt;19CH
+0768(0300)  5f 4f 52 49 47 49 4e 31  39 43 4e 42 5f 45 58 49   _ORIGIN19CNB_EXI
+0784(0310)  54 4f 32 31 35 41 44 44  49 54 49 4f 4e 41 4c 5f   TO215ADDITIONAL_
+0800(0320)  44 41 54 41 32 34 34 30  30 30 30 30 30 30 30 30   DATA244000000000
+0816(0330)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0832(0340)  30 30 30 30 30 30 30 30  30 30 30 31 30 32 30 38   0000000000010208
+0848(0350)  35 34 34 39 30 31 34 32  34 30 31 30 30 30 32 33   5449014240100023
+0864(0360)  30 34 30 30 30 30 32 30  30 30 30 30 30 33 31 38   0400002000000318
+0880(0370)  36                                                 6
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:58.299] - <a href="javascript://" onClick="toggle(this)">&lt;0200&gt; Message to DvcBogota [192.168.142.128,1267] (online delivery)</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0200:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220158]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220158]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [7xLm013k5F4p]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  b      40 040] 043 [EXITO LA FLORA102085447600100 CALI VLLCO]
+   [Fixed  a/n     3 003] 049 [170]
+   [Fixed  an     16 016] 052 [FFFFFFFFFFFFFFFF] 
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..16 016] 112 [4000020000003186]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 30 30   ISO0140000500200
+0016(0010)  42 32 33 38 38 34 30 31  32 38 41 30 39 30 31 30   B238840128A09010
+0032(0020)  30 30 30 30 30 30 30 30  30 37 30 31 30 30 30 34   0000000007010004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 38 30 30 30 30   0009052201580000
+0080(0050)  30 31 32 32 30 31 35 38  30 39 30 35 30 39 30 32   0122015809050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 37  78 4c 6d 30 31 33 6b 35   00000007xLm013k5
+0160(00a0)  46 34 70 30 30 32 33 38  37 30 38 30 30 30 30 37   F4p0023870800007
+0176(00b0)  20 20 20 45 58 49 54 4f  20 4c 41 20 46 4c 4f 52      EXITO LA FLOR
+0192(00c0)  41 31 30 32 30 38 35 34  34 37 36 30 30 31 30 30   A102085447600100
+0208(00d0)  20 43 41 4c 49 20 56 4c  4c 43 4f 31 37 30 46 46    CALI VLLCO170FF
+0224(00e0)  46 46 46 46 46 46 46 46  46 46 46 46 46 46 30 31   FFFFFFFFFFFFFF01
+0240(00f0)  32 30 30 30 31 30 30 30  31 30 30 30 30 32 31 30   2000100010000210
+0256(0100)  30 30 31 30 30 30 30 30  30 30 30 30 30 30 30 30   0010000000000000
+0272(0110)  31 32 33 34 32 34 30 31  32 30 30 32 33 30 30 30   1234240120023000
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 31 38   0000000000000018
+0304(0130)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   0000000000000000
+0320(0140)  30 30 30 31 36 34 30 30  30 30 32 30 30 30 30 30   0001640000200000
+0336(0150)  30 33 31 38 36 30 35 34  26 20 30 30 30 30 32 30   03186054&amp; 000020
+0352(0160)  30 30 35 34 21 20 51 54  30 30 30 33 32 20 35 30   0054! QT00032 50
+0368(0170)  31 30 34 33 30 30 30 30  30 30 30 30 30 30 30 30   1043000000000000
+0384(0180)  30 30 30 30 30 30 30 30  30 30 30 30 30 20         0000000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:58.314] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message from DvcBogota [192.168.142.128,1267]</a>
+<DIV id="postB"><UL>
+<PRE format=object>[Fix:__&#039; &#039;  ans 003 M] : &#039;Iso&#039; = [ISO]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Product&#039; = [01]
+[Fix:&#039; &#039;__  n   002 M] : &#039;Release&#039; = [40]
+[Fix:&#039; &#039;__  n   003 M] : &#039;Status&#039; = [000]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Originator&#039; = [5]
+[Fix:__&#039; &#039;  n   001 M] : &#039;Responder&#039; = [0]
+0210:
+   [Fixed  n       6 006] 003 [501043]
+   [None   n         012] 004 [000015000000]
+   [Fixed  n      10 010] 007 [0905220158]
+   [Fixed  n       6 006] 011 [000001]
+   [Fixed  n       6 006] 012 [220158]
+   [Fixed  n       4 004] 013 [0905]
+   [Fixed  n       4 004] 017 [0902]
+   [Fixed  n       3 003] 022 [021]
+   [LLVAR  ans  ..11 011] 032 [10000000054]
+   [LLVAR  ans  ..37 037] 035 [4239499002029253=14122015320000000000] 
+   [Fixed  anp    12 012] 037 [7xLm013k5F4p]
+   [Fixed  ans     6 006] 038 [162087]
+   [Fixed  an      2 002] 039 [00]
+   [Fixed  ans    16 016] 041 [0023870800007   ]
+   [Fixed  a/n     3 003] 049 [170]
+   [LLLVAR b   ..920 012] 060 [000100010000]
+   [LLLVAR ans  ..19 013] 061 [0023PRO3    P]
+   [LLLVAR b   ..144 044] 063 [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLVAR  ans  ..11 011] 100 [00230001001]
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  b    ..18 018] 104 [000000000000000000]
+   [LLLVAR b    ..25 018] 105 [123456789012345698]
+   [LLLVAR b   ..999 054] 126 [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  49 53 4f 30 31 34 30 30  30 30 35 30 30 32 31 30   ISO0140000500210
+0016(0010)  42 32 33 38 38 34 30 31  32 45 38 30 38 30 31 41   B23884012E80801A
+0032(0020)  30 30 30 30 30 30 30 30  31 37 38 30 30 30 30 34   0000000017800004
+0048(0030)  35 30 31 30 34 33 30 30  30 30 31 35 30 30 30 30   5010430000150000
+0064(0040)  30 30 30 39 30 35 32 32  30 31 35 38 30 30 30 30   0009052201580000
+0080(0050)  30 31 32 32 30 31 35 38  30 39 30 35 30 39 30 32   0122015809050902
+0096(0060)  30 32 31 31 31 31 30 30  30 30 30 30 30 30 35 34   0211110000000054
+0112(0070)  33 37 34 32 33 39 34 39  39 30 30 32 30 32 39 32   3742394990020292
+0128(0080)  35 33 3d 31 34 31 32 32  30 31 35 33 32 30 30 30   53=1412201532000
+0144(0090)  30 30 30 30 30 30 30 37  78 4c 6d 30 31 33 6b 35   00000007xLm013k5
+0160(00a0)  46 34 70 31 36 32 30 38  37 30 30 30 30 32 33 38   F4p1620870000238
+0176(00b0)  37 30 38 30 30 30 30 37  20 20 20 31 37 30 30 31   70800007   17001
+0192(00c0)  32 30 30 30 31 30 30 30  31 30 30 30 30 30 31 33   2000100010000013
+0208(00d0)  30 30 32 33 50 52 4f 33  20 20 20 20 50 30 34 34   0023PRO3    P044
+0224(00e0)  30 30 30 30 20 4d 45 4e  53 41 4a 45 20 41 55 54   0000 MENSAJE AUT
+0240(00f0)  20 4f 43 43 49 44 45 4e  54 45 20 20 20 20 20 20    OCCIDENTE      
+0256(0100)  20 20 20 20 20 20 20 20  20 20 20 20 31 31 30 30               1100
+0272(0110)  32 33 30 30 30 31 30 30  31 32 31 30 30 30 31 30   2300010012100010
+0288(0120)  30 30 30 30 30 30 30 30  30 30 30 30 31 32 33 34   0000000000001234
+0304(0130)  32 34 30 31 32 30 30 32  33 30 30 30 30 30 30 30   2401200230000000
+0320(0140)  30 30 30 30 30 30 30 30  30 30 31 38 30 30 30 30   0000000000180000
+0336(0150)  30 30 30 30 30 30 30 30  30 30 30 30 30 30 30 31   0000000000000001
+0352(0160)  38 31 32 33 34 35 36 37  38 39 30 31 32 33 34 35   8123456789012345
+0368(0170)  36 39 38 30 35 34 26 20  30 30 30 30 32 30 30 30   698054&amp; 00002000
+0384(0180)  35 34 21 20 51 54 30 30  30 33 32 20 35 30 31 30   54! QT00032 5010
+0400(0190)  34 33 30 30 30 30 30 30  30 30 30 30 30 30 30 30   4300000000000000
+0416(01a0)  30 30 30 30 30 30 30 30  30 30 30 20               00000000000 
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:58.314] - <a href="javascript://" onClick="toggle(this)">&lt;0210&gt; Message to Transaction Manager [192.168.142.128,1258]</a>
+<DIV id="postB"><UL>
+<PRE format=object>0210:
+   [Fixed  n       6 006] 003 [401043] 
+   [None   n         012] 004 [000015000000] 
+   [Fixed  n       6 006] 011 [000001] 
+   [Fixed  n       4 004] 015 [0902] 
+   [Fixed  ans     6 006] 038 [162087] 
+   [Fixed  an      2 002] 039 [00] 
+   [LLVAR  ans  ..25 015] 044 [               ] 
+   [LLLVAR an* ..120 040] 054 [0001170C0000000000000002170C000000000000] 
+   [LLLVAR ans ..500 143] 059 [7xLm013k5F4p|162087|00230001001|000100000000000001234|012002300000000000000000|0023PRO3    P|4239499002029253=14122015320000000000|000000|0902|] 
+   [LLVAR  ans  ..28 021] 102 [000100000000000001234] 
+   [LLVAR  ans  ..28 024] 103 [012002300000000000000000] 
+   [LLVAR  ans  ..32 010] 127.002 [0000000016] 
+   [LLLLLVAans 99999 439] 127.022.TRAN_IDENTIFICATION
+                                   [123456789012345698]
+   [LLLLLVAans 99999 439] 127.022.DESC_ERROR
+                                   [0000 MENSAJE AUT OCCIDENTE                  ]
+   [LLLLLVAans 99999 439] 127.022.Postilion:MetaData
+                                   [210DESC_ERROR111219TRAN_IDENTIFICATION111211ISSUER_NAME111213FIELD_B24_126111210CREDIT_AUT111211ISSUER_INFO11119DEBIT_AUT111]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_NAME
+                                   [BANCO DE BOGOTA]
+   [LLLLLVAans 99999 439] 127.022.FIELD_B24_126
+                                   [&amp; 0000200054! QT00032 5010430000000000000000000000000 ]
+   [LLLLLVAans 99999 439] 127.022.CREDIT_AUT
+                                   [70030000101]
+   [LLLLLVAans 99999 439] 127.022.ISSUER_INFO
+                                   [0023PRO3    P]
+   [LLLLLVAans 99999 439] 127.022.DEBIT_AUT
+                                   [70030000101]
+   [LLVAR  ans  ..11 011] 127.031 [00230001001] 
+</PRE format=object><DIV  id="postC"><a href="javascript://" onClick="toggle(this)">binary data</a>
+<DIV id="postD"><UL><PRE format=object>
+0000(0000)  30 32 31 30 b0 22 00 00  06 10 04 20 00 00 00 00   0210.&quot;..... ....
+0016(0010)  06 00 00 02 34 30 31 30  34 33 30 30 30 30 31 35   ....401043000015
+0032(0020)  30 30 30 30 30 30 30 30  30 30 30 31 30 39 30 32   0000000000010902
+0048(0030)  31 36 32 30 38 37 30 30  31 35 20 20 20 20 20 20   1620870015      
+0064(0040)  20 20 20 20 20 20 20 20  20 30 34 30 30 30 30 31            0400001
+0080(0050)  31 37 30 43 30 30 30 30  30 30 30 30 30 30 30 30   170C000000000000
+0096(0060)  30 30 30 32 31 37 30 43  30 30 30 30 30 30 30 30   0002170C00000000
+0112(0070)  30 30 30 30 31 34 33 37  78 4c 6d 30 31 33 6b 35   00001437xLm013k5
+0128(0080)  46 34 70 7c 31 36 32 30  38 37 7c 30 30 32 33 30   F4p|162087|00230
+0144(0090)  30 30 31 30 30 31 7c 30  30 30 31 30 30 30 30 30   001001|000100000
+0160(00a0)  30 30 30 30 30 30 30 30  31 32 33 34 7c 30 31 32   000000001234|012
+0176(00b0)  30 30 32 33 30 30 30 30  30 30 30 30 30 30 30 30   0023000000000000
+0192(00c0)  30 30 30 30 30 7c 30 30  32 33 50 52 4f 33 20 20   00000|0023PRO3  
+0208(00d0)  20 20 50 7c 34 32 33 39  34 39 39 30 30 32 30 32     P|423949900202
+0224(00e0)  39 32 35 33 3d 31 34 31  32 32 30 31 35 33 32 30   9253=14122015320
+0240(00f0)  30 30 30 30 30 30 30 30  30 7c 30 30 30 30 30 30   000000000|000000
+0256(0100)  7c 30 39 30 32 7c 32 31  30 30 30 31 30 30 30 30   |0902|2100010000
+0272(0110)  30 30 30 30 30 30 30 30  30 31 32 33 34 32 34 30   0000000001234240
+0288(0120)  31 32 30 30 32 33 30 30  30 30 30 30 30 30 30 30   1200230000000000
+0304(0130)  30 30 30 30 30 30 30 30  30 30 34 37 37 40 00 04   0000000000477@..
+0320(0140)  02 00 00 00 00 31 30 30  30 30 30 30 30 30 30 31   .....10000000001
+0336(0150)  36 30 30 34 33 39 32 31  30 44 45 53 43 5f 45 52   600439210DESC_ER
+0352(0160)  52 4f 52 32 34 34 30 30  30 30 20 4d 45 4e 53 41   ROR2440000 MENSA
+0368(0170)  4a 45 20 41 55 54 20 4f  43 43 49 44 45 4e 54 45   JE AUT OCCIDENTE
+0384(0180)  20 20 20 20 20 20 20 20  20 20 20 20 20 20 20 20                   
+0400(0190)  20 20 32 31 39 54 52 41  4e 5f 49 44 45 4e 54 49     219TRAN_IDENTI
+0416(01a0)  46 49 43 41 54 49 4f 4e  32 31 38 31 32 33 34 35   FICATION21812345
+0432(01b0)  36 37 38 39 30 31 32 33  34 35 36 39 38 32 31 38   6789012345698218
+0448(01c0)  50 6f 73 74 69 6c 69 6f  6e 3a 4d 65 74 61 44 61   Postilion:MetaDa
+0464(01d0)  74 61 33 31 32 34 32 31  30 44 45 53 43 5f 45 52   ta3124210DESC_ER
+0480(01e0)  52 4f 52 31 31 31 32 31  39 54 52 41 4e 5f 49 44   ROR111219TRAN_ID
+0496(01f0)  45 4e 54 49 46 49 43 41  54 49 4f 4e 31 31 31 32   ENTIFICATION1112
+0512(0200)  31 31 49 53 53 55 45 52  5f 4e 41 4d 45 31 31 31   11ISSUER_NAME111
+0528(0210)  32 31 33 46 49 45 4c 44  5f 42 32 34 5f 31 32 36   213FIELD_B24_126
+0544(0220)  31 31 31 32 31 30 43 52  45 44 49 54 5f 41 55 54   111210CREDIT_AUT
+0560(0230)  31 31 31 32 31 31 49 53  53 55 45 52 5f 49 4e 46   111211ISSUER_INF
+0576(0240)  4f 31 31 31 31 39 44 45  42 49 54 5f 41 55 54 31   O11119DEBIT_AUT1
+0592(0250)  31 31 32 31 31 49 53 53  55 45 52 5f 4e 41 4d 45   11211ISSUER_NAME
+0608(0260)  32 31 35 42 41 4e 43 4f  20 44 45 20 42 4f 47 4f   215BANCO DE BOGO
+0624(0270)  54 41 32 31 33 46 49 45  4c 44 5f 42 32 34 5f 31   TA213FIELD_B24_1
+0640(0280)  32 36 32 35 34 26 20 30  30 30 30 32 30 30 30 35   26254&amp; 000020005
+0656(0290)  34 21 20 51 54 30 30 30  33 32 20 35 30 31 30 34   4! QT00032 50104
+0672(02a0)  33 30 30 30 30 30 30 30  30 30 30 30 30 30 30 30   3000000000000000
+0688(02b0)  30 30 30 30 30 30 30 30  30 30 20 32 31 30 43 52   0000000000 210CR
+0704(02c0)  45 44 49 54 5f 41 55 54  32 31 31 37 30 30 33 30   EDIT_AUT21170030
+0720(02d0)  30 30 30 31 30 31 32 31  31 49 53 53 55 45 52 5f   000101211ISSUER_
+0736(02e0)  49 4e 46 4f 32 31 33 30  30 32 33 50 52 4f 33 20   INFO2130023PRO3 
+0752(02f0)  20 20 20 50 31 39 44 45  42 49 54 5f 41 55 54 32      P19DEBIT_AUT2
+0768(0300)  31 31 37 30 30 33 30 30  30 30 31 30 31 31 31 30   1170030000101110
+0784(0310)  30 32 33 30 30 30 31 30  30 31                     0230001001
+</PRE format=object></UL></DIV></DIV>
+</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:58.346] - <a href="javascript://" onClick="toggle(this)">Node 'DvcBogota' disconnected from remote entity (0 active connection(s))</a>
+<DIV id="postB"><UL>
+Node &#039;DvcBogota&#039; has been disconnected from the remote entity at network address &#039;192.168.142.128,1267&#039; on SAP &#039;DvcBogotaSap1&#039;. There are now 0 active connection(s). The disconnect was initiated by the remote entity. Reason: Normal disconnect initiated by remote entity.</UL><HR></DIV>
+</DIV>
+<!--EOM-->

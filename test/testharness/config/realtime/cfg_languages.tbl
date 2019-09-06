@@ -1,0 +1,16 @@
+[name]lang[/name]=[data]0[/data]
+[name]description[/name]=[data]ENGLISH[/data]
+[name]is_default[/name]=[data]1[/data]
+
+[name]lang[/name]=[data]1[/data]
+[name]description[/name]=[data]AFRIKAANS[/data]
+[name]is_default[/name]=[data]0[/data]
+
+[name]lang[/name]=[data]2[/data]
+[name]description[/name]=[data]ESPANOL[/data]
+[name]is_default[/name]=[data]0[/data]
+
+[name]lang[/name]=[data]3[/data]
+[name]description[/name]=[data]DEUTSCH[/data]
+[name]is_default[/name]=[data]0[/data]
+

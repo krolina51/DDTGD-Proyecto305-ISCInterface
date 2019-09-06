@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href=" TH-testsuite.xsl"?>
+<testsuite tests="1" failures="0" errors="0" success="1" name="testcases.sink" time="25.234">
+   <testcase name="001_0200_CNB_WITHDRAWAL_CREDIT.tst" time="22.391" result="success">
+   </testcase>
+</testsuite>

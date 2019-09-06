@@ -1,0 +1,13 @@
+[name]node[/name]=[data]DummySrc[/data]
+[name]pin_verification[/name]=[data]0[/data]
+[name]ca_card_processing[/name]=[data]0[/data]
+[name]ca_routing[/name]=[data]0[/data]
+[name]routing_group[/name]=[data]DefaultRoutingGroup[/data]
+[name]limits_class[/name]=[data]DefaultLimitClass[/data]
+[name]card_set[/name]=[data]DefaultCardSet[/data]
+[name]clear_surcharge[/name]=[data]0[/data]
+[name]secure_pins[/name]=[data]1[/data]
+[name]allow_file_updates[/name]=[data]0[/data]
+[name]receive_hotcard_notifications[/name]=[data]0[/data]
+[name]sfwd_transmit_limit[/name]=[data]NULL[/data]
+

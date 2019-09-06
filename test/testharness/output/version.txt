@@ -1,0 +1,43 @@
+Retrieving relevant application versions ... 
+DvcBogota v2.2 (build 1309051)
+(v2.2.00.1309051-r5.3)
+
+   Tools used to build this version of Postilion:
+
+     Java JDK Version 1.5.0_09
+     Java(TM) 2 Runtime Environment, Standard Edition (build 1.5.0_09-b03)
+     Java HotSpot(TM) Client VM (build 1.5.0_09-b03, mixed mode, sharing)
+
+   Postilion License Details:
+
+     S1 Corporation
+     Expiry date   : 01 Jan 2015
+     Licensed hosts: Any
+     Version       : 2
+     The Postilion system covered by this license will cease to operate 
+ if this license expires and is not replaced with a new, updated license.
+
+   -------------------------[ Validating Patches ]-------------------------
+No registered patches found
+Retrieving SQL version ... 
+                                                                               
+	                                                                       
+	                                                                       
+	                                                                       
+	          
+ ------------------------------------------------------------------------------
+	-----------------------------------------------------------------------
+	-----------------------------------------------------------------------
+	-----------------------------------------------------------------------
+	--------- 
+ Microsoft SQL Server 2005 - 9.00.3042.00 (Intel X86) 
+	Feb  9 2007 22:47:07 
+	
+	Copyright (c) 1988-2005 Microsoft Corporation
+	Standard Edition on Wind
+	ows NT 5.2 (Build 3790: Service Pack 2)
+                               
+	                                                                       
+	          
+
+(1 row affected)

@@ -1,0 +1,12 @@
+[name]currency_code[/name]=[data]170[/data]
+[name]alpha_code[/name]=[data]COP[/data]
+[name]name[/name]=[data]Colombian Peso[/data]
+[name]nr_decimals[/name]=[data]2[/data]
+[name]rate[/name]=[data]0.0[/data]
+
+[name]currency_code[/name]=[data]840[/data]
+[name]alpha_code[/name]=[data]USD[/data]
+[name]name[/name]=[data]U.S. Dollar[/data]
+[name]nr_decimals[/name]=[data]2[/data]
+[name]rate[/name]=[data]0.0[/data]
+

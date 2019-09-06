@@ -1,0 +1,12 @@
+[name]task_name[/name]=[data]Transaction Manager[/data]
+[name]scribe_type[/name]=[data]support framework[/data]
+[name]custom_class_unique_name[/name]=[data]EVENTRECORDER SCRIBES:TranMgr Support Scribe[/data]
+[name]enabled[/name]=[data]1[/data]
+[name]parameters[/name]=[data]NULL[/data]
+
+[name]task_name[/name]=[data]Transaction Manager[/data]
+[name]scribe_type[/name]=[data]trend[/data]
+[name]custom_class_unique_name[/name]=[data]EVENTRECORDER SCRIBES:Trend Monitoring Scribe[/data]
+[name]enabled[/name]=[data]1[/data]
+[name]parameters[/name]=[data]NULL[/data]
+

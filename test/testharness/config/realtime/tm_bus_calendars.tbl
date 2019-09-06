@@ -1,0 +1,12 @@
+[name]calendar_name[/name]=[data]DefaultBusinessCalendar[/data]
+[name]advance_time[/name]=[data]1900-01-01 00:00:00.000[/data]
+[name]sun_is_business_day[/name]=[data]1[/data]
+[name]mon_is_business_day[/name]=[data]1[/data]
+[name]tue_is_business_day[/name]=[data]1[/data]
+[name]wed_is_business_day[/name]=[data]1[/data]
+[name]thu_is_business_day[/name]=[data]1[/data]
+[name]fri_is_business_day[/name]=[data]1[/data]
+[name]sat_is_business_day[/name]=[data]1[/data]
+[name]trustee_source_node[/name]=[data]NULL[/data]
+[name]trustee_sink_node[/name]=[data]NULL[/data]
+

@@ -1,0 +1,123 @@
+[name]trans_code[/name]=[data]00[/data]
+[name]trans_name[/name]=[data]Goods and services[/data]
+
+[name]trans_code[/name]=[data]01[/data]
+[name]trans_name[/name]=[data]Cash withdrawal[/data]
+
+[name]trans_code[/name]=[data]02[/data]
+[name]trans_name[/name]=[data]Debit adjustment[/data]
+
+[name]trans_code[/name]=[data]03[/data]
+[name]trans_name[/name]=[data]Check cash/guarantee[/data]
+
+[name]trans_code[/name]=[data]04[/data]
+[name]trans_name[/name]=[data]Check verification[/data]
+
+[name]trans_code[/name]=[data]05[/data]
+[name]trans_name[/name]=[data]Eurocheque[/data]
+
+[name]trans_code[/name]=[data]06[/data]
+[name]trans_name[/name]=[data]Traveller check[/data]
+
+[name]trans_code[/name]=[data]07[/data]
+[name]trans_name[/name]=[data]Letter of credit[/data]
+
+[name]trans_code[/name]=[data]08[/data]
+[name]trans_name[/name]=[data]Giro (postal banking)[/data]
+
+[name]trans_code[/name]=[data]09[/data]
+[name]trans_name[/name]=[data]Goods services with cash back[/data]
+
+[name]trans_code[/name]=[data]10[/data]
+[name]trans_name[/name]=[data]Non-cash e.g. wire transfer[/data]
+
+[name]trans_code[/name]=[data]11[/data]
+[name]trans_name[/name]=[data]Quasi-cash and scrip[/data]
+
+[name]trans_code[/name]=[data]12[/data]
+[name]trans_name[/name]=[data]General debit[/data]
+
+[name]trans_code[/name]=[data]19[/data]
+[name]trans_name[/name]=[data]Visa Cash load settlement rev[/data]
+
+[name]trans_code[/name]=[data]20[/data]
+[name]trans_name[/name]=[data]Returns (refund)[/data]
+
+[name]trans_code[/name]=[data]21[/data]
+[name]trans_name[/name]=[data]Deposit[/data]
+
+[name]trans_code[/name]=[data]22[/data]
+[name]trans_name[/name]=[data]Credit adjustment[/data]
+
+[name]trans_code[/name]=[data]23[/data]
+[name]trans_name[/name]=[data]Check deposit guarantee[/data]
+
+[name]trans_code[/name]=[data]24[/data]
+[name]trans_name[/name]=[data]Check deposit[/data]
+
+[name]trans_code[/name]=[data]25[/data]
+[name]trans_name[/name]=[data]General credit[/data]
+
+[name]trans_code[/name]=[data]28[/data]
+[name]trans_name[/name]=[data]Merchandise dispatch[/data]
+
+[name]trans_code[/name]=[data]29[/data]
+[name]trans_name[/name]=[data]Visa Cash load settlement[/data]
+
+[name]trans_code[/name]=[data]30[/data]
+[name]trans_name[/name]=[data]Available funds inquiry[/data]
+
+[name]trans_code[/name]=[data]31[/data]
+[name]trans_name[/name]=[data]Balance inquiry[/data]
+
+[name]trans_code[/name]=[data]32[/data]
+[name]trans_name[/name]=[data]General inquiry[/data]
+
+[name]trans_code[/name]=[data]35[/data]
+[name]trans_name[/name]=[data]Full-statement inquiry[/data]
+
+[name]trans_code[/name]=[data]36[/data]
+[name]trans_name[/name]=[data]Merchandise inquiry[/data]
+
+[name]trans_code[/name]=[data]37[/data]
+[name]trans_name[/name]=[data]Card verification inquiry[/data]
+
+[name]trans_code[/name]=[data]38[/data]
+[name]trans_name[/name]=[data]Mini-statement inquiry[/data]
+
+[name]trans_code[/name]=[data]39[/data]
+[name]trans_name[/name]=[data]Linked account inquiry[/data]
+
+[name]trans_code[/name]=[data]40[/data]
+[name]trans_name[/name]=[data]Cardholder accounts transfer[/data]
+
+[name]trans_code[/name]=[data]42[/data]
+[name]trans_name[/name]=[data]General transfer[/data]
+
+[name]trans_code[/name]=[data]50[/data]
+[name]trans_name[/name]=[data]Payment from account[/data]
+
+[name]trans_code[/name]=[data]51[/data]
+[name]trans_name[/name]=[data]Payment by deposit[/data]
+
+[name]trans_code[/name]=[data]52[/data]
+[name]trans_name[/name]=[data]General payment[/data]
+
+[name]trans_code[/name]=[data]53[/data]
+[name]trans_name[/name]=[data]Payment to account[/data]
+
+[name]trans_code[/name]=[data]54[/data]
+[name]trans_name[/name]=[data]Payment from account to account[/data]
+
+[name]trans_code[/name]=[data]90[/data]
+[name]trans_name[/name]=[data]Place hold on card[/data]
+
+[name]trans_code[/name]=[data]91[/data]
+[name]trans_name[/name]=[data]General admin[/data]
+
+[name]trans_code[/name]=[data]92[/data]
+[name]trans_name[/name]=[data]Change PIN[/data]
+
+[name]trans_code[/name]=[data]93[/data]
+[name]trans_name[/name]=[data]Dead-end general admin[/data]
+

@@ -1,0 +1,46 @@
+[OPTIONS]
+Compiled File=ug_ISCInterface.chm
+Title=Postilion ISCInterfaceUser Guide
+Contents File=ug_ISCInterface.hhc
+Index File=ug_ISCInterface.hhk
+Default topic=Title.htm
+Default Window=NewWindow
+Error log file=
+Display compile progress=No
+Display compile notes=Yes
+Full-text search=Yes
+Binary Index=No
+Auto Index=No
+Enhanced decompilation=No
+Binary TOC=No
+Flat=No
+
+[WINDOWS]
+NewWindow="ISCInterface Interface","ug_ISCInterface.hhc",,"","",,,,,0x420,0,0x200e,[0,0,500,400],0x0,0x0,,0,0,0
+
+[FILES]
+Nombre_Interchange.htm
+Instruciones_Control_Monitor.htm
+Configuracion_Criptografica.htm
+Descripcion_Configuracion.htm
+Descripcion_Componentes.htm
+Instruciones_Instalacion.htm
+Soporte.htm
+Limitaciones.htm
+Descripcion.htm
+Configuracion_Interface.htm
+Title.htm
+Solucion_de_problemas.htm
+Configuracion_nodo_sink.htm
+BSSCDHTM.js
+eHelp.xml
+
+ug_ISCInterface.brs
+[ALIAS]
+#include ug_ISCInterface.ali
+
+[MAP]
+
+[TEXT POPUPS]
+
+

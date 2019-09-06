@@ -1,0 +1,153 @@
+#####################################
+# Source Profile for DvcBogota #
+#####################################
+
+#Pagos Convenios
+[profile M0200_CNB_Withdrawal_Credit_0200_Src
+	[
+		"4"			:	"000015000000"
+		"7"			:	\time("MMddHHmmss")\
+		"11"		:	"000001"
+		"12"		:	\set("P12",\time("HHmmss")\)\
+		"13"		:	\time("MMdd")\
+		"15"		:	\time("MMdd")\
+		"22"		:	"021"
+		"25"		:	"00"
+		"26"		:	"12"
+		"32"		:	"10000000054"
+		"35"		:	"4239489002029254=14122015320000000000"
+		"37"		:	\random("anp","12")\
+		"41"		:	"0023"+\set("P41","8708")\
+		"42"		:	"870800000000000"
+		"43"		:	"EXITO LA FLORA        7600100 CALI VLLCO"
+		"49"		:	"170"
+		"59"		:	"01:0001:0023:null:13:0000"+\set("P59",\random("n","6")\)\  
+		"100"		:	"00230001001"
+		"102"		:	"000100000000000001234"
+		"103"		:	"010002304000020000003186"
+		"123"		:	"21120121014C019"
+		"127.2"		:	"21:13:19:2:"+\get("P59")\+\get("P41")\+\get("P12")\+":00"
+		"127.12"	:	"Banco Occidente"
+		"127.22"	:	"218Postilion:MetaData278220ORIG_SETTLEMENT_DATE111211SvcInstCode11119CH_ORIGIN111215ADDITIONAL_DATA111220ORIG_SETTLEMENT_DATE140902211SvcInstCode3176<?xml version=\"1.0\" encoding=\"UTF-8\"?> <SvcInstCode><DebitInst>0036</DebitInst><CreditInst>0023</CreditInst><CrossIndicator>1</CrossIndicator><PayType>0</PayType></SvcInstCode>19CH_ORIGIN19CNB_EXITO215ADDITIONAL_DATA24400000000000000000000000000000000000010208544"
+		"127.33"	: "9014"
+		"127.36"	: "010002304000020000003186"
+	]
+]
+
+[profile M0200_CNB_Withdrawal_Credit_0200_Snk
+	[
+		"HDR.Iso"			:	\ensurePresent()\
+		"HDR.Product"		:	\ensurePresent()\
+		"HDR.Release"		:	\ensurePresent()\
+		"HDR.Status"		:	\ensurePresent()\
+		"HDR.Originator"	:	\ensurePresent()\
+		"HDR.Responder"		:	\ensurePresent()\
+	
+		"4"			:	\compareTo("MsgFlo.0200_Src", "4")\
+		"7"			:	\compareTo("MsgFlo.0200_Src", "7")\
+		"11"		:	\compareTo("MsgFlo.0200_Src", "11")\
+		"12"		:	\compareTo("MsgFlo.0200_Src", "12")\
+		"13"		:	\compareTo("MsgFlo.0200_Src", "13")\
+		"17"		:	\ensurePresent()\
+		"22"		:	\compareTo("MsgFlo.0200_Src", "22")\
+		"32"		:	\compareTo("MsgFlo.0200_Src", "32")\
+		"35"		:	\compareTo("MsgFlo.0200_Src", "35")\
+		"37"		:	\compareTo("MsgFlo.0200_Src", "37")\
+		"41"		:	\ensurePresent()\ #"0023"+\get("P41")\
+		"43"		:	\ensurePresent()\
+		"49"		:	\compareTo("MsgFlo.0200_Src", "49")\
+		"52"		:	\ensurePresent()\
+		"60"		:	\ensurePresent()\
+		"102"		:	"003600000000000001234"
+		"103"		:	\ensurePresent()\
+		"104"		:	\ensurePresent()\
+		"112"		:	\ensurePresent()\
+		"126"	:	\ensurePresent()\
+	]
+]
+
+
+[profile M0200_CNB_Withdrawal_Credit_0210_Snk
+	[
+		"HDR.Iso"			:	\copyFrom("MsgFlo.0200_Snk","HDR.Iso")\
+		"HDR.Product"		:	\copyFrom("MsgFlo.0200_Snk","HDR.Product")\
+		"HDR.Release"		:	\copyFrom("MsgFlo.0200_Snk","HDR.Release")\
+		"HDR.Status"		:	\copyFrom("MsgFlo.0200_Snk","HDR.Status")\
+		"HDR.Originator"	:	\copyFrom("MsgFlo.0200_Snk","HDR.Originator")\
+		"HDR.Responder"		:	\copyFrom("MsgFlo.0200_Snk","HDR.Responder")\
+	
+		"3"		:	\copyFrom("MsgFlo.0200_Snk", "3")\
+		"4"		:	\copyFrom("MsgFlo.0200_Snk", "4")\
+		"7"		:	\copyFrom("MsgFlo.0200_Snk", "7")\
+		"11"	:	\copyFrom("MsgFlo.0200_Snk", "11")\
+		"12"	:	\copyFrom("MsgFlo.0200_Snk", "12")\
+		"13"	:	\copyFrom("MsgFlo.0200_Snk", "13")\
+		"17"	:	\copyFrom("MsgFlo.0200_Snk", "17")\
+		"22"	:	\copyFrom("MsgFlo.0200_Snk", "22")\
+		"32"	:	\copyFrom("MsgFlo.0200_Snk", "32")\
+		"35"	:	\copyFrom("MsgFlo.0200_Snk", "35")\
+		"37"	:	\copyFrom("MsgFlo.0200_Snk", "37")\
+		"38"	:	\random("N","6")\
+		"39"	:	"00"
+		"41"	:	\copyFrom("MsgFlo.0200_Snk", "41")\
+		"49"	:	\copyFrom("MsgFlo.0200_Snk", "49")\
+		"60"	:	\copyFrom("MsgFlo.0200_Snk", "60")\
+		"61"	:	"0023PRO3    P"
+		"63"	:	"0000 MENSAJE AUT OCCIDENTE                  "
+		"100"	:	\copyFrom("MsgFlo.0200_Src", "100")\
+		"102"	:	\copyFrom("MsgFlo.0200_Snk", "102")\
+		"103"	:	\copyFrom("MsgFlo.0200_Snk", "103")\
+		"104"	:	\copyFrom("MsgFlo.0200_Snk", "104")\
+		"105"	:	"123456789012345698"
+		"126"	:	\copyFrom("MsgFlo.0200_Snk", "126")\
+	]
+]
+
+[profile M0200_CNB_Withdrawal_Credit_0210_Src
+	[
+		"2"		:	\ensurePresent()\
+		"3"		:	\compareTo("MsgFlo.0200_Src", "3")\
+		"4"		:	\compareTo("MsgFlo.0200_Src", "4")\
+		"7"		:	\compareTo("MsgFlo.0200_Src", "7")\
+		"11"	:	\compareTo("MsgFlo.0200_Src", "11")\
+		"12"	:	\compareTo("MsgFlo.0200_Src", "12")\
+		"13"	:	\compareTo("MsgFlo.0200_Src", "13")\
+		"14"	:	\ensurePresent()\
+		"15"	:	\ensurePresent()\
+		"22"	:	\compareTo("MsgFlo.0200_Src", "22")\
+		"25"	:	\compareTo("MsgFlo.0200_Src", "25")\
+		"28"	:	\ignore()\
+		"30"	:	\ignore()\
+		"32"	:	\compareTo("MsgFlo.0200_Src", "32")\
+		"35"	:	\compareTo("MsgFlo.0200_Src", "35")\
+		"37"	:	\compareTo("MsgFlo.0200_Src", "37")\
+		"38"	:	\ensurePresent()\
+		"39"	:	"00"
+		"40"	:	\ensurePresent()\
+		"41"	:	\compareTo("MsgFlo.0200_Src", "41")\
+		"42"	:	\compareTo("MsgFlo.0200_Src", "42")\
+		"43"	:	\compareTo("MsgFlo.0200_Src", "43")\
+		"44"	:	\ensurePresent()\
+		"49"	:	\compareTo("MsgFlo.0200_Src", "49")\
+		"54"	:	\ensurePresent()\
+		"59"	:	\compareTo("MsgFlo.0200_Src", "59")\
+		"100"	:	\compareTo("MsgFlo.0200_Src", "100")\
+		"102"	:	\ensurePresent()\
+		"103"	:	\ensurePresent()\
+		"123"	:	\compareTo("MsgFlo.0200_Src", "123")\
+		"127.2"	:	\compareTo("MsgFlo.0200_Src", "127.2")\
+		"127.3"	:	\ensurePresent()\
+		"127.6"	:	\ensurePresent()\
+		"127.12"	:	\compareTo("MsgFlo.0200_Src", "127.12")\
+		"127.20"	:	\ensurePresent()\
+		"127.22"	:	\ensureContains("TRAN_IDENTIFICATION")\ &
+						\ensureContains("DESC_ERROR")\ &
+						\ensureContains("ISSUER_NAME")\ &
+						\ensureContains("FIELD_B24_126")\ &
+						\ensureContains("CREDIT_AUT")\ &
+						\ensureContains("ISSUER_INFO")\ &
+						\ensureContains("DEBIT_AUT")\
+		"127.31"	:	\ensurePresent()\
+		"127.33"	:	\compareTo("MsgFlo.0200_Src", "127.33")\
+	]
+]

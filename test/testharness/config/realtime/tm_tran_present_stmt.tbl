@@ -1,0 +1,2 @@
+[name]stmt[/name]=[data]SELECT srcnode_key FROM tm_trans_1 WHERE srcnode_key=@p2 AND source_node=@p1[/data]
+

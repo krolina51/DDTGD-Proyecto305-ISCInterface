@@ -1,0 +1,4 @@
+[name]host[/name]=[data]__HOSTNAME__[/data]
+[name]service_port[/name]=[data]9970[/data]
+[name]command_port[/name]=[data]9980[/data]
+

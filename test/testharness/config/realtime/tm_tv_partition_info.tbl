@@ -1,0 +1,9 @@
+[name]partition_nr[/name]=[data]1[/data]
+[name]min_row_nr[/name]=[data]1[/data]
+[name]max_row_nr[/name]=[data]999999[/data]
+[name]refresh_row_nr[/name]=[data]10001[/data]
+[name]creation_date[/name]=[data]2010-05-03 18:08:31.980[/data]
+[name]start_date[/name]=[data]2010-05-03 18:08:32.560[/data]
+[name]end_date[/name]=[data]NULL[/data]
+[name]state[/name]=[data]1[/data]
+

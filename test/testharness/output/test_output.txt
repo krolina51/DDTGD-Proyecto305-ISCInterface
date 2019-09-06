@@ -1,0 +1,98 @@
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+22:01:34.189 starting suite:                                                   
+             V:\release\DvcBogota\2\x\test\testharness\testcases
+
+-------------------------------------------------------------------------------
+
+22:01:34.642 completed suite:                                                  
+             V:\release\DvcBogota\2\x\test\testharness\testcases
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+22:01:34.658 starting suite:                                                   
+             V:\release\DvcBogota\2\x\test\testharness\testcases\sink
+
+-------------------------------------------------------------------------------
+
+22:01:37.455 start test case [001_0200_CNB_WITHDRAWAL_CREDIT.tst]
+22:01:43.627 approximate parse time: 6.17 s
+
+` =========================================
+` Test MUX - DvcBogota  
+` Withdrawal from CNB
+` =========================================
+22:01:43.705 safq                                                           [ ]
+22:01:44.767 connect    DummySrc                                            [ ]
+22:01:47.924 connect    DvcBogotaSap1                                       [ ]
+` 
+` -----------Cross Transaction----------
+` 
+` 
+` In this case the field S102  the entity id is replaced  with the key 
+` SvcInstCode-> DebitID  
+` and sent to remote with entity id 0036
+` 
+22:01:48.361 send       0200 from DummySrc                                  [ ]
+22:01:49.642 receive    0200 at DvcBogotaSap1                               [ ]
+22:01:55.221 send       0210 from DvcBogotaSap1                             [ ]
+22:01:55.236 receive    0210 at DummySrc                                    [ ]
+` 
+` [DM-39726] - CHANGE MEGABANCO'S CODE
+` 
+` In this case the field S102 the entity id (first 4 positions of msg sent by 
+` TM if the field S102 length is 21) 
+` But is replaced with bogota entity code (0001) 
+` if entity id 0036 is present
+` 
+22:01:56.236 send       0200 from DummySrc                                  [ ]
+22:01:56.267 receive    0200 at DvcBogotaSap1                               [ ]
+22:01:56.861 send       0210 from DvcBogotaSap1                             [ ]
+22:01:57.017 receive    0210 at DummySrc                                    [ ]
+` 
+` -----------Mix Transaction-----------
+` 
+` 
+` [DM-39726] - CHANGE MEGABANCO'S CODE
+` 
+` In this case the field S102 the entity id (first 4 positions of msg sent by 
+` TM if the field S102 length is 21) 
+` But is replaced with bogota entity code (0001) 
+` if entity id 0036 is present
+` 
+22:01:57.533 send       0200 from DummySrc                                  [ ]
+22:01:57.674 receive    0200 at DvcBogotaSap1                               [ ]
+22:01:57.674 send       0210 from DvcBogotaSap1                             [ ]
+22:01:57.705 receive    0210 at DummySrc                                    [ ]
+` 
+` [DM-39726] - CHANGE MEGABANCO'S CODE
+` 
+` In this case the field S102 the entity id (first 4 positions of msg sent by 
+` TM if the field S102 length is 21) 
+` But is replaced with bogota entity code (0001) 
+` if entity id 0036 is present
+` 
+22:01:58.221 send       0200 from DummySrc                                  [ ]
+22:01:58.314 receive    0200 at DvcBogotaSap1                               [ ]
+22:01:58.314 send       0210 from DvcBogotaSap1                             [ ]
+22:01:58.346 receive    0210 at DummySrc                                    [ ]
+22:01:58.346 disconnect DvcBogotaSap1                                       [ ]
+22:01:58.346 connect    DummySrc                                            [ ]
+
+22:01:59.846 end test case [001_0200_CNB_WITHDRAWAL_CREDIT.tst]
+22:01:59.846 approximate processing time (includes parse time): 22.39 s
+
+-------------------------------------------------------------------------------
+
+22:01:59.908 completed suite:                                                  
+             V:\release\DvcBogota\2\x\test\testharness\testcases\sink
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+ test case(s) : 1
+ total time   : 26.48 s
+

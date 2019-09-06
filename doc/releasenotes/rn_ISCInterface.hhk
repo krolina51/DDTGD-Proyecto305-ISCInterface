@@ -1,0 +1,13 @@
+<html>
+<!-- Sitemap 1.0 -->
+<object type="text/site properties">
+  <param name="SiteType" value="index">
+</object>
+<ul>
+  <li><object type="text/sitemap">
+    <param name="Name" value="Cambios en ISCInterface v1.00.00">
+    <param name="Name" value="ISCInterface Release Notes">
+    <param name="Local" value="rn_ISCInterface.htm">
+  </object>
+</ul>
+</html>

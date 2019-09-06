@@ -1,0 +1,7 @@
+[name]unique_name[/name]=[data]SCHEDULED JOB UI PLUG-IN:Realtime Loaders[/data]
+[name]category[/name]=[data]SCHEDULED JOB UI PLUG-IN[/data]
+[name]display_name[/name]=[data]Realtime Loaders[/data]
+[name]lib_name[/name]=[data]p_SchedulerLoaders.dll[/data]
+[name]parameters[/name]=[data]NULL[/data]
+[name]description[/name]=[data]NULL[/data]
+

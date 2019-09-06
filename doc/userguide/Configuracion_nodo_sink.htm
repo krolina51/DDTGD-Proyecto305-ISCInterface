@@ -1,0 +1,290 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","80ffff","MosaicLightYellow","0") -->
+  <!-- $MVD$:fontset("Normal","Verdana","Arial") -->
+  <!-- $MVD$:fontset("Heading","Arial Black") -->
+  <!-- $MVD$:fontset("Monospace","Courier New") -->
+  <!-- $MVD$:fontset("Arial","Arial") -->
+  <TITLE>Configuraci&oacute;n nodo sink</TITLE>
+  <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+ </SCRIPT><LINK
+  REL="StyleSheet" HREF="MosaicHelp.css"></HEAD>
+  <BODY ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   Configuraci&oacute;n Nodo Sink</H1>
+  <P>
+   Por la consola de Transaction Manager Configurator en la opci&oacute;n
+    de Sink Node se deben configurar los siguientes par&aacute;metros.</P>
+  <P>
+   <TABLE CELLPADDING="2" CELLSPACING="0" BORDER="1">
+    <TR>
+     <TD BGCOLOR="SILVER" VALIGN=TOP>
+      <P>
+       <SPAN STYLE="font-weight : bold;"><FONT COLOR="BLACK">Variable</FONT></SPAN></TD>
+     <TD BGCOLOR="SILVER" VALIGN=TOP>
+      <P>
+       <SPAN STYLE="font-weight : bold;"><FONT COLOR="BLACK">Escenario</FONT></SPAN></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Node</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Cualquier nombre. Se recomienda que los 3 
+       primeros caracteres del nombre correspondan al canal de la red. La 
+       longitud maxima de este campo es 12 caracteres. El nombre del nodo 
+       debe ser unico.</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Providing service to</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccione &quot;Acquirer&quot;</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Authorization Service</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccione &quot;none&quot;</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">IP Address</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">la direcci&oacute;n IP (o nombre del host) de la 
+       maquina en la cual este corriendo la Interface. Si la interfaz esta 
+       corriendo en la misma maquina de Transaction Manager, este valor debe 
+       ser </FONT><SPAN STYLE="font-style : italic;"><FONT COLOR="BLACK">localhost</FONT></SPAN><FONT COLOR="BLACK">.</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Port Number</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">El puerto TCP de la interfaz<SPAN STYLE="font-weight : bold;"> </SPAN></FONT><SPAN STYLE="font-weight : bold;">DvcBogota<FONT COLOR="BLACK"> </FONT></SPAN><SPAN STYLE="font-weight : normal;"><FONT COLOR="BLACK">en
+        el cual va a </FONT></SPAN><FONT COLOR="BLACK">escuchar para una 
+       conexion de Transaction Manager.</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Completion Indicator</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <I><FONT COLOR="BLACK">Negative</FONT></I></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Retention Period</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Cualquier valor. Se recomienda en sistemas en 
+       producci&oacute;n que este valor no sea mayor a 15</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Timeout Period</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Tipicamente se colocan </FONT><SPAN STYLE="font-style : italic;"><FONT COLOR="BLACK">30
+        segundos. El tiempo de espera de las notificaciones en el nodo sink 
+       debe ser menor al tiempo de espera de las notificaciones enviadas por 
+       las entidades remotas.</FONT></SPAN></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Advice Tmeout Period</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Valor por defecto</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Advice declined and zero value transactions</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No se notificar&aacute;n transacciones declinadas o de valor 0. Esta 
+       opci&oacute;n no es seleccionada.</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Advice Inquiry Transactions</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No se notificar&aacute;n las transacciones de consulta. Esta 
+       opci&oacute;n no es seleccionada.</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Allocate System Trace Audit Number</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No se manejar&aacute; el n&uacute;mero de auditor&iacute;a de las 
+       transacciones en el Transaction Manager. Esta opci&oacute;n no es seleccionada.</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Flush Store-and-Forwartd</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Las transacciones de requerimiento tendr&aacute;n prioridad sobre las 
+       notificaciones. Esta opci&oacute;n no es seleccionada.</P>
+      <P>
+       <!-- $MVD$:spaceretainer() -->&nbsp;</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Decline Hotcard</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar esta opci&oacute;n</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Decline invalid address</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar esta opci&oacute;n</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Route to Source</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No seleccionar esta opci&oacute;n</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Do not reverse in-flight transactions</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar esta opci&oacute;n (No se reversar&aacute;n transacciones 
+       en vuelo).</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Respond to duplicate transactions</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar esta opci&oacute;n (Se responder&aacute;n a transacciones duplicadas).</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Notify Acquirer File Update Advices</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No seleccionar esta opci&oacute;n</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Active/Active</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar esta opci&oacute;n (Se manejar&aacute; el esquema Activo/Activo)</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Early Notification for advices</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No seleccionar esta opci&oacute;n</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Batch Management</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar &quot;Use External Business Date&quot;. La fecha contable 
+       utilizada ser&aacute; aquella que venga del nodo source correspondiente</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">PIN Key</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">El nombre de la Issuer Working Key (o KWP) para 
+       la Interchange en caso que la interfaz . Ver </FONT><A HREF="Configuracion_Criptografica.htm"><FONT COLOR="BLACK">Configuraci&oacute;n
+        Criptografica</FONT></A><FONT COLOR="BLACK">.</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Batch Processing Deadline</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">23:00</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">External Cutover Prev Date</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">No seleccionar</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Reconcile per</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <I><SPAN STYLE="font-style : normal;"><FONT COLOR="BLACK">Node</FONT></SPAN></I></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Currency</FONT></TD>
+     <TD VALIGN=TOP>
+      <P>
+       <FONT COLOR="BLACK">Colombian Peso</FONT></TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Notify PIN failure?</TD>
+     <TD VALIGN=TOP>
+      <P>
+       No seleccionar</TD>
+    </TR>
+    <TR>
+     <TD VALIGN=TOP>
+      <P>
+       Translate PIN?</TD>
+     <TD VALIGN=TOP>
+      <P>
+       Seleccionar. El nodo sink espera el PIN block cifrado con la misma 
+       llave que posee la entidad remota.</TD>
+    </TR>
+   </TABLE></P>
+  <P>
+   <!-- $MVD$:spaceretainer() -->&nbsp;
+ </BODY>
+</HTML>

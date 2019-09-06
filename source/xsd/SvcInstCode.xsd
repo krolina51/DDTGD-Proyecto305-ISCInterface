@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+  <xs:element name="SvcInstCode">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" ref="DebitInst"/>
+        <xs:element minOccurs="0" ref="CreditInst"/>
+        <xs:element minOccurs="0" ref="CrossIndicator"/>
+        <xs:element minOccurs="0" ref="PayType"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="DebitInst" type="xs:string"/>
+  <xs:element name="CreditInst" type="xs:string"/>
+  <xs:element name="CrossIndicator" type="xs:string"/>
+  <xs:element name="PayType" type="xs:string"/>
+</xs:schema>

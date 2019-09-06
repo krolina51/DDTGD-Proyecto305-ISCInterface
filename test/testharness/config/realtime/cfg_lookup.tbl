@@ -1,0 +1,4810 @@
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP Postil[/data]
+[name]code[/name]=[data]0[/data]
+[name]display_name[/name]=[data]TCP/IP (Postilion 1)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP APACS[/data]
+[name]code[/name]=[data]10[/data]
+[name]display_name[/name]=[data]TCP/IP (APACS30)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]ZZZZZZZZZZ[/data]
+[name]code[/name]=[data]100[/data]
+[name]display_name[/name]=[data]Generic[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP INETCO[/data]
+[name]code[/name]=[data]11[/data]
+[name]display_name[/name]=[data]TCP/IP (INETCO)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP VisaNe[/data]
+[name]code[/name]=[data]12[/data]
+[name]display_name[/name]=[data]TCP/IP (VisaNet)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP EtherP[/data]
+[name]code[/name]=[data]13[/data]
+[name]display_name[/name]=[data]TCP/IP (EtherPAD)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP Raw[/data]
+[name]code[/name]=[data]15[/data]
+[name]display_name[/name]=[data]TCP/IP (Raw)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP NCR Te[/data]
+[name]code[/name]=[data]16[/data]
+[name]display_name[/name]=[data]TCP/IP (NCR Telnet)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP RSS[/data]
+[name]code[/name]=[data]17[/data]
+[name]display_name[/name]=[data]TCP/IP (RSS)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP Postil[/data]
+[name]code[/name]=[data]18[/data]
+[name]display_name[/name]=[data]TCP/IP (Postilion 2)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP VISA2[/data]
+[name]code[/name]=[data]19[/data]
+[name]display_name[/name]=[data]TCP/IP (VISA2)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP TNS VI[/data]
+[name]code[/name]=[data]20[/data]
+[name]display_name[/name]=[data]TCP/IP (TNS VISA2)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP REX[/data]
+[name]code[/name]=[data]22[/data]
+[name]display_name[/name]=[data]TCP/IP (REX)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP GE[/data]
+[name]code[/name]=[data]23[/data]
+[name]display_name[/name]=[data]TCP/IP (GE)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]TCP INETCO[/data]
+[name]code[/name]=[data]24[/data]
+[name]display_name[/name]=[data]TCP/IP (INETCO VISA2)[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]Serial[/data]
+[name]code[/name]=[data]25[/data]
+[name]display_name[/name]=[data]Serial[/data]
+
+[name]category[/name]=[data]CommsProtocol[/data]
+[name]sort_key[/name]=[data]UDP[/data]
+[name]code[/name]=[data]6[/data]
+[name]display_name[/name]=[data]UDP/IP[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1000[/data]
+[name]display_name[/name]=[data]Membership sign-up[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1001[/data]
+[name]display_name[/name]=[data]Bills retracted[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1002[/data]
+[name]display_name[/name]=[data]IOU dispense[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1003[/data]
+[name]display_name[/name]=[data]Cash accepted[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1004[/data]
+[name]display_name[/name]=[data]Rounding[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1005[/data]
+[name]display_name[/name]=[data]Fee reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1006[/data]
+[name]display_name[/name]=[data]Change dispense from cash acceptor[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1007[/data]
+[name]display_name[/name]=[data]Change dispense from canister[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1008[/data]
+[name]display_name[/name]=[data]Deposit envelope dispense[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1009[/data]
+[name]display_name[/name]=[data]Deposit with unknown amount[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1160[/data]
+[name]display_name[/name]=[data]Remote key delivery - Public key request - Signature[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1161[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key request - Signature[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1162[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key verification - Signature[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1170[/data]
+[name]display_name[/name]=[data]Remote key delivery - Public key request - Certificate[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1171[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key request - Certificate[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1172[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key verification - Certificate[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1180[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key exchange[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1181[/data]
+[name]display_name[/name]=[data]Remote key delivery - Public key exchange[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1182[/data]
+[name]display_name[/name]=[data]Remote key delivery - Master key update[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2000[/data]
+[name]display_name[/name]=[data]Cash replenishment[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2001[/data]
+[name]display_name[/name]=[data]Depositor cleanout[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2002[/data]
+[name]display_name[/name]=[data]Cash replenishment & depositor cleanout[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2003[/data]
+[name]display_name[/name]=[data]Suspect transaction - Bank saved[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2004[/data]
+[name]display_name[/name]=[data]Suspect transaction - Bank not saved[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2005[/data]
+[name]display_name[/name]=[data]Media totals printed[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2006[/data]
+[name]display_name[/name]=[data]Media totals cleared[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2007[/data]
+[name]display_name[/name]=[data]Suspect transaction - No action taken[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2008[/data]
+[name]display_name[/name]=[data]Declined transaction - Terminal problem[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3000[/data]
+[name]display_name[/name]=[data]Unblock PIN[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3001[/data]
+[name]display_name[/name]=[data]PIN change failure[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3002[/data]
+[name]display_name[/name]=[data]PIN unblock failure[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3010[/data]
+[name]display_name[/name]=[data]EMV cryptogram validation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3011[/data]
+[name]display_name[/name]=[data]EMV transaction result[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3030[/data]
+[name]display_name[/name]=[data]Signature capture[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3100[/data]
+[name]display_name[/name]=[data]Card activation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3101[/data]
+[name]display_name[/name]=[data]Card deactivation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3200[/data]
+[name]display_name[/name]=[data]Statement order[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3201[/data]
+[name]display_name[/name]=[data]Check/cheque book order[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3202[/data]
+[name]display_name[/name]=[data]Stop check/cheque[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3300[/data]
+[name]display_name[/name]=[data]Customer update[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3301[/data]
+[name]display_name[/name]=[data]Account update[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3302[/data]
+[name]display_name[/name]=[data]Card update[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4000[/data]
+[name]display_name[/name]=[data]Fraud alert[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4001[/data]
+[name]display_name[/name]=[data]Suspect transaction[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4002[/data]
+[name]display_name[/name]=[data]Fraud advice[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4100[/data]
+[name]display_name[/name]=[data]Transaction documentation retrieval request[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4101[/data]
+[name]display_name[/name]=[data]Chargeback[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4102[/data]
+[name]display_name[/name]=[data]Chargeback reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4103[/data]
+[name]display_name[/name]=[data]Representment[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4104[/data]
+[name]display_name[/name]=[data]Arbitration chargeback[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4105[/data]
+[name]display_name[/name]=[data]Fee collection[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4106[/data]
+[name]display_name[/name]=[data]Funds disbursement[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4107[/data]
+[name]display_name[/name]=[data]Administration text message[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4108[/data]
+[name]display_name[/name]=[data]Retrieval confirmation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4109[/data]
+[name]display_name[/name]=[data]Rejection[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4110[/data]
+[name]display_name[/name]=[data]Arbitration chargeback reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4111[/data]
+[name]display_name[/name]=[data]Representment reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4112[/data]
+[name]display_name[/name]=[data]Fee collection reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4113[/data]
+[name]display_name[/name]=[data]Funds disbursement reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4114[/data]
+[name]display_name[/name]=[data]Retrieval request reversal[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4200[/data]
+[name]display_name[/name]=[data]Check/cheque image retrieval[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4201[/data]
+[name]display_name[/name]=[data]Deposit receipt image retrieval[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4202[/data]
+[name]display_name[/name]=[data]Statement image retrieval[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6000[/data]
+[name]display_name[/name]=[data]Money order[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6001[/data]
+[name]display_name[/name]=[data]Money transfer[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6002[/data]
+[name]display_name[/name]=[data]Money transfer inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6003[/data]
+[name]display_name[/name]=[data]Check/cheque cash inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6010[/data]
+[name]display_name[/name]=[data]Debit order[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6011[/data]
+[name]display_name[/name]=[data]Debit order inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6012[/data]
+[name]display_name[/name]=[data]Future debit orders inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6100[/data]
+[name]display_name[/name]=[data]Check/cheque deposit with OCR entry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6101[/data]
+[name]display_name[/name]=[data]Check/cheque deposit with manual entry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6102[/data]
+[name]display_name[/name]=[data]Check/cheque deposit with OCR entry - Cash back to follow[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6103[/data]
+[name]display_name[/name]=[data]Check/cheque deposit with manual entry - Cash back to follow[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6110[/data]
+[name]display_name[/name]=[data]Cash deposit with bunch note acceptor[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6200[/data]
+[name]display_name[/name]=[data]Offline funds load[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6201[/data]
+[name]display_name[/name]=[data]Offline funds unload[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6202[/data]
+[name]display_name[/name]=[data]Offline funds account synchronization[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6203[/data]
+[name]display_name[/name]=[data]Non-usage fee[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6204[/data]
+[name]display_name[/name]=[data]Funding account credit[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6300[/data]
+[name]display_name[/name]=[data]Loan activation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6301[/data]
+[name]display_name[/name]=[data]Loan cancellation[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6400[/data]
+[name]display_name[/name]=[data]Prepay[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6401[/data]
+[name]display_name[/name]=[data]Prepay - Anonymous voucher[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6402[/data]
+[name]display_name[/name]=[data]Prepay - Consumer-specific voucher[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6403[/data]
+[name]display_name[/name]=[data]Prepay - Electronic topup[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6404[/data]
+[name]display_name[/name]=[data]Prepay - Anonymous voucher reprint[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6500[/data]
+[name]display_name[/name]=[data]Card activation with deposit verified by operator[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6501[/data]
+[name]display_name[/name]=[data]Deposit verified by operator[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6502[/data]
+[name]display_name[/name]=[data]Card deactivation with cash back[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6600[/data]
+[name]display_name[/name]=[data]Check/cheque guarantee, goods & cash[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6601[/data]
+[name]display_name[/name]=[data]Check/cheque verification, goods & cash[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6700[/data]
+[name]display_name[/name]=[data]Currency conversion lookup inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7000[/data]
+[name]display_name[/name]=[data]Customer verification inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7001[/data]
+[name]display_name[/name]=[data]Customer linked account inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7002[/data]
+[name]display_name[/name]=[data]Customer linked card inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7003[/data]
+[name]display_name[/name]=[data]Customer inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7004[/data]
+[name]display_name[/name]=[data]Card linked account inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7005[/data]
+[name]display_name[/name]=[data]Card inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7006[/data]
+[name]display_name[/name]=[data]Account linked customer inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7007[/data]
+[name]display_name[/name]=[data]Account inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7010[/data]
+[name]display_name[/name]=[data]Statement image list inquiry[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7050[/data]
+[name]display_name[/name]=[data]Fee collection[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7055[/data]
+[name]display_name[/name]=[data]Check/cheque representment[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7060[/data]
+[name]display_name[/name]=[data]Savings bond purchase[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7100[/data]
+[name]display_name[/name]=[data]Payment between accounts held at different institutions[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7101[/data]
+[name]display_name[/name]=[data]Bill payment by payment processor[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7102[/data]
+[name]display_name[/name]=[data]Bill payment by payment processor & check/cheque issued[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7103[/data]
+[name]display_name[/name]=[data]Bill payment by account owners bank[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7104[/data]
+[name]display_name[/name]=[data]Bill payment by account owners bank & check/cheque issued[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7105[/data]
+[name]display_name[/name]=[data]Bill payment by ACH & predefined payee details[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7106[/data]
+[name]display_name[/name]=[data]Bill payment by ACH & user-supplied payee details[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7107[/data]
+[name]display_name[/name]=[data]Tax payment, commercial account owner[/data]
+
+[name]category[/name]=[data]ExtendedTranType[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7108[/data]
+[name]display_name[/name]=[data]Payroll payment, commercial account owner[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AD[/data]
+[name]display_name[/name]=[data]ANDORRA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AE[/data]
+[name]display_name[/name]=[data]UNITED ARAB EMIRATES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AF[/data]
+[name]display_name[/name]=[data]AFGHANISTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AG[/data]
+[name]display_name[/name]=[data]ANTIGUA AND BARBUDA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AI[/data]
+[name]display_name[/name]=[data]ANGUILLA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AL[/data]
+[name]display_name[/name]=[data]ALBANIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AM[/data]
+[name]display_name[/name]=[data]ARMENIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AN[/data]
+[name]display_name[/name]=[data]NETHERLANDS ANTILLES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AO[/data]
+[name]display_name[/name]=[data]ANGOLA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AQ[/data]
+[name]display_name[/name]=[data]ANTARCTICA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AR[/data]
+[name]display_name[/name]=[data]ARGENTINA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AS[/data]
+[name]display_name[/name]=[data]AMERICAN SAMOA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AT[/data]
+[name]display_name[/name]=[data]AUSTRIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AU[/data]
+[name]display_name[/name]=[data]AUSTRALIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AW[/data]
+[name]display_name[/name]=[data]ARUBA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]AZ[/data]
+[name]display_name[/name]=[data]AZERBAIJAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BA[/data]
+[name]display_name[/name]=[data]BOSNIA AND HERZEGOWINA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BB[/data]
+[name]display_name[/name]=[data]BARBADOS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BD[/data]
+[name]display_name[/name]=[data]BANGLADESH[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BE[/data]
+[name]display_name[/name]=[data]BELGIUM[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BF[/data]
+[name]display_name[/name]=[data]BURKINA FASO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BG[/data]
+[name]display_name[/name]=[data]BULGARIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BH[/data]
+[name]display_name[/name]=[data]BAHRAIN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BI[/data]
+[name]display_name[/name]=[data]BURUNDI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BJ[/data]
+[name]display_name[/name]=[data]BENIN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BM[/data]
+[name]display_name[/name]=[data]BERMUDA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BN[/data]
+[name]display_name[/name]=[data]BRUNEI DARUSSALAM[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BO[/data]
+[name]display_name[/name]=[data]BOLIVIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BR[/data]
+[name]display_name[/name]=[data]BRAZIL[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BS[/data]
+[name]display_name[/name]=[data]BAHAMAS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BT[/data]
+[name]display_name[/name]=[data]BHUTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BV[/data]
+[name]display_name[/name]=[data]BOUVET ISLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BW[/data]
+[name]display_name[/name]=[data]BOTSWANA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BY[/data]
+[name]display_name[/name]=[data]BELARUS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]BZ[/data]
+[name]display_name[/name]=[data]BELIZE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CA[/data]
+[name]display_name[/name]=[data]CANADA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CC[/data]
+[name]display_name[/name]=[data]COCOS (KEELING) ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CD[/data]
+[name]display_name[/name]=[data]CONGO, Democratic Republic of (was Zaire)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CF[/data]
+[name]display_name[/name]=[data]CENTRAL AFRICAN REPUBLIC[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CG[/data]
+[name]display_name[/name]=[data]CONGO, People's Republic of[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CH[/data]
+[name]display_name[/name]=[data]SWITZERLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CI[/data]
+[name]display_name[/name]=[data]COTE D'IVOIRE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CK[/data]
+[name]display_name[/name]=[data]COOK ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CL[/data]
+[name]display_name[/name]=[data]CHILE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CM[/data]
+[name]display_name[/name]=[data]CAMEROON[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CN[/data]
+[name]display_name[/name]=[data]CHINA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CO[/data]
+[name]display_name[/name]=[data]COLOMBIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CR[/data]
+[name]display_name[/name]=[data]COSTA RICA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CU[/data]
+[name]display_name[/name]=[data]CUBA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CV[/data]
+[name]display_name[/name]=[data]CAPE VERDE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CX[/data]
+[name]display_name[/name]=[data]CHRISTMAS ISLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CY[/data]
+[name]display_name[/name]=[data]CYPRUS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]CZ[/data]
+[name]display_name[/name]=[data]CZECH REPUBLIC[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DE[/data]
+[name]display_name[/name]=[data]GERMANY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DJ[/data]
+[name]display_name[/name]=[data]DJIBOUTI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DK[/data]
+[name]display_name[/name]=[data]DENMARK[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DM[/data]
+[name]display_name[/name]=[data]DOMINICA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DO[/data]
+[name]display_name[/name]=[data]DOMINICAN REPUBLIC[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]DZ[/data]
+[name]display_name[/name]=[data]ALGERIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]EC[/data]
+[name]display_name[/name]=[data]ECUADOR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]EE[/data]
+[name]display_name[/name]=[data]ESTONIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]EG[/data]
+[name]display_name[/name]=[data]EGYPT[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]EH[/data]
+[name]display_name[/name]=[data]WESTERN SAHARA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ER[/data]
+[name]display_name[/name]=[data]ERITREA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ES[/data]
+[name]display_name[/name]=[data]SPAIN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ET[/data]
+[name]display_name[/name]=[data]ETHIOPIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FI[/data]
+[name]display_name[/name]=[data]FINLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FJ[/data]
+[name]display_name[/name]=[data]FIJI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FK[/data]
+[name]display_name[/name]=[data]FALKLAND ISLANDS (MALVINAS)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FM[/data]
+[name]display_name[/name]=[data]MICRONESIA, FEDERATED STATES OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FO[/data]
+[name]display_name[/name]=[data]FAROE ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FR[/data]
+[name]display_name[/name]=[data]FRANCE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]FX[/data]
+[name]display_name[/name]=[data]FRANCE, METROPOLITAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GA[/data]
+[name]display_name[/name]=[data]GABON[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GB[/data]
+[name]display_name[/name]=[data]UNITED KINGDOM[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GD[/data]
+[name]display_name[/name]=[data]GRENADA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GE[/data]
+[name]display_name[/name]=[data]GEORGIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GF[/data]
+[name]display_name[/name]=[data]FRENCH GUIANA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GH[/data]
+[name]display_name[/name]=[data]GHANA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GI[/data]
+[name]display_name[/name]=[data]GIBRALTAR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GL[/data]
+[name]display_name[/name]=[data]GREENLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GM[/data]
+[name]display_name[/name]=[data]GAMBIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GN[/data]
+[name]display_name[/name]=[data]GUINEA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GP[/data]
+[name]display_name[/name]=[data]GUADELOUPE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GQ[/data]
+[name]display_name[/name]=[data]EQUATORIAL GUINEA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GR[/data]
+[name]display_name[/name]=[data]GREECE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GS[/data]
+[name]display_name[/name]=[data]SOUTH GEORGIA AND THE SOUTH SANDWICH ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GT[/data]
+[name]display_name[/name]=[data]GUATEMALA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GU[/data]
+[name]display_name[/name]=[data]GUAM[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GW[/data]
+[name]display_name[/name]=[data]GUINEA-BISSAU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]GY[/data]
+[name]display_name[/name]=[data]GUYANA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HK[/data]
+[name]display_name[/name]=[data]HONG KONG[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HM[/data]
+[name]display_name[/name]=[data]HEARD AND MC DONALD ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HN[/data]
+[name]display_name[/name]=[data]HONDURAS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HR[/data]
+[name]display_name[/name]=[data]CROATIA (local name: Hrvatska)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HT[/data]
+[name]display_name[/name]=[data]HAITI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]HU[/data]
+[name]display_name[/name]=[data]HUNGARY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ID[/data]
+[name]display_name[/name]=[data]INDONESIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IE[/data]
+[name]display_name[/name]=[data]IRELAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IL[/data]
+[name]display_name[/name]=[data]ISRAEL[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IN[/data]
+[name]display_name[/name]=[data]INDIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IO[/data]
+[name]display_name[/name]=[data]BRITISH INDIAN OCEAN TERRITORY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IQ[/data]
+[name]display_name[/name]=[data]IRAQ[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IR[/data]
+[name]display_name[/name]=[data]IRAN (ISLAMIC REPUBLIC OF)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IS[/data]
+[name]display_name[/name]=[data]ICELAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]IT[/data]
+[name]display_name[/name]=[data]ITALY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]JM[/data]
+[name]display_name[/name]=[data]JAMAICA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]JO[/data]
+[name]display_name[/name]=[data]JORDAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]JP[/data]
+[name]display_name[/name]=[data]JAPAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KE[/data]
+[name]display_name[/name]=[data]KENYA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KG[/data]
+[name]display_name[/name]=[data]KYRGYZSTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KH[/data]
+[name]display_name[/name]=[data]CAMBODIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KI[/data]
+[name]display_name[/name]=[data]KIRIBATI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KM[/data]
+[name]display_name[/name]=[data]COMOROS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KN[/data]
+[name]display_name[/name]=[data]SAINT KITTS AND NEVIS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KP[/data]
+[name]display_name[/name]=[data]KOREA, DEMOCRATIC PEOPLE'S REPUBLIC OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KR[/data]
+[name]display_name[/name]=[data]KOREA, REPUBLIC OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KW[/data]
+[name]display_name[/name]=[data]KUWAIT[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KY[/data]
+[name]display_name[/name]=[data]CAYMAN ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]KZ[/data]
+[name]display_name[/name]=[data]KAZAKHSTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LA[/data]
+[name]display_name[/name]=[data]LAO PEOPLE'S DEMOCRATIC REPUBLIC[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LB[/data]
+[name]display_name[/name]=[data]LEBANON[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LC[/data]
+[name]display_name[/name]=[data]SAINT LUCIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LI[/data]
+[name]display_name[/name]=[data]LIECHTENSTEIN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LK[/data]
+[name]display_name[/name]=[data]SRI LANKA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LR[/data]
+[name]display_name[/name]=[data]LIBERIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LS[/data]
+[name]display_name[/name]=[data]LESOTHO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LT[/data]
+[name]display_name[/name]=[data]LITHUANIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LU[/data]
+[name]display_name[/name]=[data]LUXEMBOURG[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LV[/data]
+[name]display_name[/name]=[data]LATVIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]LY[/data]
+[name]display_name[/name]=[data]LIBYAN ARAB JAMAHIRIYA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MA[/data]
+[name]display_name[/name]=[data]MOROCCO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MC[/data]
+[name]display_name[/name]=[data]MONACO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MD[/data]
+[name]display_name[/name]=[data]MOLDOVA, REPUBLIC OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MG[/data]
+[name]display_name[/name]=[data]MADAGASCAR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MH[/data]
+[name]display_name[/name]=[data]MARSHALL ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MK[/data]
+[name]display_name[/name]=[data]MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ML[/data]
+[name]display_name[/name]=[data]MALI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MM[/data]
+[name]display_name[/name]=[data]MYANMAR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MN[/data]
+[name]display_name[/name]=[data]MONGOLIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MO[/data]
+[name]display_name[/name]=[data]MACAU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MP[/data]
+[name]display_name[/name]=[data]NORTHERN MARIANA ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MQ[/data]
+[name]display_name[/name]=[data]MARTINIQUE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MR[/data]
+[name]display_name[/name]=[data]MAURITANIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MS[/data]
+[name]display_name[/name]=[data]MONTSERRAT[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MT[/data]
+[name]display_name[/name]=[data]MALTA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MU[/data]
+[name]display_name[/name]=[data]MAURITIUS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MV[/data]
+[name]display_name[/name]=[data]MALDIVES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MW[/data]
+[name]display_name[/name]=[data]MALAWI[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MX[/data]
+[name]display_name[/name]=[data]MEXICO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MY[/data]
+[name]display_name[/name]=[data]MALAYSIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]MZ[/data]
+[name]display_name[/name]=[data]MOZAMBIQUE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NA[/data]
+[name]display_name[/name]=[data]NAMIBIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NC[/data]
+[name]display_name[/name]=[data]NEW CALEDONIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NE[/data]
+[name]display_name[/name]=[data]NIGER[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NF[/data]
+[name]display_name[/name]=[data]NORFOLK ISLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NG[/data]
+[name]display_name[/name]=[data]NIGERIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NI[/data]
+[name]display_name[/name]=[data]NICARAGUA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NL[/data]
+[name]display_name[/name]=[data]NETHERLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NO[/data]
+[name]display_name[/name]=[data]NORWAY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NP[/data]
+[name]display_name[/name]=[data]NEPAL[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NR[/data]
+[name]display_name[/name]=[data]NAURU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NU[/data]
+[name]display_name[/name]=[data]NIUE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]NZ[/data]
+[name]display_name[/name]=[data]NEW ZEALAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]OM[/data]
+[name]display_name[/name]=[data]OMAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PA[/data]
+[name]display_name[/name]=[data]PANAMA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PE[/data]
+[name]display_name[/name]=[data]PERU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PF[/data]
+[name]display_name[/name]=[data]FRENCH POLYNESIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PG[/data]
+[name]display_name[/name]=[data]PAPUA NEW GUINEA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PH[/data]
+[name]display_name[/name]=[data]PHILIPPINES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PK[/data]
+[name]display_name[/name]=[data]PAKISTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PL[/data]
+[name]display_name[/name]=[data]POLAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PM[/data]
+[name]display_name[/name]=[data]ST. PIERRE AND MIQUELON[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PN[/data]
+[name]display_name[/name]=[data]PITCAIRN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PR[/data]
+[name]display_name[/name]=[data]PUERTO RICO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PS[/data]
+[name]display_name[/name]=[data]PALESTINIAN TERRITORY, Occupied[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PT[/data]
+[name]display_name[/name]=[data]PORTUGAL[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PW[/data]
+[name]display_name[/name]=[data]PALAU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]PY[/data]
+[name]display_name[/name]=[data]PARAGUAY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]QA[/data]
+[name]display_name[/name]=[data]QATAR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]RE[/data]
+[name]display_name[/name]=[data]REUNION[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]RO[/data]
+[name]display_name[/name]=[data]ROMANIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]RU[/data]
+[name]display_name[/name]=[data]RUSSIAN FEDERATION[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]RW[/data]
+[name]display_name[/name]=[data]RWANDA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SA[/data]
+[name]display_name[/name]=[data]SAUDI ARABIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SB[/data]
+[name]display_name[/name]=[data]SOLOMON ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SC[/data]
+[name]display_name[/name]=[data]SEYCHELLES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SD[/data]
+[name]display_name[/name]=[data]SUDAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SE[/data]
+[name]display_name[/name]=[data]SWEDEN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SG[/data]
+[name]display_name[/name]=[data]SINGAPORE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SH[/data]
+[name]display_name[/name]=[data]ST. HELENA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SI[/data]
+[name]display_name[/name]=[data]SLOVENIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SJ[/data]
+[name]display_name[/name]=[data]SVALBARD AND JAN MAYEN ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SK[/data]
+[name]display_name[/name]=[data]SLOVAKIA (Slovak Republic)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SL[/data]
+[name]display_name[/name]=[data]SIERRA LEONE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SM[/data]
+[name]display_name[/name]=[data]SAN MARINO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SN[/data]
+[name]display_name[/name]=[data]SENEGAL[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SO[/data]
+[name]display_name[/name]=[data]SOMALIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SR[/data]
+[name]display_name[/name]=[data]SURINAME[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ST[/data]
+[name]display_name[/name]=[data]SAO TOME AND PRINCIPE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SV[/data]
+[name]display_name[/name]=[data]EL SALVADOR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SY[/data]
+[name]display_name[/name]=[data]SYRIAN ARAB REPUBLIC[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]SZ[/data]
+[name]display_name[/name]=[data]SWAZILAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TC[/data]
+[name]display_name[/name]=[data]TURKS AND CAICOS ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TD[/data]
+[name]display_name[/name]=[data]CHAD[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TF[/data]
+[name]display_name[/name]=[data]FRENCH SOUTHERN TERRITORIES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TG[/data]
+[name]display_name[/name]=[data]TOGO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TH[/data]
+[name]display_name[/name]=[data]THAILAND[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TJ[/data]
+[name]display_name[/name]=[data]TAJIKISTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TK[/data]
+[name]display_name[/name]=[data]TOKELAU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TL[/data]
+[name]display_name[/name]=[data]EAST TIMOR[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TM[/data]
+[name]display_name[/name]=[data]TURKMENISTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TN[/data]
+[name]display_name[/name]=[data]TUNISIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TO[/data]
+[name]display_name[/name]=[data]TONGA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TR[/data]
+[name]display_name[/name]=[data]TURKEY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TT[/data]
+[name]display_name[/name]=[data]TRINIDAD AND TOBAGO[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TV[/data]
+[name]display_name[/name]=[data]TUVALU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TW[/data]
+[name]display_name[/name]=[data]TAIWAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]TZ[/data]
+[name]display_name[/name]=[data]TANZANIA, UNITED REPUBLIC OF[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]UA[/data]
+[name]display_name[/name]=[data]UKRAINE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]UG[/data]
+[name]display_name[/name]=[data]UGANDA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]UM[/data]
+[name]display_name[/name]=[data]UNITED STATES MINOR OUTLYING ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]US[/data]
+[name]display_name[/name]=[data]UNITED STATES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]UY[/data]
+[name]display_name[/name]=[data]URUGUAY[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]UZ[/data]
+[name]display_name[/name]=[data]UZBEKISTAN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VA[/data]
+[name]display_name[/name]=[data]VATICAN CITY STATE (HOLY SEE)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VC[/data]
+[name]display_name[/name]=[data]SAINT VINCENT AND THE GRENADINES[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VE[/data]
+[name]display_name[/name]=[data]VENEZUELA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VG[/data]
+[name]display_name[/name]=[data]VIRGIN ISLANDS (BRITISH)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VI[/data]
+[name]display_name[/name]=[data]VIRGIN ISLANDS (U.S.)[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VN[/data]
+[name]display_name[/name]=[data]VIET NAM[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]VU[/data]
+[name]display_name[/name]=[data]VANUATU[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]WF[/data]
+[name]display_name[/name]=[data]WALLIS AND FUTUNA ISLANDS[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]WS[/data]
+[name]display_name[/name]=[data]SAMOA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]YE[/data]
+[name]display_name[/name]=[data]YEMEN[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]YT[/data]
+[name]display_name[/name]=[data]MAYOTTE[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]YU[/data]
+[name]display_name[/name]=[data]YUGOSLAVIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ZA[/data]
+[name]display_name[/name]=[data]SOUTH AFRICA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ZM[/data]
+[name]display_name[/name]=[data]ZAMBIA[/data]
+
+[name]category[/name]=[data]ISOCountryCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ZW[/data]
+[name]display_name[/name]=[data]ZIMBABWE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]af[/data]
+[name]display_name[/name]=[data]AFRIKAANS[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ar[/data]
+[name]display_name[/name]=[data]ARABIC[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]as[/data]
+[name]display_name[/name]=[data]ASSAMESE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]az[/data]
+[name]display_name[/name]=[data]AZERBAIJANI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]be[/data]
+[name]display_name[/name]=[data]BYELORUSSIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]bg[/data]
+[name]display_name[/name]=[data]BULGARIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]bn[/data]
+[name]display_name[/name]=[data]BENGALI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ca[/data]
+[name]display_name[/name]=[data]CATALAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]cs[/data]
+[name]display_name[/name]=[data]CZECH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]da[/data]
+[name]display_name[/name]=[data]DANISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]de[/data]
+[name]display_name[/name]=[data]GERMAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]el[/data]
+[name]display_name[/name]=[data]GREEK[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]en[/data]
+[name]display_name[/name]=[data]ENGLISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]es[/data]
+[name]display_name[/name]=[data]SPANISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]et[/data]
+[name]display_name[/name]=[data]ESTONIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]eu[/data]
+[name]display_name[/name]=[data]BASQUE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]fi[/data]
+[name]display_name[/name]=[data]FINNISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]fo[/data]
+[name]display_name[/name]=[data]FAROESE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]fr[/data]
+[name]display_name[/name]=[data]FRENCH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]gu[/data]
+[name]display_name[/name]=[data]GUJARATI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]he[/data]
+[name]display_name[/name]=[data]HEBREW[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]hi[/data]
+[name]display_name[/name]=[data]HINDI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]hr[/data]
+[name]display_name[/name]=[data]CROATIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]hu[/data]
+[name]display_name[/name]=[data]HUNGARIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]hy[/data]
+[name]display_name[/name]=[data]ARMENIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]in[/data]
+[name]display_name[/name]=[data]INDONESIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]is[/data]
+[name]display_name[/name]=[data]ICELANDIC[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]it[/data]
+[name]display_name[/name]=[data]ITALIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]iw[/data]
+[name]display_name[/name]=[data]HEBREW[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ja[/data]
+[name]display_name[/name]=[data]JAPANESE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ka[/data]
+[name]display_name[/name]=[data]GEORGIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]kk[/data]
+[name]display_name[/name]=[data]KAZAKH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]kn[/data]
+[name]display_name[/name]=[data]KANNADA[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ko[/data]
+[name]display_name[/name]=[data]KOREAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ks[/data]
+[name]display_name[/name]=[data]KASHMIRI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]lt[/data]
+[name]display_name[/name]=[data]LITHUANIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]lv[/data]
+[name]display_name[/name]=[data]LATVIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]mk[/data]
+[name]display_name[/name]=[data]MACEDONIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ml[/data]
+[name]display_name[/name]=[data]MALAYALAM[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]mr[/data]
+[name]display_name[/name]=[data]MARATHI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ms[/data]
+[name]display_name[/name]=[data]MALAY[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ne[/data]
+[name]display_name[/name]=[data]NEPALI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]nl[/data]
+[name]display_name[/name]=[data]DUTCH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]no[/data]
+[name]display_name[/name]=[data]NORWEGIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]or[/data]
+[name]display_name[/name]=[data]ORIYA[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]pa[/data]
+[name]display_name[/name]=[data]PUNJABI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]pl[/data]
+[name]display_name[/name]=[data]POLISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]pt[/data]
+[name]display_name[/name]=[data]PORTUGUESE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ro[/data]
+[name]display_name[/name]=[data]ROMANIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ru[/data]
+[name]display_name[/name]=[data]RUSSIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sa[/data]
+[name]display_name[/name]=[data]SANSKRIT[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sd[/data]
+[name]display_name[/name]=[data]SINDHI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sh[/data]
+[name]display_name[/name]=[data]SERBO-CROATIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sk[/data]
+[name]display_name[/name]=[data]SLOVAK[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sl[/data]
+[name]display_name[/name]=[data]SLOVENIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sq[/data]
+[name]display_name[/name]=[data]ALBANIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sr[/data]
+[name]display_name[/name]=[data]SERBIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sv[/data]
+[name]display_name[/name]=[data]SWEDISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]sw[/data]
+[name]display_name[/name]=[data]SWAHILI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ta[/data]
+[name]display_name[/name]=[data]TAMIL[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]te[/data]
+[name]display_name[/name]=[data]TELUGU[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]th[/data]
+[name]display_name[/name]=[data]THAI[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]tr[/data]
+[name]display_name[/name]=[data]TURKISH[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]tt[/data]
+[name]display_name[/name]=[data]TATAR[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]uk[/data]
+[name]display_name[/name]=[data]UKRAINIAN[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]ur[/data]
+[name]display_name[/name]=[data]URDU[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]uz[/data]
+[name]display_name[/name]=[data]UZBEK[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]vi[/data]
+[name]display_name[/name]=[data]VIETNAMESE[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]yr[/data]
+[name]display_name[/name]=[data]HEBREW[/data]
+
+[name]category[/name]=[data]ISOLanguageCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]zh[/data]
+[name]display_name[/name]=[data]CHINESE[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Afrikaans [/data]
+[name]code[/name]=[data]af_ZA[/data]
+[name]display_name[/name]=[data]Afrikaans (South Africa)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Un[/data]
+[name]code[/name]=[data]ar_AE[/data]
+[name]display_name[/name]=[data]Arabic (United Arab Emirates)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Ba[/data]
+[name]code[/name]=[data]ar_BH[/data]
+[name]display_name[/name]=[data]Arabic (Bahrain)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Al[/data]
+[name]code[/name]=[data]ar_DZ[/data]
+[name]display_name[/name]=[data]Arabic (Algeria)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Eg[/data]
+[name]code[/name]=[data]ar_EG[/data]
+[name]display_name[/name]=[data]Arabic (Egypt)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Ir[/data]
+[name]code[/name]=[data]ar_IQ[/data]
+[name]display_name[/name]=[data]Arabic (Iraq)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Jo[/data]
+[name]code[/name]=[data]ar_JO[/data]
+[name]display_name[/name]=[data]Arabic (Jordan)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Ku[/data]
+[name]code[/name]=[data]ar_KW[/data]
+[name]display_name[/name]=[data]Arabic (Kuwait)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Le[/data]
+[name]code[/name]=[data]ar_LB[/data]
+[name]display_name[/name]=[data]Arabic (Lebanon)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Li[/data]
+[name]code[/name]=[data]ar_LY[/data]
+[name]display_name[/name]=[data]Arabic (Libya)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Mo[/data]
+[name]code[/name]=[data]ar_MA[/data]
+[name]display_name[/name]=[data]Arabic (Morocco)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Om[/data]
+[name]code[/name]=[data]ar_OM[/data]
+[name]display_name[/name]=[data]Arabic (Oman)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Qa[/data]
+[name]code[/name]=[data]ar_QA[/data]
+[name]display_name[/name]=[data]Arabic (Qatar)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Sa[/data]
+[name]code[/name]=[data]ar_SA[/data]
+[name]display_name[/name]=[data]Arabic (Saudi Arabia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Su[/data]
+[name]code[/name]=[data]ar_SD[/data]
+[name]display_name[/name]=[data]Arabic (Sudan)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Sy[/data]
+[name]code[/name]=[data]ar_SY[/data]
+[name]display_name[/name]=[data]Arabic (Syria)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Tu[/data]
+[name]code[/name]=[data]ar_TN[/data]
+[name]display_name[/name]=[data]Arabic (Tunisia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Arabic (Ye[/data]
+[name]code[/name]=[data]ar_YE[/data]
+[name]display_name[/name]=[data]Arabic (Yemen)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Byelorussi[/data]
+[name]code[/name]=[data]be_BY[/data]
+[name]display_name[/name]=[data]Byelorussian (Belarus)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Bulgarian [/data]
+[name]code[/name]=[data]bg_BG[/data]
+[name]display_name[/name]=[data]Bulgarian (Bulgaria)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Catalan (S[/data]
+[name]code[/name]=[data]ca_ES[/data]
+[name]display_name[/name]=[data]Catalan (Spain)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Czech (Cze[/data]
+[name]code[/name]=[data]cs_CZ[/data]
+[name]display_name[/name]=[data]Czech (Czech Republic)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Danish (De[/data]
+[name]code[/name]=[data]da_DK[/data]
+[name]display_name[/name]=[data]Danish (Denmark)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]German (Au[/data]
+[name]code[/name]=[data]de_AT[/data]
+[name]display_name[/name]=[data]German (Austria)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]German (Sw[/data]
+[name]code[/name]=[data]de_CH[/data]
+[name]display_name[/name]=[data]German (Switzerland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]German (Ge[/data]
+[name]code[/name]=[data]de_DE[/data]
+[name]display_name[/name]=[data]German (Germany)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]German (Lu[/data]
+[name]code[/name]=[data]de_LU[/data]
+[name]display_name[/name]=[data]German (Luxembourg)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Greek (Gre[/data]
+[name]code[/name]=[data]el_GR[/data]
+[name]display_name[/name]=[data]Greek (Greece)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (A[/data]
+[name]code[/name]=[data]en_AU[/data]
+[name]display_name[/name]=[data]English (Australia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (C[/data]
+[name]code[/name]=[data]en_CA[/data]
+[name]display_name[/name]=[data]English (Canada)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (U[/data]
+[name]code[/name]=[data]en_GB[/data]
+[name]display_name[/name]=[data]English (United Kingdom)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (I[/data]
+[name]code[/name]=[data]en_IE[/data]
+[name]display_name[/name]=[data]English (Ireland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (N[/data]
+[name]code[/name]=[data]en_NZ[/data]
+[name]display_name[/name]=[data]English (New Zealand)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (U[/data]
+[name]code[/name]=[data]en_US[/data]
+[name]display_name[/name]=[data]English (United States)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]English (S[/data]
+[name]code[/name]=[data]en_ZA[/data]
+[name]display_name[/name]=[data]English (South Africa)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (A[/data]
+[name]code[/name]=[data]es_AR[/data]
+[name]display_name[/name]=[data]Spanish (Argentina)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (B[/data]
+[name]code[/name]=[data]es_BO[/data]
+[name]display_name[/name]=[data]Spanish (Bolivia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (C[/data]
+[name]code[/name]=[data]es_CL[/data]
+[name]display_name[/name]=[data]Spanish (Chile)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (C[/data]
+[name]code[/name]=[data]es_CO[/data]
+[name]display_name[/name]=[data]Spanish (Colombia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (C[/data]
+[name]code[/name]=[data]es_CR[/data]
+[name]display_name[/name]=[data]Spanish (Costa Rica)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (D[/data]
+[name]code[/name]=[data]es_DO[/data]
+[name]display_name[/name]=[data]Spanish (Dominican Republic)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (E[/data]
+[name]code[/name]=[data]es_EC[/data]
+[name]display_name[/name]=[data]Spanish (Ecuador)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (S[/data]
+[name]code[/name]=[data]es_ES[/data]
+[name]display_name[/name]=[data]Spanish (Spain)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (G[/data]
+[name]code[/name]=[data]es_GT[/data]
+[name]display_name[/name]=[data]Spanish (Guatemala)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (H[/data]
+[name]code[/name]=[data]es_HN[/data]
+[name]display_name[/name]=[data]Spanish (Honduras)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (M[/data]
+[name]code[/name]=[data]es_MX[/data]
+[name]display_name[/name]=[data]Spanish (Mexico)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (N[/data]
+[name]code[/name]=[data]es_NI[/data]
+[name]display_name[/name]=[data]Spanish (Nicaragua)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (P[/data]
+[name]code[/name]=[data]es_PA[/data]
+[name]display_name[/name]=[data]Spanish (Panama)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (P[/data]
+[name]code[/name]=[data]es_PE[/data]
+[name]display_name[/name]=[data]Spanish (Peru)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (P[/data]
+[name]code[/name]=[data]es_PR[/data]
+[name]display_name[/name]=[data]Spanish (Puerto Rico)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (P[/data]
+[name]code[/name]=[data]es_PY[/data]
+[name]display_name[/name]=[data]Spanish (Paraguay)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (E[/data]
+[name]code[/name]=[data]es_SV[/data]
+[name]display_name[/name]=[data]Spanish (El Salvador)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (U[/data]
+[name]code[/name]=[data]es_UY[/data]
+[name]display_name[/name]=[data]Spanish (Uruguay)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Spanish (V[/data]
+[name]code[/name]=[data]es_VE[/data]
+[name]display_name[/name]=[data]Spanish (Venezuela)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Estonian ([/data]
+[name]code[/name]=[data]et_EE[/data]
+[name]display_name[/name]=[data]Estonian (Estonia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Finnish (F[/data]
+[name]code[/name]=[data]fi_FI[/data]
+[name]display_name[/name]=[data]Finnish (Finland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]French (Be[/data]
+[name]code[/name]=[data]fr_BE[/data]
+[name]display_name[/name]=[data]French (Belgium)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]French (Ca[/data]
+[name]code[/name]=[data]fr_CA[/data]
+[name]display_name[/name]=[data]French (Canada)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]French (Sw[/data]
+[name]code[/name]=[data]fr_CH[/data]
+[name]display_name[/name]=[data]French (Switzerland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]French (Fr[/data]
+[name]code[/name]=[data]fr_FR[/data]
+[name]display_name[/name]=[data]French (France)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]French (Lu[/data]
+[name]code[/name]=[data]fr_LU[/data]
+[name]display_name[/name]=[data]French (Luxembourg)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Croatian ([/data]
+[name]code[/name]=[data]hr_HR[/data]
+[name]display_name[/name]=[data]Croatian (Croatia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Hungarian [/data]
+[name]code[/name]=[data]hu_HU[/data]
+[name]display_name[/name]=[data]Hungarian (Hungary)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Icelandic [/data]
+[name]code[/name]=[data]is_IS[/data]
+[name]display_name[/name]=[data]Icelandic (Iceland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Italian (S[/data]
+[name]code[/name]=[data]it_CH[/data]
+[name]display_name[/name]=[data]Italian (Switzerland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Italian (I[/data]
+[name]code[/name]=[data]it_IT[/data]
+[name]display_name[/name]=[data]Italian (Italy)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Hebrew (Is[/data]
+[name]code[/name]=[data]iw_IL[/data]
+[name]display_name[/name]=[data]Hebrew (Israel)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Japanese ([/data]
+[name]code[/name]=[data]ja_JP[/data]
+[name]display_name[/name]=[data]Japanese (Japan)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Korean (So[/data]
+[name]code[/name]=[data]ko_KR[/data]
+[name]display_name[/name]=[data]Korean (South Korea)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Lithuanian[/data]
+[name]code[/name]=[data]lt_LT[/data]
+[name]display_name[/name]=[data]Lithuanian (Lithuania)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Latvian (L[/data]
+[name]code[/name]=[data]lv_LV[/data]
+[name]display_name[/name]=[data]Latvian (Latvia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Macedonian[/data]
+[name]code[/name]=[data]mk_MK[/data]
+[name]display_name[/name]=[data]Macedonian (Macedonia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Dutch (Bel[/data]
+[name]code[/name]=[data]nl_BE[/data]
+[name]display_name[/name]=[data]Dutch (Belgium)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Dutch (Net[/data]
+[name]code[/name]=[data]nl_NL[/data]
+[name]display_name[/name]=[data]Dutch (Netherlands)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Norwegian [/data]
+[name]code[/name]=[data]no_NO[/data]
+[name]display_name[/name]=[data]Norwegian (Norway)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Polish (Po[/data]
+[name]code[/name]=[data]pl_PL[/data]
+[name]display_name[/name]=[data]Polish (Poland)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Portuguese[/data]
+[name]code[/name]=[data]pt_BR[/data]
+[name]display_name[/name]=[data]Portuguese (Brazil)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Portuguese[/data]
+[name]code[/name]=[data]pt_PT[/data]
+[name]display_name[/name]=[data]Portuguese (Portugal)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Romanian ([/data]
+[name]code[/name]=[data]ro_RO[/data]
+[name]display_name[/name]=[data]Romanian (Romania)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Russian (R[/data]
+[name]code[/name]=[data]ru_RU[/data]
+[name]display_name[/name]=[data]Russian (Russia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Serbo-Croa[/data]
+[name]code[/name]=[data]sh_YU[/data]
+[name]display_name[/name]=[data]Serbo-Croatian (Yugoslavia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Slovak (Sl[/data]
+[name]code[/name]=[data]sk_SK[/data]
+[name]display_name[/name]=[data]Slovak (Slovakia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Slovenian [/data]
+[name]code[/name]=[data]sl_SI[/data]
+[name]display_name[/name]=[data]Slovenian (Slovenia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Albanian ([/data]
+[name]code[/name]=[data]sq_AL[/data]
+[name]display_name[/name]=[data]Albanian (Albania)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Serbian (Y[/data]
+[name]code[/name]=[data]sr_YU[/data]
+[name]display_name[/name]=[data]Serbian (Yugoslavia)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Swedish (S[/data]
+[name]code[/name]=[data]sv_SE[/data]
+[name]display_name[/name]=[data]Swedish (Sweden)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Turkish (T[/data]
+[name]code[/name]=[data]tr_TR[/data]
+[name]display_name[/name]=[data]Turkish (Turkey)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Ukrainian [/data]
+[name]code[/name]=[data]uk_UA[/data]
+[name]display_name[/name]=[data]Ukrainian (Ukraine)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Chinese (C[/data]
+[name]code[/name]=[data]zh_CN[/data]
+[name]display_name[/name]=[data]Chinese (China)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Chinese (H[/data]
+[name]code[/name]=[data]zh_HK[/data]
+[name]display_name[/name]=[data]Chinese (Hong Kong)[/data]
+
+[name]category[/name]=[data]Locale[/data]
+[name]sort_key[/name]=[data]Chinese (T[/data]
+[name]code[/name]=[data]zh_TW[/data]
+[name]display_name[/name]=[data]Chinese (Taiwan)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]0742[/data]
+[name]display_name[/name]=[data]Veterinary Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]0763[/data]
+[name]display_name[/name]=[data]Agricultural Cooperatives[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]0780[/data]
+[name]display_name[/name]=[data]Horticultural Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1520[/data]
+[name]display_name[/name]=[data]General Contractors.Residential and Commercial[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1711[/data]
+[name]display_name[/name]=[data]Air Conditioning Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1731[/data]
+[name]display_name[/name]=[data]Electrical Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1740[/data]
+[name]display_name[/name]=[data]Stonework, Tile Setting, Insulation Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1750[/data]
+[name]display_name[/name]=[data]Carpentry Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1761[/data]
+[name]display_name[/name]=[data]Roofing and Siding Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1771[/data]
+[name]display_name[/name]=[data]Concrete Work Contractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1799[/data]
+[name]display_name[/name]=[data]Contractors, Special Trade[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2741[/data]
+[name]display_name[/name]=[data]Miscellaneous Publishing and Printing[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2791[/data]
+[name]display_name[/name]=[data]Plate Making, Typesetting, and Related Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]2842[/data]
+[name]display_name[/name]=[data]Sanitation,Polishing & Specialty Cleaning Preparations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3554[/data]
+[name]display_name[/name]=[data]Pinehurst Resort[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3556[/data]
+[name]display_name[/name]=[data]Barton Creek Resort[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4011[/data]
+[name]display_name[/name]=[data]Railroads.Freight[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4111[/data]
+[name]display_name[/name]=[data]Transportation.Suburban, Local Passenger, Ferries[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4112[/data]
+[name]display_name[/name]=[data]Passenger Railways[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4119[/data]
+[name]display_name[/name]=[data]Ambulance Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4121[/data]
+[name]display_name[/name]=[data]Limousines[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4131[/data]
+[name]display_name[/name]=[data]Bus Lines[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4214[/data]
+[name]display_name[/name]=[data]Motor Freight,Trucking,Moving & Storage Companies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4215[/data]
+[name]display_name[/name]=[data]Courier Services.Air and Ground, Freight Forwarders[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4225[/data]
+[name]display_name[/name]=[data]Warehousing, Public.Refrigerated,Household,Farm Goods[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4411[/data]
+[name]display_name[/name]=[data]Cruise Lines[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4457[/data]
+[name]display_name[/name]=[data]Boat Leases and Boat Rentals[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4468[/data]
+[name]display_name[/name]=[data]Marinas, Marine Service/Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4511[/data]
+[name]display_name[/name]=[data]Air Carriers, Airlines [/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4582[/data]
+[name]display_name[/name]=[data]Airports, Airport Terminals, Flying Fields[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4722[/data]
+[name]display_name[/name]=[data]Travel Agencies and Tour Operators[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4723[/data]
+[name]display_name[/name]=[data]Package Tour Operators (Germany Only)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4784[/data]
+[name]display_name[/name]=[data]Bridge and Road Fees, Tolls[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4789[/data]
+[name]display_name[/name]=[data]Transportation Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4812[/data]
+[name]display_name[/name]=[data]Telecommunication Equipment Including Telephone Sales[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4813[/data]
+[name]display_name[/name]=[data]Key-entry Telecom Merchant[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4814[/data]
+[name]display_name[/name]=[data]Calls Through Use of Magnetic Stripe.Reading Telephones[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4816[/data]
+[name]display_name[/name]=[data]Computer Network/Information Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4821[/data]
+[name]display_name[/name]=[data]Telegraph Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4829[/data]
+[name]display_name[/name]=[data]Money Transfer.Merchant[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4899[/data]
+[name]display_name[/name]=[data]Cable, Satellite & Other Pay Television, Radio Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4900[/data]
+[name]display_name[/name]=[data]Electric.Utilities[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5013[/data]
+[name]display_name[/name]=[data]Motor Vehicle Supplies and New Parts[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5021[/data]
+[name]display_name[/name]=[data]Commercial Furniture[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5039[/data]
+[name]display_name[/name]=[data]Construction Materials[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5044[/data]
+[name]display_name[/name]=[data]Office, Photographic, Photocopy, & Microfilm Equipment[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5045[/data]
+[name]display_name[/name]=[data]Computers, Computer Peripheral Equipment[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5046[/data]
+[name]display_name[/name]=[data]Commercial Equipment[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5047[/data]
+[name]display_name[/name]=[data]Dental Equipment and Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5051[/data]
+[name]display_name[/name]=[data]Metal Service Centers and Offices[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5065[/data]
+[name]display_name[/name]=[data]Electrical Parts and Equipment[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5072[/data]
+[name]display_name[/name]=[data]Hardware Equipment and Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5074[/data]
+[name]display_name[/name]=[data]Heating Equipment[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5085[/data]
+[name]display_name[/name]=[data]Industrial Supplies.[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5094[/data]
+[name]display_name[/name]=[data]Precious Stones and Metals[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5099[/data]
+[name]display_name[/name]=[data]Durable Goods[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5111[/data]
+[name]display_name[/name]=[data]Office Supplies, Printing and Writing Paper, Stationery[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5122[/data]
+[name]display_name[/name]=[data]Drugs, Drug Proprietaries, and Druggists Sundries[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5131[/data]
+[name]display_name[/name]=[data]Notions, Piece Goods, and Other Dry Goods[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5137[/data]
+[name]display_name[/name]=[data]Childrens, Mens, Women Uniforms and Commercial Clothing[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5139[/data]
+[name]display_name[/name]=[data]Commercial Footwear[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5169[/data]
+[name]display_name[/name]=[data]Chemicals and Allied Products[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5172[/data]
+[name]display_name[/name]=[data]Petroleum and Petroleum Products[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5192[/data]
+[name]display_name[/name]=[data]Books, Newspapers, and Periodicals[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5193[/data]
+[name]display_name[/name]=[data]Florists Supplies, Nursery Stock, and Flowers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5198[/data]
+[name]display_name[/name]=[data]Paints and Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5199[/data]
+[name]display_name[/name]=[data]Nondurable Goods[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5200[/data]
+[name]display_name[/name]=[data]Home Supply Warehouse Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5211[/data]
+[name]display_name[/name]=[data]Building Materials Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5231[/data]
+[name]display_name[/name]=[data]Glass Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5251[/data]
+[name]display_name[/name]=[data]Hardware Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5261[/data]
+[name]display_name[/name]=[data]Garden Supply Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5271[/data]
+[name]display_name[/name]=[data]Mobile Home Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5300[/data]
+[name]display_name[/name]=[data]Wholesale Clubs[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5309[/data]
+[name]display_name[/name]=[data]Duty Free Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5310[/data]
+[name]display_name[/name]=[data]Discount Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5311[/data]
+[name]display_name[/name]=[data]Department Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5331[/data]
+[name]display_name[/name]=[data]Variety Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5399[/data]
+[name]display_name[/name]=[data]Miscellaneous General Merchandise Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5411[/data]
+[name]display_name[/name]=[data]Grocery Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5422[/data]
+[name]display_name[/name]=[data]Freezer, Locker Meat Provisioners[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5441[/data]
+[name]display_name[/name]=[data]Candy Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5451[/data]
+[name]display_name[/name]=[data]Dairy Products Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5462[/data]
+[name]display_name[/name]=[data]Bakeries[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5499[/data]
+[name]display_name[/name]=[data]Convenience, Specialty, Miscellaneous Food Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5511[/data]
+[name]display_name[/name]=[data]Truck,Auto Dealers.Sales,Service,Repairs,Parts,Leasing[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5521[/data]
+[name]display_name[/name]=[data]Automobile and Truck Dealers.(Used Only).Sales[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5531[/data]
+[name]display_name[/name]=[data]Auto Store[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5532[/data]
+[name]display_name[/name]=[data]Automotive Tire Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5533[/data]
+[name]display_name[/name]=[data]Automotive Parts, Accessories Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5541[/data]
+[name]display_name[/name]=[data]Service Stations (with or without Ancillary Services)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5542[/data]
+[name]display_name[/name]=[data]Fuel Dispenser, Automated[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5551[/data]
+[name]display_name[/name]=[data]Boat Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5561[/data]
+[name]display_name[/name]=[data]Camper Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5571[/data]
+[name]display_name[/name]=[data]Motorcycle Shops and Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5592[/data]
+[name]display_name[/name]=[data]Motor Home Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5598[/data]
+[name]display_name[/name]=[data]Snowmobile Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5599[/data]
+[name]display_name[/name]=[data]Misc. Automotive,Aircraft & Farm Equipment Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5611[/data]
+[name]display_name[/name]=[data]Mens and Boys. Clothing and Accessories Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5621[/data]
+[name]display_name[/name]=[data]Womens Ready to Wear Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5631[/data]
+[name]display_name[/name]=[data]Womens Accessory and Specialty Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5641[/data]
+[name]display_name[/name]=[data]Childrens and Infants. Wear Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5651[/data]
+[name]display_name[/name]=[data]Family Clothing Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5655[/data]
+[name]display_name[/name]=[data]Riding Apparel Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5661[/data]
+[name]display_name[/name]=[data]Shoe Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5681[/data]
+[name]display_name[/name]=[data]Furriers and Fur Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5691[/data]
+[name]display_name[/name]=[data]Mens and Womens Clothing Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5697[/data]
+[name]display_name[/name]=[data]Alterations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5698[/data]
+[name]display_name[/name]=[data]Toupee Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5699[/data]
+[name]display_name[/name]=[data]Accessory Stores.Miscellaneous[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5712[/data]
+[name]display_name[/name]=[data]Equipment Stores (except Appliances)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5713[/data]
+[name]display_name[/name]=[data]Floor Covering Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5714[/data]
+[name]display_name[/name]=[data]Drapery Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5718[/data]
+[name]display_name[/name]=[data]Fireplace, Fireplace Screens and Accessories Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5719[/data]
+[name]display_name[/name]=[data]Miscellaneous House Furnishing Specialty Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5722[/data]
+[name]display_name[/name]=[data]Household Appliance Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5732[/data]
+[name]display_name[/name]=[data]Electronic Sales[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5733[/data]
+[name]display_name[/name]=[data]Music Stores.Musical Instruments, Pianos, Sheet Music[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5734[/data]
+[name]display_name[/name]=[data]Computer Software Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5735[/data]
+[name]display_name[/name]=[data]Record Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5811[/data]
+[name]display_name[/name]=[data]Caterers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5812[/data]
+[name]display_name[/name]=[data]Eating Places, Restaurants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5813[/data]
+[name]display_name[/name]=[data]Bars.Drinking Places[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5814[/data]
+[name]display_name[/name]=[data]Fast Food Restaurants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5912[/data]
+[name]display_name[/name]=[data]Drug Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5921[/data]
+[name]display_name[/name]=[data]Package Stores, Beer, Wine, Liquor[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5931[/data]
+[name]display_name[/name]=[data]Second Hand Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5932[/data]
+[name]display_name[/name]=[data]Antique Shops.Sales, Repairs and Restoration Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5933[/data]
+[name]display_name[/name]=[data]Pawn Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5935[/data]
+[name]display_name[/name]=[data]Salvage Yards[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5937[/data]
+[name]display_name[/name]=[data]Antique Reproduction Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5940[/data]
+[name]display_name[/name]=[data]Bicycle Shops.Sales and Service[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5941[/data]
+[name]display_name[/name]=[data]Sporting Goods Stores [/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5942[/data]
+[name]display_name[/name]=[data]Book Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5943[/data]
+[name]display_name[/name]=[data]Office Supply Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5944[/data]
+[name]display_name[/name]=[data]Clock Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5945[/data]
+[name]display_name[/name]=[data]Game Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5946[/data]
+[name]display_name[/name]=[data]Camera Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5947[/data]
+[name]display_name[/name]=[data]Card Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5948[/data]
+[name]display_name[/name]=[data]Leather Goods Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5949[/data]
+[name]display_name[/name]=[data]Fabric Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5950[/data]
+[name]display_name[/name]=[data]Crystal Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5960[/data]
+[name]display_name[/name]=[data]Direct Marketing.Insurance Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5962[/data]
+[name]display_name[/name]=[data]Direct Marketing.Travel-Related Arrangement Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5963[/data]
+[name]display_name[/name]=[data]Door-to-Door Sales[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5964[/data]
+[name]display_name[/name]=[data]Direct Marketing.Catalog Merchants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5965[/data]
+[name]display_name[/name]=[data]Direct Marketing.Combination Catalog & Retail Merchants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5966[/data]
+[name]display_name[/name]=[data]Direct Marketing.Outbound Telemarketing Merchants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5967[/data]
+[name]display_name[/name]=[data]Direct Marketing.Inbound Telemarketing Merchants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5968[/data]
+[name]display_name[/name]=[data]Direct Marketing.Continuity/Subscription Merchants[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5969[/data]
+[name]display_name[/name]=[data]Direct Marketing.Other Direct Marketers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5970[/data]
+[name]display_name[/name]=[data]Artist Supply Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5971[/data]
+[name]display_name[/name]=[data]Art Dealers and Galleries[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5972[/data]
+[name]display_name[/name]=[data]Stamp & Coin Stores.Philatelic & Numismatic Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5973[/data]
+[name]display_name[/name]=[data]Religious Goods Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5975[/data]
+[name]display_name[/name]=[data]Hearing Aids.Sales, Service, Supply Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5976[/data]
+[name]display_name[/name]=[data]Artificial Limb Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5977[/data]
+[name]display_name[/name]=[data]Cosmetic Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5978[/data]
+[name]display_name[/name]=[data]Typewriter Stores.Rentals, Sales, Service[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5983[/data]
+[name]display_name[/name]=[data]Fuel Dealers.Coal, Fuel Oil, Liquefied Petroleum, Wood[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5992[/data]
+[name]display_name[/name]=[data]Florists[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5993[/data]
+[name]display_name[/name]=[data]Cigar Stores and Stands[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5994[/data]
+[name]display_name[/name]=[data]News Dealers and Newsstands[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5995[/data]
+[name]display_name[/name]=[data]Pet Shops.Pet Food and Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5996[/data]
+[name]display_name[/name]=[data]Swimming Pools.Sales and Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5997[/data]
+[name]display_name[/name]=[data]Electric Razor Stores.Sales and Service[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5998[/data]
+[name]display_name[/name]=[data]Awning Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]5999[/data]
+[name]display_name[/name]=[data]Miscellaneous and Specialty Retail Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6010[/data]
+[name]display_name[/name]=[data]Member Financial Institution.Manual Cash Disbursements[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6011[/data]
+[name]display_name[/name]=[data]Member Financial Institution.Automated Cash Dispense[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6012[/data]
+[name]display_name[/name]=[data]Member Financial Institution.Merchandise and Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6050[/data]
+[name]display_name[/name]=[data]Quasi Cash.Member Financial Institution[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6051[/data]
+[name]display_name[/name]=[data]Quasi Cash.Merchant[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6211[/data]
+[name]display_name[/name]=[data]Securities.Brokers/Dealers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6300[/data]
+[name]display_name[/name]=[data]Insurance Sales, Underwriting, and Premiums[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6513[/data]
+[name]display_name[/name]=[data]Real Estate Agents and Managers.Rentals[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6529[/data]
+[name]display_name[/name]=[data]Remote Stored Value Load.Member Financial Institution[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6530[/data]
+[name]display_name[/name]=[data]Merchant.Remote Stored Value Load[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6531[/data]
+[name]display_name[/name]=[data]Money Transfer for a Purchase.Payment Service Provider[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6532[/data]
+[name]display_name[/name]=[data]Member Financial Institution.Payment Service Provider[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6533[/data]
+[name]display_name[/name]=[data]Merchant.Payment Service Provider.Payment Transaction[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6534[/data]
+[name]display_name[/name]=[data]Money Transfer.Member Financial Institution[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6535[/data]
+[name]display_name[/name]=[data]Value Purchase.Member Financial Institution[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7011[/data]
+[name]display_name[/name]=[data]Lodging:Hotels, Motels, Resorts[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7012[/data]
+[name]display_name[/name]=[data]Timeshares[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7032[/data]
+[name]display_name[/name]=[data]Recreational Camps[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7033[/data]
+[name]display_name[/name]=[data]Campgrounds[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7210[/data]
+[name]display_name[/name]=[data]Cleaning Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7211[/data]
+[name]display_name[/name]=[data]Laundry Services.Family and Commercial[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7216[/data]
+[name]display_name[/name]=[data]Dry Cleaners[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7217[/data]
+[name]display_name[/name]=[data]Carpet Cleaning[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7221[/data]
+[name]display_name[/name]=[data]Photographic Studios[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7230[/data]
+[name]display_name[/name]=[data]Barber Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7251[/data]
+[name]display_name[/name]=[data]Shoe Repair and Shine Parlors, Hat Cleaning Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7261[/data]
+[name]display_name[/name]=[data]Crematories[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7273[/data]
+[name]display_name[/name]=[data]Dating Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7276[/data]
+[name]display_name[/name]=[data]Tax Preparation Service[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7277[/data]
+[name]display_name[/name]=[data]Counseling Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7278[/data]
+[name]display_name[/name]=[data]Buying/Shopping Clubs, Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7296[/data]
+[name]display_name[/name]=[data]Costume Rental[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7297[/data]
+[name]display_name[/name]=[data]Massage Parlors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7298[/data]
+[name]display_name[/name]=[data]Beauty Spas[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7299[/data]
+[name]display_name[/name]=[data]Other Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7311[/data]
+[name]display_name[/name]=[data]Advertising Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7321[/data]
+[name]display_name[/name]=[data]Consumer Credit Reporting Agencies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7333[/data]
+[name]display_name[/name]=[data]Art, Commercial[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7338[/data]
+[name]display_name[/name]=[data]Blueprinting Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7339[/data]
+[name]display_name[/name]=[data]Stenographic and Secretarial Support Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7342[/data]
+[name]display_name[/name]=[data]Disinfecting Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7349[/data]
+[name]display_name[/name]=[data]Cleaning and Maintenance[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7361[/data]
+[name]display_name[/name]=[data]Employment Agencies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7372[/data]
+[name]display_name[/name]=[data]Computer Programming Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7375[/data]
+[name]display_name[/name]=[data]Information Retrieval Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7379[/data]
+[name]display_name[/name]=[data]Computer Maintenance, Repair, and Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7392[/data]
+[name]display_name[/name]=[data]Consulting Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7393[/data]
+[name]display_name[/name]=[data]Detective and Protective Agencies, Security Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7394[/data]
+[name]display_name[/name]=[data]Equipment Rental and Leasing Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7395[/data]
+[name]display_name[/name]=[data]Photo Developing, Photofinishing Laboratories[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7399[/data]
+[name]display_name[/name]=[data]Business Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7511[/data]
+[name]display_name[/name]=[data]Truck Stop Transactions[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7512[/data]
+[name]display_name[/name]=[data]Automobile Rental Agency[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7513[/data]
+[name]display_name[/name]=[data]Truck Rental[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7519[/data]
+[name]display_name[/name]=[data]Motor Home Rental[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7523[/data]
+[name]display_name[/name]=[data]Automobile Parking Lots and Garages[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7531[/data]
+[name]display_name[/name]=[data]Automotive Body Repair Shop[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7534[/data]
+[name]display_name[/name]=[data]Tire Retreading and Repair Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7535[/data]
+[name]display_name[/name]=[data]Automotive Paint Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7538[/data]
+[name]display_name[/name]=[data]Automotive Service Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7542[/data]
+[name]display_name[/name]=[data]Car Washes[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7549[/data]
+[name]display_name[/name]=[data]Towing Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7622[/data]
+[name]display_name[/name]=[data]Electronic Repair Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7623[/data]
+[name]display_name[/name]=[data]Air Conditioning Repair Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7629[/data]
+[name]display_name[/name]=[data]Appliance Repair Shops, Electrical and Small[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7631[/data]
+[name]display_name[/name]=[data]Clock Repair Shops[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7641[/data]
+[name]display_name[/name]=[data]Furniture.Reupholstery and Repair, Refinishing[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7692[/data]
+[name]display_name[/name]=[data]Welding Repair[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7699[/data]
+[name]display_name[/name]=[data]Miscellaneous Repair Shops and Related Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7829[/data]
+[name]display_name[/name]=[data]Video Tape & Motion Picture Production and Distribution[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7832[/data]
+[name]display_name[/name]=[data]Motion Picture Theaters[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7841[/data]
+[name]display_name[/name]=[data]Video Entertainment Rental Stores[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7911[/data]
+[name]display_name[/name]=[data]Dance Halls, Schools, and Studios[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7922[/data]
+[name]display_name[/name]=[data]Theatrical Producers,Ticket Agencies (excl.Motion Pics)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7929[/data]
+[name]display_name[/name]=[data]Bands, Orchestras, and Miscellaneous Entertainers[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7932[/data]
+[name]display_name[/name]=[data]Billiard Establishments[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7933[/data]
+[name]display_name[/name]=[data]Bowling Alleys[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7941[/data]
+[name]display_name[/name]=[data]Commercial & Professional Sports Clubs, Athletic Fields[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7991[/data]
+[name]display_name[/name]=[data]Tourist Attractions and Exhibits[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7992[/data]
+[name]display_name[/name]=[data]Golf Courses, Public[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7993[/data]
+[name]display_name[/name]=[data]Video Amusement Game Supplies[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7994[/data]
+[name]display_name[/name]=[data]Video Game Arcades/Establishments[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7995[/data]
+[name]display_name[/name]=[data]Gambling Transactions[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7996[/data]
+[name]display_name[/name]=[data]Amusement Parks[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7997[/data]
+[name]display_name[/name]=[data]Membership Clubs(Sports,Recreation),Priv. Golf Courses[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7998[/data]
+[name]display_name[/name]=[data]Aquariums[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]7999[/data]
+[name]display_name[/name]=[data]Recreation Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8011[/data]
+[name]display_name[/name]=[data]Doctors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8021[/data]
+[name]display_name[/name]=[data]Dentists[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8031[/data]
+[name]display_name[/name]=[data]Osteopathic Physicians[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8041[/data]
+[name]display_name[/name]=[data]Chiropractors[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8042[/data]
+[name]display_name[/name]=[data]Ophthalmologists[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8043[/data]
+[name]display_name[/name]=[data]Eyeglasses[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8049[/data]
+[name]display_name[/name]=[data]Chiropodists[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8050[/data]
+[name]display_name[/name]=[data]Nursing Care Facilities[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8062[/data]
+[name]display_name[/name]=[data]Hospitals[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8071[/data]
+[name]display_name[/name]=[data]Dental Laboratories[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8099[/data]
+[name]display_name[/name]=[data]Health Practitioners[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8111[/data]
+[name]display_name[/name]=[data]Attorneys[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8211[/data]
+[name]display_name[/name]=[data]Schools, Elementary and Secondary[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8220[/data]
+[name]display_name[/name]=[data]Colleges, Professional Schools and Universities[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8241[/data]
+[name]display_name[/name]=[data]Schools, Correspondence[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8244[/data]
+[name]display_name[/name]=[data]Schools, Business and Secretarial[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8249[/data]
+[name]display_name[/name]=[data]Schools, Trade and Vocational[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8299[/data]
+[name]display_name[/name]=[data]Schools and Educational Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8351[/data]
+[name]display_name[/name]=[data]Child Care Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8398[/data]
+[name]display_name[/name]=[data]Charitable Organizations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8641[/data]
+[name]display_name[/name]=[data]Civic Associations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8651[/data]
+[name]display_name[/name]=[data]Political Organizations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8661[/data]
+[name]display_name[/name]=[data]Religious Organizations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8675[/data]
+[name]display_name[/name]=[data]Automobile Associations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8699[/data]
+[name]display_name[/name]=[data]Membership Organizations[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8734[/data]
+[name]display_name[/name]=[data]Testing Laboratories (Non-Medical)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8911[/data]
+[name]display_name[/name]=[data]Architectural Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8931[/data]
+[name]display_name[/name]=[data]Accounting Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]8999[/data]
+[name]display_name[/name]=[data]Auctions[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9211[/data]
+[name]display_name[/name]=[data]Court Costs including Alimony and Child Support[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9222[/data]
+[name]display_name[/name]=[data]Fines[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9223[/data]
+[name]display_name[/name]=[data]Bail and Bond Payments[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9311[/data]
+[name]display_name[/name]=[data]Tax Payments[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9399[/data]
+[name]display_name[/name]=[data]Government Services[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9402[/data]
+[name]display_name[/name]=[data]Postal Services.Government Only[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9405[/data]
+[name]display_name[/name]=[data]Intra-Government Purchases.Government Only[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9700[/data]
+[name]display_name[/name]=[data]International Automated Referral Service(Visa only)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9701[/data]
+[name]display_name[/name]=[data]Visa Credential Server (Visa use only)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9702[/data]
+[name]display_name[/name]=[data]GCAS Emergency Services (Visa use only)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9751[/data]
+[name]display_name[/name]=[data]UK Supermarkets Electronic Hot File (Regional use)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9752[/data]
+[name]display_name[/name]=[data]UK Petrol Stations Electronic Hot File (Regional use)[/data]
+
+[name]category[/name]=[data]MerchantCategoryCodes[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]9950[/data]
+[name]display_name[/name]=[data]Intra-Company Purchases[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1000[/data]
+[name]display_name[/name]=[data]Stand-in processing at the card issuer's option[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1003[/data]
+[name]display_name[/name]=[data]Card issuer unavailable[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1006[/data]
+[name]display_name[/name]=[data]Under floor limit[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1376[/data]
+[name]display_name[/name]=[data]PIN verification failure[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1377[/data]
+[name]display_name[/name]=[data]Change dispensed[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1378[/data]
+[name]display_name[/name]=[data]IOU receipt printed[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1379[/data]
+[name]display_name[/name]=[data]Manual adjustment required to correct invalid field(s)[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1510[/data]
+[name]display_name[/name]=[data]Over floor limit[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1800[/data]
+[name]display_name[/name]=[data]Negative card[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1801[/data]
+[name]display_name[/name]=[data]Card lost[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]1802[/data]
+[name]display_name[/name]=[data]Card stolen[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3000[/data]
+[name]display_name[/name]=[data]Lost card[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3001[/data]
+[name]display_name[/name]=[data]Stolen card[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3002[/data]
+[name]display_name[/name]=[data]Undelivered card[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3003[/data]
+[name]display_name[/name]=[data]Counterfeit card[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]3700[/data]
+[name]display_name[/name]=[data]Lost PIN[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4000[/data]
+[name]display_name[/name]=[data]Customer cancellation[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4001[/data]
+[name]display_name[/name]=[data]Unspecified, no action taken[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4004[/data]
+[name]display_name[/name]=[data]Completed partially[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4013[/data]
+[name]display_name[/name]=[data]Unable to deliver message to point-of-service[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4017[/data]
+[name]display_name[/name]=[data]Suspected malfunction / No cash dispensed[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4020[/data]
+[name]display_name[/name]=[data]Invalid response, no action taken[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4021[/data]
+[name]display_name[/name]=[data]Timeout waiting for response[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4351[/data]
+[name]display_name[/name]=[data]Invalid CVV2[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]4352[/data]
+[name]display_name[/name]=[data]Invalid address[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6800[/data]
+[name]display_name[/name]=[data]PIN unblock[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6801[/data]
+[name]display_name[/name]=[data]PIN change failure[/data]
+
+[name]category[/name]=[data]MessageReasonCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]6802[/data]
+[name]display_name[/name]=[data]PIN unblock failure[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]00[/data]
+[name]display_name[/name]=[data]Approved or completed successfully[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]01[/data]
+[name]display_name[/name]=[data]Refer to card issuer[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]02[/data]
+[name]display_name[/name]=[data]Refer to card issuer, special condition[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]03[/data]
+[name]display_name[/name]=[data]Invalid merchant[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]04[/data]
+[name]display_name[/name]=[data]Pick-up card[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]05[/data]
+[name]display_name[/name]=[data]Do not honor[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]06[/data]
+[name]display_name[/name]=[data]Error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]07[/data]
+[name]display_name[/name]=[data]Pick-up card, special condition[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]08[/data]
+[name]display_name[/name]=[data]Honor with identification[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]09[/data]
+[name]display_name[/name]=[data]Request in progress[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]10[/data]
+[name]display_name[/name]=[data]Approved, partial[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]11[/data]
+[name]display_name[/name]=[data]Approved, VIP[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]12[/data]
+[name]display_name[/name]=[data]Invalid transaction[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]13[/data]
+[name]display_name[/name]=[data]Invalid amount[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]14[/data]
+[name]display_name[/name]=[data]Invalid card number[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]15[/data]
+[name]display_name[/name]=[data]No such issuer[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]16[/data]
+[name]display_name[/name]=[data]Approved, update track 3[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]17[/data]
+[name]display_name[/name]=[data]Customer cancellation[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]18[/data]
+[name]display_name[/name]=[data]Customer dispute[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]19[/data]
+[name]display_name[/name]=[data]Re-enter transaction[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]20[/data]
+[name]display_name[/name]=[data]Invalid response[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]21[/data]
+[name]display_name[/name]=[data]No action taken[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]22[/data]
+[name]display_name[/name]=[data]Suspected malfunction[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]23[/data]
+[name]display_name[/name]=[data]Unacceptable transaction fee[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]24[/data]
+[name]display_name[/name]=[data]File update not supported[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]25[/data]
+[name]display_name[/name]=[data]Unable to locate record[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]26[/data]
+[name]display_name[/name]=[data]Duplicate record[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]27[/data]
+[name]display_name[/name]=[data]File update edit error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]28[/data]
+[name]display_name[/name]=[data]File update file locked[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]29[/data]
+[name]display_name[/name]=[data]File update failed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]30[/data]
+[name]display_name[/name]=[data]Format error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]31[/data]
+[name]display_name[/name]=[data]Bank not supported[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]32[/data]
+[name]display_name[/name]=[data]Completed partially[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]33[/data]
+[name]display_name[/name]=[data]Expired card, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]34[/data]
+[name]display_name[/name]=[data]Suspected fraud, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]35[/data]
+[name]display_name[/name]=[data]Contact acquirer, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]36[/data]
+[name]display_name[/name]=[data]Restricted card, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]37[/data]
+[name]display_name[/name]=[data]Call acquirer security, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]38[/data]
+[name]display_name[/name]=[data]PIN tries exceeded, pick-up[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]39[/data]
+[name]display_name[/name]=[data]No credit account[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]40[/data]
+[name]display_name[/name]=[data]Function not supported[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]41[/data]
+[name]display_name[/name]=[data]Lost card[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]42[/data]
+[name]display_name[/name]=[data]No universal account[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]43[/data]
+[name]display_name[/name]=[data]Stolen card[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]44[/data]
+[name]display_name[/name]=[data]No investment account[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]45[/data]
+[name]display_name[/name]=[data]Account closed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]46[/data]
+[name]display_name[/name]=[data]Identification required[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]47[/data]
+[name]display_name[/name]=[data]Identification cross-check required[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]48[/data]
+[name]display_name[/name]=[data]No customer record[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]51[/data]
+[name]display_name[/name]=[data]Not sufficient funds[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]52[/data]
+[name]display_name[/name]=[data]No check account[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]53[/data]
+[name]display_name[/name]=[data]No savings account[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]54[/data]
+[name]display_name[/name]=[data]Expired card[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]55[/data]
+[name]display_name[/name]=[data]Incorrect PIN[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]56[/data]
+[name]display_name[/name]=[data]No card record[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]57[/data]
+[name]display_name[/name]=[data]Transaction not permitted to cardholder[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]58[/data]
+[name]display_name[/name]=[data]Transaction not permitted on terminal[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]59[/data]
+[name]display_name[/name]=[data]Suspected fraud[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]60[/data]
+[name]display_name[/name]=[data]Contact acquirer[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]61[/data]
+[name]display_name[/name]=[data]Exceeds withdrawal limit[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]62[/data]
+[name]display_name[/name]=[data]Restricted card[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]63[/data]
+[name]display_name[/name]=[data]Security violation[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]64[/data]
+[name]display_name[/name]=[data]Original amount incorrect[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]65[/data]
+[name]display_name[/name]=[data]Exceeds withdrawal frequency[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]66[/data]
+[name]display_name[/name]=[data]Call acquirer security[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]67[/data]
+[name]display_name[/name]=[data]Hard capture[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]68[/data]
+[name]display_name[/name]=[data]Response received too late[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]69[/data]
+[name]display_name[/name]=[data]Advice received too late[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]75[/data]
+[name]display_name[/name]=[data]PIN tries exceeded[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]77[/data]
+[name]display_name[/name]=[data]Intervene, bank approval required[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]78[/data]
+[name]display_name[/name]=[data]Intervene, bank approval required for partial amount[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]90[/data]
+[name]display_name[/name]=[data]Cut-off in progress[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]91[/data]
+[name]display_name[/name]=[data]Issuer or switch inoperative[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]92[/data]
+[name]display_name[/name]=[data]Routing error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]93[/data]
+[name]display_name[/name]=[data]Violation of law[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]94[/data]
+[name]display_name[/name]=[data]Duplicate transaction[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]95[/data]
+[name]display_name[/name]=[data]Reconcile error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]96[/data]
+[name]display_name[/name]=[data]System malfunction[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]98[/data]
+[name]display_name[/name]=[data]Exceeds cash limit[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A1[/data]
+[name]display_name[/name]=[data]ATC not incremented[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A2[/data]
+[name]display_name[/name]=[data]ATC limit exceeded[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A3[/data]
+[name]display_name[/name]=[data]ATC configuration error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A4[/data]
+[name]display_name[/name]=[data]CVR check failed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A5[/data]
+[name]display_name[/name]=[data]CVR configuration error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A6[/data]
+[name]display_name[/name]=[data]TVR check failed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]A7[/data]
+[name]display_name[/name]=[data]TVR configuration error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]C0[/data]
+[name]display_name[/name]=[data]Unacceptable PIN[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]C1[/data]
+[name]display_name[/name]=[data]PIN change failed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]C2[/data]
+[name]display_name[/name]=[data]PIN Unblock failed[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]D1[/data]
+[name]display_name[/name]=[data]MAC Error[/data]
+
+[name]category[/name]=[data]ResponseCode[/data]
+[name]sort_key[/name]=[data]NULL[/data]
+[name]code[/name]=[data]E1[/data]
+[name]display_name[/name]=[data]Prepay error[/data]
+
+[name]category[/name]=[data]SupportEntityType[/data]
+[name]sort_key[/name]=[data]1[/data]
+[name]code[/name]=[data]1[/data]
+[name]display_name[/name]=[data]Terminal[/data]
+
+[name]category[/name]=[data]SupportEntityType[/data]
+[name]sort_key[/name]=[data]2[/data]
+[name]code[/name]=[data]2[/data]
+[name]display_name[/name]=[data]Interchange[/data]
+
+[name]category[/name]=[data]SupportEntityType[/data]
+[name]sort_key[/name]=[data]3[/data]
+[name]code[/name]=[data]3[/data]
+[name]display_name[/name]=[data]Application[/data]
+
+[name]category[/name]=[data]TerminalMode[/data]
+[name]sort_key[/name]=[data]0[/data]
+[name]code[/name]=[data]0[/data]
+[name]display_name[/name]=[data]Offline[/data]
+
+[name]category[/name]=[data]TerminalMode[/data]
+[name]sort_key[/name]=[data]1[/data]
+[name]code[/name]=[data]1[/data]
+[name]display_name[/name]=[data]Connected[/data]
+
+[name]category[/name]=[data]TerminalMode[/data]
+[name]sort_key[/name]=[data]2[/data]
+[name]code[/name]=[data]2[/data]
+[name]display_name[/name]=[data]In service[/data]
+
+[name]category[/name]=[data]TerminalMode[/data]
+[name]sort_key[/name]=[data]3[/data]
+[name]code[/name]=[data]3[/data]
+[name]display_name[/name]=[data]Closed[/data]
+
+[name]category[/name]=[data]TerminalMode[/data]
+[name]sort_key[/name]=[data]4[/data]
+[name]code[/name]=[data]4[/data]
+[name]display_name[/name]=[data]Supervisor[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMState[/data]
+[name]sort_key[/name]=[data]0[/data]
+[name]code[/name]=[data]0[/data]
+[name]display_name[/name]=[data]Not yet processed by TM[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMState[/data]
+[name]sort_key[/name]=[data]1[/data]
+[name]code[/name]=[data]1[/data]
+[name]display_name[/name]=[data]Not processed by TM - format error[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMState[/data]
+[name]sort_key[/name]=[data]2[/data]
+[name]code[/name]=[data]2[/data]
+[name]display_name[/name]=[data]Processed by TM - success[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMState[/data]
+[name]sort_key[/name]=[data]3[/data]
+[name]code[/name]=[data]3[/data]
+[name]display_name[/name]=[data]Processed by TM - failure[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMType[/data]
+[name]sort_key[/name]=[data]1[/data]
+[name]code[/name]=[data]1[/data]
+[name]display_name[/name]=[data]Hotcard notification[/data]
+
+[name]category[/name]=[data]UIFunctionsToTMType[/data]
+[name]sort_key[/name]=[data]2[/data]
+[name]code[/name]=[data]2[/data]
+[name]display_name[/name]=[data]CardManagementUpdateNotification[/data]
+

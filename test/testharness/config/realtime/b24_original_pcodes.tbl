@@ -1,0 +1,680 @@
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200100[/data]
+[name]original_pcode[/name]=[data]500100[/data]
+[name]description[/name]=[data]Pago Cre Hip Efectivo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200130[/data]
+[name]original_pcode[/name]=[data]500130[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Efectivo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200140[/data]
+[name]original_pcode[/name]=[data]500140[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Efectivo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200141[/data]
+[name]original_pcode[/name]=[data]500141[/data]
+[name]description[/name]=[data]Pago Otros Creditos Efectivo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200142[/data]
+[name]original_pcode[/name]=[data]500142[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Efectivo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200200[/data]
+[name]original_pcode[/name]=[data]500200[/data]
+[name]description[/name]=[data]Pago Cre Hip Cheque[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200230[/data]
+[name]original_pcode[/name]=[data]500230[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Cheque[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200240[/data]
+[name]original_pcode[/name]=[data]500240[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Cheque[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200241[/data]
+[name]original_pcode[/name]=[data]500241[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cheque[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]200242[/data]
+[name]original_pcode[/name]=[data]500242[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cheque[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201000[/data]
+[name]original_pcode[/name]=[data]211000[/data]
+[name]description[/name]=[data]Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201001[/data]
+[name]original_pcode[/name]=[data]501000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201010[/data]
+[name]original_pcode[/name]=[data]401010[/data]
+[name]description[/name]=[data]Transferencias Ahorros ? Ahorros[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201020[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201030[/data]
+[name]original_pcode[/name]=[data]501030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201040[/data]
+[name]original_pcode[/name]=[data]501040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201041[/data]
+[name]original_pcode[/name]=[data]501041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]201042[/data]
+[name]original_pcode[/name]=[data]501042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202000[/data]
+[name]original_pcode[/name]=[data]212000[/data]
+[name]description[/name]=[data]Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202001[/data]
+[name]original_pcode[/name]=[data]502000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202010[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202020[/data]
+[name]original_pcode[/name]=[data]402020[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Corriente[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202030[/data]
+[name]original_pcode[/name]=[data]502030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202040[/data]
+[name]original_pcode[/name]=[data]502040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202041[/data]
+[name]original_pcode[/name]=[data]502041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]202042[/data]
+[name]original_pcode[/name]=[data]502042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]203000[/data]
+[name]original_pcode[/name]=[data]013000[/data]
+[name]description[/name]=[data]Anulacion Avance[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]240000[/data]
+[name]original_pcode[/name]=[data]230000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito hip[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]241000[/data]
+[name]original_pcode[/name]=[data]231000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]242000[/data]
+[name]original_pcode[/name]=[data]232000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]243000[/data]
+[name]original_pcode[/name]=[data]233000[/data]
+[name]description[/name]=[data]Devolucion de canje TC[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]244000[/data]
+[name]original_pcode[/name]=[data]234000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito rotativo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]244100[/data]
+[name]original_pcode[/name]=[data]234100[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito consumo[/data]
+
+[name]id_node[/name]=[data]90[/data]
+[name]anul_pcode[/name]=[data]244200[/data]
+[name]original_pcode[/name]=[data]234200[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito motos[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200100[/data]
+[name]original_pcode[/name]=[data]500100[/data]
+[name]description[/name]=[data]Pago Cre Hip Efectivo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200130[/data]
+[name]original_pcode[/name]=[data]500130[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Efectivo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200140[/data]
+[name]original_pcode[/name]=[data]500140[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Efectivo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200141[/data]
+[name]original_pcode[/name]=[data]500141[/data]
+[name]description[/name]=[data]Pago Otros Creditos Efectivo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200142[/data]
+[name]original_pcode[/name]=[data]500142[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Efectivo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200200[/data]
+[name]original_pcode[/name]=[data]500200[/data]
+[name]description[/name]=[data]Pago Cre Hip Cheque[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200230[/data]
+[name]original_pcode[/name]=[data]500230[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Cheque[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200240[/data]
+[name]original_pcode[/name]=[data]500240[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Cheque[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200241[/data]
+[name]original_pcode[/name]=[data]500241[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cheque[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]200242[/data]
+[name]original_pcode[/name]=[data]500242[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cheque[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201000[/data]
+[name]original_pcode[/name]=[data]211000[/data]
+[name]description[/name]=[data]Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201001[/data]
+[name]original_pcode[/name]=[data]501000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201010[/data]
+[name]original_pcode[/name]=[data]401010[/data]
+[name]description[/name]=[data]Transferencias Ahorros ? Ahorros[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201020[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201030[/data]
+[name]original_pcode[/name]=[data]501030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201040[/data]
+[name]original_pcode[/name]=[data]501040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201041[/data]
+[name]original_pcode[/name]=[data]501041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]201042[/data]
+[name]original_pcode[/name]=[data]501042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202000[/data]
+[name]original_pcode[/name]=[data]212000[/data]
+[name]description[/name]=[data]Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202001[/data]
+[name]original_pcode[/name]=[data]502000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202010[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202020[/data]
+[name]original_pcode[/name]=[data]402020[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Corriente[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202030[/data]
+[name]original_pcode[/name]=[data]502030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202040[/data]
+[name]original_pcode[/name]=[data]502040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202041[/data]
+[name]original_pcode[/name]=[data]502041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]202042[/data]
+[name]original_pcode[/name]=[data]502042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]203000[/data]
+[name]original_pcode[/name]=[data]013000[/data]
+[name]description[/name]=[data]Anulacion Avance[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]240000[/data]
+[name]original_pcode[/name]=[data]230000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito hip[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]241000[/data]
+[name]original_pcode[/name]=[data]231000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]242000[/data]
+[name]original_pcode[/name]=[data]232000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]243000[/data]
+[name]original_pcode[/name]=[data]233000[/data]
+[name]description[/name]=[data]Devolucion de canje TC[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]244000[/data]
+[name]original_pcode[/name]=[data]234000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito rotativo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]244100[/data]
+[name]original_pcode[/name]=[data]234100[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito consumo[/data]
+
+[name]id_node[/name]=[data]91[/data]
+[name]anul_pcode[/name]=[data]244200[/data]
+[name]original_pcode[/name]=[data]234200[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito motos[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200100[/data]
+[name]original_pcode[/name]=[data]500100[/data]
+[name]description[/name]=[data]Pago Cre Hip Efectivo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200130[/data]
+[name]original_pcode[/name]=[data]500130[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Efectivo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200140[/data]
+[name]original_pcode[/name]=[data]500140[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Efectivo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200141[/data]
+[name]original_pcode[/name]=[data]500141[/data]
+[name]description[/name]=[data]Pago Otros Creditos Efectivo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200142[/data]
+[name]original_pcode[/name]=[data]500142[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Efectivo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200200[/data]
+[name]original_pcode[/name]=[data]500200[/data]
+[name]description[/name]=[data]Pago Cre Hip Cheque[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200230[/data]
+[name]original_pcode[/name]=[data]500230[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Cheque[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200240[/data]
+[name]original_pcode[/name]=[data]500240[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Cheque[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200241[/data]
+[name]original_pcode[/name]=[data]500241[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cheque[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]200242[/data]
+[name]original_pcode[/name]=[data]500242[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cheque[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201000[/data]
+[name]original_pcode[/name]=[data]211000[/data]
+[name]description[/name]=[data]Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201001[/data]
+[name]original_pcode[/name]=[data]501000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201010[/data]
+[name]original_pcode[/name]=[data]401010[/data]
+[name]description[/name]=[data]Transferencias Ahorros ? Ahorros[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201020[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201030[/data]
+[name]original_pcode[/name]=[data]501030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201040[/data]
+[name]original_pcode[/name]=[data]501040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201041[/data]
+[name]original_pcode[/name]=[data]501041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]201042[/data]
+[name]original_pcode[/name]=[data]501042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202000[/data]
+[name]original_pcode[/name]=[data]212000[/data]
+[name]description[/name]=[data]Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202001[/data]
+[name]original_pcode[/name]=[data]502000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202010[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202020[/data]
+[name]original_pcode[/name]=[data]402020[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Corriente[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202030[/data]
+[name]original_pcode[/name]=[data]502030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202040[/data]
+[name]original_pcode[/name]=[data]502040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202041[/data]
+[name]original_pcode[/name]=[data]502041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]202042[/data]
+[name]original_pcode[/name]=[data]502042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]203000[/data]
+[name]original_pcode[/name]=[data]013000[/data]
+[name]description[/name]=[data]Anulacion Avance[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]240000[/data]
+[name]original_pcode[/name]=[data]230000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito hip[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]241000[/data]
+[name]original_pcode[/name]=[data]231000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]242000[/data]
+[name]original_pcode[/name]=[data]232000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]243000[/data]
+[name]original_pcode[/name]=[data]233000[/data]
+[name]description[/name]=[data]Devolucion de canje TC[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]244000[/data]
+[name]original_pcode[/name]=[data]234000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito rotativo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]244100[/data]
+[name]original_pcode[/name]=[data]234100[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito consumo[/data]
+
+[name]id_node[/name]=[data]92[/data]
+[name]anul_pcode[/name]=[data]244200[/data]
+[name]original_pcode[/name]=[data]234200[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito motos[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200100[/data]
+[name]original_pcode[/name]=[data]500100[/data]
+[name]description[/name]=[data]Pago Cre Hip Efectivo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200130[/data]
+[name]original_pcode[/name]=[data]500130[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Efectivo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200140[/data]
+[name]original_pcode[/name]=[data]500140[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Efectivo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200141[/data]
+[name]original_pcode[/name]=[data]500141[/data]
+[name]description[/name]=[data]Pago Otros Creditos Efectivo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200142[/data]
+[name]original_pcode[/name]=[data]500142[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Efectivo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200200[/data]
+[name]original_pcode[/name]=[data]500200[/data]
+[name]description[/name]=[data]Pago Cre Hip Cheque[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200230[/data]
+[name]original_pcode[/name]=[data]500230[/data]
+[name]description[/name]=[data]Pago Tarjeta Credito Cheque[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200240[/data]
+[name]original_pcode[/name]=[data]500240[/data]
+[name]description[/name]=[data]Pago Cre Rotativo Cheque[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200241[/data]
+[name]original_pcode[/name]=[data]500241[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cheque[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]200242[/data]
+[name]original_pcode[/name]=[data]500242[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cheque[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201000[/data]
+[name]original_pcode[/name]=[data]211000[/data]
+[name]description[/name]=[data]Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201001[/data]
+[name]original_pcode[/name]=[data]501000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201010[/data]
+[name]original_pcode[/name]=[data]401010[/data]
+[name]description[/name]=[data]Transferencias Ahorros ? Ahorros[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201020[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201030[/data]
+[name]original_pcode[/name]=[data]501030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201040[/data]
+[name]original_pcode[/name]=[data]501040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201041[/data]
+[name]original_pcode[/name]=[data]501041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]201042[/data]
+[name]original_pcode[/name]=[data]501042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202000[/data]
+[name]original_pcode[/name]=[data]212000[/data]
+[name]description[/name]=[data]Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202001[/data]
+[name]original_pcode[/name]=[data]502000[/data]
+[name]description[/name]=[data]Pago Cre Hip Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202010[/data]
+[name]original_pcode[/name]=[data]402010[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Ahorros[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202020[/data]
+[name]original_pcode[/name]=[data]402020[/data]
+[name]description[/name]=[data]Transferencias Corriente ? Corriente[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202030[/data]
+[name]original_pcode[/name]=[data]502030[/data]
+[name]description[/name]=[data]Pago Tarjeta crédito Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202040[/data]
+[name]original_pcode[/name]=[data]502040[/data]
+[name]description[/name]=[data]Pago Cre Rot Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202041[/data]
+[name]original_pcode[/name]=[data]502041[/data]
+[name]description[/name]=[data]Pago Otros Creditos Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]202042[/data]
+[name]original_pcode[/name]=[data]502042[/data]
+[name]description[/name]=[data]Pago Motos y vehiculos Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]203000[/data]
+[name]original_pcode[/name]=[data]013000[/data]
+[name]description[/name]=[data]Anulacion Avance[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]240000[/data]
+[name]original_pcode[/name]=[data]230000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito hip[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]241000[/data]
+[name]original_pcode[/name]=[data]231000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Aho[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]242000[/data]
+[name]original_pcode[/name]=[data]232000[/data]
+[name]description[/name]=[data]Devolucion de canje Deposito en Cta Cte[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]243000[/data]
+[name]original_pcode[/name]=[data]233000[/data]
+[name]description[/name]=[data]Devolucion de canje TC[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]244000[/data]
+[name]original_pcode[/name]=[data]234000[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito rotativo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]244100[/data]
+[name]original_pcode[/name]=[data]234100[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito consumo[/data]
+
+[name]id_node[/name]=[data]93[/data]
+[name]anul_pcode[/name]=[data]244200[/data]
+[name]original_pcode[/name]=[data]234200[/data]
+[name]description[/name]=[data]Devolucion de canje pago credito motos[/data]
+

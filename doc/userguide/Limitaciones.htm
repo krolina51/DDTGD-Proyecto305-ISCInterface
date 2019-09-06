@@ -1,0 +1,39 @@
+<HTML>
+ <HEAD>
+  <!-- $MVD$:app("RoboHELP HTML Edition by Blue Sky Software, portions by MicroVision Dev. Inc.","769") -->
+  <!-- $MVD$:template("","0","0") -->
+  <!-- $MVD$:color("18","80ffff","MosaicLightYellow","0") -->
+  <!-- $MVD$:fontset("Normal","Verdana","Arial") -->
+  <!-- $MVD$:fontset("Heading","Arial Black") -->
+  <!-- $MVD$:fontset("Monospace","Courier New") -->
+  <!-- $MVD$:fontset("Arial","Arial") -->
+  <TITLE>Limitaciones</TITLE>
+  <META NAME="generator" CONTENT="RoboHELP by Blue Sky Software www.blue-sky.com HTML Edition">
+  <SCRIPT LANGUAGE="javascript" TITLE="BSSC Special Effects" SRC="BSSCDHTM.js">
+</SCRIPT><LINK
+  REL="StyleSheet" HREF="MosaicHelp.css"></HEAD>
+  <BODY ONLOAD="BSSCOnLoad();" ONCLICK="BSSCOnClick();" ONUNLOAD="BSSCOnUnload();">
+  <H1>
+   Limitaciones</H1>
+  <P>
+   La Interface Postilion DvcBogota tiene las siguientes limitaciones:</P>
+  <UL>
+   <LI CLASS="mvd-P">
+   <P>
+    La interface DvcBogota es configurada como un nodo &quot;sink&quot; 
+    el cual soporta las siguientes transacciones: financieras por 
+    petici&oacute;n 02XX, reversos por notificaci&oacute;n 04XX y 
+    administrativas. Estos tipos de transacciones tienen origen en las 
+    redes (Servibanca, Redeban y Credibanco) y en los Dispositivos ATH 
+    (ATMs y POS).</P>
+   <LI CLASS="mvd-P">
+   <P>
+    La interface DvcBogota a su vez procesar&aacute; los mensajes 0600 
+    provenientes del Transaction Manager de Postilion. Estos mensajes son 
+    convertidos a mensajes 0200 por configuraci&oacute;n en base de datos 
+    y finalmente se env&iacute;an a la entidad remota.</P>
+   </UL>
+  <P>
+   &nbsp;
+ </BODY>
+</HTML>

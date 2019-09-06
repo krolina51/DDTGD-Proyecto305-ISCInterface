@@ -1,0 +1,22 @@
+[name]ca_certificate[/name]=[data]Thawte Personal Basic CA[/data]
+
+[name]ca_certificate[/name]=[data]Thawte Personal Freemail CA[/data]
+
+[name]ca_certificate[/name]=[data]Thawte Personal Premium CA[/data]
+
+[name]ca_certificate[/name]=[data]Thawte Server Basic CA[/data]
+
+[name]ca_certificate[/name]=[data]Thawte Server Premium CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 1 Primary CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 1 Public Primary CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 2 Primary CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 2 Public Primary CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 3 Primary CA[/data]
+
+[name]ca_certificate[/name]=[data]VeriSign Class 3 Public Primary CA[/data]
+

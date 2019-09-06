@@ -1,0 +1,217 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<!Postilion v5.3.00 Trace File: C:\PROGRA~1\Postilion\Trace\DvcBogota\Application>
+<html>
+<head>
+<style type="text/css">
+
+A { font-family:Verdana, Arial; font-size:9.0pt; }
+A:visited { color:#0000FF }
+
+U { cursor:hand }
+P { font-family:Verdana, Arial; font-size:9.0pt; }
+HR { color:#527573; height:1px }
+TD { font-family:Verdana, Arial; font-size:9.0pt; }
+DIV { color:blue; text-decoration:none; font-family:Verdana, Arial; font-size:9.0pt; }
+DIV DIV { color:black; cursor:text; display:none; text-decoration:none }
+DIV DIV DIV { color:blue; cursor:text; display:block; font-family:Verdana,Arial; font-size:9.0pt; }
+DIV DIV DIV DIV { color:black; cursor:text; display:none; text-decoration:none }
+
+.header { background-color:#BDD7D6; height:88px; padding-left:8px; }
+.bar { border-top:solid 1px #527573; border-bottom:solid 1px #527573; background-color:#6BA6A5; height:23px; padding-left:5px; padding-right:5px; }
+.content { padding:10px }
+.pretext { font-family:Courier New; white-space:pre; }
+.navlink { cursor:hand; text-decoration:underline; }
+
+</style>
+
+<script>
+
+function handleClick()
+{
+	el=event.srcElement;
+	if (el.id!="clickable") 
+		return; 
+	if (!changeSetting(el,"postC",true) && !changeSetting(el,"postCb",true)) 
+		changeSetting(el,"postA",true);
+	event.cancelBubble=true
+}
+
+/*----------------------------------------------------------------------------*/
+
+function openSelected()
+{ 
+	s = document.selection; 
+	if ((s == null) || (s.type != "Text")) 
+		return; 
+	p=s.createRange().parentElement(); 
+	if ((p==null)||(p.parentElement==null))
+		return; 
+	p=p.parentElement.parentElement; 
+	changeSetting(p,"postA",false); 
+	changeSetting(p,"postC",false);
+	changeSetting(p,"postCb",false);
+}
+
+function handleClick()
+{
+	el=event.srcElement;
+	if (el.id!="clickable") 
+		return; 
+	if (!changeSetting(el,"postC",true) && !changeSetting(el,"postCb",true)) 
+		changeSetting(el,"postA",true);
+	event.cancelBubble=true
+}
+
+/*----------------------------------------------------------------------------*/
+
+function openSelected()
+{ 
+	s = document.selection; 
+	if ((s == null) || (s.type != "Text")) 
+		return; 
+	p=s.createRange().parentElement(); 
+	if ((p==null)||(p.parentElement==null))
+		return; 
+	p=p.parentElement.parentElement; 
+	changeSetting(p,"postA",false); 
+	changeSetting(p,"postC",false);
+	changeSetting(p,"postCb",false);
+}
+
+/*----------------------------------------------------------------------------*/
+
+function changeSetting(el,id,toggle)
+{ 
+	while (true)
+	{ 
+		if (el==null) 
+			return false;
+		if (el.id==id) 
+			break; 
+		el=el.parentElement;
+	}
+	els=el.children; 
+	for(i = 0;i<els.length;i++)
+	{
+		el=els[i]; 
+		st=el.style; 
+		if (el.id=="clickable")
+			continue; 
+		if((""==st.display)||(!toggle))
+		{
+			st.display="block"; 
+			if (toggle&&(id=="postA")) 
+				el.parentElement.scrollIntoView(true);
+		}
+		else 
+			st.display=""
+	} 
+	return true;
+}
+
+/*----------------------------------------------------------------------------*/
+
+function toggle(a)
+{
+  for(var i = 0; i < a.parentNode.childNodes.length; i++)
+  {
+   var n = a.parentNode.childNodes[i];
+   if(n.id == "postB" || n.id == "postD" || n.id == "postDb")
+    {
+     if(n.style.display != "block")
+     {
+       n.style.display = "block";
+     }
+     else
+     {
+       n.style.display = "none";
+     }
+     if(n.id == "postB")
+     {
+       a.parentNode.scrollIntoView(true);
+      }
+     }
+  }
+}
+
+/*----------------------------------------------------------------------------*/
+
+document.onclick=handleClick
+
+</script>
+</head>
+
+<body leftmargin="0" topmargin="0">
+
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td height="88" valign=middle class="header"><a name="top">
+<table width="100%" border="0" cellspacing="2" cellpadding="0">
+<tr>
+<td width="145" valign="top"><strong>Database Server:</strong></td>
+<td>127.0.0.1</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>Application:</strong></td>
+<td>DvcBogota</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>Trace Instance:</strong></td>
+<td>C:\PROGRA~1\Postilion\Trace\DvcBogota\Application</td>
+</tr>
+<tr>
+<td width="145" valign="top"><strong>File Created:</strong></td>
+<td>Sep 05 22h01:32.080</td>
+</tr>
+</table>
+</a></td>
+</tr>
+
+<tr>
+<td class="bar">&nbsp;</td>
+</tr>
+<tr>
+<td class="content">
+
+<p><DIV id="postA"><a href="javascript://" onClick="toggle(this)">Postilion v5.3.00.276251</a>
+<DIV id="postB"><UL><XMP>
+Database Server:      127.0.0.1
+Application:          DvcBogota
+Application Version:  Realtime Framework SDK:v5.3.00.276251 (Patches: 101);jTDS Type 4 JDBC Driver for MS SQL Server and Sybase JDBC Driver:v1.2;Sun Microsystems Inc. JVM:v1.6.0_13;DvcBogota:v2.2.00.1309051-r5.3
+Trace Instance:       C:\PROGRA~1\Postilion\Trace\DvcBogota\Application
+</XMP></UL><HR></DIV>
+</DIV></p>
+
+
+<DIV>[Sep 05 22h01:32.080] - Trace started.</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.080] - <a href="javascript://" onClick="toggle(this)">Warning event 33</a>
+<DIV id="postB"><UL>
+The system property &#039;postilion.eventrecorder.desensitize_event_data&#039; has been set to &#039;false&#039;. Sensitive event parameters will not be desensitized by this application (DvcBogota). This installation may be out of compliance with the Payment Card Industry Data Security Standard (PCI DSS).</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.080] - <a href="javascript://" onClick="toggle(this)">Warning event 34</a>
+<DIV id="postB"><UL>
+The system property &#039;postilion.env.allow_insecure_commands&#039; has been set to &#039;true&#039;. Auditing of commands issued to this application (DvcBogota), via the command port, will be accepted from any remote entity. This installation may be out of compliance with the Payment Card Industry Data Security Standard (PCI DSS).</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.096] - <a href="javascript://" onClick="toggle(this)">Warning event 38</a>
+<DIV id="postB"><UL>
+The system property &#039;postilion.tracing.desensitize_node_data&#039; has been set to &#039;false&#039;. Sensitive tracing data of the Postilion private message fields Retention Data (127.8), Additional Node Data (127.9) and Structured Data (127.22) will not be desensitized by this application (DvcBogota). This installation may be out of compliance with the Payment Card Industry Data Security Standard (PCI DSS).</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.096] - <a href="javascript://" onClick="toggle(this)">Warning event 39</a>
+<DIV id="postB"><UL>
+The Postilion Audit Trail is not active. User-initiated Postilion configuration changes will not be recorded. This installation may be out of compliance with the Payment Card Industry Data Security Standard (PCI DSS).</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.096] - <a href="javascript://" onClick="toggle(this)">Application 'DvcBogota' was started</a>
+<DIV id="postB"><UL>
+The application &#039;DvcBogota&#039; has been initialized successfully and is ready for processing.</UL><HR></DIV>
+</DIV>
+<!--EOM-->
+<DIV id="postA">[Sep 05 22h01:32.111] - <a href="javascript://" onClick="toggle(this)">Application 'DvcBogota' initialization completed</a>
+<DIV id="postB"><UL>
+The application &#039;DvcBogota&#039; has completed its initialization.</UL><HR></DIV>
+</DIV>
+<!--EOM-->

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<?xml-stylesheet type="text/xsl" href="TH-testsuite-summary.xsl"?>
+<testsuites tests="1" failures="0" errors="0" success="1" time="25.641">
+   <testsuite tests="0" failures="0" errors="0" success="0" name="testcases" time="0.407" />
+   <testsuite tests="1" failures="0" errors="0" success="1" name="testcases.sink" time="25.234" />
+</testsuites>

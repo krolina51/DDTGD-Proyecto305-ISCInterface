@@ -1,0 +1,10 @@
+[name]node_interface[/name]=[data]DvcBogota[/data]
+[name]node[/name]=[data]DvcBogota[/data]
+[name]source_node[/name]=[data]NULL[/data]
+[name]sink_node[/name]=[data]DvcBogotaSnk[/data]
+[name]user_parameters[/name]=[data]2 0 0 0 0 0 0 9999 40 5 0002 0001 0001 0001 30 5 0 0 0 0 1 180 170 ATH 0001 0 01 0 0 00230001001 11[/data]
+[name]support_team[/name]=[data]NULL[/data]
+[name]worst_event_severity[/name]=[data]1[/data]
+[name]status[/name]=[data][/data]
+[name]status_cond[/name]=[data]1[/data]
+

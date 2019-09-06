@@ -1,0 +1,12 @@
+[name]node[/name]=[data]DvcBogota[/data]
+[name]sap[/name]=[data]DvcBogotaSap1[/data]
+[name]sap_type[/name]=[data]1[/data]
+[name]protocol[/name]=[data]0[/data]
+[name]address[/name]=[data],55001[/data]
+[name]setup_data[/name]=[data]0,0[/data]
+[name]secure[/name]=[data]0[/data]
+[name]max_nr_conn[/name]=[data]10[/data]
+[name]msg_mode[/name]=[data]3[/data]
+[name]nr_active_conns[/name]=[data]0[/data]
+[name]filter_properties[/name]=[data]NULL[/data]
+

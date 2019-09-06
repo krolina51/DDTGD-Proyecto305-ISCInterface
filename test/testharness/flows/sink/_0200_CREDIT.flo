@@ -1,0 +1,25 @@
+[add profile directory "../../profiles"]
+
+[send "0200" from DummySrc as MsgFlo.0200_Src
+	import SinkProfiles::M0200_CNB_Withdrawal_Credit_0200_Src
+	[
+	]
+]
+
+[receive "0200" at DvcBogotaSap1 as MsgFlo.0200_Snk
+	import SinkProfiles::M0200_CNB_Withdrawal_Credit_0200_Snk
+	[
+	]
+]
+
+[send "0210" from DvcBogotaSap1 as MsgFlo.0210_Snk
+	import SinkProfiles::M0200_CNB_Withdrawal_Credit_0210_Snk
+	[
+	]
+]
+
+[receive "0210" at DummySrc as MsgFlo.0210_Src
+	import SinkProfiles::M0200_CNB_Withdrawal_Credit_0210_Src
+	[
+	]
+]

@@ -1,0 +1,84 @@
+[name]id[/name]=[data]1[/data]
+[name]code_response[/name]=[data]C3[/data]
+[name]description[/name]=[data]Consumer fault deposito efectivo[/data]
+
+[name]id[/name]=[data]2[/data]
+[name]code_response[/name]=[data]C4[/data]
+[name]description[/name]=[data]Network timeout deposito efectivo[/data]
+
+[name]id[/name]=[data]3[/data]
+[name]code_response[/name]=[data]C5[/data]
+[name]description[/name]=[data]Hardware fault deposito efectivo[/data]
+
+[name]id[/name]=[data]4[/data]
+[name]code_response[/name]=[data]C6[/data]
+[name]description[/name]=[data]Cancel Next deposito efectivo[/data]
+
+[name]id[/name]=[data]5[/data]
+[name]code_response[/name]=[data]C7[/data]
+[name]description[/name]=[data]Deposit fault deposito efectivo[/data]
+
+[name]id[/name]=[data]6[/data]
+[name]code_response[/name]=[data]C8[/data]
+[name]description[/name]=[data]No media[/data]
+
+[name]id[/name]=[data]7[/data]
+[name]code_response[/name]=[data]C9[/data]
+[name]description[/name]=[data]Consumer Fault deposito cheque[/data]
+
+[name]id[/name]=[data]8[/data]
+[name]code_response[/name]=[data]CA[/data]
+[name]description[/name]=[data]Hardware Fault deposito cheque[/data]
+
+[name]id[/name]=[data]9[/data]
+[name]code_response[/name]=[data]CB[/data]
+[name]description[/name]=[data]Network Fault deposito cheque[/data]
+
+[name]id[/name]=[data]10[/data]
+[name]code_response[/name]=[data]CC[/data]
+[name]description[/name]=[data]MICR Fault deposito cheque[/data]
+
+[name]id[/name]=[data]11[/data]
+[name]code_response[/name]=[data]CD[/data]
+[name]description[/name]=[data]Media Fault deposito cheque[/data]
+
+[name]id[/name]=[data]12[/data]
+[name]code_response[/name]=[data]CE[/data]
+[name]description[/name]=[data]Cancel deposito cheque[/data]
+
+[name]id[/name]=[data]13[/data]
+[name]code_response[/name]=[data]CF[/data]
+[name]description[/name]=[data]Document Handling deposito cheque[/data]
+
+[name]id[/name]=[data]14[/data]
+[name]code_response[/name]=[data]CG[/data]
+[name]description[/name]=[data]Scanner Fault deposito cheque[/data]
+
+[name]id[/name]=[data]15[/data]
+[name]code_response[/name]=[data]CH[/data]
+[name]description[/name]=[data]Suspicious Magnetics[/data]
+
+[name]id[/name]=[data]16[/data]
+[name]code_response[/name]=[data]CI[/data]
+[name]description[/name]=[data]Consumer fault deposito efectivo monedero[/data]
+
+[name]id[/name]=[data]17[/data]
+[name]code_response[/name]=[data]CJ[/data]
+[name]description[/name]=[data]Network timeout deposito efectivo monedero[/data]
+
+[name]id[/name]=[data]18[/data]
+[name]code_response[/name]=[data]CK[/data]
+[name]description[/name]=[data]Hardware fault deposito efectivo monedero[/data]
+
+[name]id[/name]=[data]19[/data]
+[name]code_response[/name]=[data]CL[/data]
+[name]description[/name]=[data]Cancel Next deposito efectivo monedero[/data]
+
+[name]id[/name]=[data]20[/data]
+[name]code_response[/name]=[data]CM[/data]
+[name]description[/name]=[data]Deposit fault deposito efectivo monedero[/data]
+
+[name]id[/name]=[data]21[/data]
+[name]code_response[/name]=[data]CN[/data]
+[name]description[/name]=[data]No media deposito efectivo menedero[/data]
+

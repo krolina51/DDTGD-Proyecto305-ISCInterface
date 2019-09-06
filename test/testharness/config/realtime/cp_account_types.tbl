@@ -1,0 +1,84 @@
+[name]name[/name]=[data]Check-money market[/data]
+[name]acct_type[/name]=[data]21[/data]
+
+[name]name[/name]=[data]Check/Cheque[/data]
+[name]acct_type[/name]=[data]20[/data]
+
+[name]name[/name]=[data]Cr-commercial loan[/data]
+[name]acct_type[/name]=[data]35[/data]
+
+[name]name[/name]=[data]Cr-home equity loan[/data]
+[name]acct_type[/name]=[data]34[/data]
+
+[name]name[/name]=[data]Cr-installment loan[/data]
+[name]acct_type[/name]=[data]32[/data]
+
+[name]name[/name]=[data]Cr-line of credit[/data]
+[name]acct_type[/name]=[data]31[/data]
+
+[name]name[/name]=[data]Cr-mortgage loan[/data]
+[name]acct_type[/name]=[data]33[/data]
+
+[name]name[/name]=[data]Crediservice[/data]
+[name]acct_type[/name]=[data]43[/data]
+
+[name]name[/name]=[data]Credit[/data]
+[name]acct_type[/name]=[data]30[/data]
+
+[name]name[/name]=[data]Default/Unspecified[/data]
+[name]acct_type[/name]=[data]00[/data]
+
+[name]name[/name]=[data]Electronic purse[/data]
+[name]acct_type[/name]=[data]60[/data]
+
+[name]name[/name]=[data]Gift/SVC 1 dep 1 use[/data]
+[name]acct_type[/name]=[data]71[/data]
+
+[name]name[/name]=[data]Gift/SVC 1 dep m use[/data]
+[name]acct_type[/name]=[data]72[/data]
+
+[name]name[/name]=[data]Gift/SVC default[/data]
+[name]acct_type[/name]=[data]70[/data]
+
+[name]name[/name]=[data]Gift/SVC m dep m use[/data]
+[name]acct_type[/name]=[data]73[/data]
+
+[name]name[/name]=[data]Installment loan[/data]
+[name]acct_type[/name]=[data]92[/data]
+
+[name]name[/name]=[data]Inv-retirement acc[/data]
+[name]acct_type[/name]=[data]52[/data]
+
+[name]name[/name]=[data]Inv-revolve loan acc[/data]
+[name]acct_type[/name]=[data]53[/data]
+
+[name]name[/name]=[data]Inv-stock or bond[/data]
+[name]acct_type[/name]=[data]51[/data]
+
+[name]name[/name]=[data]Investment[/data]
+[name]acct_type[/name]=[data]50[/data]
+
+[name]name[/name]=[data]Mortgage loan[/data]
+[name]acct_type[/name]=[data]91[/data]
+
+[name]name[/name]=[data]Motos y Vehiculos[/data]
+[name]acct_type[/name]=[data]42[/data]
+
+[name]name[/name]=[data]Otros Pagos[/data]
+[name]acct_type[/name]=[data]41[/data]
+
+[name]name[/name]=[data]Savings[/data]
+[name]acct_type[/name]=[data]10[/data]
+
+[name]name[/name]=[data]Savings-cert of dep[/data]
+[name]acct_type[/name]=[data]12[/data]
+
+[name]name[/name]=[data]Savings-money market[/data]
+[name]acct_type[/name]=[data]11[/data]
+
+[name]name[/name]=[data]Type[/data]
+[name]acct_type[/name]=[data]01[/data]
+
+[name]name[/name]=[data]Universal[/data]
+[name]acct_type[/name]=[data]40[/data]
+
