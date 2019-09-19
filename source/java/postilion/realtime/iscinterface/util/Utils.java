@@ -174,10 +174,10 @@ public class Utils {
 					msg.getStructuredData().get("P_CODE").substring(2, 3).equals("1")? "0":
 						msg.getStructuredData().get("P_CODE").substring(2, 3).equals("2")? "1":msg.getStructuredData().get("P_CODE").substring(2, 3)))
 		
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._03_TRAN_AMOUNT_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION), "0", 15)))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._03_TRAN_AMOUNT_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION), "0", 15)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._04_SYS_TIME_TAG)).append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._012_TIME_LOCAL)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._05_DEBIT_ACC_NR_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1), "0", 10)))
-		.append(bodyType == 1 ? Transform.fromHexToBin(ISCReqMessage.Constants._REV_06_ORIGINAL_SEQ).concat(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(2))): "")
+		.append(bodyType == _REVERSE_BODY_TYPE ? Transform.fromHexToBin(ISCReqMessage.Constants._REV_06_ORIGINAL_SEQ).concat(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(2))): "")
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._06_CARD_NR_TAG)).append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 16)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._07_REC_NR_TAG)).append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(6, 12)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._08_TRAN_NACIONALITY_TAG)).append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._049_CURRENCY_CODE_TRAN).equals("170")? "1": "2"))
@@ -187,24 +187,25 @@ public class Utils {
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._10_ACQ_NETWORK_TAG)).append(Transform.fromAsciiToEbcdic("04"))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._11_TERM_ID_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._041_CARD_ACCEPTOR_TERM_ID).substring(5, 8), "0", 8)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._12_ORIGINAL_TRAN_TAG)).append(Transform.fromAsciiToEbcdic("0"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._13_AUTH_CODE_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(String.valueOf(Utils.getRandomNumberInRange(1, 999999)), "0", 8)))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._14_CREDIT_ENTITY_CODE_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._15_CREDIT_ACC_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("0"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._16_AVAL_CREDIT_ACC_NR_TAG)).append(Transform.fromAsciiToEbcdic("00000000000000000000"))
+		.append(bodyType != _REVERSE_BODY_TYPE ? Transform.fromHexToBin(ISCReqMessage.Constants._13_AUTH_CODE_TAG).concat(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("SEQ_TERMINAL").split(",")[1].trim(), 8, '0', false))): 
+			Transform.fromHexToBin(ISCReqMessage.Constants._13_AUTH_CODE_TAG).concat(Transform.fromAsciiToEbcdic(Pack.resize(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(2), 8, '0', false))))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._14_CREDIT_ENTITY_CODE_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._15_CREDIT_ACC_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("0"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._16_AVAL_CREDIT_ACC_NR_TAG)).append(Transform.fromAsciiToEbcdic("00000000000000000000"))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._17_TERM_LOCATION_TAG)).append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC)))
 		.append(Transform.fromHexToBin(ISCReqMessage.Constants._18_DEBIT_CARD_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("VS"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._19_IDEN_DOC_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("0"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._20_IDEN_DOC_NR_TAG)).append(Transform.fromAsciiToEbcdic(msg.getStructuredData().get("CUSTOMER_ID").substring(9)))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._21_ACQ_ENTITY_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._041_CARD_ACCEPTOR_TERM_ID).substring(5, 8), "0", 4)))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._22_ACQ_OFFICE_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._23_DEVICE_TAG)).append(Transform.fromAsciiToEbcdic("A"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._24_CORRES_CARD_NR_TAG)).append(Transform.fromAsciiToEbcdic("0000000000000000"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._25_CORRES_CARD_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("00"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._26_TRAN_INDICATOR_TAG)).append(Transform.fromAsciiToEbcdic("M"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._27_VIRT_PURCH_INDICATOR_TAG)).append(Transform.fromAsciiToEbcdic("0"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._28_STANDIN_INDICATOR_TAG)).append(Transform.fromAsciiToEbcdic("N"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._29_TRAN_IDENTIFICATOR_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
-		.append(Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_AMOUNT_TAG)).append(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("SECURE_AMOUNT") != null? msg.getStructuredData().get("SECURE_AMOUNT"): "0", 15, '0', false)));
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._19_IDEN_DOC_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("0"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._20_IDEN_DOC_NR_TAG)).append(Transform.fromAsciiToEbcdic(msg.getStructuredData().get("CUSTOMER_ID").substring(9)))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._21_ACQ_ENTITY_TAG)).append(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._041_CARD_ACCEPTOR_TERM_ID).substring(5, 8), "0", 4)))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._22_ACQ_OFFICE_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._23_DEVICE_TAG)).append(Transform.fromAsciiToEbcdic("A"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._24_CORRES_CARD_NR_TAG)).append(Transform.fromAsciiToEbcdic("0000000000000000"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._25_CORRES_CARD_TYPE_TAG)).append(Transform.fromAsciiToEbcdic("00"))
+		.append(Transform.fromHexToBin(ISCReqMessage.Constants._26_TRAN_INDICATOR_TAG)).append(bodyType == _COST_INQUIRY_BODY_TYPE ? Transform.fromAsciiToEbcdic("I"):Transform.fromAsciiToEbcdic("M"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._27_VIRT_PURCH_INDICATOR_TAG)).append(Transform.fromAsciiToEbcdic("0"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._28_STANDIN_INDICATOR_TAG)).append(Transform.fromAsciiToEbcdic("N"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._29_TRAN_IDENTIFICATOR_TAG)).append(Transform.fromAsciiToEbcdic("0000"))
+		.append(bodyType == _COST_INQUIRY_BODY_TYPE ? "":Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_AMOUNT_TAG)).append(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("SECURE_AMOUNT") != null? msg.getStructuredData().get("SECURE_AMOUNT"): "0", 15, '0', false)));
 		
 		return sd.toString();
 	}
@@ -259,8 +260,8 @@ public class Utils {
 
 		date.append(String.valueOf(cal.get(Calendar.YEAR)).substring(2, 4));
 		date.append(
-				String.valueOf(cal.get(Calendar.MONTH + 1)).length() > 1 ? String.valueOf(cal.get(Calendar.MONTH + 1))
-						: "0" + String.valueOf(cal.get(Calendar.MONTH + 1)));
+				String.valueOf(cal.get(Calendar.MONTH) + 1).length() > 1 ? String.valueOf(cal.get(Calendar.MONTH) + 1)
+						: "0" + String.valueOf(cal.get(Calendar.MONTH) + 1));
 		date.append(String.valueOf(cal.get(Calendar.DAY_OF_MONTH)).length() > 1
 				? String.valueOf(cal.get(Calendar.DAY_OF_MONTH))
 				: "0" + String.valueOf(cal.get(Calendar.DAY_OF_MONTH)));
@@ -284,4 +285,8 @@ public class Utils {
 		Random r = new Random();
 		return r.nextInt((max - min) + 1) + min;
 	}
+	
+	public static final int _WITHDRAWAL_BODY_TYPE = 0;
+	public static final int _COST_INQUIRY_BODY_TYPE = 1;
+	public static final int _REVERSE_BODY_TYPE = 2;
 }

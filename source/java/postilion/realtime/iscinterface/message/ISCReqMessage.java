@@ -53,7 +53,7 @@ public class ISCReqMessage extends StreamMessage {
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._03_H_CICS_TRAN_CODE, ValidatorCustom.getAnsc(), 4));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._04_H_DELIMITER, ValidatorCustom.getAnsc(), 3));//6	
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._05_H_TRAN_CODE, ValidatorCustom.getAnsc(), 4));//8
-		containerDestination.add(new StreamFormatterFieldFixed(Fields._06_H_ATM_ID, ValidatorCustom.getAnsc(), 4));//8
+		containerDestination.add(new StreamFormatterFieldVar(Fields._06_H_ATM_ID, ValidatorCustom.getAnsc(), 5, true));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._07_H_FILLER, ValidatorCustom.getAnsc(), 4));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._08_H_TRAN_SEQ_NR, ValidatorCustom.getAnsc(), 4));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._09_H_STATE, ValidatorCustom.getAnsc(), 3));//6
