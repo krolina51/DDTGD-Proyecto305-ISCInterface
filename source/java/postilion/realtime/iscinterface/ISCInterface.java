@@ -17,15 +17,12 @@ import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.eventrecorder.events.NodeConnected;
-import postilion.realtime.sdk.ipc.SecurityManager;
 import postilion.realtime.sdk.message.IMessage;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
-import postilion.realtime.sdk.message.bitmap.Iso8583Rev93;
 import postilion.realtime.sdk.message.bitmap.ProcessingCode;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.message.bitmap.XFieldUnableToConstruct;
-import postilion.realtime.sdk.message.stream.StreamMessage;
 import postilion.realtime.sdk.node.AInterchangeDriver8583;
 import postilion.realtime.sdk.node.AInterchangeDriverEnvironment;
 import postilion.realtime.sdk.node.Action;
@@ -140,8 +137,11 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
 		// para la transaación
 		String cons = this.dummyConsecutive == false
-				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9))
+				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), "00")
 				: null;
+				
+		//Logger.logLine(DBHandler.addHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), cons));
+		//Logger.logLine(DBHandler.getHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)));
 
 		// verificación del numero consecutivo
 		if (cons == null || cons.trim().equals("")) {
@@ -234,7 +234,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
 			} else {
 				responseCode = FilterSettings.getFilterCodeISCToIso("0000", allCodesIscToIso);
-				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(2)
+				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
 						.concat(sd.get("SEQ_TERMINAL").split(",")[1].trim()));
 			}
 
@@ -302,8 +302,10 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
 		// para la transaación
 		String cons = this.dummyConsecutive == false
-				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9))
+				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(0, 2))
 				: null;
+				
+		Logger.logLine(DBHandler.getHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)));
 
 		// verificación del numero consecutivo
 		if (cons == null || cons.trim().equals("")) {
@@ -351,7 +353,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
 			} else {
 				responseCode = FilterSettings.getFilterCodeISCToIso("0000", allCodesIscToIso);
-				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(2)
+				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
 						.concat(sd.get("SEQ_TERMINAL").split(",")[1].trim()));
 			}
 
@@ -497,12 +499,12 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	 * @param atmId
 	 * @return
 	 **************************************************************************************/
-	private String getTransactionConsecutive(String termPrefix) {
+	private String getTransactionConsecutive(String termPrefix, String term) {
 		String output = null;
 
 		// To-DO consultar consecutivo
 		try {
-			output = DBHandler.getCalculateConsecutive("AT");
+			output = DBHandler.getCalculateConsecutive("AT", "00");
 
 		} catch (Exception e) {
 			Logger.logLine(e.getMessage());
@@ -864,6 +866,8 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		// Campo privado para secuencia de la transacción
 		sd.put("RETRIEVED_ACCOUNT", inMsg.getField(Iso8583.Bit._102_ACCOUNT_ID_1));
+		
+		sd.put("REFERENCE_KEY", inMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).concat("|").concat(consecutive.split(",")[0].trim().concat(consecutive.split(",")[1].trim())));
 
 		inMsg.putStructuredData(sd);
 
@@ -873,25 +877,6 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		inMsg.putStructuredData(sd);
 
 		return inMsg;
-	}
-
-	/**************************************************************************************
-	 * Metodo que será usado para la verificación de las tarjetas/cuentas en
-	 * PostCard
-	 * 
-	 * @param cardNr
-	 * @param accountType
-	 * @param accountNr
-	 * @throws Exception
-	 **************************************************************************************/
-	private void checkCardAccountsPostcard(String cardNr) throws Exception {
-
-		// TO-DO debe utilizar los mecanismos para ir a postcard y validar el tipo de
-		// cuenta correct
-		SecurityManager sm = new SecurityManager();
-		String panRef = sm.getPanReference(cardNr);
-		String cons = getTransactionConsecutive(panRef);
-
 	}
 
 	/**************************************************************************************

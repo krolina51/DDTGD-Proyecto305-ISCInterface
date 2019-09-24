@@ -54,7 +54,7 @@ public class ISCReqMessage extends StreamMessage {
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._04_H_DELIMITER, ValidatorCustom.getAnsc(), 3));//6	
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._05_H_TRAN_CODE, ValidatorCustom.getAnsc(), 4));//8
 		containerDestination.add(new StreamFormatterFieldVar(Fields._06_H_ATM_ID, ValidatorCustom.getAnsc(), 5, true));//8
-		containerDestination.add(new StreamFormatterFieldFixed(Fields._07_H_FILLER, ValidatorCustom.getAnsc(), 4));//8
+		containerDestination.add(new StreamFormatterFieldFixed(Fields._07_H_FILLER, ValidatorCustom.getAnsc(), 3));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._08_H_TRAN_SEQ_NR, ValidatorCustom.getAnsc(), 4));//8
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._09_H_STATE, ValidatorCustom.getAnsc(), 3));//6
 		containerDestination.add(new StreamFormatterFieldFixed(Fields._10_H_TIME, ValidatorCustom.getAnsc(), 6));//12
@@ -109,7 +109,7 @@ public class ISCReqMessage extends StreamMessage {
 		//Header
 		private static final String HEADER_FRAME = "313233343536";
 		private static final String CICS_TRAN_CODE = "E5C9C2C1"; //VIBA-->ebcdic-->hex
-		private static final String HEADER_FILLER = "40404040";
+		private static final String HEADER_FILLER = "404040"; //Anteriormente 40404040
 		private static final String HEADER_FILLER_2 = "4040404040404040";
 		private static final String SUPER_ID = "F0F0F0F0F0F0F0F0";
 		private static final String DELIMITER = "114040";

@@ -8,6 +8,7 @@ import java.sql.SQLException;
 
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.sdk.jdbc.JdbcManager;
+import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.util.XPostilion;	
 
 /**
@@ -27,7 +28,7 @@ public class DBHandler
 	 * @return
 	 *	Hastable with the configuration 	 
 	 */
-	public static String getCalculateConsecutive(String atmId) throws Exception
+	public static String getCalculateConsecutive(String atmId, String termId) throws Exception
 	{
 
 		String consecutive = null;
@@ -39,11 +40,12 @@ public class DBHandler
 		{
 			
 			cn = JdbcManager.getDefaultConnection();
-			stmt = cn.prepareCall ("{call Get_Consecutivo(?, ?)}");
+			stmt = cn.prepareCall ("{call Get_Consecutivo(?, ?, ?)}");
 			stmt.setString(1, atmId);
-			stmt.registerOutParameter(2, java.sql.Types.VARCHAR);
+			stmt.setString(2, termId);
+			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
 			stmt.execute();
-			consecutive = stmt.getString(2);
+			consecutive = stmt.getString(3);
 			Logger.logLine("####>"+consecutive);
 			JdbcManager.commit(cn, stmt, rs);			
 		}
@@ -123,6 +125,42 @@ public class DBHandler
 			JdbcManager.cleanup(cn, stmt, rs);
 		}
 
+	}
+	
+	public static String getHistoricalConsecutive(String retrivalRef) throws Exception
+	{
+
+		StructuredData sd = new StructuredData();
+		Connection cn = null;
+		CallableStatement stmt = null;
+		ResultSet rs = null;
+		
+		try
+		{
+			
+			cn = JdbcManager.getDefaultConnection();
+			stmt = cn.prepareCall ("{call cust_get_structured_data_by_ref_nr(?, ?)}");
+			stmt.setString(1, retrivalRef);
+			stmt.registerOutParameter(2, java.sql.Types.VARCHAR);
+			stmt.execute();
+			sd.fromMsgString(stmt.getString(2));
+			Logger.logLine("##Retrived original SD##>"+retrivalRef+" :: "+sd);
+			JdbcManager.commit(cn, stmt, rs);			
+		}
+		
+		catch (Exception e)
+		{			
+			Logger.logLine("##ERROR RETRIVING##>"+e.getStackTrace());
+			throw new XPostilion();
+		}
+		finally
+		{
+			JdbcManager.cleanup(cn, stmt, rs);
+		}
+		
+		Logger.logLine("##SD Key INFO##>"+sd.get("REFERENCE_KEY"));
+		
+		return sd.get("REFERENCE_KEY");	
 	}
 
 }
