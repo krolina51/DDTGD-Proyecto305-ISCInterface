@@ -1,6 +1,5 @@
 package postilion.realtime.iscinterface;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.HashMap;
@@ -123,16 +122,11 @@ public class ISCInterface extends AInterchangeDriver8583 {
 				msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()));
 
 		// Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
-		String canal = (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
-				&& msg.getStructuredData().get("B24_Field_41") != null)
-						? canal = msg.getStructuredData().get("B24_Field_41").substring(12, 13)
-						: null;
+		String canal = Utils.getTranChannel(msg);
 
 		// Se determina el tipo de transacción "AAAA_BBBBBB_C"
 		// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
-		StringBuilder tranTypeBuilder = new StringBuilder();
-		tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString()).append("_")
-				.append(canal);
+		String tranTypeBuilder = Utils.getTranType(msg, canal);
 
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
 		// para la transaación
@@ -159,7 +153,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 			Logger.logLine("SECUENCIA DE TRAN REQ: " + msg.getStructuredData().get("SEQ_TERMINAL"));
 
 			if (!this.isIsoPassThrough) {
-				Logger.logLine("TRAN_TYPE----->" + tranTypeBuilder.toString());
+				Logger.logLine("TRAN_TYPE----->" + tranTypeBuilder);
 				switch (tranTypeBuilder.toString()) {
 				case _TRAN_RETIRO_AHORRO:
 					msg2Remote = processWithdrawal(msg);
@@ -222,48 +216,14 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		Action act = new Action();
 
 		if (msg != null) {
-			msg2TM = new Iso8583Post();
+			
 			msg2TM = (Iso8583Post) msg;
 
 			StructuredData sd = msg2TM.getStructuredData();
 
-			ResponseCode responseCode = new ResponseCode();
-			if (msg2TM.getStructuredData().get("ERROR") != null) {
-				responseCode = FilterSettings.getFilterCodeISCToIso(msg2TM.getStructuredData().get("ERROR"),
-						allCodesIscToIso);
-				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
-			} else {
-				responseCode = FilterSettings.getFilterCodeISCToIso("0000", allCodesIscToIso);
-				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
-						.concat(sd.get("SEQ_TERMINAL").split(",")[1].trim()));
-			}
-
-			Logger.logLine("RESPOSE CODE KEY>>>" + responseCode.getKeyIsc());
-			Logger.logLine("RESPOSE CODE DESCRIP>>>" + responseCode.getDescriptionIsc());
-
-			msg2TM.putField(Iso8583.Bit._039_RSP_CODE, responseCode.getKeyIso());
-
-			sd.put("B24_Field_126",
-					sd.get("COMISION") != null
-							? sd.get("B24_Field_126").substring(0, sd.get("B24_Field_126").length() - 14)
-									.concat(Pack.resize(sd.get("COMISION").replace(".", ""), 12, '0', false))
-									.concat(sd.get("B24_Field_126").substring(sd.get("B24_Field_126").length() - 2))
-							: sd.get("B24_Field_126"));
-			sd.put("B24_Field_63",
-					responseCode.getKeyIsc().concat(Pack.resize(responseCode.getDescriptionIsc(), 44, ' ', true)));
-
-			sd.put("B24_Field_40", "000");
-			if (sd.get("SALDO_DISPONIBLE") != null) {
-				sd.put("B24_Field_44", "2000000000000".concat(
-						Pack.resize(sd.get("SALDO_DISPONIBLE").replace(",", "").replace(".", ""), 12, '0', false)));
-			} else {
-				sd.put("B24_Field_44", "2000000000000000000000000");
-			}
-
-			sd.put("B24_Field_48",
-					sd.get("AV_SEGURO") != null ? sd.get("B24_Field_48")
-							.substring(0, sd.get("B24_Field_48").length() - 1).concat(sd.get("AV_SEGURO"))
-							: sd.get("B24_Field_48"));
+			ResponseCode rspCode = Utils.set38And39Fields(msg2TM, allCodesIscToIso);
+			
+			sd = putAdditionalStructuredDataRspFields(msg2TM, rspCode);
 
 			sd.put("I2_RSP_TIME", String.valueOf(System.currentTimeMillis() - this.startTime));
 
@@ -879,6 +839,39 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		return inMsg;
 	}
 
+	private StructuredData putAdditionalStructuredDataRspFields(Iso8583Post msg, ResponseCode rspCode) throws XPostilion {
+		
+		StructuredData sd = msg.getStructuredData();
+		
+		switch (Utils.getTranType(msg, Utils.getTranChannel(msg))) {
+		case _TRAN_RETIRO_AHORRO:
+			Utils.putB24Field126IntoStructuredData(sd);
+			Utils.putB24Field63IntoStructuredData(sd, rspCode);
+			Utils.putB24Field40IntoStructuredData(sd);
+
+			Utils.putB24Field44IntoStructuredData(sd);
+			Utils.putB24Field48IntoStructuredData(sd);
+			break;
+		case _TRAN_RETIRO_CORRIENTE:
+			Utils.putB24Field126IntoStructuredData(sd);
+			Utils.putB24Field63IntoStructuredData(sd, rspCode);
+			Utils.putB24Field40IntoStructuredData(sd);
+
+			Utils.putB24Field44IntoStructuredData(sd);
+			Utils.putB24Field48IntoStructuredData(sd);
+			break;
+		case _TRAN_COSULTA_COSTO:
+			Utils.putB24Field126IntoStructuredData(sd);
+			Utils.putB24Field63IntoStructuredData(sd, rspCode);
+			Utils.putB24Field48IntoStructuredData(sd);
+			break;
+		default:
+			break;
+		}
+		
+		return sd;
+	}
+	
 	/**************************************************************************************
 	 * Metodo que sirve para recuperar la configuración asociada a la transacción
 	 * 
