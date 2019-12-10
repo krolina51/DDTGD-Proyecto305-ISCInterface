@@ -66,6 +66,10 @@ config["Events"] = \
 config["Java"] = \
    {
       "BasePackage"          : "postilion.realtime.iscinterface",
+      "ClassPaths"			 : \
+      	 [
+           ".\\resources\\oem\\lib\\LibIsoTranslateB24.jar"
+         ],
       "SourceDirs"           : \
          [
             (".\\source\\java", RealtimeAppBuilder.INCLUDE_RECURSE)

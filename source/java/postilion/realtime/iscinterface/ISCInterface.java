@@ -1,11 +1,15 @@
 package postilion.realtime.iscinterface;
 
 import java.util.ArrayList;
-import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry.Entry;
+
+import monitor.core.dto.MonitorSnapShot;
+import monitor.core.dto.Observable;
+import monitor.core.dto.SnapShotSeverity;
 import postilion.realtime.commonclass.FilterSettings;
 import postilion.realtime.commonclass.model.ResponseCode;
 import postilion.realtime.iscinterface.database.DBHandler;
@@ -43,6 +47,20 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	long startTime = 0;
 
 	long endTime = 0;
+	
+	MonitorSnapShot monitorMsg200;
+	
+	MonitorSnapShot monitorMsg210; 
+	
+	MonitorSnapShot monitorNetworkAdv;
+	
+	MonitorSnapShot monitorRevAdv;
+	
+	MonitorSnapShot monitorRevAdvRsp;
+	
+	MonitorSnapShot monitorFileUpdateAdv;
+	
+	private AInterchangeDriverEnvironment thisInter;
 
 	/**
 	 * Contine las configuraciones para hacer buscar los codigos equiavalentes de
@@ -65,19 +83,28 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 	// Parametro que indica si la interchange debe consultar el consecutivo
 	private boolean dummyConsecutive = false;
+	
+	// Parametro que indica en modo en que se procesaran los MonitorSnapShop para monitoreo de la aplicacion
+	private int monitorLogMode = 0;
 
 	// Mapa donde se alojara toda la configuracion desde la BBDD se apoyo
 	public static Map<String, String> allConfig = new HashMap<>();
 
 	// Arreglo donde se alojaran los user parameters de la interchange
 	public static String[] userParams = null;
+	
 
+	@Override
 	/***************************************************************************************
 	 * Implementación de metodo del SDK, sirve para inicializar
 	 ***************************************************************************************/
-	public void init(AInterchangeDriverEnvironment interchange) throws XPostilion, Exception {
+	public void init(AInterchangeDriverEnvironment interchange) throws XPostilion {
+		
+		thisInter = interchange;
 
 		String[] parameterArray = getParameters(interchange);
+		
+		Logger.logLine("INIT params "+parameterArray.length);
 
 		try {
 
@@ -85,10 +112,14 @@ public class ISCInterface extends AInterchangeDriver8583 {
 			this.isIsoPassThrough = Boolean.valueOf(parameterArray[1]); // recibe ISO y entrega ISo
 			this.onlyDummyReq = Boolean.valueOf(parameterArray[2]); // solo enviar ISC dummy msg
 			this.dummyConsecutive = Boolean.valueOf(parameterArray[3]); // solo recibir ISC dummy msg
+			this.monitorLogMode = Integer.parseInt(parameterArray[4]);
 
 			allCodesIscToIso = postilion.realtime.commonclass.handler.DBHandler.getResponseCodes(true);
+			
+			for(Map.Entry<String, ResponseCode> e: allCodesIscToIso.entrySet()) {
+				Logger.logLine("allCodesIscToIso "+e.getKey()+"::"+e.getValue());
+			}
 
-			Logger.logLine("INIT");
 			if (allCodesIscToIso.size() > 0) {
 				for (Map.Entry<String, ResponseCode> e : allCodesIscToIso.entrySet()) {
 					Logger.logLine(e.getKey() + "::" + e.getValue().getKeyIso());
@@ -107,19 +138,17 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	 ***************************************************************************************/
 	public Action processTranReqFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
 			throws XFieldUnableToConstruct, XPostilion, Exception {
+		
+		Logger.logLine("****processTranReqFromTranmgr****");
+		
+		// Snapshot de monitoreo
+		monitorMsg200 = new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
+		monitorMsg200.getObservables().put("processTranReqFromTranmgr", new Observable("metodo que recibe msg 200", "processTranReqFromTranmgr", msg.toString()));
 
-		// Logger.logLine("MSG desde TM\n"+msg.toString());
 		this.startTime = System.currentTimeMillis();
-
 		IMessage msg2Remote = null;
 		Iso8583Post msg2TM = null;
-
 		Action act = new Action();
-
-		// Se usa el metodo getDBSettings para traer la configuracion de base de datos
-		// para la transaccion
-		HashMap<String, String> config = getDBSettings(
-				msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()));
 
 		// Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
 		String canal = Utils.getTranChannel(msg);
@@ -131,7 +160,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
 		// para la transaación
 		String cons = this.dummyConsecutive == false
-				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), "00")
+				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), "00", monitorMsg200)
 				: null;
 				
 		//Logger.logLine(DBHandler.addHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), cons));
@@ -139,7 +168,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		// verificación del numero consecutivo
 		if (cons == null || cons.trim().equals("")) {
-
+			
 			String errorMsg = "Error recuperando el consecutivo para la transaccion: "
 					+ msg.getField(Iso8583Post.Bit._037_RETRIEVAL_REF_NR);
 			act.putMsgToTranmgr((Iso8583Post) createErrorRspMsg(msg, errorMsg));
@@ -148,17 +177,14 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		} else {
 
-			msg = mapISOFieldsInISOMessage(msg);
-			msg = addingAdditionalStructuredDataFields(msg, cons);
+			mapISOFieldsInISOMessage(msg);
+			addingAdditionalStructuredDataFields(msg, cons);
 			Logger.logLine("SECUENCIA DE TRAN REQ: " + msg.getStructuredData().get("SEQ_TERMINAL"));
 
 			if (!this.isIsoPassThrough) {
 				Logger.logLine("TRAN_TYPE----->" + tranTypeBuilder);
 				switch (tranTypeBuilder.toString()) {
 				case _TRAN_RETIRO_AHORRO:
-					msg2Remote = processWithdrawal(msg);
-					act = new Action(null, msg2Remote, null, null);
-					break;
 				case _TRAN_RETIRO_CORRIENTE:
 					msg2Remote = processWithdrawal(msg);
 					act = new Action(null, msg2Remote, null, null);
@@ -168,17 +194,20 @@ public class ISCInterface extends AInterchangeDriver8583 {
 					act = new Action(null, msg2Remote, null, null);
 					break;
 				case _TRAN_COMPRA_AHORRO:
-					msg2TM = dummyApprobedGoodAndServices(msg);
-					act = new Action(msg2TM, null, null, null);
-					break;
 				case _TRAN_COMPRA_CORRIENTE:
 					msg2TM = dummyApprobedGoodAndServices(msg);
 					act = new Action(msg2TM, null, null, null);
 					break;
 				default:
-					Logger.logLine("Tipo de Transaccion no coincide");
-					EventRecorder.recordEvent(new Exception("Tipo de Transaccion no coincide ["
-							+ tranTypeBuilder.toString() + "][" + _TRAN_RETIRO_AHORRO + "]"));
+					Logger.logLine("Tipo de trasacción no definida");
+					EventRecorder.recordEvent(new Exception("Tipo de trasacción no definida ["
+							+ tranTypeBuilder.toString() + "]"));
+					
+					act.putMsgToTranmgr((Iso8583Post) createErrorRspMsg(msg, "Tipo de trasacción no definida"));
+					
+					monitorMsg200.getObservables().get("processTranReqFromTranmgr").setDescription("Tipo de trasacción no definida ["+tranTypeBuilder.toString()+"]");
+					monitorMsg200.getObservables().get("processTranReqFromTranmgr").setSeverity(SnapShotSeverity.WARN);
+					monitorMsg200.getObservables().get("processTranReqFromTranmgr").setCurrentTran(msg.toString());
 				}
 			} else {
 				msg2Remote = msg;
@@ -193,11 +222,14 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		Logger.logLine("[MSG][OutFromTM] \n" + msg.toString());
 		Logger.logLine("[MSG][OutFromTM SD] \n" + msg.getStructuredData());
-		// Logger.logLine("[MSG][Out2Remote] \n"+msg2Remote.toString());
 
 		Logger.logLine(
 				"========================================\n========================================\n========================================\n");
 
+		//Snapshot de monitoreo
+		monitorMsg200.close();
+		Logger.logLine("[TEST -->] \n" + monitorMsg200.obj2Json());
+		
 		return act;
 	}
 
@@ -219,11 +251,9 @@ public class ISCInterface extends AInterchangeDriver8583 {
 			
 			msg2TM = (Iso8583Post) msg;
 
-			StructuredData sd = msg2TM.getStructuredData();
-
 			ResponseCode rspCode = Utils.set38And39Fields(msg2TM, allCodesIscToIso);
 			
-			sd = putAdditionalStructuredDataRspFields(msg2TM, rspCode);
+			StructuredData sd = putAdditionalStructuredDataRspFields(msg2TM, rspCode);
 
 			sd.put("I2_RSP_TIME", String.valueOf(System.currentTimeMillis() - this.startTime));
 
@@ -237,17 +267,23 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		Logger.logLine("[MSG][OutToTM SD] \n" + msg2TM.getStructuredData());
 		Logger.logLine(
 				"================================\n================================\n================================\n");
+		
+		monitorMsg210.close();
 		return act;
 	}
 
 	@Override
-	public Action processNwrkMngAdvFromInterchange(AInterchangeDriverEnvironment interchange, Iso8583 msg)
-			throws Exception {
+	public Action processNwrkMngAdvFromInterchange(AInterchangeDriverEnvironment interchange, Iso8583 msg) {
+		
+		monitorNetworkAdv = new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
+		monitorNetworkAdv.getObservables().put("processNwrkMngAdvFromInterchange", new Observable("metodo para procesar mgs de red", "processNwrkMngAdvFromInterchange", msg.toString()));
 
 		Iso8583Post networkAdv = (Iso8583Post) msg;
 		Action action = new Action();
 		action.putMsgToTranmgr(networkAdv);
 
+		monitorNetworkAdv.getObservables().get("processNwrkMngAdvFromInterchange").setCurrentTran(msg.toString());
+		monitorNetworkAdv.getObservables().get("processNwrkMngAdvFromInterchange").close();
 		return action;
 	}
 
@@ -257,15 +293,23 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	@Override
 	public Action processAcquirerRevAdvFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
 			throws Exception {
+		
+		Logger.logLine("**PROCESANDO REVERSO**");
+		Logger.logLine("ES REPETICIÓN: "+msg.getMessageType());
+		Logger.logLine(msg.toString());
+		
+		monitorRevAdv = new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
+		monitorRevAdv.getObservables().put("processAcquirerRevAdvFromTranmgr", new Observable("metodo para procesar reversos desde TM", "processAcquirerRevAdvFromTranmgr", msg.toString()));
+		
 		Action act = new Action();
 
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
 		// para la transaación
 		String cons = this.dummyConsecutive == false
-				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(0, 2))
+				? getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(0, 2), monitorRevAdv)
 				: null;
 				
-		Logger.logLine(DBHandler.getHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)));
+		Logger.logLine(DBHandler.getHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), monitorRevAdv));
 
 		// verificación del numero consecutivo
 		if (cons == null || cons.trim().equals("")) {
@@ -277,15 +321,30 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		} else {
 
-			msg = mapISOFieldsInISOMessage(msg);
-			msg = addingAdditionalStructuredDataFields(msg, cons);
+			mapISOFieldsInISOMessage(msg);
+			addingAdditionalStructuredDataFields(msg, cons);
 			Logger.logLine("SECUENCIA DE TRAN ADV: " + msg.getStructuredData().get("SEQ_TERMINAL"));
+			
+			if(msg.getMessageType().equals("0420")) {
+				this.transStore.put(cons.split(",")[0].trim().concat(cons.split(",")[1].trim()), msg);
+
+				ISCReqMessage reverso = (ISCReqMessage) processReverse(msg);
+				act.putMsgToRemote(reverso);
+			}
+			else {
+				Logger.logLine("0421 para aprobación");
+				msg.setMessageType(Iso8583.MsgTypeStr._0430_ACQUIRER_REV_ADV_RSP);
+				msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, msg.getStructuredData().get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
+						.concat(msg.getStructuredData().get("SEQ_TERMINAL").split(",")[1].trim()));
+				msg.putField(Iso8583.Bit._039_RSP_CODE, "00");
+				StructuredData sd = msg.getStructuredData();
+				sd.put("REVERSE_AUTH_MODE", "2");
+				msg.putStructuredData(sd);
+				act.putMsgToTranmgr(msg);
+			}	
 		}
-
-		this.transStore.put(cons.split(",")[0].trim().concat(cons.split(",")[1].trim()), msg);
-
-		ISCReqMessage reverso = (ISCReqMessage) processReverse(msg);
-		act.putMsgToRemote(reverso);
+			
+		monitorRevAdv.getObservables().get("processAcquirerRevAdvFromTranmgr").close();
 
 		return act;
 	}
@@ -293,6 +352,10 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	@Override
 	public Action processAcquirerRevAdvRspFromInterchange(AInterchangeDriverEnvironment interchange, Iso8583 msg)
 			throws Exception {
+		
+		monitorRevAdvRsp =  new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
+		monitorRevAdvRsp.getObservables().put("processAcquirerRevAdvRspFromInterchange", new Observable("metodo procesa respuestas a reversos", "processAcquirerRevAdvRspFromInterchange", msg.toString()));
+		
 		Iso8583Post inMsg = (Iso8583Post) msg;
 		Logger.logLine("processAcquirerRevReqRspFromInterchange\n" + inMsg);
 
@@ -301,20 +364,26 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		Action act = new Action();
 
 		if (msg != null) {
-			msg2TM = new Iso8583Post();
+			
 			msg2TM = (Iso8583Post) msg;
 
 			StructuredData sd = msg2TM.getStructuredData();
 
-			ResponseCode responseCode = new ResponseCode();
+			ResponseCode responseCode;
 			if (msg2TM.getStructuredData().get("ERROR") != null) {
 				responseCode = FilterSettings.getFilterCodeISCToIso(msg2TM.getStructuredData().get("ERROR"),
 						allCodesIscToIso);
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
+				
+				Logger.logLine("mensaje 430 no aprobado upstream");
+				msg2TM.putField(Iso8583.Bit._039_RSP_CODE, "00");
+				sd.put("REVERSE_AUTH_MODE", "1");
+				
 			} else {
 				responseCode = FilterSettings.getFilterCodeISCToIso("0000", allCodesIscToIso);
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
 						.concat(sd.get("SEQ_TERMINAL").split(",")[1].trim()));
+				sd.put("REVERSE_AUTH_MODE", "0");
 			}
 
 			Logger.logLine("RESPOSE CODE KEY>>>" + responseCode.getKeyIsc());
@@ -330,21 +399,54 @@ public class ISCInterface extends AInterchangeDriver8583 {
 					"================================\n================================\n================================\n");
 
 		}
+		
+		monitorRevAdvRsp.getObservables().get("processAcquirerRevAdvRspFromInterchange").close();
 		return act;
 	}
+	
+	
+	@Override
+	public Action processAcquirerFileUpdateAdvFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
+			throws Exception {
+		
+		monitorFileUpdateAdv = new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
+		monitorFileUpdateAdv.getObservables().put("processAcquirerFileUpdateAdvFromTranmgr", new Observable("procesar mensajes 320", "processAcquirerFileUpdateAdvFromTranmgr", msg.toString()));
+		
+		Logger.logLine("**Procesando 320 from TM**");
+		msg.setMessageType(Iso8583.MsgTypeStr._0330_ACQUIRER_FILE_UPDATE_ADV_RSP);
+		msg.putField(Iso8583.Bit._039_RSP_CODE, "00");
+		
+		monitorFileUpdateAdv.getObservables().get("processAcquirerFileUpdateAdvFromTranmgr").close();
+		return new Action(msg, null, null, null);
+	}
 
-	public IMessage processWithdrawal(Iso8583Post msgIn) throws XPostilion, CloneNotSupportedException {
+	@Override
+	public Action processAcquirerFileUpdateAdvFromInterchange(AInterchangeDriverEnvironment interchange, Iso8583 msg)
+			throws Exception {
+		Logger.logLine("**Procesando 320 from Inter**");
+		return new Action(null, null, null, null);
+	}
 
+	public IMessage processWithdrawal(Iso8583Post msgIn) {
+		
 		Logger.logLine("**Procesando retiro**");
 
 		IMessage msgToRemote = null;
 
 		if (this.onlyDummyReq) {
 			Logger.logLine("**DUMMY REQUEST HABILIDATA**");
-			msgToRemote = Utils.constructTestStreamReqMsg(msgIn.getStructuredData().get("SEQ_TERMINAL"));
+			try {
+				msgToRemote = Utils.constructTestStreamReqMsg(msgIn.getStructuredData().get("SEQ_TERMINAL"));
+			} catch (XPostilion e) {
+				EventRecorder.recordEvent(e);
+			}
 		} else {
 			Logger.logLine("**DUMMY REQUEST DESHABILITADA**");
-			msgToRemote = requestISOFields2ISCFields(msgIn);
+			try {
+				msgToRemote = requestISOFields2ISCFields(msgIn);
+			} catch (XPostilion e) {
+				EventRecorder.recordEvent(e);
+			}
 		}
 
 		return msgToRemote;
@@ -409,14 +511,15 @@ public class ISCInterface extends AInterchangeDriver8583 {
 				ISCResMessage msgISCMsg = new ISCResMessage();
 				msgISCMsg.fromMsg(trama);
 				rspISOMsg = mapISCFields2ISOFields(msgISCMsg);
+				
+				monitorMsg210 = new MonitorSnapShot(rspISOMsg.toString(), thisInter.getName(), monitorLogMode);
+				
 			} else {
 				KeepAliveMessage msgISCMsg = new KeepAliveMessage();
 				msgISCMsg.fromMsg(trama);
 				rspISOMsg = createNetworkAdv(msgISCMsg);
 			}
 
-			// Logger.logLine("[MSG][ISCmapped] \n" + rspISOMsg.toString());
-			// Logger.logLine("SD:" + rspISOMsg.getStructuredData());
 			return rspISOMsg;
 
 			// mapISCFields2ISOFields(rspISCMsg);
@@ -459,16 +562,11 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	 * @param atmId
 	 * @return
 	 **************************************************************************************/
-	private String getTransactionConsecutive(String termPrefix, String term) {
+	private String getTransactionConsecutive(String termPrefix, String term, MonitorSnapShot shot) {
 		String output = null;
 
 		// To-DO consultar consecutivo
-		try {
-			output = DBHandler.getCalculateConsecutive("AT", "00");
-
-		} catch (Exception e) {
-			Logger.logLine(e.getMessage());
-		}
+		output = DBHandler.getCalculateConsecutive("AT", "00", shot);
 
 		return output;
 	}
@@ -530,6 +628,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		// Switch para basado en el estado de la respuesta de la transacción (Byte de
 		// estado response)
 		Logger.logLine("TRASACTION RSP STATE:" + state);
+		
 		switch (state) {
 		case _APPROVAL_STATE_HEX:
 			bodyFields.putAll(Utils.getBodyInnerFields(msgFromInter.getField(ISCReqMessage.Fields._VARIABLE_BODY),
@@ -551,7 +650,6 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		Logger.logLine("***TRAN KEY***" + tranKey);
 		Logger.logLine("***MAPA Contiene TRAN KEY***" + this.transStore.containsKey(tranKey));
-		Logger.logLine("***MAPA Contiene***" + this.transStore.toString());
 
 		Iso8583Post originalMsgReq = (Iso8583Post) this.transStore.get(tranKey);
 		if (originalMsgReq != null) {
@@ -559,7 +657,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 			int msgType = originalMsgReq.getMsgType();
 
-			Logger.logLine("***ORIGINAL MSG***" + msgType);
+			Logger.logLine("***ORIGINAL MSG***\n" +originalMsgReq+"\n"+originalMsgReq.getStructuredData());
 
 			switch (msgType) {
 			case Iso8583.MsgType._0200_TRAN_REQ:
@@ -580,11 +678,11 @@ public class ISCInterface extends AInterchangeDriver8583 {
 					Logger.logLine(entry.getKey().toUpperCase() + " :: "
 							+ entry.getValue().replaceAll("\u0000", "").replaceAll("\u001c", "").replaceAll("\n", "")
 									.replaceAll("\t", "").replaceAll("\n", "").replaceAll("\u0001", "")
-									.replaceAll("\u0011", "").replaceAll("\u002F", ""));
+									.replaceAll("\u0011", "").replaceAll("\u002F", "").replaceAll("\u0003", "").replaceAll("\u00E6", "").replaceAll("\u00C6", ""));
 					origSD.put(entry.getKey().toUpperCase(),
 							entry.getValue().replaceAll("\u0000", "").replaceAll("\u001c", "").replaceAll("\n", "")
 									.replaceAll("\t", "").replaceAll("\n", "").replaceAll("\u0001", "")
-									.replaceAll("\u0011", "").replaceAll("\u002F", ""));
+									.replaceAll("\u0011", "").replaceAll("\u002F", "").replaceAll("\u0003", "").replaceAll("\u00E6", "").replaceAll("\u00C6", ""));
 				}
 			}
 
@@ -644,6 +742,8 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		output.putField(ISCReqMessage.Fields._10_H_TIME,
 				Transform.fromAsciiToEbcdic(inputMsg.getField(Iso8583Post.Bit._012_TIME_LOCAL)));
 
+		Logger.logLine("---::\n"+inputMsg.getStructuredData());
+		
 		output.putField(ISCReqMessage.Fields._VARIABLE_BODY,
 				Utils.prepareVariableReqBody(inputMsg, Utils._WITHDRAWAL_BODY_TYPE));
 
@@ -770,7 +870,7 @@ public class ISCInterface extends AInterchangeDriver8583 {
 		else {
 			sd.put("B24_Field_48", sd.get("B24_Field_48"));
 
-			if (sd.get("B24_Field_48").substring(sd.get("B24_Field_48").length() - 1).equals("1")) {
+			if (sd.get("B24_Field_48").substring(sd.get("B24_Field_48").length() - 1).equals("1") && !inMsg.getProcessingCode().getTranType().equals("32")) {
 
 				sd.put("TRANSACTION_AMOUNT", sd.get("B24_Field_54").substring(0, 12));
 				sd.put("DONATION_AMOUNT", sd.get("B24_Field_54").substring(12, 24));
@@ -831,8 +931,8 @@ public class ISCInterface extends AInterchangeDriver8583 {
 
 		inMsg.putStructuredData(sd);
 
-		String originalMsgB64 = Base64.getEncoder().encodeToString(inMsg.toString().getBytes());
-		sd.put("ORIGINAL_MSG", originalMsgB64);
+		//String originalMsgB64 = Base64.getEncoder().encodeToString(inMsg.toString().getBytes());
+		//sd.put("ORIGINAL_MSG", originalMsgB64);
 
 		inMsg.putStructuredData(sd);
 
@@ -842,28 +942,30 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	private StructuredData putAdditionalStructuredDataRspFields(Iso8583Post msg, ResponseCode rspCode) throws XPostilion {
 		
 		StructuredData sd = msg.getStructuredData();
-		
+		Logger.logLine("TRANTYPE::"+Utils.getTranType(msg, Utils.getTranChannel(msg)));
 		switch (Utils.getTranType(msg, Utils.getTranChannel(msg))) {
-		case _TRAN_RETIRO_AHORRO:
+		case RSP_TRAN_RETIRO_AHORRO:
 			Utils.putB24Field126IntoStructuredData(sd);
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
 			Utils.putB24Field40IntoStructuredData(sd);
 
 			Utils.putB24Field44IntoStructuredData(sd);
-			Utils.putB24Field48IntoStructuredData(sd);
+			Utils.putB24Field48IntoStructuredData(sd, false);
 			break;
-		case _TRAN_RETIRO_CORRIENTE:
+		case RSP_TRAN_RETIRO_CORRIENTE:
 			Utils.putB24Field126IntoStructuredData(sd);
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
 			Utils.putB24Field40IntoStructuredData(sd);
 
 			Utils.putB24Field44IntoStructuredData(sd);
-			Utils.putB24Field48IntoStructuredData(sd);
+			Utils.putB24Field48IntoStructuredData(sd, false);
 			break;
-		case _TRAN_COSULTA_COSTO:
+		case RSP_TRAN_COSULTA_COSTO:
 			Utils.putB24Field126IntoStructuredData(sd);
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
-			Utils.putB24Field48IntoStructuredData(sd);
+			Utils.putB24Field48IntoStructuredData(sd, true);
+			sd.remove("B24_Field_40");
+			sd.remove("B24_Field_54");
 			break;
 		default:
 			break;
@@ -984,6 +1086,11 @@ public class ISCInterface extends AInterchangeDriver8583 {
 	public static final String _TRAN_COMPRA_AHORRO = "0200_001000_1";
 	public static final String _TRAN_COMPRA_CORRIENTE = "0200_002000_1";
 	public static final String _TRAN_COSULTA_COSTO = "0200_320000_1";
+	public static final String RSP_TRAN_RETIRO_AHORRO = "0210_011000_1";
+	public static final String RSP_TRAN_RETIRO_CORRIENTE = "0210_012000_1";
+	public static final String RSP_TRAN_COMPRA_AHORRO = "0210_001000_1";
+	public static final String RSP_TRAN_COMPRA_CORRIENTE = "0210_002000_1";
+	public static final String RSP_TRAN_COSULTA_COSTO = "0210_320000_1";
 	public static final String _APPROVAL_STATE_HEX = "F0F0";
 	public static final String _APPROVED_SECURE = "1";
 	public static final String _NON_APPROVED_SECURE = "2";

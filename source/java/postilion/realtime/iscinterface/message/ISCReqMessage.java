@@ -144,7 +144,7 @@ public class ISCReqMessage extends StreamMessage {
 		public static final String _27_VIRT_PURCH_INDICATOR_TAG = "11E5F3";
 		public static final String _28_STANDIN_INDICATOR_TAG = "11D141";
 		public static final String _29_TRAN_IDENTIFICATOR_TAG = "11E0E2";
-		public static final String _30_SECURE_AMOUNT_TAG = "11913D";
+		public static final String _30_SECURE_INDICATOR_TAG = "11913D";
 		//Miscelaneos
 		private static final String BIN_TRAN_CODE = "450942";
 		private static final String NATIONAL_CUR_CODE = "170";

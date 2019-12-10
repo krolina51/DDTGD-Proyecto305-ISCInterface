@@ -2,11 +2,14 @@ package postilion.realtime.iscinterface.database;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import monitor.core.dto.MonitorSnapShot;
+import monitor.core.dto.Observable;
+import monitor.core.dto.SnapShotSeverity;
 import postilion.realtime.iscinterface.util.Logger;
+import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.jdbc.JdbcManager;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.util.XPostilion;	
@@ -28,9 +31,9 @@ public class DBHandler
 	 * @return
 	 *	Hastable with the configuration 	 
 	 */
-	public static String getCalculateConsecutive(String atmId, String termId) throws Exception
+	public static String getCalculateConsecutive(String atmId, String termId, MonitorSnapShot shot)
 	{
-
+		shot.getObservables().put("getCalculateConsecutive", new Observable("metodo que consume sp, para obtener consecutivo", "getCalculateConsecutive", null));
 		String consecutive = null;
 		Connection cn = null;
 		CallableStatement stmt = null;
@@ -52,19 +55,29 @@ public class DBHandler
 		
 		catch (Exception e)
 		{			
-			Logger.logLine("####>"+e.getMessage());
-			throw new XPostilion();
+			EventRecorder.recordEvent(e);
+			shot.getObservables().get("getCalculateConsecutive").setDescription("error durante llamado a SP Get_Consecutivo");
+			shot.getObservables().get("getCalculateConsecutive").setSeverity(SnapShotSeverity.CRITICAL);
 		}
 		finally
 		{
-			JdbcManager.cleanup(cn, stmt, rs);
+			try {
+				JdbcManager.cleanup(cn, stmt, rs);
+			} catch (SQLException e) {
+				EventRecorder.recordEvent(e);
+				shot.getObservables().get("getCalculateConsecutive").setDescription(e.getMessage());
+				shot.getObservables().get("getCalculateConsecutive").setSeverity(SnapShotSeverity.CRITICAL);
+			}
 		}
 		
+		shot.getObservables().get("getCalculateConsecutive").close();
 		return consecutive;	
 	}
 
 
-	public static String getAccountInfo(int issuer_nr, String pan, String type_account) throws SQLException {
+	public static String getAccountInfo(int issuer_nr, String pan, String type_account, MonitorSnapShot shot) throws SQLException {
+		
+		shot.getObservables().put("getAccountInfo", new Observable("metodo que consume sp, para obtener información de la una cuenta", "getAccountInfo", null));
 		
 		String consecutive = null;
 		String account_id = "";
@@ -117,18 +130,21 @@ public class DBHandler
 
 		} catch (SQLException e) {
 
-			e.printStackTrace();
-
+			EventRecorder.recordEvent(e);
+			shot.getObservables().get("getAccountInfo").setDescription(e.getMessage());
+			shot.getObservables().get("getAccountInfo").setSeverity(SnapShotSeverity.CRITICAL);
 			return null;
 		}
 		finally {
 			JdbcManager.cleanup(cn, stmt, rs);
+			shot.getObservables().get("getAccountInfo").close();
 		}
 
 	}
 	
-	public static String getHistoricalConsecutive(String retrivalRef) throws Exception
+	public static String getHistoricalConsecutive(String retrivalRef, MonitorSnapShot shot)
 	{
+		shot.getObservables().put("getHistoricalConsecutive", new Observable("metodo para recuperar el sd de una tran basado en el campo 37", "getHistoricalConsecutive", null));
 
 		StructuredData sd = new StructuredData();
 		Connection cn = null;
@@ -149,13 +165,20 @@ public class DBHandler
 		}
 		
 		catch (Exception e)
-		{			
-			Logger.logLine("##ERROR RETRIVING##>"+e.getStackTrace());
-			throw new XPostilion();
+		{	
+			shot.getObservables().get("getHistoricalConsecutive").setDescription(e.getMessage());
+			shot.getObservables().get("getHistoricalConsecutive").setSeverity(SnapShotSeverity.CRITICAL);
+			Logger.logLine("##ERROR RETRIVING##>"+e.getStackTrace().toString());
+		
 		}
 		finally
 		{
-			JdbcManager.cleanup(cn, stmt, rs);
+			shot.getObservables().get("getHistoricalConsecutive").close();
+			try {
+				JdbcManager.cleanup(cn, stmt, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		Logger.logLine("##SD Key INFO##>"+sd.get("REFERENCE_KEY"));

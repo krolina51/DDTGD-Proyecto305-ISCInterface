@@ -173,10 +173,10 @@ public class Utils {
 	}
 
 	public static String prepareVariableReqBody(Iso8583Post msg, int bodyType) throws XPostilion {
-		StringBuilder sd = new StringBuilder("");
+		StringBuilder sb = new StringBuilder("");
 
-		sd.append(Transform.fromHexToBin(ISCReqMessage.Constants._01_DATE_TAG))
-				.append(Transform.fromAsciiToEbcdic(getStringDate().substring(0, 6)))
+		sb.append(Transform.fromHexToBin(ISCReqMessage.Constants._01_DATE_TAG))
+				.append(Transform.fromAsciiToEbcdic(getStringDate().substring(2, 6).concat(getStringDate().substring(0, 2)))) //formato MMDDAA
 				.append(Transform.fromHexToBin(ISCReqMessage.Constants._02_DEBIT_ACC_TYPE_TAG))
 				.append(Transform.fromAsciiToEbcdic(msg.getStructuredData().get("P_CODE").equals("000000")
 						? msg.getProcessingCode().getFromAccount().substring(0, 1).equals("1") ? "0" : "1"
@@ -184,12 +184,10 @@ public class Utils {
 								: msg.getStructuredData().get("P_CODE").substring(2, 3).equals("2") ? "1"
 										: msg.getStructuredData().get("P_CODE").substring(2, 3)))
 
-				.append(bodyType == _COST_INQUIRY_BODY_TYPE
-						? Transform.fromHexToBin(ISCReqMessage.Constants._03_TRAN_AMOUNT_TAG)
-								.concat(Transform.fromAsciiToEbcdic(Utils.padLeft("", "0", 15)))
-						: Transform.fromHexToBin(ISCReqMessage.Constants._03_TRAN_AMOUNT_TAG))
-				.append(Transform
-						.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION), "0", 15)))
+				.append(Transform.fromHexToBin(ISCReqMessage.Constants._03_TRAN_AMOUNT_TAG)
+								.concat(Transform.fromAsciiToEbcdic(Utils.padLeft(msg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION), "0", 15))))
+				
+
 				.append(Transform.fromHexToBin(ISCReqMessage.Constants._04_SYS_TIME_TAG))
 				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._012_TIME_LOCAL)))
 				.append(Transform.fromHexToBin(ISCReqMessage.Constants._05_DEBIT_ACC_NR_TAG)).append(
@@ -283,12 +281,21 @@ public class Utils {
 				.append(Transform.fromAsciiToEbcdic("N"))
 				.append(Transform.fromHexToBin(ISCReqMessage.Constants._29_TRAN_IDENTIFICATOR_TAG))
 				.append(Transform.fromAsciiToEbcdic("0000"))
-				.append(Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_AMOUNT_TAG))
-				.append(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("SECURE_AMOUNT") != null
-						? msg.getStructuredData().get("SECURE_AMOUNT")
-						: "0", 15, '0', false)));
+				.append(Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_INDICATOR_TAG));
 
-		return sd.toString();
+
+				if(bodyType == _COST_INQUIRY_BODY_TYPE) {
+					sb.append(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("B24_Field_48") != null
+							? msg.getStructuredData().get("B24_Field_48").substring(32)
+							: "0", 15, '0', false)));
+				}
+				else {
+					sb.append(Transform.fromAsciiToEbcdic(Pack.resize(msg.getStructuredData().get("SECURE_AMOUNT") != null
+							? msg.getStructuredData().get("SECURE_AMOUNT")
+							: "0", 15, '0', false)));
+				}
+				
+		return sb.toString();
 	}
 
 	public static String prepareTestVariableReqBody() {
@@ -352,7 +359,7 @@ public class Utils {
 				.append(Transform.fromAsciiToEbcdic("N"))
 				.append(Transform.fromHexToBin(ISCReqMessage.Constants._29_TRAN_IDENTIFICATOR_TAG))
 				.append(Transform.fromAsciiToEbcdic("0000"))
-				.append(Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_AMOUNT_TAG))
+				.append(Transform.fromHexToBin(ISCReqMessage.Constants._30_SECURE_INDICATOR_TAG))
 				.append(Transform.fromAsciiToEbcdic("000000000000000"));
 
 		return sd.toString();
@@ -408,11 +415,17 @@ public class Utils {
 			throws XPostilion {
 		StructuredData sd = msg.getStructuredData();
 		ResponseCode responseCode;
-		if (msg.getStructuredData().get("ERROR") != null) {
-			responseCode = FilterSettings.getFilterCodeISCToIso(msg.getStructuredData().get("ERROR"), allCodesIscToIso);
+		
+		Logger.logLine("SETING 38 y 39\n"+sd);
+		if (sd.get("ERROR") != null) {
+			Logger.logLine("IF ERROR");
+			responseCode = FilterSettings.getFilterCodeISCToIso(sd.get("ERROR"), allCodesIscToIso);
+			Logger.logLine("IF ERROR "+responseCode.getKeyIsc()+"::"+responseCode.getDescriptionIsc());
 			msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
 		} else {
+			Logger.logLine("ELSE ERROR");
 			responseCode = FilterSettings.getFilterCodeISCToIso("0000", allCodesIscToIso);
+			Logger.logLine("ELSE ERROR "+responseCode.getKeyIsc()+"::"+responseCode.getDescriptionIsc());
 			msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get("SEQ_TERMINAL").split(",")[0].trim().substring(3)
 					.concat(sd.get("SEQ_TERMINAL").split(",")[1].trim()));
 		}
@@ -456,12 +469,14 @@ public class Utils {
 	}
 
 	public static void putB24Field126IntoStructuredData(StructuredData sd) {
+		Logger.logLine("********************************SETING COMISION\n");
 		sd.put("B24_Field_126",
 				sd.get("COMISION") != null
 						? sd.get("B24_Field_126").substring(0, sd.get("B24_Field_126").length() - 14)
 								.concat(Pack.resize(sd.get("COMISION").replace(".", ""), 12, '0', false))
 								.concat(sd.get("B24_Field_126").substring(sd.get("B24_Field_126").length() - 2))
 						: sd.get("B24_Field_126"));
+		Logger.logLine("********************************SD\n"+sd);
 	}
 	
 	public static void putB24Field63IntoStructuredData(StructuredData sd, ResponseCode rspCode) {
@@ -481,11 +496,16 @@ public class Utils {
 		}
 	}
 	
-	public static void putB24Field48IntoStructuredData(StructuredData sd) {
-		sd.put("B24_Field_48",
-				sd.get("AV_SEGURO") != null ? sd.get("B24_Field_48")
-						.substring(0, sd.get("B24_Field_48").length() - 1).concat(sd.get("AV_SEGURO"))
-						: sd.get("B24_Field_48"));;
+	public static void putB24Field48IntoStructuredData(StructuredData sd, boolean isCostConsult) {
+		if(isCostConsult) {
+			sd.put("B24_Field_48",
+					sd.get("AV_SEGURO") != null ? sd.get("B24_Field_48")
+							.substring(0, sd.get("B24_Field_48").length() - 1).concat(sd.get("AV_SEGURO"))
+							: sd.get("B24_Field_48"));
+		}
+		else {
+			sd.put("B24_Field_48", sd.get("B24_Field_48"));
+		}
 	}
 
 	public static final int _WITHDRAWAL_BODY_TYPE = 0;
