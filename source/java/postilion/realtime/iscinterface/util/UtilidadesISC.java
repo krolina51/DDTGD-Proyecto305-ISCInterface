@@ -4,6 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class UtilidadesISC {
+	
+	private UtilidadesISC() {
+		
+	}
     
     private static final String REGEX_RESPUESTA      = "(\\w{4})(\\w{12})(\\w{10})(\\w{8})(\\w{4})(\\w{16})(\\w{8})(\\w{24})(\\w{22})(\\w+)";
     private static final String PLANTILLA_PARTE_FIJA = "codigo_transaccion=$4\nstatus_code=$5\nid_cajero=$6\nsecuencia_transaccion=$7\nsaldo_actual=$8\n";
@@ -15,8 +19,8 @@ public class UtilidadesISC {
     
     public static String obtenerRespuesta(String strRespuestaISC) {
         
-        HashMap<String, String> parteFijaHm     = new HashMap<String, String>();
-        HashMap<String, String> parteVariableHm = new HashMap<String, String>();
+        HashMap<String, String> parteFijaHm     = new HashMap<>();
+        HashMap<String, String> parteVariableHm = new HashMap<>();
         String mensajeRespuesta    = "";
         String parteVariableAscii  = "";
         String parteFijaEbcdic     = "";       
@@ -25,17 +29,16 @@ public class UtilidadesISC {
         
         try {
             parteFijaEbcdic = strRespuestaISC.replaceAll(REGEX_RESPUESTA, PLANTILLA_PARTE_FIJA);       
-            parteFijaHm     = UtilidadesMensajeria.stringToHashmap(parteFijaEbcdic);
+            parteFijaHm     = (HashMap<String, String>) UtilidadesMensajeria.stringToHashmap(parteFijaEbcdic);
             
-            for (Map.Entry i : parteFijaHm.entrySet()) {
+            for (Map.Entry<String, String> i : parteFijaHm.entrySet()) {
                 parteFijaHm.put(i.getKey().toString(), UtilidadesMensajeria.ebcdicToAscii(i.getValue().toString()));
             }
             
             parteVariableEbcdic = strRespuestaISC.replaceAll(REGEX_RESPUESTA, REGISTRO_VARIABLE);
             parteVariableAscii  = UtilidadesMensajeria.ebcdicToAscii(parteVariableEbcdic.replaceAll(DELIMITADOR, ""));
-            System.out.println("parteVariableAscii--->"+parteVariableAscii);
             parteVariable       = parteVariableAscii.replaceAll(REGEX_VARIABLE, PLANTILLA_PARTE_VARIABLE);  
-            parteVariableHm     = UtilidadesMensajeria.stringToHashmap(parteVariable);
+            parteVariableHm     = (HashMap<String, String>) UtilidadesMensajeria.stringToHashmap(parteVariable);
     
             mensajeRespuesta = UtilidadesMensajeria.hashmapToString(parteFijaHm) + UtilidadesMensajeria.hashmapToString(parteVariableHm);
         } finally {

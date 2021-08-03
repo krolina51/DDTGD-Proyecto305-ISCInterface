@@ -8,6 +8,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class UtilidadesMensajeria {
+	
+	private UtilidadesMensajeria() {}
     
     private static final String EBCDIC_ENCODING  = "IBM-1047";
     private static final String HEX_CHARS        = "0123456789abcdef";    
@@ -49,10 +51,10 @@ public class UtilidadesMensajeria {
         return new String(chars);
     }
 
-    public static HashMap<String, String> stringToHashmap(String stringList) {
+    public static Map<String, String> stringToHashmap(String stringList) {
        Pattern pattern = Pattern.compile(KEY_VALUES_REGEX);
        Matcher matcher = pattern.matcher(stringList);
-       HashMap hm = new HashMap();
+       HashMap<String, String> hm = new HashMap<>();
        while (matcher.find()) {
           String key = matcher.group(1);
           String value = matcher.group(2);
@@ -61,17 +63,17 @@ public class UtilidadesMensajeria {
        return hm;
     }
     
-    public static String hashmapToString(HashMap<String, String> hm) {
+    public static String hashmapToString(Map<String, String> hm) {
 
        String result;
        String hmKey;
        String hmValue;
        StringBuilder message = new StringBuilder();
 
-       for (Map.Entry i : hm.entrySet()) {
-          hmKey = i.getKey().toString();
+       for (Map.Entry<String, String> i : hm.entrySet()) {
+          hmKey = i.getKey();
           try {
-             hmValue = i.getValue().toString();
+             hmValue = i.getValue();
           } catch (Exception ex) {
              hmValue = "";
           }

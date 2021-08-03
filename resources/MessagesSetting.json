@@ -1,0 +1,1241 @@
+{
+  "messages": [
+  
+    {
+      "tran_key": "0200_402000_7_0001_0001_0",
+      "pre_operations": "1",
+      "fields": [
+        {
+          "description": "header-frame",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "313233343536"
+        },
+        {
+          "description": "cics-tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "E5C9C2C1"
+        },
+        {
+          "description": "header-delimiter",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "114040"
+        },
+        {
+          "description": "tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "ATPS"
+        },
+        {
+          "description": "atm-id",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "0",
+          "copy_end_index": "5"
+        },
+        {
+          "description": "filler",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "404040"
+        },
+        {
+          "description": "seq-nr",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+        {
+          "description": "state",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "008"
+        },
+        {
+          "description": "tran-time",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "filler-2",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "4040404040404040"
+        },
+        {
+          "description": "super-id",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "F0F0F0F0F0F0F0F0"
+        },
+        {
+          "description": "sys-time",
+          "is_header_field": "false",
+          "tag_prefix": "119130",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SYS_TIME",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit_account_type",
+          "is_header_field": "false",
+          "tag_prefix": "1140C3",
+          "tag_value_length": "1",
+          "field_type": "homologate",
+          "homologation": [
+            {
+              "value": "1",
+              "convertion": "0"
+            },
+            {
+              "value": "2",
+              "convertion": "1"
+            }
+          ],
+          "copy_from": "1",
+          "copy_tag": "CLIENT_ACCOUNT_TYPE",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "credit_account_type",
+          "is_header_field": "false",
+          "tag_prefix": "11C5D2",
+          "tag_value_length": "1",
+          "field_type": "homologate",
+          "homologation": [
+            {
+              "value": "1",
+              "convertion": "0"
+            },
+            {
+              "value": "2",
+              "convertion": "1"
+            }
+          ],
+          "copy_from": "1",
+          "copy_tag": "PRIM_COV_ACCOUNT_TYPE",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-amount",
+          "is_header_field": "false",
+          "tag_prefix": "11C3F0",
+          "tag_value_length": "15",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "4",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-hour",
+          "is_header_field": "false",
+          "tag_prefix": "119131",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "credit-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11C37B",
+          "tag_value_length": "10",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "PRIM_COV_ACCOUNT_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "114040",
+          "tag_value_length": "10",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_ACCOUNT_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "client-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C6",
+          "tag_value_length": "16",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "receipt-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11C17A",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "37",
+          "copy_ini_index": "8",
+          "copy_end_index": "12"
+        },
+        {
+          "description": "nationality-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "1191A1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "1"
+        },
+    	{
+          "description": "entry-network",
+          "is_header_field": "false",
+          "tag_prefix": "119160",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "02"
+        },
+   		{
+          "description": "acquirer-network",
+          "is_header_field": "false",
+          "tag_prefix": "119161",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "99"
+        },
+        {
+          "description": "id-terminal",
+          "is_header_field": "false",
+          "tag_prefix": "119162",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "original-transaction",
+          "is_header_field": "false",
+          "tag_prefix": "119181",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "authorization-code",
+          "is_header_field": "false",
+          "tag_prefix": "11912F",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+        {
+          "description": "bill-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11D135",
+          "tag_value_length": "4",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_62",
+          "copy_ini_index": "26",
+          "copy_end_index": "30"
+        },
+        {
+          "description": "covenant-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11D142",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_103",
+          "copy_ini_index": "10",
+          "copy_end_index": "18"
+        }, 
+   		{
+          "description": "additional-amount",
+          "is_header_field": "false",
+          "tag_prefix": "11D137",
+          "tag_value_length": "15",
+          "field_type": "fixed",
+          "value": "000000000000000"
+        },
+   		{
+          "description": "entity-aval",
+          "is_header_field": "false",
+          "tag_prefix": "11924A",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "aval-account-type",
+          "is_header_field": "false",
+          "tag_prefix": "119115",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "aval-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11912D",
+          "tag_value_length": "20",
+          "field_type": "fixed",
+          "value": "00000000000000000000"
+        },
+        {
+          "description": "terminal-location",
+          "is_header_field": "false",
+          "tag_prefix": "119199",
+          "tag_value_length": "40",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "43",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "additional-data-1",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F9",
+          "tag_value_length": "60",
+          "field_type": "fixed",
+          "value": "000000000000000000000000000000000000000000000000000000000000"
+        },
+   		{
+          "description": "additional-data-2",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F0",
+          "tag_value_length": "60",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_62",
+          "copy_ini_index": "26",
+          "copy_end_index": "30"
+        },
+   		{
+          "description": "reprocity-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F8",
+          "tag_value_length": "1",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "PRIM_COV_REPRO_INDICATOR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "debit-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A5",
+          "tag_value_length": "2",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_CLASS",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "identification-type",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F2",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "identification",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F3",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "acquirer-entity",
+          "is_header_field": "false",
+          "tag_prefix": "11D140",
+          "tag_value_length": "4",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "acquirer-office",
+          "is_header_field": "false",
+          "tag_prefix": "11D138",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "device",
+          "is_header_field": "false",
+          "tag_prefix": "11D139",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "P"
+        },
+        {
+          "description": "service-line-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11A2C7",
+          "tag_value_length": "1",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "PRIM_COV_PAYMENT_TYPE",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "corres-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C7",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "corres-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A7",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "00"
+        },
+        {
+          "description": "tran-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11A9B1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "M"
+        },
+        {
+          "description": "virtual-purchase-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11E5F3",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "secure-purchase-value",
+          "is_header_field": "false",
+          "tag_prefix": "11913D",
+          "tag_value_length": "15",
+          "field_type": "fixed",
+          "value": "000000000000000"
+        },
+        {
+          "description": "tran-identifier",
+          "is_header_field": "false",
+          "tag_prefix": "11E0E2",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+        {
+          "description": "pa-credit-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11914D",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "standin-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11D141",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "N"
+        }
+      ]
+    }
+  	,
+ 
+ 	{
+      "tran_key": "0200_011000_1_0054_0000_0",
+      "pre_operations": "0",
+      "fields": [
+        {
+          "description": "header-frame",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "313233343536"
+        },
+        {
+          "description": "cics-tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "E5C9C2C1"
+        },
+        {
+          "description": "header-delimiter",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "114040"
+        },
+        {
+          "description": "tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "ATWI"
+        },
+        {
+          "description": "atm-id",
+          "is_header_field": "true",
+          "tag_value_length": "5",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "0",
+          "copy_end_index": "5"
+        },
+        {
+          "description": "filler",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "404040"
+        },
+        {
+          "description": "seq-nr",
+          "is_header_field": "true",
+          "tag_value_length": "4",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+        {
+          "description": "state",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "008"
+        },
+        {
+          "description": "tran-time",
+          "is_header_field": "true",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "filler-2",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "4040404040404040"
+        },
+        {
+          "description": "super-id",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value_hex": "F0F0F0F0F0F0F0F0"
+        },
+        {
+          "description": "sys-time",
+          "is_header_field": "false",
+          "tag_prefix": "119130",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SYS_TIME",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit_account_type",
+          "is_header_field": "false",
+          "tag_prefix": "1140C3",
+          "tag_value_length": "1",
+          "field_type": "homologate",
+          "homologation": [
+            {
+              "value": "1",
+              "convertion": "0"
+            },
+            {
+              "value": "2",
+              "convertion": "1"
+            }
+          ],
+          "copy_from": "0",
+          "copy_tag": "102",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-amount",
+          "is_header_field": "false",
+          "tag_prefix": "11C3F0",
+          "tag_value_length": "15",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "4",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-hour",
+          "is_header_field": "false",
+          "tag_prefix": "119131",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "114040",
+          "tag_value_length": "10",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_ACCOUNT_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "client-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C6",
+          "tag_value_length": "16",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "receipt-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11C17A",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "37",
+          "copy_ini_index": "8",
+          "copy_end_index": "12"
+        },
+        {
+          "description": "nationality-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "1191A1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "1"
+        },
+    	{
+          "description": "entry-network",
+          "is_header_field": "false",
+          "tag_prefix": "119160",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "02"
+        },
+   		{
+          "description": "acquirer-network",
+          "is_header_field": "false",
+          "tag_prefix": "119161",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "99"
+        },
+        {
+          "description": "id-terminal",
+          "is_header_field": "false",
+          "tag_prefix": "119162",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "original-transaction",
+          "is_header_field": "false",
+          "tag_prefix": "119181",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "authorization-code",
+          "is_header_field": "false",
+          "tag_prefix": "11912F",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+   		{
+          "description": "entity-aval",
+          "is_header_field": "false",
+          "tag_prefix": "11924A",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "aval-account-type",
+          "is_header_field": "false",
+          "tag_prefix": "119115",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "aval-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11912D",
+          "tag_value_length": "20",
+          "field_type": "fixed",
+          "value": "00000000000000000000"
+        },
+        {
+          "description": "terminal-location",
+          "is_header_field": "false",
+          "tag_prefix": "119199",
+          "tag_value_length": "40",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "43",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "debit-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A5",
+          "tag_value_length": "2",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_CLASS",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "identification-type",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F2",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "identification",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F3",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "acquirer-entity",
+          "is_header_field": "false",
+          "tag_prefix": "11D140",
+          "tag_value_length": "4",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "acquirer-office",
+          "is_header_field": "false",
+          "tag_prefix": "11D138",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "device",
+          "is_header_field": "false",
+          "tag_prefix": "11D139",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "P"
+        },
+        {
+          "description": "corres-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C7",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "corres-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A7",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "00"
+        },
+        {
+          "description": "tran-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11A9B1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "M"
+        },
+        {
+          "description": "virtual-purchase-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11E5F3",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "standin-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11D141",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "N"
+        },
+        {
+          "description": "tran-identifier",
+          "is_header_field": "false",
+          "tag_prefix": "11E0E2",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+        {
+          "description": "secure-purchase-value",
+          "is_header_field": "false",
+          "tag_prefix": "11913D",
+          "tag_value_length": "15",
+          "field_type": "fixed",
+          "value": "000000000000000"
+        },
+        {
+          "description": "pa-credit-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11914D",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        }
+      ]
+    }
+  	,
+  	
+ 	{
+      "tran_key": "0200_012000_1_0054_0000_0",
+      "pre_operations": "0",
+      "fields": [
+        {
+          "description": "header-frame",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "313233343536"
+        },
+        {
+          "description": "cics-tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "E5C9C2C1"
+        },
+        {
+          "description": "header-delimiter",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "114040"
+        },
+        {
+          "description": "tran-code",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "ATWI"
+        },
+        {
+          "description": "atm-id",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "0",
+          "copy_end_index": "5"
+        },
+        {
+          "description": "filler",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "404040"
+        },
+        {
+          "description": "seq-nr",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+        {
+          "description": "state",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "008"
+        },
+        {
+          "description": "tran-time",
+          "is_header_field": "true",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "filler-2",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "4040404040404040"
+        },
+        {
+          "description": "super-id",
+          "is_header_field": "true",
+          "field_type": "fixed",
+          "value": "F0F0F0F0F0F0F0F0"
+        },
+        {
+          "description": "sys-time",
+          "is_header_field": "false",
+          "tag_prefix": "119130",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SYS_TIME",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit_account_type",
+          "is_header_field": "false",
+          "tag_prefix": "1140C3",
+          "tag_value_length": "1",
+          "field_type": "homologate",
+          "homologation": [
+            {
+              "value": "1",
+              "convertion": "0"
+            },
+            {
+              "value": "2",
+              "convertion": "1"
+            }
+          ],
+          "copy_from": "1",
+          "copy_tag": "CLIENT_ACCOUNT_TYPE",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-amount",
+          "is_header_field": "false",
+          "tag_prefix": "11C3F0",
+          "tag_value_length": "15",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "4",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "tran-hour",
+          "is_header_field": "false",
+          "tag_prefix": "119131",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "12",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "debit-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "114040",
+          "tag_value_length": "10",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_ACCOUNT_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "client-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C6",
+          "tag_value_length": "16",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_NR",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+        {
+          "description": "receipt-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11C17A",
+          "tag_value_length": "6",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "37",
+          "copy_ini_index": "8",
+          "copy_end_index": "12"
+        },
+        {
+          "description": "nationality-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "1191A1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "1"
+        },
+    	{
+          "description": "entry-network",
+          "is_header_field": "false",
+          "tag_prefix": "119160",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "02"
+        },
+   		{
+          "description": "acquirer-network",
+          "is_header_field": "false",
+          "tag_prefix": "119161",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "99"
+        },
+        {
+          "description": "id-terminal",
+          "is_header_field": "false",
+          "tag_prefix": "119162",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "original-transaction",
+          "is_header_field": "false",
+          "tag_prefix": "119181",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "authorization-code",
+          "is_header_field": "false",
+          "tag_prefix": "11912F",
+          "tag_value_length": "8",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "SEQ_TERMINAL",
+          "copy_ini_index": "12",
+          "copy_end_index": "16"
+        },
+   		{
+          "description": "entity-aval",
+          "is_header_field": "false",
+          "tag_prefix": "11924A",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "aval-account-type",
+          "is_header_field": "false",
+          "tag_prefix": "119115",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "aval-account-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11912D",
+          "tag_value_length": "20",
+          "field_type": "fixed",
+          "value": "00000000000000000000"
+        },
+        {
+          "description": "terminal-location",
+          "is_header_field": "false",
+          "tag_prefix": "119199",
+          "tag_value_length": "40",
+          "field_type": "copy",
+          "copy_from": "0",
+          "copy_tag": "43",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "debit-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A5",
+          "tag_value_length": "2",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "CLIENT_CARD_CLASS",
+          "copy_ini_index": "0",
+          "copy_end_index": "0"
+        },
+   		{
+          "description": "identification-type",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F2",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+   		{
+          "description": "identification",
+          "is_header_field": "false",
+          "tag_prefix": "11E4F3",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "acquirer-entity",
+          "is_header_field": "false",
+          "tag_prefix": "11D140",
+          "tag_value_length": "4",
+          "field_type": "copy",
+          "copy_from": "1",
+          "copy_tag": "B24_Field_41",
+          "copy_ini_index": "5",
+          "copy_end_index": "9"
+        },
+   		{
+          "description": "acquirer-office",
+          "is_header_field": "false",
+          "tag_prefix": "11D138",
+          "tag_value_length": "4",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+   		{
+          "description": "device",
+          "is_header_field": "false",
+          "tag_prefix": "11D139",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "P"
+        },
+        {
+          "description": "corres-card-nr",
+          "is_header_field": "false",
+          "tag_prefix": "11E5C7",
+          "tag_value_length": "16",
+          "field_type": "fixed",
+          "value": "0000000000000000"
+        },
+        {
+          "description": "corres-card-class",
+          "is_header_field": "false",
+          "tag_prefix": "1197A7",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "00"
+        },
+        {
+          "description": "tran-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11A9B1",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "M"
+        },
+        {
+          "description": "virtual-purchase-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11E5F3",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        },
+        {
+          "description": "standin-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11D141",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "N"
+        },
+        {
+          "description": "tran-identifier",
+          "is_header_field": "false",
+          "tag_prefix": "11E0E2",
+          "tag_value_length": "2",
+          "field_type": "fixed",
+          "value": "0000"
+        },
+        {
+          "description": "secure-purchase-value",
+          "is_header_field": "false",
+          "tag_prefix": "11913D",
+          "tag_value_length": "15",
+          "field_type": "fixed",
+          "value": "000000000000000"
+        },
+        {
+          "description": "pa-credit-indicator",
+          "is_header_field": "false",
+          "tag_prefix": "11914D",
+          "tag_value_length": "1",
+          "field_type": "fixed",
+          "value": "0"
+        }
+      ]
+    }
+  	
+  ]
+}

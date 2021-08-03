@@ -26,6 +26,8 @@ public class Test {
 	public static void main(String[] args) throws XStreamBase, UnsupportedEncodingException {
 		
 		
+		System.out.println(Transform.fromAsciiToEbcdic(Transform.fromHexToBin("F0FCF0")));
+		
 		String date = getStringDate();
 		System.out.println(date);
 		

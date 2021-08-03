@@ -4,7 +4,7 @@
 [Global]
 CompilerVersion		=	1.0
 Language			=	English
-SupportInterfaces		=	DvcBogota
+SupportInterfaces		=	ISCInterfaceCB
 
 #----------------------------------------------------------------
 [Events]
@@ -13,7 +13,7 @@ EventName			=	RuntimeParametersLoaded
 Categories			=	Informational, Initialization, SystemicAlert, OperationalIssue
 Message			=	The %1 interchange is configured with the following user parameters: %2. The %1 interchange is running as a 
 					DvcBogota interface.
-Description			=	The DvcBogota interface was successfully initialized with the parameters configured in the Interface configuration.
+Description			=	The ISCInterfaceCB interface was successfully initialized with the parameters configured in the Interface configuration.
 Action			=	This is an informational event, and no action need be taken.
 Parameter1			=	Detail[0]: The name of the interchange.
 Parameter2			=	Detail[1]: The user parameters 
@@ -49,7 +49,7 @@ EventId			=	10004
 EventName			=	SinkHashtableRetrievalFailed
 Categories			=	Warning, OperationalIssue
 Message			=	The record for the transaction with switch key %1 cannot be retrieved from the sink hashtable.
-Description			=	Information stored by the Postilion DvcBogota Interface in a memory data structure could not be retrieved.
+Description			=	Information stored by the Postilion ISCInterfaceCB Interface in a memory data structure could not be retrieved.
 Action			=	Ensure that the interchange was not given the RESYNC command while a transaction was in progress.
 Parameter1			=	Detail[0]: The switch key number of the message which could not be retrieved from storage  
  
@@ -156,7 +156,7 @@ EventName		=	ResponseCodeExplanation
 Categories		=	Warning, OperationalIssue, MessageProcessing
 Message			=	The transaction with switchkey %1, processing code %2, extended trantype %3, 
 					decline with %4: %5. 
-Description		=	This event is tiggered by DvcAvVillas.   
+Description		=	This event is tiggered by ISCInterfaceCB.   
 Action			=	consilation. 
 Parameter1		=	Detail[0]: Switchkey.
 Parameter2		=	Detail[1]: Decline Code.

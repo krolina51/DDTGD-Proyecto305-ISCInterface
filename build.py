@@ -15,8 +15,9 @@ config = {}
 config["Project"] = \
 {
       "Name"                      : "ISCInterface",
-      "Version"                   : "v1.0-r5.6",
-      "BuildNumber"               : time.strftime("%y%m%d", time.localtime(time.time()))+"1",
+      "Version"                   : "v2.9.01-r5.6",
+      "BuildNumber"               : "2108021",
+	  "Depends"					  : [("CommonClassInterface","0.1")],
 }
 
 #------------------------------------------------------------------------------#
@@ -32,24 +33,24 @@ config["BuildEnvironment"] = \
 #------------------------------------------------------------------------------#
 # Tasks   
 #------------------------------------------------------------------------------#
-config["Tasks"] = \
-{
-      "ISCInterface"    :
-         {
-            "TaskType"            : RealtimeAppBuilder.TASK_TYPE_INTERCHANGE,
-            "Service"             : True,
-            "Description"         : "ISCInterface Interface.",
-            "MainClass"           : "postilion.realtime.sdk.env.App",
-            "ClassArguments"      : 
-               [
-                  "ISCInterface",
-                  0,
-                  "postilion.realtime.sdk.node.InterchangeProcessor",
-                  "postilion.realtime.sdk.node.Interchange",
-                  "postilion.realtime.iscinterface.ISCInterface"
-               ]
-         }
-}
+#config["Tasks"] = \
+#{
+#      "ISCInterface"    :
+#         {
+#            "TaskType"            : RealtimeAppBuilder.TASK_TYPE_INTERCHANGE,
+#            "Service"             : True,
+#            "Description"         : "ISCInterface Interface.",
+#            "MainClass"           : "postilion.realtime.sdk.env.App",
+#            "ClassArguments"      : 
+#               [
+#                  "ISCInterface",
+#                  0,
+#                  "postilion.realtime.sdk.node.InterchangeProcessor",
+#                  "postilion.realtime.sdk.node.Interchange",
+#                  "postilion.realtime.iscinterface.ISCInterfaceCB"
+#               ]
+#         }
+#}
 
 #------------------------------------------------------------------------------#
 # Events
@@ -66,10 +67,23 @@ config["Events"] = \
 config["Java"] = \
    {
       "BasePackage"          : "postilion.realtime.iscinterface",
-      "ClassPaths"			 : \
-      	 [
-           ".\\resources\\oem\\lib\\LibIsoTranslateB24.jar"
-         ],
+	  "ClassPaths"           : \
+        [
+           ".\\resources\\oem\\lib\\http2-client-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\http2-common-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\http2-hpack-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\http2-http-client-transport-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\jetty-client-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\jetty-client-9.4.20.v20190813.jar",
+		   ".\\resources\\oem\\lib\\jetty-client-custom.jar",
+		   ".\\resources\\oem\\lib\\jetty-http-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\jetty-io-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\jetty-util-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\MonitorAgent.jar",
+		   ".\\resources\\oem\\lib\\jetty-alpn-client-9.3.4.v20151007.jar",
+		   ".\\resources\\oem\\lib\\commonclasslibrary.jar",
+		   ".\\resources\\oem\\lib\\date.jar",
+        ],
       "SourceDirs"           : \
          [
             (".\\source\\java", RealtimeAppBuilder.INCLUDE_RECURSE)
@@ -82,7 +96,7 @@ config["Java"] = \
 #------------------------------------------------------------------------------#
 #config["JavaDoc"] = \
 #{
- #     "Title"                     : "ISCInterface SDK version " + config["Project"]["Version"],
+ #     "Title"                     : "ISCInterfaceCB SDK version " + config["Project"]["Version"],
   #    "SourceDirs"                  : \
    #      [
     #        "./source/java",
@@ -123,6 +137,18 @@ config["Documentation"] = \
 			 }
 	}
 
+#------------------------------------------------------------------------------#
+# AdditionalContent  
+#------------------------------------------------------------------------------#
+#config["AdditionalContent"] = \
+#    [
+#        (
+#            "Files",
+#                [
+#                    ("INSTALL", "NextDay", ".\\resources\\NextDay.properties", "${postilion.dir}\\iscinterface\\"),
+#                ]
+#        )
+#    ]
 
 #------------------------------------------------------------------------------#
 # Release									 #
@@ -134,8 +160,6 @@ config["Release"] = \
 			[	
 				(RealtimeAppBuilder.WINDOWS_ONLY,"build\\install\\standard_edition\\setup.exe", "setup.exe"),
 				(RealtimeAppBuilder.WINDOWS_ONLY,"build\\install\\standard_edition\\setupc.exe", "setupc.exe"),
-				(RealtimeAppBuilder.LINUX_ONLY,"build\\install\\standard_edition\\setup", "setup"),
-				(RealtimeAppBuilder.LINUX_ONLY,"build\\install\\standard_edition\\setup.dat", "setup.dat"),
 				#("ALL_PLATFORMS", "doc\\README.TXT", "README.TXT"),
 				("ALL_PLATFORMS", "build\\doc\\ug_ISCInterface.chm", "ug_ISCInterface.chm"),
 				("ALL_PLATFORMS", "build\\doc\\rn_ISCInterface.chm", "rn_ISCInterface.chm"),

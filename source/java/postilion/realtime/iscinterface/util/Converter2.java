@@ -39,7 +39,7 @@ public class Converter2 {
 		      sb.append((char)decimal);
 		      temp.append(decimal);
 		  }
-		  Logger.logLine("Decimal : " + temp.toString());
+		  Logger.logLine("Decimal : " + temp.toString(), false);
 		  
 		  return sb.toString();
 	  }
