@@ -1,6 +1,7 @@
 package postilion.realtime.iscinterface.web;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -176,14 +177,15 @@ public class WebClient {
 		return response.toString();
 
 	}
-
-	public String validateMsgData() throws IOException {
+	
+	public String test() throws IOException {
 
 		StringBuilder response = new StringBuilder();
 
-		Logger.logLine("Consuming WS for covenats", false);
+		Logger.logLine("Consuming WS TEST", false);
 
-		URL url = new URL("http://127.0.0.1:8087/api/v1/validate");
+		URL url = new URL("http://10.89.0.169:8087/entry-point/test");
+//		URL url = new URL("http://127.0.0.1:8087/entry-point/test");
 //		URL url = new URL("http://10.89.0.169:8099/api/postcovenatdata");
 //		URL url = new URL("http://10.94.19.244:8099/api/postcovenatdata");
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -196,18 +198,72 @@ public class WebClient {
 		// Default is false
 		connection.setDoOutput(true);
 		connection.setUseCaches(true);
+		connection.setRequestMethod("GET");
+
+		// Read XML
+		if (connection.getResponseCode() == 200) {
+			InputStream inputStream = connection.getInputStream();
+			byte[] res = new byte[16384];
+			int i = 0;
+			while ((i = inputStream.read(res)) != -1) {
+				response.append(new String(res, 0, i));
+			}
+			inputStream.close();
+
+			Logger.logLine("Response WS= " + response.toString(), false);
+		} else {
+			Logger.logLine("Response WS= " + connection.getResponseCode(), false);
+		}
+
+		return response.toString();
+
+	}
+
+	public String validateMsgData(String data) throws IOException {
+
+		StringBuilder response = new StringBuilder();
+
+		Logger.logLine("Consuming WS VALIDATIONS", true);
+
+		URL url = new URL("http://10.89.0.169:8087/entry-point/validate");
+//		URL url = new URL("http://127.0.0.1:8087/entry-point/validate");		
+//		URL url = new URL("http://10.89.0.169:8099/api/postcovenatdata");
+//		URL url = new URL("http://10.94.19.244:8099/api/postcovenatdata");
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+		// Set timeout as per needs
+		connection.setConnectTimeout(50);
+		connection.setReadTimeout(50);
+
+		// Set DoOutput to true if you want to use URLConnection for output.
+		// Default is false
+		connection.setDoOutput(true);
+		connection.setUseCaches(true);
 		connection.setRequestMethod("POST");
 
 		// Set Headers
-		connection.setRequestProperty("Accept", "application/json");
-		// connection.setRequestProperty("Content-Type", "text/plain");
+//		connection.setRequestProperty("Accept", "application/json");
+		connection.setRequestProperty("Content-Type", "text/plain");
+		connection.setRequestProperty("Connection", "keep-alive");
+		connection.setRequestProperty("Keep-Alive", "timeout=5, max=10000");
+		connection.setRequestProperty( "charset", "utf-8");
+		connection.setRequestProperty( "Content-Length", Integer.toString( data.length() ));
+		connection.setUseCaches( false );
+		try( DataOutputStream wr = new DataOutputStream( connection.getOutputStream())) {
+		   wr.write( data.getBytes() );
+		}
 
 		// Write XML
 //		OutputStream outputStream = connection.getOutputStream();
-//		byte[] b = msgXml.toString().getBytes("UTF-8");
+//		byte[] b = data.getBytes("UTF-8");
 //		outputStream.write(b);
 //		outputStream.flush();
 //		outputStream.close();
+		
+		try(OutputStream os = connection.getOutputStream()) { 
+			byte[] input = data.getBytes("utf-8"); 
+			os.write(input, 0, input.length); 
+		}
 
 		// Read XML
 		if (connection.getResponseCode() == 200) {
@@ -217,12 +273,12 @@ public class WebClient {
 				while ((responseLine = br.readLine()) != null) {
 					response.append(responseLine.trim());
 				}
-				Logger.logLine("Response WS= " + response.toString(), false);
+				Logger.logLine("Response WS= " + response.toString(), true);
 			}
 
 		}
 		else {
-			Logger.logLine("Response WS= " + connection.getResponseCode(), false);
+			Logger.logLine("Response WS= " + connection.getResponseCode(), true);
 		}
 
 		return response.toString();

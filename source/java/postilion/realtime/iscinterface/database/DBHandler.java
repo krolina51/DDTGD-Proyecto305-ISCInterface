@@ -41,7 +41,7 @@ public class DBHandler {
 		ResultSet rs = null;
 
 		try {
-			Logger.logLine("####>" + atmId + "####>" + termId + "####>" + consSection, enableLog);
+			Logger.logLine("####>" + atmId + "####>" + termId + "####>" + consSection, false);
 			cn = JdbcManager.getDefaultConnection();
 			stmt = cn.prepareCall("{call Get_Consecutive(?, ?, ?, ?)}");
 //			stmt = cn.prepareCall ("{call Get_Consecutivo(?, ?, ?)}");
@@ -53,7 +53,7 @@ public class DBHandler {
 			stmt.execute();
 //			consecutive = stmt.getString(3);
 			consecutive = stmt.getString(4);
-			Logger.logLine("####>" + consecutive, enableLog);
+			Logger.logLine("####>" + consecutive, false);
 			JdbcManager.commit(cn, stmt, rs);
 		}
 
@@ -259,7 +259,7 @@ public class DBHandler {
 
 	public static StructuredData getHistoricalConsecutive(String retrivalRef, String processingCode, boolean enableLog) {
 
-		Logger.logLine("## getHistoricalConsecutive ##>" + retrivalRef, enableLog);
+		Logger.logLine("## getHistoricalConsecutive ##>" + retrivalRef + " processingCode ", enableLog);
 
 		StructuredData sd = new StructuredData();
 		Connection cn = null;
@@ -286,7 +286,7 @@ public class DBHandler {
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
-			Logger.logLine("##ERROR RETRIVING##>" + sw.toString(), enableLog);
+			Logger.logLine("##ERROR RETRIVING##>" + sw.toString(), false);
 		} finally {
 			try {
 				JdbcManager.cleanup(cn, stmt, rs);
@@ -295,7 +295,7 @@ public class DBHandler {
 			}
 		}
 
-		Logger.logLine("##SD Key INFO##>" + sd.get("REFERENCE_KEY"), enableLog);
+		Logger.logLine("##SD Key INFO##>" + sd.get("REFERENCE_KEY"), false);
 
 		return sd;
 	}

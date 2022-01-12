@@ -121,76 +121,179 @@ public class ISCReqInMsg extends StreamMessage {
 //		
 //	}
 	
-//	/**********************************************************************************
-//	 * Constantes codigos/nombres de constantes
-//	 * 
-//	 * @author Javier Flores
-//	 *
-//	 **********************************************************************************/
-//	public static class Constants {
-//		private Constants() {
-//		    throw new IllegalStateException();
-//		  }
-//		
-//		//Header
-//		private static final String HEADER_FRAME = "313233343536";
-//		private static final String CICS_TRAN_CODE = "E5C9C2C1"; //VIBA-->ebcdic-->hex
-//		private static final String HEADER_FILLER = "404040"; //Anteriormente 40404040
-//		private static final String HEADER_FILLER_2 = "4040404040404040";
-//		private static final String SUPER_ID = "F0F0F0F0F0F0F0F0";
-//		private static final String DELIMITER = "114040";
-//		//Body	
-//		public static final String TAG_119105_PIGNOS_6 = "119105";
-//		public static final String TAG_119130_DATE_6 = "119130";
-//		public static final String TAG_1140C3_DEBIT_ACC_TYPE_CLIENT_1 = "1140C3";
-//		public static final String TAG_11C5D2_DEBIT_ACC_TYPE_CORRES_1 = "11C5D2";
-//		public static final String TAG_11C3F0_TRAN_AMOUNT_15 = "11C3F0";
-//		public static final String TAG_119131_SYS_TIME_12 = "119131";
-//		public static final String TAG_11C37B_COR_ACCOUNT_NR_10 = "11C37B";
-//		public static final String TAG_114040_DEBIT_ACC_NR_10 = "114040";
-//		public static final String TAG_11C1C5_ORIGINAL_SEQ_6 = "11C1C5";
-//		public static final String TAG_11E5C6_CARD_NR_16 = "11E5C6";
-//		public static final String TAG_11C17A_REC_NR_6 = "11C17A";
-//		public static final String TAG_1191A1_TRAN_NACIONALITY_1 = "1191A1";
-//		public static final String TAG_119160_INPUT_NETWORK_2 = "119160";
-//		public static final String TAG_119161_ACQ_NETWORK_2 = "119161";
-//		public static final String TAG_119162_TERM_ID_8 = "119162";
-//		public static final String TAG_119181_ORIGINAL_TRAN_1 = "119181";
-//		public static final String TAG_11912F_AUTH_CODE_8 = "11912F";
-//		public static final String TAG_11D135_ = "11D135";
-//		public static final String TAG_11D142_ = "11D142";
-//		public static final String TAG_11D137_ = "11D137";
-//		public static final String TAG_11D136_SERVICE_CODE_4 = "11D136";
-//		public static final String TAG_119190_COMMERCE_CODE_10 = "119190";
-//		public static final String TAG_11924A_CREDIT_ENTITY_CODE_4 = "11924A";
-//		public static final String TAG_119115_CREDIT_ACC_TYPE_1 = "119115";
-//		public static final String TAG_11912D_AVAL_CREDIT_ACC_NR_20 = "11912D";
-//		public static final String TAG_119199_TERM_LOCATION_40 = "119199";
-//		public static final String TAG_11E4F0_ = "11E4F0";
-//		public static final String TAG_11E4F9_ = "11E4F9";
-//		public static final String TAG_11E4F8_ = "11E4F8";
-//		public static final String TAG_11A2C7_PAY_MODE_INDIC = "11A2C7";
-//		public static final String TAG_1197A5_DEBIT_CARD_TYPE_2 = "1197A5";
-//		public static final String TAG_11E4F2_IDEN_DOC_TYPE_1 = "11E4F2";
-//		public static final String TAG_11E4F3_IDEN_DOC_NR_16 = "11E4F3";
-//		public static final String TAG_11D140_ACQ_ENTITY_4 = "11D140";
-//		public static final String TAG_11D138_ACQ_OFFICE_4 = "11D138";
-//		public static final String TAG_11D139_DEVICE_1 = "11D139";
-//		public static final String TAG_11E5C7_CORRES_CARD_NR_16 = "11E5C7";
-//		public static final String TAG_1197A7_CORRES_CARD_TYPE_2 = "1197A7";
-//		public static final String TAG_11A9B1_TRAN_INDICATOR_1 = "11A9B1";
-//		public static final String TAG_11E5F1_CELULAR_NR_12 = "11E5F1";
-//		public static final String TAG_11E5F3_VIRT_PURCH_INDICATOR_1 = "11E5F3";
-//		public static final String TAG_11D141_STANDIN_INDICATOR_1 = "11D141";
-//		public static final String TAG_11E0E2_TRAN_IDENTIFICATOR_4 = "11E0E2";
-//		public static final String TAG_11913D_SECURE_AMOUNT_15 = "11913D";
-//		public static final String TAG_11914D_PA_MODE = "11914D";
-//		
-//		//Miscelaneos
-//		private static final String BIN_TRAN_CODE = "450942";
-//		private static final String NATIONAL_CUR_CODE = "170";
-//		private static final String ATH_ACQ_CODE = "10000000054";	
-//	}
+	/**********************************************************************************
+	 * Constantes codigos/nombres de constantes
+	 * 
+	 * @author Javier Flores
+	 *
+	 **********************************************************************************/
+
+		
+		public static final int POS_ini_TRAN_CODE = 0;
+		public static final int POS_end_TRAN_CODE = 8;
+		
+		public static final int POS_ini_DELIMITER = 8; 
+		public static final int POS_end_DELIMITER = 14;
+		
+		public static final int POS_ini_TRAN_CODE_AUTRA = 14; 
+		public static final int POS_end_TRAN_CODE_AUTRA = 22; 
+		
+		public static final int POS_ini_FINESSE_STATION_CODE = 22;
+		public static final int POS_end_FINESSE_STATION_CODE = 30;
+		
+		public static final int POS_ini_OFFICE_CODE = 30;
+		public static final int POS_end_OFFICE_CODE = 32;
+		
+		public static final int POS_ini_CURRENCY = 32;
+		public static final int POS_end_CURRENCY = 34;
+		
+		public static final int POS_ini_FILLER_0 = 34;
+		public static final int POS_end_FILLER_0 = 38;
+		
+		public static final int POS_ini_SEQUENCE_NR = 38;
+		public static final int POS_end_SEQUENCE_NR = 46;
+		
+		public static final int POS_ini_MSG_TYPE = 46;
+		public static final int POS_end_MSG_TYPE = 52;
+		
+		public static final int POS_ini_TIME = 52;
+		public static final int POS_end_TIME = 64;
+		
+		public static final int POS_ini_NEXTDAY_INDICATOR = 64;
+		public static final int POS_end_NEXTDAY_INDICATOR = 66;
+		
+		public static final int POS_ini_FILLER_1 = 66;
+		public static final int POS_end_FILLER_1 = 96;
+		
+		public static final int POS_ini_IDEN_NR = 96;
+		public static final int POS_end_IDEN_NR = 128;
+		
+		public static final int POS_ini_PIN = 128;
+		public static final int POS_end_PIN = 136;
+		
+		public static final int POS_ini_IDEN_TYPE = 136;
+		public static final int POS_end_IDEN_TYPE = 138;
+		
+		public static final int POS_ini_AUTH_CREDIT_ENT_CODE = 138;
+		public static final int POS_end_AUTH_CREDIT_ENT_CODE = 146;
+		
+		public static final int POS_ini_CREDIT_ACC_TYPE = 146;
+		public static final int POS_end_CREDIT_ACC_TYPE = 148;
+		
+		public static final int POS_ini_CREDIT_ACC_NR = 148;
+		public static final int POS_end_CREDIT_ACC_NR = 180;
+		
+		public static final int POS_ini_DEBIT_ACC_TYPE = 180;
+		public static final int POS_end_DEBIT_ACC_TYPE = 182;
+		
+		public static final int POS_ini_DEBIT_ACC_NR = 182;
+		public static final int POS_end_DEBIT_ACC_NR = 214;
+		
+		public static final int POS_ini_TRAN_AMOUNT = 214;
+		public static final int POS_end_TRAN_AMOUNT = 242;
+		
+		public static final int POS_ini_SEQUENCE_TS = 242;
+		public static final int POS_end_SEQUENCE_TS = 282;
+		
+		public static final int POS_ini_PAYMENT_MODE = 282;
+		public static final int POS_end_PAYMENT_MODE = 284;
+		
+		public static final int POS_ini_TRAN_NATURE = 284;
+		public static final int POS_end_TRAN_NATURE = 286;
+		
+		public static final int POS_ini_PAYMENT_CLASS = 286;
+		public static final int POS_end_PAYMENT_CLASS = 288;
+		
+		public static final int POS_ini_PAYMENT_APPLICATION_DATE = 288;
+		public static final int POS_end_PAYMENT_APPLICATION_DATE = 304;
+		
+		public static final int POS_ini_TRAN_ID = 304;
+		public static final int POS_end_TRAN_ID = 314;
+		
+		public static final int POS_ini_AUTH_DEBIT_ENTITY_CODE = 314;
+		public static final int POS_end_AUTH_DEBIT_ENTITY_CODE = 322;
+		
+		public static final int POS_ini_FILLER_2 = 322;
+		public static final int POS_end_FILLER_2 = 324;
+		
+		public static final int POS_ini_ATM_CODE = 324;
+		public static final int POS_end_ATM_CODE = 340;
+		
+		public static final int POS_ini_TC_CUOTA_NR = 340;
+		public static final int POS_end_TC_CUOTA_NR = 344;
+		
+		public static final int POS_ini_PINPAD_IDEN = 344;
+		public static final int POS_end_PINPAD_IDEN = 348;
+		
+		public static final int POS_ini_FILLER_3 = 348;
+		public static final int POS_end_FILLER_3 = 356;
+		
+		public static final int POS_ini_ACQ_OFFICE_CODE = 356;
+		public static final int POS_end_ACQ_OFFICE_CODE = 364;
+		
+		public static final int POS_ini_CHECK_NR = 364;
+		public static final int POS_end_CHECK_NR = 404;
+		
+		public static final int POS_ini_CANJE_LIBERATION_DATE = 404;
+		public static final int POS_end_CANJE_LIBERATION_DATE = 416;
+		
+		public static final int POS_ini_DEVOLUTION_REASON = 416;
+		public static final int POS_end_DEVOLUTION_REASON = 420;
+		
+		public static final int POS_ini_BANK_CHECK_DEVOLUTION_CODE = 420;
+		public static final int POS_end_BANK_CHECK_DEVOLUTION_CODE = 426;
+		
+		public static final int POS_ini_CUR_TRAN_SEQ_NR = 426;
+		public static final int POS_end_CUR_TRAN_SEQ_NR = 434;
+		
+		public static final int POS_ini_ORI_TRAN_SEQ_NR = 434;
+		public static final int POS_end_ORI_TRAN_SEQ_NR = 442;
+		
+		public static final int POS_ini_ACQ_CITY_OFFICE_DANE = 442;
+		public static final int POS_end_ACQ_CITY_OFFICE_DANE = 452;
+		
+		public static final int POS_ini_ACQ_OFFICE_NAME = 452;
+		public static final int POS_end_ACQ_OFFICE_NAME = 488;
+		
+		public static final int POS_ini_TRACK_2 = 488;
+		public static final int POS_end_TRACK_2 = 568;
+		
+		public static final int POS_ini_PINPAD_SERIAL = 568;
+		public static final int POS_end_PINPAD_SERIAL = 588;
+		
+		public static final int POS_ini_TERMINAL = 588;
+		public static final int POS_end_TERMINAL = 608;
+		
+		public static final int POS_ini_ACH_CREDIT_ACC_NR = 608;
+		public static final int POS_end_ACH_CREDIT_ACC_NR = 642;
+		
+		public static final int POS_ini_AKB_PIN_FORMAT = 642;
+		public static final int POS_end_AKB_PIN_FORMAT = 674;
+		
+		public static final int POS_ini_ACC_MIGRATED_IND = 674;
+		public static final int POS_end_ACC_MIGRATED_IND = 676;
+		
+		public static final int POS_ini_ENTRY_MODE_IND = 676;
+		public static final int POS_end_ENTRY_MODE_IND = 678;
+		
+		public static final int POS_ini_EMV_DATA = 678;
+		public static final int POS_end_EMV_DATA = 1678;
+		
+		public static final int POS_ini_CHECK_QUANTITY = 1678;
+		public static final int POS_end_CHECK_QUANTITY = 1682;
+		
+		public static final int POS_ini_PAYING_PERSON_IDEN_NR = 1682;
+		public static final int POS_end_PAYING_PERSON_IDEN_NR = 1704;
+		
+		public static final int POS_ini_FACT_NR = 1704;
+		public static final int POS_end_FACT_NR = 1752;
+		
+		public static final int POS_ini_NOTE = 1752;
+		public static final int POS_end_NOTE = 1800;
+		
+		public static final int POS_ini_ACC_INSCRIPTION_FLAG = 1800;
+		public static final int POS_end_ACC_INSCRIPTION_FLAG = 1802;
+
 	
 	/**********************************************************************************
 	 * Constantes codigos/nombres de campos

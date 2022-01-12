@@ -11,6 +11,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 
+
+
 /**
  * This class deifines a basic UDP client
  * 
@@ -21,12 +23,14 @@ public class Client {
 
 	InetAddress ipAddress;
 	int port;
+	DatagramSocket socket;
 
 	public Client() {
 
 	}
 
 	public Client(String ipAddress, String port) {
+		Logger.logLine(" Client: 2 parametros" , false);
 
 		if (!ipAddress.equals("0") && !port.equals("0")) {
 			try {
@@ -40,13 +44,45 @@ public class Client {
 					this.port = Integer.valueOf(port);
 				else
 					throw new Exception("Port parameter for server UDP, is not a Port valid");
+				
+			} catch (Exception e) {
+			
+				StringWriter outError = new StringWriter();
+				e.printStackTrace(new PrintWriter(outError));
+				EventRecorder.recordEvent(new Exception("Exception in Constructor:  Client: " + outError.toString()));
+				Logger.logLine("Exception in Constructor:  Client: " + outError.toString(), true);
+				
+			}
+		}
+	}
+	
+	public Client(String ipAddress, String port, String portOut) {
+		//Logger.logLine(" Client: 3 parametros " + ipAddress + " " + port + " " + portOut, true);
+		if (!ipAddress.equals("0") && !port.equals("0")) {
+			try {
+
+				if (validateIp(ipAddress))
+					this.ipAddress = InetAddress.getByName(ipAddress);
+				else
+					throw new Exception("IP parameter for server UDP, is not a IP valid");
+
+				if (validatePort(port))
+					this.port = Integer.valueOf(port);
+				else
+					throw new Exception("Port parameter for server UDP, is not a Port valid");
+				
+				if (validatePort(portOut))
+					this.socket = new DatagramSocket(Integer.valueOf(portOut));
+				else
+					throw new Exception("Port Out parameter for server UDP, is not a Port valid");
+				
 
 			} catch (Exception e) {
 				
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
-				Logger.logLine("Constructor: [Client]: " + outError.toString(), false);
-				EventRecorder.recordEvent(new Exception(outError.toString()));
+				EventRecorder.recordEvent(new Exception("Exception in Constructor 2 :  Client: " + outError.toString()));
+				Logger.logLine("Exception in Constructor 2 :  Client: " + outError.toString(), true);
 				
 			}
 		}
@@ -112,30 +148,20 @@ public class Client {
 	 * @param data to send
 	 */
 	public void sendData(byte[] data) {
-
-//		if (!ipUdpServer.equals("0") && !portUdpServer.equals("0")) {VALIDAR
-		DatagramSocket socket = null;
 		try {
-			socket = new DatagramSocket();
-
 			DatagramPacket request = new DatagramPacket(data, data.length, ipAddress, port);
-			socket.send(request);
+//			DatagramPacket request = new DatagramPacket(data, data.length, ipAddress,
+//					port + (int) (Math.random() * 10));
+			this.socket.send(request);
 
-			socket.close();
 		} catch (IOException e) {
 			
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("Method: [sendData]: " + outError.toString(), false);
-			EventRecorder.recordEvent(new Exception(outError.toString()));
+			EventRecorder.recordEvent(new Exception("Exception in Constructor:  Client: " + outError.toString()));
+			Logger.logLine("Exception in Constructor:  Client: " + outError.toString(), true);
 			
-		} finally {
-			if (socket != null)
-				socket.close();
-		}
-
-//		}
-
+		} 
 	}
 	
 
@@ -143,7 +169,47 @@ public class Client {
 
 	public static byte[] getMsgKeyValue(String p37, String value, String type, String nameInterface) {
 
-		String key = type + ":" + nameInterface + "_" + p37 + "_"
+		Logger.logLine("GET MSG KEY VALUE "+type , true);
+//		boolean msg2 = false;
+		String key = new String();
+//		if (type.equals("B24")) {
+//			Base24Ath msgb24Ath = new Base24Ath(null);
+//			try {
+//				msgb24Ath.fromMsg(Transform.fromHexToBin(value).getBytes());
+//				key = "V2" + type + msgb24Ath.getField(Iso8583.Bit._003_PROCESSING_CODE)
+//						+ msgb24Ath.getField(Iso8583.Bit._011_SYSTEMS_TRACE_AUDIT_NR)
+//						+ msgb24Ath.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + nameInterface;
+//				String msglog = msgb24Ath.toString();
+//				String msghex = value;
+//				key = key + "|" + msglog + "|" + msghex;
+//				msg2 = true;
+//			} catch (XPostilion e) {
+//				GenericInterface.getLogger().logLine(Utils.getStringMessageException(e));
+//			}
+//
+//		}
+//		if (type.equals("ISO")) {
+//			Iso8583Post msgIso = new Iso8583Post();
+//			try {
+//				msgIso.fromMsg(Transform.fromHexToBin(value).getBytes());
+//				key = "V2" + type + msgIso.getField(Iso8583.Bit._003_PROCESSING_CODE)
+//						+ msgIso.getField(Iso8583.Bit._011_SYSTEMS_TRACE_AUDIT_NR)
+//						+ msgIso.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + nameInterface;
+//				String msglog = msgIso.toString();
+//				String msghex = value;
+//				key = key + "|" + msglog + "|" + msghex;
+//				msg2 = true;
+//				GenericInterface.getLogger().logLine("msg2 "+msg2);
+//			} catch (XPostilion e) {
+//				GenericInterface.getLogger().logLine(Utils.getStringMessageException(e));
+//			}
+//
+//		}
+//		GenericInterface.getLogger().logLine(key);
+//		if (msg2) {
+//			sendDataFixed(key.getBytes());
+//		}
+		key = type + ":" + nameInterface + "_" + p37 + "_"
 				+ LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss")) + ":";
 		String lKey = String.valueOf(key.length());
 		String llKey = String.valueOf(lKey.length());

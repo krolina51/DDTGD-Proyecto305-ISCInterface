@@ -65,6 +65,9 @@ public class Field {
 	@JsonProperty("pad_char")
 	private String padChar;
 	
+	@JsonProperty("validate")
+	private String validate;
+	
 	public Field() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -319,14 +322,24 @@ public class Field {
 		this.padChar = padChar;
 	}
 
+	@JsonGetter("validate")
+	public String getValidate() {
+		return validate;
+	}
+
+	public void setValidate(String validate) {
+		this.validate = validate;
+	}
+
 	@Override
 	public String toString() {
 		return "Field [description=" + description + ", isHeaderField=" + isHeaderField + ", tagPrefix=" + tagPrefix
 				+ ", tagValueLength=" + tagValueLength + ", fieldType=" + fieldType + ", copyFrom=" + copyFrom
-				+ ", copyTag=" + copyTag + ", optionalTag=" + optionalTag + ", copyInitialIndex=" + copyInitialIndex
-				+ ", copyFinalIndex=" + copyFinalIndex + ", value=" + value + ", conditionalVal=" + conditionalVal
-				+ ", valueHex=" + valueHex + ", dummyPro=" + dummyPro + ", homologations="
-				+ Arrays.toString(homologations) + ", padChar=" + padChar + "]";
+				+ ", copyTo=" + copyTo + ", copyTag=" + copyTag + ", optionalTag=" + optionalTag + ", copyInitialIndex="
+				+ copyInitialIndex + ", copyFinalIndex=" + copyFinalIndex + ", value=" + value + ", conditionalVal="
+				+ conditionalVal + ", valueHex=" + valueHex + ", dummyPro=" + dummyPro + ", homologations="
+				+ Arrays.toString(homologations) + ", padChar=" + padChar + ", validate=" + validate + "]";
 	}
+
 
 }

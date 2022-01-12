@@ -40,6 +40,7 @@ public class Constant {
 		public static final String B24_F_126 = "B24_Field_126";
 		public static final String B24_TOKEN_CONTROL = "01";
 		public static final String B24_SOURCE = "ATH";
+		public static final String B24_F_3 = "B24_Field_3";
 		
 	}
 	
@@ -63,6 +64,7 @@ public class Constant {
 		public static final String TOKEN_CONTROL_B24 = "_TOKEN_CONTROL_B24";
 		public static final String SOURCE = "SOURCE";
 		public static final String SEQ_TERMINAL = "SEQ_TERMINAL";
+		public static final String RANDOM_NR = "RANDOM_NR";
 		public static final String RETRIEVED_ACCOUNT = "RETRIEVED_ACCOUNT";
 		public static final String REFERENCE_KEY = "REFERENCE_KEY";
 		public static final String ORIGINAL_MSG = "ORIGINAL_MSG";

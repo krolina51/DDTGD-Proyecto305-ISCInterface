@@ -197,14 +197,14 @@ public class Utils {
 //		return innerFields;
 //	}
 
-	public static HashMap<String, String> getBodyInnerFields(String varBody, String tranCode, String isCostInq) {
+	public static HashMap<String, String> getBodyInnerFields(String varBody, String tranCode, String isCostInq, boolean enableLog) {
 
 		HashMap<String, String> innerFields = new HashMap<String, String>();
 
 		String varBodyHex = UtilidadesMensajeria.asciiToEbcdic(varBody);
 
 		Logger.logLine("***Recuperando campos del msg variable:\n" + varBody + "\n" + varBodyHex + "\n"
-				+ UtilidadesMensajeria.ebcdicToAscii(varBody), true);
+				+ UtilidadesMensajeria.ebcdicToAscii(varBody), enableLog);
 
 		//CUPO CREDITO ROTATIVO
 		if (tranCode != null && tranCode.equals("AT2I") && isCostInq != null && isCostInq.equals("FALSE")) {
@@ -226,7 +226,7 @@ public class Utils {
 				
 			}
 
-			Logger.logLine("CONSUL RES:" + consulResult, false);
+			Logger.logLine("CONSUL RES:" + consulResult, enableLog);
 
 			Utils.putStringIntoHashmap(innerFields, "P102_1=".concat(consulResult.substring(17, 22)));
 			Utils.putStringIntoHashmap(innerFields, "P102_2=".concat(consulResult.substring(22, 37)));
@@ -243,14 +243,28 @@ public class Utils {
 			innerFields.put("SALDO_T", saldoT);
 			innerFields.put("SALDO_D", saldoD);
 
-			Logger.logLine("SALDOS ROT:" + innerFields.get("SALDOS"), false);
+			Logger.logLine("SALDOS ROT:" + innerFields.get("SALDOS"), enableLog);
 
+		}
+		
+		if(tranCode != null && tranCode.equals("AT1I") && isCostInq != null && isCostInq.equals("FALSE")) {
+			
+			String rspBody = UtilidadesMensajeria.ebcdicToAscii(varBody);
+			Logger.logLine("CONSUL RES:" + rspBody, enableLog);
+			
+			String[] rspFields = rspBody.split("\\s+");	
+			
+			innerFields.put("TIT_IDEN", rspFields[1]);
+			innerFields.put("TIT_TYPE", rspFields[2]);
+			innerFields.put("TIT_NOMBRE", rspBody.substring(rspBody.indexOf(rspFields[3])));
+			
+				
 		}
 
 		if (tranCode != null && tranCode.equals("ATCG") && isCostInq != null && isCostInq.equals("FALSE")) {
 
 			String consulResult = UtilidadesMensajeria.ebcdicToAscii(varBody);
-			Logger.logLine("CONSUL RES:" + consulResult, true);
+			Logger.logLine("CONSUL RES:" + consulResult, enableLog);
 			
 			innerFields.put("ATCG_ID_TYPE", consulResult.substring(39, 40));
 			innerFields.put("ATCG_ID_NR", consulResult.substring(40, 56));
@@ -282,11 +296,6 @@ public class Utils {
 			}
 		}
 
-		for (Map.Entry<String, String> e : innerFields.entrySet()) {
-
-			Logger.logLine("LLAVE:" + e.getKey() + " VALOR:" + e.getValue(), true);
-
-		}
 
 		return innerFields;
 	}
@@ -2427,7 +2436,12 @@ public class Utils {
 		}
 
 		Random r = new Random();
-		return r.nextInt((max - min) + 1) + min;
+		
+		int out = r.nextInt((max - min) + 1) + min;
+		
+		Logger.logLine("RANDOM:"+out, false);
+		
+		return out;
 	}
 
 	/**
@@ -2437,13 +2451,20 @@ public class Utils {
 	 * @param allCodesIscToIso
 	 * @throws XPostilion
 	 */
-	public static ResponseCode set38And39Fields(Iso8583Post msg, Map<String, ResponseCode> v1CodesIscToIso, Map<String, ResponseCode> v2CodesIscToIso)
+	public static ResponseCode set38And39Fields(Iso8583Post msg, HashMap<String, ResponseCode> v1CodesIscToIso, HashMap<String, ResponseCode> v2CodesIscToIso)
 			throws XPostilion {
 
 		StructuredData sd = msg.getStructuredData();
 		ResponseCode responseCode = new ResponseCode();
+//		ResponseCode responseCode = null;
 
 		Logger.logLine("SETING 38 y 39\n" + sd, false);
+		
+		Logger.logLine("MAP SIZE" + v1CodesIscToIso.size(), false);
+		
+//		for(Map.Entry<String, ResponseCode> e: v1CodesIscToIso.entrySet()) {
+//			Logger.logLine("KEY: " + e.getKey() + " VAL: " + e.getValue().getKeyIsc(), true);
+//		}
 		
 		try {
 			if (sd.get("ERROR") != null) {
@@ -2454,7 +2475,7 @@ public class Utils {
 					
 					Logger.logLine("HAY CODIGO DE ERROR EN RSP", false);
 					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"),
-							(HashMap<String, ResponseCode>) v2CodesIscToIso);
+							v2CodesIscToIso);
 					Logger.logLine(">>> " + sd.get("ERROR") + " >>> " + responseCode.getKeyIsc() + "::"
 							+ responseCode.getDescriptionIsc(), false);
 					msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
@@ -2464,7 +2485,7 @@ public class Utils {
 					
 					Logger.logLine("HAY CODIGO DE ERROR EN RSP", false);
 					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"),
-							(HashMap<String, ResponseCode>) v1CodesIscToIso);
+							 v1CodesIscToIso);
 					Logger.logLine(">>> " + sd.get("ERROR") + " >>> " + responseCode.getKeyIsc() + "::"
 							+ responseCode.getDescriptionIsc(), false);
 					msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
@@ -2493,8 +2514,9 @@ public class Utils {
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), true);
+			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), false);
 			EventRecorder.recordEvent(new Exception(outError.toString()));
+			responseCode = new ResponseCode();
 			responseCode.setDescriptionIsc("RSP CODE TRANSLATION ERROR - NOT FOUND");
 			
 			msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
@@ -2579,7 +2601,7 @@ public class Utils {
 
 	public static void putB24Field102IntoStructuredData(StructuredData sd, String tranType) throws XPostilion {
 		
-		Logger.logLine("REVISION GIRO SD: "+sd.toString(), true);
+		Logger.logLine("REVISION GIRO SD: "+sd.toString(), false);
 		
 //		if(tranType.equals("0210_011000_GIRO") || tranType.equals("0210_011000_GIRO") && (null != sd.get("B24_Field_102")) && (null != sd.get("ATCG_ACCOUNT_NR"))) {
 //			sd.put(Constant.B24Fields.B24_F_102, sd.get("B24_Field_102").substring(0, 4)
@@ -2636,10 +2658,10 @@ public class Utils {
 	public static void putB24Field62IntoStructuredData(StructuredData sd) {
 		
 		if(sd.get("NOMBRE2") != null) {
-			Logger.logLine("NOMBRE2 RSP "+sd.get("NOMBRE2"), true);
+			Logger.logLine("NOMBRE2 RSP "+sd.get("NOMBRE2"), false);
 		}
 		if(sd.get("NOMBRE1") != null) {
-			Logger.logLine("NOMBRE1 RSP "+sd.get("NOMBRE1"), true);
+			Logger.logLine("NOMBRE1 RSP "+sd.get("NOMBRE1"), false);
 		}
 
 
@@ -2661,7 +2683,7 @@ public class Utils {
 								.concat(Constant.Misce.STR_THIRTY_ZEROS)));
 
 		if(sd.get(Constant.B24Fields.B24_F_62) != null) {
-			Logger.logLine(Constant.B24Fields.B24_F_62+" RSP "+sd.get("NOMBRE1"), true);
+			Logger.logLine(Constant.B24Fields.B24_F_62+" RSP "+sd.get("NOMBRE1"), false);
 		}
 	}
 
@@ -2736,7 +2758,9 @@ public class Utils {
 
 	public static void putB24Field63IntoStructuredData(StructuredData sd, ResponseCode rspCode) {
 		sd.put(Constant.B24Fields.B24_F_63,
-				rspCode.getKeyIsc().concat(Pack.resize(rspCode.getDescriptionIsc(), 40, ' ', true)));
+				rspCode.getKeyIsc() != null? rspCode.getKeyIsc().concat(Pack.resize(rspCode.getDescriptionIsc(), 40, ' ', true)) 
+						: "ERROR: ".concat(Pack.resize("VALOR NO ENCONTRADO", 40, ' ', true)));
+		
 	}
 
 	public static void putB24Field40IntoStructuredData(StructuredData sd) {
@@ -2846,7 +2870,7 @@ public class Utils {
 			
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
-			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), true);
+			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
 			EventRecorder.recordEvent(new Exception(outError.toString()));
 
 		}
@@ -2948,7 +2972,7 @@ public class Utils {
 			
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
-			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), true);
+			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
 			EventRecorder.recordEvent(new Exception(outError.toString()));
 
 		}
@@ -3311,7 +3335,7 @@ public class Utils {
 		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso);
 
 		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
-		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, true);
+		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, false);
 		
 		//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 		if (tSettings != null && tSettings.getAuxiliarClass() != null) {
@@ -3326,10 +3350,10 @@ public class Utils {
 		catch(Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter("ERROR COPYING FIELD: " +  outError.toString()));
-			Logger.logLine("ERROR COPYING FIELD: " + outError.toString(), true);
+			Logger.logLine("ERROR COPYING FIELD: " + outError.toString(), false);
 		}
 
-		Logger.logLine("OUTPUT:" + mappedIso.toString(), true);
+		Logger.logLine("OUTPUT:" + mappedIso.toString(), false);
 		return mappedIso;
 	}
 	
@@ -3368,8 +3392,8 @@ public class Utils {
 
 	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons) {
 		
-		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), true);
-		Logger.logLine(TransferAux.class.getCanonicalName(), true);
+		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), false);
+		Logger.logLine(TransferAux.class.getCanonicalName(), false);
 
 		try {
 			
@@ -3385,12 +3409,12 @@ public class Utils {
             
             out = (Iso8583Post)methodExec.invoke(obj, args);
             
-            Logger.logLine(out.toString(), true);
+            Logger.logLine(out.toString(), false);
 			
 			
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			
-			Logger.logLine("ERROR REFLECTION: " + e.getLocalizedMessage(), true);
+			Logger.logLine("ERROR REFLECTION: " + e.getLocalizedMessage(), false);
 		}        
 			
 	}
@@ -3400,19 +3424,19 @@ public class Utils {
 
 		TransactionSetting tranSetting = null;
 
-		Logger.logLine("TRANKEY: " + msgTranKey, enableLog);
+		Logger.logLine("TRANKEY: " + msgTranKey, false);
 
 		if (wholeTransConfig != null && wholeTransConfig.getAllTran() != null
 				&& wholeTransConfig.getAllTran().length != 0) {
 
 			for (int i = 0; i < wholeTransConfig.getAllTran().length; i++) {
 
-				Logger.logLine("TRANKEY IN JSON: " + wholeTransConfig.getAllTran()[i].getTranKey(), enableLog);
+				Logger.logLine("TRANKEY IN JSON: " + wholeTransConfig.getAllTran()[i].getTranKey(), false);
 
 				if (wholeTransConfig.getAllTran()[i].getTranKey().equals(msgTranKey)) {
 
-					Logger.logLine("-- TRANKEY MATCHED --", enableLog);
-					Logger.logLine(wholeTransConfig.getAllTran()[i].getDescription(), enableLog);
+					Logger.logLine("-- TRANKEY MATCHED --", false);
+					Logger.logLine(wholeTransConfig.getAllTran()[i].getDescription(), false);
 					tranSetting = wholeTransConfig.getAllTran()[i];
 					break;
 				}
@@ -3420,7 +3444,7 @@ public class Utils {
 		}
 		
 		if (tranSetting == null) {
-			Logger.logLine("NO TRAN MATCH IN JSON: ", enableLog);
+			Logger.logLine("NO TRAN MATCH IN JSON: ", false);
 		}
 
 		return tranSetting;
@@ -3429,8 +3453,8 @@ public class Utils {
 	private static Iso8583Post constructMsgISO(TransactionSetting trSetting, ISCReqInMsg inputMsg, Iso8583Post mappedMsg)
 			throws XPostilion, FileNotFoundException {
 		
-		Logger.logLine("constructMsgISO 3251:" + trSetting.getFields().length, true);
-		Logger.logLine("constructMsgISO 3252:" + inputMsg.getTotalHexString(), true);
+		Logger.logLine("constructMsgISO 3251:" + trSetting.getFields().length, false);
+		Logger.logLine("constructMsgISO 3252:" + inputMsg.getTotalHexString(), false);
 
 		
 		StructuredData sd = null;
@@ -3446,7 +3470,7 @@ public class Utils {
 
 			Field cf = trSetting.getFields()[i];
 			
-			Logger.logLine("Field: " + cf.getDescription(), true);
+			Logger.logLine("Field: " + cf.getDescription(), false);
 
 //			mappedMsg.putField(Byte.parseByte(cf.getCopyTag()),
 //					inputMsg.getField(cf.getCopyTag()).substring(cf.getCopyInitialIndex(), cf.getCopyFinalIndex()));
@@ -3491,7 +3515,7 @@ public class Utils {
 		String output = null;
 
 		// To-DO consultar consecutivo
-		output = DBHandler.getCalculateConsecutive("AT", term, termConsSection, true);
+		output = DBHandler.getCalculateConsecutive("AT", term, termConsSection, false);
 
 		return output;
 	}
@@ -3529,12 +3553,12 @@ public class Utils {
 			transConfig = mapper.readValue(Paths.get(jsonURL).toFile(), WholeTransSetting.class);
 
 			// print book
-			Logger.logLine("JSON TRANS COFIG:" + transConfig.toString(), enableLog);
+			Logger.logLine("JSON TRANS COFIG:" + jsonURL + " " + transConfig.toString(), false);
 
 		} catch (Exception ex) {
 			StringWriter outError = new StringWriter();
 			ex.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), enableLog);
+			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), false);
 			EventRecorder.recordEvent(new Exception(outError.toString()));
 		}
 
@@ -3570,26 +3594,26 @@ public class Utils {
 			Properties prop = new Properties(); // set the properties value
 			prop.setProperty(property2Update, value2update);
 			prop.store(output, null);
-			Logger.logLine("UPDATE PROPS:\n" + prop.toString(), enableLog);
+			Logger.logLine("UPDATE PROPS:\n" + prop.toString(), false);
 		}
 
 		catch (IOException io) {
 			StringWriter outError = new StringWriter();
 			io.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("ERROR IO: " + outError.toString(), enableLog);
+			Logger.logLine("ERROR IO: " + outError.toString(), false);
 			EventRecorder.recordEvent(new Exception(outError.toString()));
 		}
 
 	}
 
-	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output) {
+	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output) throws XPostilion {
 
-		Logger.logLine("Utils 3353: \n" + msg.toString(), true);
+		Logger.logLine("Utils 3353: \n" + msg.toString(), false);
 
 		String msgKey = "";
 
-		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), true);
-		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), true);		
+		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), false);
+		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), false);		
 		
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
@@ -3601,7 +3625,7 @@ public class Utils {
 				break;
 			case "8550":
 				
-				msgKey = get8850ExtentedKey(msg);
+				msgKey = get8850ExtentedKey(msg, output);
 
 				break;
 
@@ -3623,7 +3647,7 @@ public class Utils {
 
 		String primCov = ISCInterfaceCB.convenios.get(covNr);
 
-		Logger.logLine("CONVENIO PRIM BUSQUEDA - " + covNr, true);
+		Logger.logLine("CONVENIO PRIM BUSQUEDA - " + covNr, false);
 
 		if (!primCov.equals("") && primCov != null) {
 			foundedCovenant = true;
@@ -3638,7 +3662,7 @@ public class Utils {
 			if (cov2Nr != null) {
 				String secCov = ISCInterfaceCB.convenios.get(covNr.concat(cov2Nr));
 				
-				Logger.logLine("SEC COVENANT:" + secCov, true);
+				Logger.logLine("SEC COVENANT:" + secCov, false);
 
 				if (secCov != "" && secCov != null) {
 					sd.put("SEC_COV_ACCOUNT_TYPE", secCov.split("\\|")[0].equals("") ? "0" : secCov.split("\\|")[0]);
@@ -3666,7 +3690,7 @@ public class Utils {
 		extractedVal = curField.getValue();
 		extractedVal = Pack.resize(extractedVal, curField.getTagValueLength(), '0', false);
 		
-		Logger.logLine("Extracted:"+extractedVal, true);
+		Logger.logLine("Extracted:"+extractedVal, false);
 		
 		if(curField.getCopyTo().split("\\|")[0].equals("0")) {
 			outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
@@ -3687,7 +3711,7 @@ public class Utils {
 			extractedVal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex())));
 			extractedVal = Pack.resize(extractedVal, curField.getTagValueLength(), '0', false);
 
-			Logger.logLine("Extracted:"+extractedVal, true);
+			Logger.logLine("Extracted:"+extractedVal, false);
 			
 			if(curField.getCopyTo().split("\\|")[0].equals("0")) {
 				outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
@@ -3701,7 +3725,7 @@ public class Utils {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(
 					outError + "\n" + "ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
-			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), true);
+			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), false);
 			EventRecorder.recordEvent(
 					new Exception("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
 		}
@@ -3727,19 +3751,19 @@ public class Utils {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(
 					outError + "\n" + "ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
-			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), true);
+			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), false);
 			EventRecorder.recordEvent(
 					new Exception("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
 		}
 
 		Logger.logLine(extractedVal + "--" + Transform.fromAsciiToEbcdic(extractedVal) + "--"
-				+ UtilidadesMensajeria.asciiToEbcdic(extractedVal), true);
+				+ UtilidadesMensajeria.asciiToEbcdic(extractedVal), false);
 
 		for (Homologation h : Arrays.asList(curField.getHomologations())) {
 
 			if (h.getValue().equals(extractedVal)) {
 				Logger.logLine("HOMOLOGACION MATCH-- homologation: " + h.getValue() + " ExtracVal" + extractedVal
-						+ " convertion" + h.getConvertion(), true);
+						+ " convertion" + h.getConvertion(), false);
 				extractedVal = h.getConvertion();
 				
 
@@ -3752,7 +3776,7 @@ public class Utils {
 				
 				
 				homolMatch = true;
-				Logger.logLine("VAL homologated: " + extractedVal, true);
+				Logger.logLine("VAL homologated: " + extractedVal, false);
 				break;
 			}
 
@@ -3765,26 +3789,76 @@ public class Utils {
 		}
 	}
 	
-	private static String get8850ExtentedKey (ISCReqInMsg isc) {
+	private static String get8850ExtentedKey (ISCReqInMsg isc, Iso8583Post out) throws XPostilion {
 		
-		Logger.logLine("Utils 3601:", true);
+		Logger.logLine("Utils 3601:", false);
 		
-		String key = "";
+		StructuredData sd = new StructuredData();
 		
 		String hexIsc = isc.getTotalHexString().toUpperCase();
 		
-		Logger.logLine("OFFICE CODE:"+Transform.fromEbcdicToAscii(isc.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE))
-		+" NATURE:"+Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(282, 284))), true);
+		//Se extrae la naturaleza del mensaje para ser evaluada en el switch
+		//y se determina que tipo de transaccion es.
+		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)))) {
+		case "0":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER");		
+			break;
+		case "1":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_HIPOTECARIO");		
+			break;
+		case "2":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_ROTATIVO");		
+			break;
+		case "3":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_CONSUMO");	
+			break;
+		case "4":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_MOTOSVEHICULOS");		
+			break;
+		case "5":		
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC");		
+			break;
+		case "6":	
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_RETIROAVANCE");	
+			break;
+		default:
+			break;
+		}	
 		
-		if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(282, 284))).equals("0") && 
-				(Transform.fromEbcdicToAscii(isc.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE)).substring(0, 1).equals("9") 
-						&& !Transform.fromEbcdicToAscii(isc.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE)).substring(1).equals("999"))) {
-			
-			key = "SRLN_8550_TRANSFER";
-			
+		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE)))) {
+		case "000":
+			sd.put("STATE_BYTE_INTERLNAL","NORMAL");
+			break;
+		case "010":
+			sd.put("STATE_BYTE_INTERLNAL","DEVOLUCION");
+			break;
+		case "020":
+			sd.put("STATE_BYTE_INTERLNAL","ANULACION");
+			break;
+		case "030":
+			sd.put("STATE_BYTE_INTERLNAL","ANULACIONDEV");
+			break;
+		case "040":
+			sd.put("STATE_BYTE_INTERLNAL","NORMAL_ND");
+			break;
+		case "050":
+			sd.put("STATE_BYTE_INTERLNAL","DEVOLUCION_ND");
+			break;
+		case "060":
+			sd.put("STATE_BYTE_INTERLNAL","ANULACION_ND");
+			break;
+		case "070":
+			sd.put("STATE_BYTE_INTERLNAL","ANULACIONDEV_ND");
+			break;
+		case "080":
+			sd.put("STATE_BYTE_INTERLNAL","REVERSO");
+			break;
+		default:
+			break;
 		}
 		
-		return key;
+		out.putStructuredData(sd);
+		return sd.get("TRAN_KEY_INTERLNAL");
 		
 	}
 	
@@ -3799,7 +3873,7 @@ public class Utils {
 		
 		DesKwp kwpParam1 = null;
 
-		try {
+//		try {
 			CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
 			kwpParam1 = crypcfgman.getKwp("ATH_KPE");
 			
@@ -3808,35 +3882,46 @@ public class Utils {
 			
 			String param1 = Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes());
 
-			String kvpParam2 = "MVBVTkUwMDAsRUJDOEJDNjM0MEM2RkUyRjYxMTU2M0Y0MjY4MDdEMjM0OUI5QjdCNDU4NDNCMDk2LDg4Q0NEOTk5MDNFMjE2QTY";
-
-			Logger.logLine("PIN DATA: " + msg.getField(Iso8583.Bit._052_PIN_DATA), true);
-			Logger.logLine("PIN DATA to HEX: " + Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)), true);
+//			String kvpParam2 = "MVBVTkUwMDAsRUJDOEJDNjM0MEM2RkUyRjYxMTU2M0Y0MjY4MDdEMjM0OUI5QjdCNDU4NDNCMDk2LDg4Q0NEOTk5MDNFMjE2QTY";
+			DesKwp kvpParam2 = crypcfgman.getKwp("ATH_GIROS");
+			
+			Logger.logLine("PIN DATA: " + msg.getField(Iso8583.Bit._052_PIN_DATA), false);
+			Logger.logLine("PIN DATA to HEX: " + Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)), false);
 			Logger.logLine("PIN DATA to HEX to B64: " + Base64.getEncoder()
-					.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes()), true);
+					.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes()), false);
 
 			String param3 = Base64.getEncoder()
 					.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes());
 
 			String param4 = Base64.getEncoder().encodeToString(msg.getTrack2Data().getPan().getBytes());
 
-			String hexSeedParam5 = "MEIxQTJDM0Q0RjVFNjc4OTk4NzZGNEU1RDNDMkIwQTEwQjFBMkMzRDRGNUU2Nzg5";
+//			String hexSeedParam5 = "MEIxQTJDM0Q0RjVFNjc4OTk4NzZGNEU1RDNDMkIwQTEwQjFBMkMzRDRGNUU2Nzg5";
+			DesKwp hexSeedParam5 = crypcfgman.getKwp("ATH_GIROS_SEED");
+			
+			Logger.logLine("1 PARAM 2: " + kvpParam2.getName(), false);
+			Logger.logLine("2 PARAM 2: " + kvpParam2.getValueUnderParent(), false);
+			String param2 = kvpParam2.getValueUnderKsk();
 
-			Logger.logLine("KWP: " + Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes()), true);
+			Logger.logLine("KWP: " + Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes()), false);
 
 			String endPoint = "https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s";
 			String[] params = new String[6];
 			params[0] = encodParam0;
 			params[1] = param1;
-			params[2] = kvpParam2;
+//			params[2] = kvpParam2;
+			Logger.logLine("3 PARAM 2: " + param2, false);
+			params[2] = Base64.getEncoder().encodeToString(param2.getBytes());
 			params[3] = param3;
 			params[4] = param4;
-			params[5] = hexSeedParam5;
+//			params[5] = hexSeedParam5;
+			String param5 = hexSeedParam5.getValueUnderKsk();
+			Logger.logLine("PARAM 5: " + param5, false);
+			params[5] = Base64.getEncoder().encodeToString(param5.getBytes());
 			
 			token = HttpCryptoServ.httpConnection(endPoint, params);
 			token = new String(Base64.getMimeDecoder().decode(token));
 
-			Logger.logLine("TOKEN: " + token, true);
+			Logger.logLine("TOKEN: " + token, false);
 			
 			msgStrBuilder.append(curField.getTagPrefix().concat(UtilidadesMensajeria
 					.asciiToEbcdic(Pack.resize(token, curField.getTagValueLength(), '0', false)).toUpperCase()));
@@ -3852,12 +3937,12 @@ public class Utils {
 			
 			
 			
-		} catch (XCrypto e) {
-			StringWriter outError = new StringWriter();
-			e.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("KWP ERROR: " + outError.toString(), true);
-			EventRecorder.recordEvent(new Exception(outError.toString()));
-		}
+//		} catch (Exception e) {
+//			StringWriter outError = new StringWriter();
+//			e.printStackTrace(new PrintWriter(outError));
+//			Logger.logLine("KWP ERROR: " + outError.toString(), true);
+//			EventRecorder.recordEvent(new Exception(outError.toString()));
+//		}
 		
 		return res;
 
@@ -3888,10 +3973,19 @@ public class Utils {
 		
 	}
 	
-	public static void postMsgInMonitor(String ip, String port, IMessage isoMsg, IMessage iscMsg, String interfaceName, String refNr, String msgPrefix) {
+	/**
+	 * Metodo encargado de enviar mensajes al monitor UDP para su posteo en SQL lite
+	 * 
+	 * @param mon
+	 * @param isoMsg
+	 * @param iscMsg
+	 * @param interfaceName
+	 * @param refNr
+	 * @param msgPrefix
+	 */
+	public static void postMsgInMonitor(Client mon, IMessage isoMsg, IMessage iscMsg, String interfaceName, String refNr, String msgPrefix) {
 		
 		try {
-			Client mon = new Client(ip, port);
 			if (isoMsg != null) {
 				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())):
 						Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())), "ISO", interfaceName));
@@ -3900,9 +3994,13 @@ public class Utils {
 			if(iscMsg != null) {
 				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + iscMsg.toString() :
 					iscMsg.toString(), "ISC", interfaceName));
+//				mon.get
 			}
 		} catch (Exception e) {
-			Logger.logLine("ERROR CLIENTE MONITOR", true);
+			StringWriter outError = new StringWriter();
+			e.printStackTrace(new PrintWriter(outError));
+			EventRecorder.recordEvent(new Exception("Error Postilion: " + outError.toString()));
+			Logger.logLine("Error Postilion: " + outError.toString(), false);
 		}
 		
 	}
@@ -3912,12 +4010,12 @@ public class Utils {
         try {
         	
             String trama = new String(msg.getBinaryData());
-            Logger.logLine("ISO:" + trama, true);
+            Logger.logLine("ISO:" + trama, false);
             
             
             Enumeration<E> enu = msg.enumerateSetFields();
             while(enu.hasMoreElements()) {
-                Logger.logLine("ISO:" + enu.nextElement().toString(), true);
+                Logger.logLine("ISO:" + enu.nextElement().toString(), false);
             }
             
             StringBuilder bitMap = new StringBuilder().append(trama.substring(16, 32));
@@ -3960,7 +4058,7 @@ public class Utils {
         return null;
     }
 	
-	public static HashMap<Integer, String> convertFields2Hash(Iso8583Post msg){
+	public static HashMap<Integer, String> convertFields2Hash(Iso8583Post msg, boolean enableLog){
 		
 		HashMap<Integer, String> msgFields = new HashMap<>();
 		
@@ -3996,9 +4094,6 @@ public class Utils {
 			// TODO: handle exception
 		}
 		
-		for(Map.Entry<Integer, String> s: msgFields.entrySet()) {
-			Logger.logLine("FIELD:"+s.getKey()+" VALUE:"+s.getValue(), true);
-		}
 		
 		return msgFields;
 	}
@@ -4015,6 +4110,12 @@ public class Utils {
 	    }
 		
 	  	return sdFields;
+	}
+	
+	public static String getStringMessageException(Exception e) {
+		StringWriter outError = new StringWriter();
+		e.printStackTrace(new PrintWriter(outError));
+		return outError.toString();
 	}
 	
 	private static final Map<String, String> TRANS_HOMOLOGATION = new LinkedHashMap<>();
@@ -4138,6 +4239,17 @@ public class Utils {
 		OUTPUT_FIELDS.put("MOVIMIEN4(.*)", "movimien_4=$1");
 
 		OUTPUT_FIELDS.put("MOVIMIEN5(.*)", "movimien_5=$1");
+		
+		OUTPUT_FIELDS.put("CUENTA:(.*)", "cuenta_homologada=$1");
 
+	}
+
+	public static StringWriter printStackAndReturnErrorString(Exception e) {
+		// TODO Auto-generated method stub
+		
+		StringWriter outError = new StringWriter();
+		e.printStackTrace(new PrintWriter(outError));
+		
+		return outError;
 	}
 }
