@@ -346,9 +346,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		try {
 
 			// Se determina se el mensaje es consulta costo o titularidad
-			if (msg.getProcessingCode().getTranType().substring(0, 2).equals("32")) {
-//					&& (null != msg.getStructuredData().get(Constant.B24Fields.B24_F_3)
-//							&& !msg.getStructuredData().get(Constant.B24Fields.B24_F_3).substring(0, 2).equals("33"))) {
+			if (msg.getProcessingCode().getTranType().substring(0, 2).equals("32")
+					&& (null != msg.getStructuredData().get("B24_Field_3")
+							&& !msg.getStructuredData().get("B24_Field_3").substring(0, 2).equals("33"))) {
 
 				msgKey = setSDAndMsgkeyForCostconsult(msg);
 
@@ -768,8 +768,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						msg2Remote = req;
 
 						StructuredData sd = msgClone.getStructuredData();
-						sd.put("NEXTDAY_STATE_FLAG",
-								Transform.fromEbcdicToAscii(req.getField(ISCReqMessage.Fields._09_H_STATE)));
+//						sd.put("NEXTDAY_STATE_FLAG",
+//								Transform.fromEbcdicToAscii(req.getField(ISCReqMessage.Fields._09_H_STATE)));
 						msgClone.putStructuredData(sd);
 
 						this.transStore.put(cons.split(Constant.Misce.STR_COMA)[0].trim()
@@ -1528,19 +1528,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("BODY: " + body + "\nTERM: " + term + "\nSEQ: " + tranSeq, this.enableMonitor);
 
 			if (body.contains("TRANS ABNORMAL END-CAL")) {
-
+				
 				// MONITOREO
-				try {
-					if (msg != null)
-						mon.sendData(Client.getMsgKeyValue("000000000000",
-								"REVISCZ8" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISC",
-								this.interName));
-				} catch (Exception e) {
-					StringWriter outError = new StringWriter();
-					e.printStackTrace(new PrintWriter(outError));
-					EventRecorder.recordEvent(new Exception("ERROR CLIENTE MONITOR " + outError.toString()));
-					Logger.logLine("ERROR CLIENTE MONITOR " + outError.toString(), this.enableMonitor);
-				}
+				Utils.postMsgInMonitor(this.mon, null, (ISCResMessage) msg, this.interName,
+						((ISCResMessage) msg).getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
 
 				String outError = "TRANS ABNORMAL END-CAL -- La data recibida fue: ".concat(msg.toMsg().toString());
 				Logger.logLine("TRANS ABNORMAL END-CAL " + outError.toString(), this.enableMonitor);
@@ -1549,6 +1540,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			}
 
 			else if (tranSeq.contains("9999") && term.contains("AT000")) {
+				
 				rspISOMsg = (Iso8583Post) this.transStore.get("AT0009999");
 
 				rspISOMsg.setMessageType(Iso8583.MsgTypeStr._0610_ADMIN_REQ_RSP);
@@ -1557,7 +1549,6 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				Logger.logLine("OOO:\n" + rspISOMsg, this.enableMonitor);
 
-//				rspISOMsg = null;
 			}
 
 			else if (!tranSeq.contains("9999")) {
@@ -1567,10 +1558,6 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				String tranKey = Utils.ebcdicToAscii(rspISCMsg.getField(ISCResMessage.Fields._06_H_ATM_ID)).trim()
 						.concat(Utils.ebcdicToAscii(rspISCMsg.getField(ISCResMessage.Fields._07_H_TRAN_SEQ_NR)).trim());
-
-				Logger.logLine("***TRAN KEY***" + tranKey, this.enableMonitor);
-				Logger.logLine("***MAPA Contiene TRAN KEY***" + this.transStore.containsKey(tranKey),
-						this.enableMonitor);
 
 				oriISOMsg = (Iso8583Post) this.transStore.get(tranKey);
 
@@ -1601,32 +1588,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					sd.put("ISC210Message", Base64.getEncoder().encodeToString(rspISCMsg.toMsg()));
 					rspISOMsg.putStructuredData(sd);
 
-					switch (rspISOMsg.getMsgType()) {
-					case Iso8583.MsgType._0210_TRAN_REQ_RSP:
-//						monitorMsg210 = new MonitorSnapShot(rspISOMsg.toString(), thisInter.getName(), monitorLogMode);
-						break;
-					case Iso8583.MsgType._0230_TRAN_ADV_RSP:
-//						monitorMsg230 = new MonitorSnapShot(rspISOMsg.toString(), thisInter.getName(), monitorLogMode);
-						break;
-					default:
-//						monitorMsg210 = new MonitorSnapShot(rspISOMsg.toString(), thisInter.getName(), monitorLogMode);
-						break;
-					}
-
 				}
-
+				
 				// MONITOREO
-				try {
-					if (rspISOMsg != null)
-						mon.sendData(Client.getMsgKeyValue(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
-								rspISOMsg.toString(), "ISO", this.interName));
-
-				} catch (Exception e) {
-					StringWriter outError = new StringWriter();
-					e.printStackTrace(new PrintWriter(outError));
-					EventRecorder.recordEvent(new Exception("ERROR CLIENTE MONITOR " + outError.toString()));
-					Logger.logLine("ERROR CLIENTE MONITOR " + outError.toString(), this.enableMonitor);
-				}
+				Utils.postMsgInMonitor(this.mon, rspISOMsg, null, this.interName,
+						rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 
 			}
 
@@ -1696,6 +1662,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			Logger.logLine("DATA RECIBIDA:\n" + trama, this.enableMonitor);
 
+			// EN el pasado observamos que algunas tramas venian con un "00" al principio
+			//lo cual estaba generando algunos errores
 			if (trama.substring(0, 2).equals("00")) {
 				trama = trama.substring(2);
 			}
@@ -1706,6 +1674,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						this.enableMonitor);
 
 				if (!Transform.fromEbcdicToAscii(Transform.fromHexToBin(trama)).contains("ABNORMAL END-CAL")
+						// Al la condicion 'SRLN' se deben agregar todas las demas de canales internos
 						&& Transform.fromEbcdicToAscii(Transform.fromHexToBin(trama.substring(0, 8))).equals("SRLN")) {
 
 					Logger.logLine("REQ RECIBIDA:\n" + trama, this.enableMonitor);
@@ -1713,65 +1682,37 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					ISCReqInMsg iscInputReq = new ISCReqInMsg();
 
 					iscInputReq.fromHexStr(trama);
-
+					
 					// MONITOREO
-					try {
-						if (iscInputReq != null)
-							mon.sendData(
-									Client.getMsgKeyValue(iscInputReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR),
-											iscInputReq.toString(), "INF", this.interName));
-
-					} catch (Exception e) {
-
-						StringWriter outError = new StringWriter();
-						e.printStackTrace(new PrintWriter(outError));
-						EventRecorder.recordEvent(new Exception("ERROR CLIENTE MONITOR " + outError.toString()));
-						Logger.logLine("ERROR CLIENTE MONITOR " + outError.toString(), this.enableMonitor);
-					}
+					Utils.postMsgInMonitor(this.mon, null, iscInputReq, this.interName,
+							iscInputReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
 
 					return iscInputReq;
 
-				} else {
+				} 
+				else {
 
 					ISCResMessage msgISCMsg = new ISCResMessage();
 					msgISCMsg.fromMsg(trama);
-
+					
 					// MONITOREO
-					try {
-						if (msgISCMsg != null)
-							mon.sendData(
-									Client.getMsgKeyValue(msgISCMsg.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR),
-											msgISCMsg.toString(), "INF", this.interName));
-
-					} catch (Exception e) {
-
-						StringWriter outError = new StringWriter();
-						e.printStackTrace(new PrintWriter(outError));
-						EventRecorder.recordEvent(new Exception("ERROR CLIENTE MONITOR " + outError.toString()));
-						Logger.logLine("ERROR CLIENTE MONITOR " + outError.toString(), this.enableMonitor);
-					}
+					Utils.postMsgInMonitor(this.mon, null, msgISCMsg, this.interName,
+							msgISCMsg.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR), null);
 
 					return msgISCMsg;
 
 				}
 
-			} else {
+			} 
+			
+			else {
+				
 				KeepAliveMessage networkISCMsg = new KeepAliveMessage();
 				networkISCMsg.fromMsg(trama);
-
+				
 				// MONITOREO
-				try {
-					if (networkISCMsg != null)
-						mon.sendData(
-								Client.getMsgKeyValue("00000000", networkISCMsg.toString(), "INF", this.interName));
-
-				} catch (Exception e) {
-
-					StringWriter outError = new StringWriter();
-					e.printStackTrace(new PrintWriter(outError));
-					EventRecorder.recordEvent(new Exception("ERROR CLIENTE MONITOR " + outError.toString()));
-					Logger.logLine("ERROR CLIENTE MONITOR " + outError.toString(), this.enableMonitor);
-				}
+				Utils.postMsgInMonitor(this.mon, null, networkISCMsg, this.interName,
+						"00000000", null);
 
 				return networkISCMsg;
 			}
@@ -1998,12 +1939,6 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (entry.getValue() != null && !entry.getValue().equals(" ") && !entry.getValue().equals("")) {
 
 					String tagRspValOrig = entry.getValue();
-//					String tagRspValEdit = entry.getValue().replaceAll("[^A-Za-z0-9]", "").replaceAll("\u0000", "")
-//							.replaceAll("\u001c", "").replaceAll("\n", "").replaceAll("\t", "").replaceAll("\n", "")
-//							.replaceAll("\u0001", "").replaceAll("\u0011", "").replaceAll("\u002F", "")
-//							.replaceAll("\u0003", "").replaceAll("\u00E6", "").replaceAll("\u00C6", "")
-//							.replaceAll("\u000C", "");
-
 					String tagRspValEdit = removeSpecialCharts(entry.getValue());
 
 					if (entry.getKey().toUpperCase().contains("MOVIMIEN")
@@ -3676,7 +3611,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("NEXTDAY TAG::" + this.isNextDay, this.enableMonitor);
 
 			StructuredData strucData = input.getStructuredData();
-			strucData.put("NEXTDAY_STATE_FLAG", UtilidadesMensajeria.ebcdicToAscii(nextdayState).substring(1));
+//			strucData.put("NEXTDAY_STATE_FLAG", UtilidadesMensajeria.ebcdicToAscii(nextdayState).substring(1));
+			strucData.put("NEXTDAY_STATE_FLAG", nextdayState.toUpperCase());
 			
 
 			input.putStructuredData(strucData);

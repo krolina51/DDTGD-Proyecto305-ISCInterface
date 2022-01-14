@@ -1,0 +1,98 @@
+{
+	"ISCInterCB-2":{
+	
+		"RETENTION_PERIOD":"30000",
+		"ISO_PASSTHROUGH":"false",
+		"MONITOR_LOG_MODE":"0",
+		"POST_URL":"http://10.89.0.168:47000",
+		"ENABLE_MONITOR":"true",
+		"NEXTDAY_CHECK_HOUR":"16:00",
+		"NEXTDAY_FILE_URL":"D:\\temp\\log",
+		"IGNORE_BATCH":"1",
+		"TERMINAL_CONSECUTIVE_SECTION":"2",
+		"JSON_URL":"D:\\temp\\log",
+		"JSON_URL_INPUT":"D:\\temp\\log",
+		"MONITOR_IP":"127.0.0.1",
+		"MONITOR_PORT":"15010",
+		"MONITOR_OUT_PORT":"57021",
+		"HSM_SERVICE_URL":"https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s",
+		"KVP_PARAMETER2_NAME":"ATH_GIROS",
+		"KVP_PARAMETER5_NAME":"ATH_GIROS_SEED",
+		"DELAY_TIMER":"0",
+		"PERIOD_TIMER":"60000",
+		"THRESHOLD_TIMER":"10"
+
+	},
+	"ISCInterCB":{
+	
+		"RETENTION_PERIOD":"30000",
+		"ISO_PASSTHROUGH":"false",
+		"MONITOR_LOG_MODE":"0",
+		"POST_URL":"http://10.89.0.168:47000",
+		"ENABLE_MONITOR":"true",
+		"NEXTDAY_CHECK_HOUR":"16:00",
+		"NEXTDAY_FILE_URL":"D:\\temp\\log",
+		"IGNORE_BATCH":"1",
+		"TERMINAL_CONSECUTIVE_SECTION":2,
+		"JSON_URL":"D:\\temp\\log",
+		"JSON_URL_INPUT":"D:\\temp\\log",
+		"MONITOR_IP":"127.0.0.1",
+		"MONITOR_PORT":"15010",
+		"MONITOR_OUT_PORT":"57022",
+		"HSM_SERVICE_URL":"https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s",
+		"KVP_PARAMETER2_NAME":"ATH_GIROS",
+		"KVP_PARAMETER5_NAME":"ATH_GIROS_SEED",
+		"DELAY_TIMER":"0",
+		"PERIOD_TIMER":"60000",
+		"THRESHOLD_TIMER":"10"
+
+	},
+	"ISCInterCB-OUT-30":{
+	
+		"RETENTION_PERIOD":"30000",
+		"ISO_PASSTHROUGH":"false",
+		"MONITOR_LOG_MODE":"0",
+		"POST_URL":"http://10.89.0.168:47000",
+		"ENABLE_MONITOR":"true",
+		"NEXTDAY_CHECK_HOUR":"16:00",
+		"NEXTDAY_FILE_URL":"D:\\temp\\log",
+		"IGNORE_BATCH":"1",
+		"TERMINAL_CONSECUTIVE_SECTION":2,
+		"JSON_URL":"D:\\temp\\log",
+		"JSON_URL_INPUT":"D:\\temp\\log",
+		"MONITOR_IP":"127.0.0.1",
+		"MONITOR_PORT":"15010",
+		"MONITOR_OUT_PORT":"57023",
+		"HSM_SERVICE_URL":"https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s",
+		"KVP_PARAMETER2_NAME":"ATH_GIROS",
+		"KVP_PARAMETER5_NAME":"ATH_GIROS_SEED",
+		"DELAY_TIMER":"0",
+		"PERIOD_TIMER":"60000",
+		"THRESHOLD_TIMER":"10"
+
+	},
+	"CNBBalancesStand-in":{
+	
+		"RETENTION_PERIOD":"30000",
+		"ISO_PASSTHROUGH":"false",
+		"MONITOR_LOG_MODE":"0",
+		"POST_URL":"http://10.89.0.168:47000",
+		"ENABLE_MONITOR":"true",
+		"NEXTDAY_CHECK_HOUR":"16:00",
+		"NEXTDAY_FILE_URL":"D:\\temp\\log",
+		"IGNORE_BATCH":"1",
+		"TERMINAL_CONSECUTIVE_SECTION":2,
+		"JSON_URL":"D:\\temp\\log",
+		"JSON_URL_INPUT":"D:\\temp\\log",
+		"MONITOR_IP":"127.0.0.1",
+		"MONITOR_PORT":"15010",
+		"MONITOR_OUT_PORT":"57024",
+		"HSM_SERVICE_URL":"https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s",
+		"KVP_PARAMETER2_NAME":"ATH_GIROS",
+		"KVP_PARAMETER5_NAME":"ATH_GIROS_SEED",
+		"DELAY_TIMER":"0",
+		"PERIOD_TIMER":"60000",
+		"THRESHOLD_TIMER":"10"
+
+	}
+}

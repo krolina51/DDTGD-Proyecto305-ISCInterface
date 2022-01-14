@@ -1,0 +1,679 @@
+{
+	"messages": [
+		{
+			"description": "ISC REQ TRANSFERENCIA AHORRO SERVILINEA",
+			"tran_key": "SRLN_8550_TRANSFER",
+			"auxiliar_class": "TransferAux",
+			"fields": [
+
+				{
+					"description": "03 procesign code",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "fixed",
+					"copy_from": "4",
+					"copy_tag": "F_P_CODE",
+					"copy_to": "0|3",
+					"value": "401010"
+				},
+				{
+					"description": "04 transaction amount",
+					"is_header_field": "false",
+					"tag_value_length": "12",
+					"field_type": "copy",
+					"copy_from": "3",
+					"copy_to": "0|4",
+					"copy_ini_index": "214",
+					"copy_end_index": "242"
+				},
+				{
+					"description": "7 transaction date time",
+					"is_header_field": "false",
+					"tag_value_length": "10",
+					"field_type": "copy",
+					"copy_to": "0|7",
+					"copy_ini_index": "250",
+					"copy_end_index": "270"
+				},
+				{
+					"description": "11 system trace audit number",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|11",
+					"copy_ini_index": "38",
+					"copy_end_index": "46"
+				},
+				{
+					"description": "12 time local transaction",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|12",
+					"copy_ini_index": "52",
+					"copy_end_index": "64"
+				},
+				{
+					"description": "13 date local",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "0|13",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				},
+				{
+					"description": "14 expiry date",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"copy_to": "0|14",
+					"field_type": "method"
+				},
+				{
+					"description": "22 pos entry mode",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|22",
+					"value": "021"
+				},
+				{
+					"description": "25 pos condition code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|25",
+					"value": "00"
+				},
+				{
+					"description": "26 POS PIN Capture Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|26",
+					"value": "12"
+				},
+				{
+					"description": "32 Acquiring Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "11",
+					"field_type": "fixed",
+					"copy_to": "0|32",
+					"value": "10000000001"
+				},
+				{
+					"description": "41 card acceptor terminal id",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "copy",
+					"copy_to": "0|41",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "42 card acceptor id code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "copy",
+					"copy_to": "0|42",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "43 card acceptor location",
+					"is_header_field": "false",
+					"tag_value_length": "40",
+					"field_type": "fixed",
+					"copy_to": "0|43",
+					"value": "TEST LOCATION"
+				},
+				{
+					"description": "49 currency",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|49",
+					"value": "170"
+				},
+				{
+					"description": "52 pin data",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "fixed",
+					"copy_to": "0|52",
+					"value": "FFFFFFFF"
+				},
+				{
+					"description": "100 Receiving Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|100",
+					"value": "50"
+				},
+				{
+					"description": "123 pos data code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "fixed",
+					"copy_to": "0|123",
+					"value": "011101111304111"
+				},
+				{
+					"description": "STRUC B24_Field_17",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "1|B24_Field_17",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				}
+			]
+		},
+				
+		{
+			"description": "ISC REQ PAGO TC BANCAMOVIL",
+			"tran_key": "SRLN_8550_PAGOTDC",
+			"auxiliar_class": "PagoTCAux",
+			"fields": [
+
+				{
+					"description": "03 procesign code",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "fixed",
+					"copy_from": "4",
+					"copy_tag": "F_P_CODE",
+					"copy_to": "0|3",
+					"value": "401010"
+				},
+				{
+					"description": "04 transaction amount",
+					"is_header_field": "false",
+					"tag_value_length": "12",
+					"field_type": "copy",
+					"copy_from": "3",
+					"copy_to": "0|4",
+					"copy_ini_index": "214",
+					"copy_end_index": "242"
+				},
+				{
+					"description": "7 transaction date time",
+					"is_header_field": "false",
+					"tag_value_length": "10",
+					"field_type": "copy",
+					"copy_to": "0|7",
+					"copy_ini_index": "250",
+					"copy_end_index": "270"
+				},
+				{
+					"description": "11 system trace audit number",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|11",
+					"copy_ini_index": "38",
+					"copy_end_index": "46"
+				},
+				{
+					"description": "12 time local transaction",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|12",
+					"copy_ini_index": "52",
+					"copy_end_index": "64"
+				},
+				{
+					"description": "13 date local",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "0|13",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				},
+				{
+					"description": "14 expiry date",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"copy_to": "0|14",
+					"field_type": "method"
+				},
+				{
+					"description": "22 pos entry mode",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|22",
+					"value": "021"
+				},
+				{
+					"description": "25 pos condition code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|25",
+					"value": "00"
+				},
+				{
+					"description": "26 POS PIN Capture Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|26",
+					"value": "12"
+				},
+				{
+					"description": "32 Acquiring Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "11",
+					"field_type": "fixed",
+					"copy_to": "0|32",
+					"value": "10000000001"
+				},
+				{
+					"description": "41 card acceptor terminal id",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "copy",
+					"copy_to": "0|41",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "42 card acceptor id code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "copy",
+					"copy_to": "0|42",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "43 card acceptor location",
+					"is_header_field": "false",
+					"tag_value_length": "40",
+					"field_type": "fixed",
+					"copy_to": "0|43",
+					"value": "TEST LOCATION"
+				},
+				{
+					"description": "49 currency",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|49",
+					"value": "170"
+				},
+				{
+					"description": "52 pin data",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "fixed",
+					"copy_to": "0|52",
+					"value": "FFFFFFFF"
+				},
+				{
+					"description": "100 Receiving Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|100",
+					"value": "70"
+				},
+				{
+					"description": "123 pos data code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "fixed",
+					"copy_to": "0|123",
+					"value": "011101111304111"
+				}
+			]
+		},
+		
+		{
+			"description": "ISC REQ RETIRO OFI BBOG TDD Aval",
+			"tran_key": "SRLN_8550_RETIROAVANCE",
+			"auxiliar_class": "RetiroAvanceAux",
+			"fields": [
+
+				{
+					"description": "03 procesign code",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "fixed",
+					"copy_from": "4",
+					"copy_tag": "F_P_CODE",
+					"copy_to": "0|3",
+					"value": "401010"
+				},
+				{
+					"description": "04 transaction amount",
+					"is_header_field": "false",
+					"tag_value_length": "12",
+					"field_type": "copy",
+					"copy_from": "3",
+					"copy_to": "0|4",
+					"copy_ini_index": "214",
+					"copy_end_index": "242"
+				},
+				{
+					"description": "7 transaction date time",
+					"is_header_field": "false",
+					"tag_value_length": "10",
+					"field_type": "copy",
+					"copy_to": "0|7",
+					"copy_ini_index": "250",
+					"copy_end_index": "270"
+				},
+				{
+					"description": "11 system trace audit number",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|11",
+					"copy_ini_index": "38",
+					"copy_end_index": "46"
+				},
+				{
+					"description": "12 time local transaction",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|12",
+					"copy_ini_index": "52",
+					"copy_end_index": "64"
+				},
+				{
+					"description": "13 date local",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "0|13",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				},
+				{
+					"description": "14 expiry date",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"copy_to": "0|14",
+					"field_type": "method"
+				},
+				{
+					"description": "22 pos entry mode",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|22",
+					"value": "021"
+				},
+				{
+					"description": "25 pos condition code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|25",
+					"value": "00"
+				},
+				{
+					"description": "26 POS PIN Capture Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|26",
+					"value": "12"
+				},
+				{
+					"description": "32 Acquiring Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "11",
+					"field_type": "fixed",
+					"copy_to": "0|32",
+					"value": "10000000001"
+				},
+				{
+					"description": "41 card acceptor terminal id",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "copy",
+					"copy_to": "0|41",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "42 card acceptor id code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "copy",
+					"copy_to": "0|42",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "43 card acceptor location",
+					"is_header_field": "false",
+					"tag_value_length": "40",
+					"field_type": "fixed",
+					"copy_to": "0|43",
+					"value": "TEST LOCATION"
+				},
+				{
+					"description": "49 currency",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|49",
+					"value": "170"
+				},
+				{
+					"description": "52 pin data",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "fixed",
+					"copy_to": "0|52",
+					"value": "FFFFFFFF"
+				},
+				{
+					"description": "100 Receiving Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|100",
+					"value": "60"
+				},
+				{
+					"description": "123 pos data code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "fixed",
+					"copy_to": "0|123",
+					"value": "011101111304111"
+				},
+				{
+					"description": "STRUC B24_Field_17",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "1|B24_Field_17",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				}
+			]
+		},
+		
+		{
+			"description": "ISC REQ PAGO TC 522190",
+			"tran_key": "SRLN_8550_RETIROAVANCE",
+			"auxiliar_class": "RetiroAvanceAux",
+			"fields": [
+
+				{
+					"description": "03 procesign code",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "fixed",
+					"copy_from": "4",
+					"copy_tag": "F_P_CODE",
+					"copy_to": "0|3",
+					"value": "401010"
+				},
+				{
+					"description": "04 transaction amount",
+					"is_header_field": "false",
+					"tag_value_length": "12",
+					"field_type": "copy",
+					"copy_from": "3",
+					"copy_to": "0|4",
+					"copy_ini_index": "214",
+					"copy_end_index": "242"
+				},
+				{
+					"description": "7 transaction date time",
+					"is_header_field": "false",
+					"tag_value_length": "10",
+					"field_type": "copy",
+					"copy_to": "0|7",
+					"copy_ini_index": "250",
+					"copy_end_index": "270"
+				},
+				{
+					"description": "11 system trace audit number",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|11",
+					"copy_ini_index": "38",
+					"copy_end_index": "46"
+				},
+				{
+					"description": "12 time local transaction",
+					"is_header_field": "false",
+					"tag_value_length": "6",
+					"field_type": "copy",
+					"copy_to": "0|12",
+					"copy_ini_index": "52",
+					"copy_end_index": "64"
+				},
+				{
+					"description": "13 date local",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "0|13",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				},
+				{
+					"description": "14 expiry date",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"copy_to": "0|14",
+					"field_type": "method"
+				},
+				{
+					"description": "22 pos entry mode",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|22",
+					"value": "021"
+				},
+				{
+					"description": "25 pos condition code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|25",
+					"value": "00"
+				},
+				{
+					"description": "26 POS PIN Capture Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|26",
+					"value": "12"
+				},
+				{
+					"description": "32 Acquiring Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "11",
+					"field_type": "fixed",
+					"copy_to": "0|32",
+					"value": "10000000001"
+				},
+				{
+					"description": "41 card acceptor terminal id",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "copy",
+					"copy_to": "0|41",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "42 card acceptor id code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "copy",
+					"copy_to": "0|42",
+					"copy_ini_index": "22",
+					"copy_end_index": "30"
+				},
+				{
+					"description": "43 card acceptor location",
+					"is_header_field": "false",
+					"tag_value_length": "40",
+					"field_type": "fixed",
+					"copy_to": "0|43",
+					"value": "TEST LOCATION"
+				},
+				{
+					"description": "49 currency",
+					"is_header_field": "false",
+					"tag_value_length": "3",
+					"field_type": "fixed",
+					"copy_to": "0|49",
+					"value": "170"
+				},
+				{
+					"description": "52 pin data",
+					"is_header_field": "false",
+					"tag_value_length": "8",
+					"field_type": "fixed",
+					"copy_to": "0|52",
+					"value": "FFFFFFFF"
+				},
+				{
+					"description": "100 Receiving Institution ID Code",
+					"is_header_field": "false",
+					"tag_value_length": "2",
+					"field_type": "fixed",
+					"copy_to": "0|100",
+					"value": "60"
+				},
+				{
+					"description": "123 pos data code",
+					"is_header_field": "false",
+					"tag_value_length": "15",
+					"field_type": "fixed",
+					"copy_to": "0|123",
+					"value": "011101111304111"
+				},
+				{
+					"description": "STRUC B24_Field_17",
+					"is_header_field": "false",
+					"tag_value_length": "4",
+					"field_type": "copy",
+					"copy_to": "1|B24_Field_17",
+					"copy_ini_index": "248",
+					"copy_end_index": "256"
+				}
+			]
+		}
+		
+	]
+}

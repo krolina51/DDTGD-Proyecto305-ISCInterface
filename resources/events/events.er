@@ -164,6 +164,20 @@ Parameter3		=	Detail[2]: Extended Trantype.
 Parameter4		=	Detail[3]: response code.
 Parameter5		=	Detail[4]: error description.
 
+#-------------------------------------------------------------------------------
+
+EventId = +1
+EventName = TryCatchException
+Categories = Warning, OperationalState, MessageProcessing
+Description = Try Catch Exception in method.
+Action = Check the catch message generated for method.
+Message = Cannot Mapping field on interchange %1 field description: %5. The error occurred in class %2, method %3. This is the description or the error %4.
+Parameter1 = Detail[0]: The name of the interchange.
+Parameter2 = Detail[1]: Field' Name.
+Parameter3 = Detail[2]: Method's Name.
+Parameter4 = Detail[3]: Catch Message generated.
+Parameter5 = Detail[4]: System Trace Audit Number.
+
 
 
 
