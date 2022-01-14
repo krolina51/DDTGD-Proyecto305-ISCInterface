@@ -1,0 +1,23 @@
+--[BEGIN OBJECT: NAME(isc_interface_proc_1) GROUP(PROCEDURE) TYPE(SQL) ID(1)]--
+	IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[cust_get_structured_data_by_ref_nr]') AND type in (N'P', N'PC'))
+	BEGIN
+		DROP PROCEDURE [dbo].[cust_get_structured_data_by_ref_nr]
+	END
+--[END OBJECT: ID(1)]--
+
+--[BEGIN OBJECT: NAME(isc_interface_proc_2) GROUP(PROCEDURE) TYPE(SQL) ID(2)]--
+	CREATE PROCEDURE [dbo].[cust_get_structured_data_by_ref_nr]
+		@RetrievalReference           VARCHAR(50),
+		@TranType					  VARCHAR(2),
+		@FromAccount				  VARCHAR(2),
+		@ToAccount                    VARCHAR(2),
+		@StructuredData				  VARCHAR(7000)         OUTPUT
+	AS
+	BEGIN
+		--SELECT top 1 @StructuredData = tmt.structured_data_rsp from tm_trans as tmt where tmt.ret_ref_no = ''+@RetrievalReference and tmt.rsp_code_req_rsp = '00' and tmt.msg_type = 512 
+		--and tmt.tran_type = @TranType and tmt.from_account = @FromAccount and tmt.to_account = @ToAccount order by tmt.in_req desc
+		SELECT top 1 @StructuredData = tmt.structured_data_req from tm_trans as tmt where tmt.ret_ref_no = ''+@RetrievalReference and (tmt.rsp_code_req_rsp = '00' or tmt.rsp_code_req_rsp = '91' or tmt.rsp_code_req_rsp = '68') and tmt.msg_type = 512 
+		and tmt.tran_type = @TranType and tmt.from_account = @FromAccount and tmt.to_account = @ToAccount order by tmt.in_req desc
+		print @StructuredData
+	END
+--[END OBJECT: ID(2)]--
