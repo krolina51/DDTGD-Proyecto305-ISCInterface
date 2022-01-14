@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -486,6 +487,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				}
 
 				MsgMappedResult resFromMapping = constructMsgString(strTranSetting, msg, false);
+				
+				Logger.logLine("ISC TRAN CODE : " + msg.getStructuredData().get("ISC_TRAN_CODE"),
+						this.enableMonitor);
 
 				if (resFromMapping.isContainsError()) {
 
@@ -1559,6 +1563,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				String tranKey = Utils.ebcdicToAscii(rspISCMsg.getField(ISCResMessage.Fields._06_H_ATM_ID)).trim()
 						.concat(Utils.ebcdicToAscii(rspISCMsg.getField(ISCResMessage.Fields._07_H_TRAN_SEQ_NR)).trim());
 
+				Logger.logLine("PROCESSING ISCResMessage FROM HOST", this.enableMonitor);
+				
 				oriISOMsg = (Iso8583Post) this.transStore.get(tranKey);
 
 				rspISOMsg = mapISCFields2ISOFields(rspISCMsg, oriISOMsg);
@@ -1854,6 +1860,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		switch (state) {
 		case APPROVAL_STATE_HEX:
+			
+			Logger.logLine("MENSAJE ORIGINAL:" + originalMsgReq, this.enableMonitor);
+			Logger.logLine("MENSAJE ORIGINAL:" + originalMsgReq.getStructuredData().get("ISC_TRAN_CODE"), this.enableMonitor);
+			Logger.logLine("MENSAJE ORIGINAL:" + originalMsgReq.getStructuredData().get("IS_COST_INQUIRY"), this.enableMonitor);
 
 			bodyFields.putAll(Utils.getBodyInnerFields(msgFromInter.getField(ISCReqMessage.Fields._VARIABLE_BODY),
 					originalMsgReq.getStructuredData().get("ISC_TRAN_CODE"),
