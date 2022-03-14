@@ -2493,6 +2493,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				.concat("_");
 
 		if (msg.getProcessingCode().getTranType().equals("40")) {
+			
+			// ES UTILIZACION CREDITO ROTATIVO
+			if (msg.getProcessingCode().getFromAccount().equals("40")
+					&& (msg.getProcessingCode().getToAccount().equals("10")
+					|| msg.getProcessingCode().getToAccount().equals("20"))) {
+
+				msgTran = msgTran.concat("0000").concat("_").concat("0");
+
+				}
 
 			// ES PSP
 			if (msg.getProcessingCode().getToAccount().equals("00")) {
