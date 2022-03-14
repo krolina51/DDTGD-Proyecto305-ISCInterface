@@ -13850,7 +13850,7 @@
 					"tag_value_length": "10",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_ACCOUNT_NR",
+					"copy_tag": "DEBIT_ACCOUNT_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -13862,7 +13862,7 @@
 					"tag_value_length": "16",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_CARD_NR",
+					"copy_tag": "DEBIT_CARD_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -14295,7 +14295,7 @@
 					"tag_value_length": "10",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_ACCOUNT_NR",
+					"copy_tag": "DEBIT_ACCOUNT_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -14318,7 +14318,7 @@
 					"tag_value_length": "16",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_CARD_NR",
+					"copy_tag": "DEBIT_CARD_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -21080,7 +21080,7 @@
 					"tag_value_length": "10",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_ACCOUNT_NR",
+					"copy_tag": "DEBIT_ACCOUNT_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -21092,7 +21092,7 @@
 					"tag_value_length": "16",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_CARD_NR",
+					"copy_tag": "DEBIT_CARD_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -21528,7 +21528,7 @@
 					"tag_value_length": "10",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "CLIENT_ACCOUNT_NR",
+					"copy_tag": "DEBIT_ACCOUNT_NR",
 					"optional_tag": "CORRES_ACCOUNT_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
@@ -120337,8 +120337,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -120357,7 +120357,7 @@
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "1"
+					"value": "0"
 				},
 				{
 					"description": "authorization-code",
@@ -120428,31 +120428,43 @@
 					"homologation": [
 						{
 							"value": "0",
-							"convertion": "C"
+							"convertion": "0"
 						},
 						{
 							"value": "1",
-							"convertion": "N"
+							"convertion": "1"
 						},
 						{
 							"value": "2",
-							"convertion": "E"
+							"convertion": "2"
 						},
 						{
 							"value": "3",
-							"convertion": " "
+							"convertion": "3"
 						},
 						{
 							"value": "4",
-							"convertion": "P"
+							"convertion": "4"
 						},
 						{
 							"value": "5",
-							"convertion": "R"
+							"convertion": "5"
 						},
 						{
 							"value": "6",
-							"convertion": " "
+							"convertion": "6"
+						},
+						{
+							"value": "7",
+							"convertion": "7"
+						},
+						{
+							"value": "8",
+							"convertion": "8"
+						},
+						{
+							"value": "9",
+							"convertion": "9"
 						}
 					],
 					"copy_from": "1",
@@ -120469,7 +120481,7 @@
 					"copy_from": "1",
 					"copy_tag": "B24_Field_104",
 					"copy_ini_index": "1",
-					"copy_end_index": "17"
+					"copy_end_index": "18"
 				},
 				{
 					"description": "acquirer-entity",
@@ -120499,7 +120511,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "A"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -120787,8 +120799,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -120807,7 +120819,7 @@
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "1"
+					"value": "0"
 				},
 				{
 					"description": "authorization-code",
@@ -120878,31 +120890,31 @@
 					"homologation": [
 						{
 							"value": "0",
-							"convertion": "C"
+							"convertion": "0"
 						},
 						{
 							"value": "1",
-							"convertion": "N"
+							"convertion": "1"
 						},
 						{
 							"value": "2",
-							"convertion": "E"
+							"convertion": "2"
 						},
 						{
 							"value": "3",
-							"convertion": " "
+							"convertion": "3"
 						},
 						{
 							"value": "4",
-							"convertion": "P"
+							"convertion": "4"
 						},
 						{
 							"value": "5",
-							"convertion": "R"
+							"convertion": "5"
 						},
 						{
 							"value": "6",
-							"convertion": " "
+							"convertion": "6"
 						}
 					],
 					"copy_from": "1",
@@ -120919,7 +120931,7 @@
 					"copy_from": "1",
 					"copy_tag": "B24_Field_104",
 					"copy_ini_index": "1",
-					"copy_end_index": "17"
+					"copy_end_index": "18"
 				},
 				{
 					"description": "acquirer-entity",
@@ -120949,7 +120961,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "A"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -121226,8 +121238,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -121246,7 +121258,7 @@
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "1"
+					"value": "0"
 				},
 				{
 					"description": "authorization-code",
@@ -121317,31 +121329,31 @@
 					"homologation": [
 						{
 							"value": "0",
-							"convertion": "C"
+							"convertion": "0"
 						},
 						{
 							"value": "1",
-							"convertion": "N"
+							"convertion": "1"
 						},
 						{
 							"value": "2",
-							"convertion": "E"
+							"convertion": "2"
 						},
 						{
 							"value": "3",
-							"convertion": " "
+							"convertion": "3"
 						},
 						{
 							"value": "4",
-							"convertion": "P"
+							"convertion": "4"
 						},
 						{
 							"value": "5",
-							"convertion": "R"
+							"convertion": "5"
 						},
 						{
 							"value": "6",
-							"convertion": " "
+							"convertion": "6"
 						}
 					],
 					"copy_from": "1",
@@ -121358,7 +121370,7 @@
 					"copy_from": "1",
 					"copy_tag": "B24_Field_104",
 					"copy_ini_index": "1",
-					"copy_end_index": "17"
+					"copy_end_index": "18"
 				},
 				{
 					"description": "acquirer-entity",
@@ -121388,7 +121400,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "A"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -121676,8 +121688,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -121696,7 +121708,7 @@
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "1"
+					"value": "0"
 				},
 				{
 					"description": "authorization-code",
@@ -121767,31 +121779,31 @@
 					"homologation": [
 						{
 							"value": "0",
-							"convertion": "C"
+							"convertion": "0"
 						},
 						{
 							"value": "1",
-							"convertion": "N"
+							"convertion": "1"
 						},
 						{
 							"value": "2",
-							"convertion": "E"
+							"convertion": "2"
 						},
 						{
 							"value": "3",
-							"convertion": " "
+							"convertion": "3"
 						},
 						{
 							"value": "4",
-							"convertion": "P"
+							"convertion": "4"
 						},
 						{
 							"value": "5",
-							"convertion": "R"
+							"convertion": "5"
 						},
 						{
 							"value": "6",
-							"convertion": " "
+							"convertion": "6"
 						}
 					],
 					"copy_from": "1",
@@ -121808,7 +121820,7 @@
 					"copy_from": "1",
 					"copy_tag": "B24_Field_104",
 					"copy_ini_index": "1",
-					"copy_end_index": "17"
+					"copy_end_index": "18"
 				},
 				{
 					"description": "acquirer-entity",
@@ -121838,7 +121850,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "A"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -127303,8 +127315,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -127322,8 +127334,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -127432,7 +127461,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -128140,8 +128169,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -128159,8 +128188,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -128269,7 +128315,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -128978,8 +129024,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -128997,8 +129043,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -129107,7 +129170,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -129815,8 +129878,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -129834,8 +129897,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -129944,7 +130024,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -130642,7 +130722,7 @@
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "99"
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -130660,8 +130740,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -130759,7 +130856,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -131380,7 +131477,7 @@
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "99"
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -131398,8 +131495,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -131497,7 +131611,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -132118,7 +132232,7 @@
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "99"
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -132136,8 +132250,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -132235,7 +132366,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -132856,7 +132987,7 @@
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "99"
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -132874,8 +133005,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -132973,7 +133121,7 @@
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
-					"value": "O"
+					"value": "Q"
 				},
 				{
 					"description": "corres-card-nr",
@@ -133623,8 +133771,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -133642,8 +133790,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -134340,8 +134505,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -134359,8 +134524,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -135057,8 +135239,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -135076,8 +135258,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
@@ -135774,8 +135973,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "method",
-					"value": "99"
+					"field_type": "fixed",
+					"value": "01"
 				},
 				{
 					"description": "id-terminal",
@@ -135793,8 +135992,25 @@
 					"is_header_field": "false",
 					"tag_prefix": "119181",
 					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
+					"field_type": "homologate",
+					"homologation": [
+						{
+							"value": "1",
+							"convertion": "0"
+						},
+						{
+							"value": "2",
+							"convertion": "1"
+						},
+						{
+							"value": "0",
+							"convertion": "1"
+						}
+					],
+					"copy_from": "1",
+					"copy_tag": "P_CODE",
+					"copy_ini_index": "4",
+					"copy_end_index": "5"
 				},
 				{
 					"description": "authorization-code",
