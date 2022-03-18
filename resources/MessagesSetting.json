@@ -13720,7 +13720,7 @@
 					"description": "tran-code",
 					"is_header_field": "true",
 					"field_type": "fixed",
-					"value": "ATPA"
+					"value": "ATPG"
 				},
 				{
 					"description": "atm-id",
@@ -20950,7 +20950,7 @@
 					"description": "tran-code",
 					"is_header_field": "true",
 					"field_type": "fixed",
-					"value": "ATPA"
+					"value": "ATPG"
 				},
 				{
 					"description": "atm-id",
