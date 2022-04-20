@@ -53,6 +53,7 @@ import postilion.realtime.iscinterface.web.model.TransactionSetting;
 import postilion.realtime.iscinterface.web.model.WholeTransSetting;
 import postilion.realtime.library.common.InitialLoadFilter;
 import postilion.realtime.library.common.model.ResponseCode;
+import postilion.realtime.library.common.util.constants.TagNameStructuredData;
 import postilion.realtime.sdk.crypto.CryptoCfgManager;
 import postilion.realtime.sdk.crypto.CryptoManager;
 import postilion.realtime.sdk.crypto.DesKwp;
@@ -89,7 +90,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	WebClient wc;
 
 	long startTime = 0;
-
+	long tStart;
+	
 	long endTime = 0;
 
 	private AInterchangeDriverEnvironment thisInter;
@@ -333,6 +335,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public Action processTranReqFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
 			throws XFieldUnableToConstruct, XPostilion, Exception {
 
+		
+		this.tStart = System.currentTimeMillis();
 		IMessage msg2Remote = null;
 		Iso8583Post msg2TM = null;
 
@@ -538,6 +542,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			break;
 		}
+		
+		StructuredData sd = new StructuredData();
+		sd = msg.getStructuredData();
+		sd.put("I2_REQ_TIME", String.valueOf(System.currentTimeMillis() - tStart));
+		msg.putStructuredData(sd);
+		
 
 		// MONITOREO
 		Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,

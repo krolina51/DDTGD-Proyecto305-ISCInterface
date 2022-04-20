@@ -90057,8 +90057,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -90413,8 +90413,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -90769,8 +90769,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -91125,8 +91125,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -92939,8 +92939,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -92974,8 +92977,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -93097,7 +93100,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -93105,7 +93108,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -93335,8 +93338,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -93370,8 +93376,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -93493,7 +93499,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -93501,7 +93507,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -93747,8 +93753,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -93782,8 +93791,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -93905,7 +93914,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -93913,7 +93922,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -94136,8 +94145,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -94171,8 +94183,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -94294,7 +94306,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -94302,7 +94314,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
