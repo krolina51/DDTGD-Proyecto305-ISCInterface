@@ -48900,14 +48900,6 @@
 					"copy_end_index": "3"
 				},
 				{
-					"description": "tran-amount",
-					"is_header_field": "false",
-					"tag_prefix": "11C3F0",
-					"tag_value_length": "15",
-					"field_type": "fixed",
-					"value": "000000000000000"
-				},
-				{
 					"description": "tran-hour",
 					"is_header_field": "false",
 					"tag_prefix": "119131",
@@ -48928,6 +48920,17 @@
 					"copy_tag": "102",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
+				},
+				{
+					"description": "client-card-nr",
+					"is_header_field": "false",
+					"tag_prefix": "11E5C6",
+					"tag_value_length": "16",
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -48954,7 +48957,7 @@
 					"tag_prefix": "119160",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "04"
+					"value": "02"
 				},
 				{
 					"description": "acquirer-network",
@@ -49017,55 +49020,12 @@
 					"copy_end_index": "11"
 				},
 				{
-					"description": "identification",
-					"is_header_field": "false",
-					"tag_prefix": "11E4F3",
-					"tag_value_length": "16",
-					"field_type": "copy",
-					"copy_from": "1",
-					"copy_tag": "CUSTOMER_ID",
-					"copy_ini_index": "13",
-					"copy_end_index": "25"
-				},
-				{
-					"description": "acquirer-entity",
-					"is_header_field": "false",
-					"tag_prefix": "11D140",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "acquirer-office",
-					"is_header_field": "false",
-					"tag_prefix": "11D138",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
 					"description": "device",
 					"is_header_field": "false",
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
 					"value": "A"
-				},
-				{
-					"description": "corres-card-nr",
-					"is_header_field": "false",
-					"tag_prefix": "11E5C7",
-					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "0000000000000000"
-				},
-				{
-					"description": "corres-card-class",
-					"is_header_field": "false",
-					"tag_prefix": "1197A7",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -49087,22 +49047,6 @@
 					"copy_tag": "IS_COST_INQUIRY",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
-				},
-				{
-					"description": "tran-identifier",
-					"is_header_field": "false",
-					"tag_prefix": "11E0E2",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "pa-credit-indicator",
-					"is_header_field": "false",
-					"tag_prefix": "11914D",
-					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
 				}
 			]
 		},
@@ -49223,14 +49167,6 @@
 					"copy_end_index": "3"
 				},
 				{
-					"description": "tran-amount",
-					"is_header_field": "false",
-					"tag_prefix": "11C3F0",
-					"tag_value_length": "15",
-					"field_type": "fixed",
-					"value": "000000000000000"
-				},
-				{
 					"description": "tran-hour",
 					"is_header_field": "false",
 					"tag_prefix": "119131",
@@ -49251,6 +49187,17 @@
 					"copy_tag": "102",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
+				},
+				{
+					"description": "client-card-nr",
+					"is_header_field": "false",
+					"tag_prefix": "11E5C6",
+					"tag_value_length": "16",
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -49277,7 +49224,7 @@
 					"tag_prefix": "119160",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "04"
+					"value": "02"
 				},
 				{
 					"description": "acquirer-network",
@@ -49340,55 +49287,12 @@
 					"copy_end_index": "11"
 				},
 				{
-					"description": "identification",
-					"is_header_field": "false",
-					"tag_prefix": "11E4F3",
-					"tag_value_length": "16",
-					"field_type": "copy",
-					"copy_from": "1",
-					"copy_tag": "CUSTOMER_ID",
-					"copy_ini_index": "13",
-					"copy_end_index": "25"
-				},
-				{
-					"description": "acquirer-entity",
-					"is_header_field": "false",
-					"tag_prefix": "11D140",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "acquirer-office",
-					"is_header_field": "false",
-					"tag_prefix": "11D138",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
 					"description": "device",
 					"is_header_field": "false",
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
 					"value": "A"
-				},
-				{
-					"description": "corres-card-nr",
-					"is_header_field": "false",
-					"tag_prefix": "11E5C7",
-					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "0000000000000000"
-				},
-				{
-					"description": "corres-card-class",
-					"is_header_field": "false",
-					"tag_prefix": "1197A7",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -49410,22 +49314,6 @@
 					"copy_tag": "IS_COST_INQUIRY",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
-				},
-				{
-					"description": "tran-identifier",
-					"is_header_field": "false",
-					"tag_prefix": "11E0E2",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "pa-credit-indicator",
-					"is_header_field": "false",
-					"tag_prefix": "11914D",
-					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
 				}
 			]
 		},
@@ -49882,14 +49770,6 @@
 					"copy_end_index": "3"
 				},
 				{
-					"description": "tran-amount",
-					"is_header_field": "false",
-					"tag_prefix": "11C3F0",
-					"tag_value_length": "15",
-					"field_type": "fixed",
-					"value": "000000000000000"
-				},
-				{
 					"description": "tran-hour",
 					"is_header_field": "false",
 					"tag_prefix": "119131",
@@ -49947,7 +49827,7 @@
 					"tag_prefix": "119160",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "04"
+					"value": "02"
 				},
 				{
 					"description": "acquirer-network",
@@ -50010,55 +49890,12 @@
 					"copy_end_index": "11"
 				},
 				{
-					"description": "identification",
-					"is_header_field": "false",
-					"tag_prefix": "11E4F3",
-					"tag_value_length": "16",
-					"field_type": "copy",
-					"copy_from": "1",
-					"copy_tag": "CUSTOMER_ID",
-					"copy_ini_index": "13",
-					"copy_end_index": "25"
-				},
-				{
-					"description": "acquirer-entity",
-					"is_header_field": "false",
-					"tag_prefix": "11D140",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "acquirer-office",
-					"is_header_field": "false",
-					"tag_prefix": "11D138",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
 					"description": "device",
 					"is_header_field": "false",
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
 					"value": "A"
-				},
-				{
-					"description": "corres-card-nr",
-					"is_header_field": "false",
-					"tag_prefix": "11E5C7",
-					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "0000000000000000"
-				},
-				{
-					"description": "corres-card-class",
-					"is_header_field": "false",
-					"tag_prefix": "1197A7",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -50080,22 +49917,6 @@
 					"copy_tag": "IS_COST_INQUIRY",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
-				},
-				{
-					"description": "tran-identifier",
-					"is_header_field": "false",
-					"tag_prefix": "11E0E2",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "pa-credit-indicator",
-					"is_header_field": "false",
-					"tag_prefix": "11914D",
-					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
 				}
 			]
 		},
@@ -50217,14 +50038,6 @@
 					"copy_end_index": "3"
 				},
 				{
-					"description": "tran-amount",
-					"is_header_field": "false",
-					"tag_prefix": "11C3F0",
-					"tag_value_length": "15",
-					"field_type": "fixed",
-					"value": "000000000000000"
-				},
-				{
 					"description": "tran-hour",
 					"is_header_field": "false",
 					"tag_prefix": "119131",
@@ -50282,7 +50095,7 @@
 					"tag_prefix": "119160",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "04"
+					"value": "02"
 				},
 				{
 					"description": "acquirer-network",
@@ -50345,55 +50158,12 @@
 					"copy_end_index": "11"
 				},
 				{
-					"description": "identification",
-					"is_header_field": "false",
-					"tag_prefix": "11E4F3",
-					"tag_value_length": "16",
-					"field_type": "copy",
-					"copy_from": "1",
-					"copy_tag": "CUSTOMER_ID",
-					"copy_ini_index": "13",
-					"copy_end_index": "25"
-				},
-				{
-					"description": "acquirer-entity",
-					"is_header_field": "false",
-					"tag_prefix": "11D140",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "acquirer-office",
-					"is_header_field": "false",
-					"tag_prefix": "11D138",
-					"tag_value_length": "4",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
 					"description": "device",
 					"is_header_field": "false",
 					"tag_prefix": "11D139",
 					"tag_value_length": "1",
 					"field_type": "fixed",
 					"value": "A"
-				},
-				{
-					"description": "corres-card-nr",
-					"is_header_field": "false",
-					"tag_prefix": "11E5C7",
-					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "0000000000000000"
-				},
-				{
-					"description": "corres-card-class",
-					"is_header_field": "false",
-					"tag_prefix": "1197A7",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -50415,22 +50185,6 @@
 					"copy_tag": "IS_COST_INQUIRY",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
-				},
-				{
-					"description": "tran-identifier",
-					"is_header_field": "false",
-					"tag_prefix": "11E0E2",
-					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "0000"
-				},
-				{
-					"description": "pa-credit-indicator",
-					"is_header_field": "false",
-					"tag_prefix": "11914D",
-					"tag_value_length": "1",
-					"field_type": "fixed",
-					"value": "0"
 				}
 			]
 		},
@@ -91492,8 +91246,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -91859,8 +91613,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -92226,8 +91980,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -92593,8 +92347,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -94548,8 +94302,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -94583,8 +94340,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -94706,7 +94463,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -94714,7 +94471,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -94948,8 +94705,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -94983,8 +94743,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -95106,7 +94866,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -95114,7 +94874,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -95348,8 +95108,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -95383,8 +95146,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -95506,7 +95269,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -95514,7 +95277,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
@@ -95748,8 +95511,11 @@
 					"is_header_field": "false",
 					"tag_prefix": "11E5C6",
 					"tag_value_length": "16",
-					"field_type": "fixed",
-					"value": "                "
+					"field_type": "copy",
+					"copy_from": "0",
+					"copy_tag": "35",
+					"copy_ini_index": "0",
+					"copy_end_index": "16"
 				},
 				{
 					"description": "receipt-nr",
@@ -95783,8 +95549,8 @@
 					"is_header_field": "false",
 					"tag_prefix": "119161",
 					"tag_value_length": "2",
-					"field_type": "fixed",
-					"value": "99"
+					"field_type": "method",
+					"value": "04"
 				},
 				{
 					"description": "id-terminal",
@@ -95906,7 +95672,7 @@
 					"tag_prefix": "11E5C7",
 					"tag_value_length": "16",
 					"field_type": "fixed",
-					"value": "                "
+					"value": "0000000000000000"
 				},
 				{
 					"description": "card-class",
@@ -95914,7 +95680,7 @@
 					"tag_prefix": "1197A7",
 					"tag_value_length": "2",
 					"field_type": "fixed",
-					"value": "NB"
+					"value": "00"
 				},
 				{
 					"description": "tran-indicator",
