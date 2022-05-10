@@ -299,5 +299,46 @@ public class DBHandler {
 
 		return sd;
 	}
+	
+	
+	public static StructuredData getHistoricalConsecutiveByTranNr(String tranNr, boolean enableLog) {
+
+		Logger.logLine("## getHistoricalConsecutive ##>" + tranNr + " tranNr ", enableLog);
+
+		StructuredData sd = new StructuredData();
+		Connection cn = null;
+		CallableStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			cn = JdbcManager.getDefaultConnection();
+			stmt = cn.prepareCall("{call cust_get_structured_data_by_tran_nr(?, ?)}");
+			stmt.setString(1, tranNr);
+			stmt.registerOutParameter(2, java.sql.Types.VARCHAR);
+			stmt.execute();
+			sd.fromMsgString(stmt.getString(2));
+			Logger.logLine("##Retrived original SD##>" + tranNr + " :: " + sd, enableLog);
+			JdbcManager.commit(cn, stmt, rs);
+		}
+
+		catch (Exception e) {
+
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			Logger.logLine("##ERROR RETRIVING##>" + sw.toString(), false);
+		} finally {
+			try {
+				JdbcManager.cleanup(cn, stmt, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+		Logger.logLine("##SD Key INFO##>" + sd.get("REFERENCE_KEY"), false);
+
+		return sd;
+	}
 
 }

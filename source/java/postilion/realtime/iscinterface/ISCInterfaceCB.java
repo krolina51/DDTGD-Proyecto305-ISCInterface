@@ -204,6 +204,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	long period = 0L;
 
 	boolean simulation = false;
+	
+	public boolean freeThreaded = false;
 
 	@Override
 	/***************************************************************************************
@@ -253,6 +255,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			this.period = Long.parseLong((String) parameters.get("PERIOD_TIMER"));
 			Logger.logLine("THRESHOLD_TIMER: " + parameters.get("THRESHOLD_TIMER"), this.enableMonitor);
 			this.calendarInfo.setThreshold(Long.parseLong((String) parameters.get("THRESHOLD_TIMER")));
+			this.freeThreaded = (boolean) parameters.get("FREE_THREADED");
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -327,6 +330,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		}
 
 	}
+	
+	
+
+	@Override
+	public boolean isFreeThreaded() {
+		return this.freeThreaded;
+	}
+
+
 
 	/***************************************************************************************
 	 * Implementación de metodo del SDK, sirve para procesar un mensaje 0200 desde
@@ -1063,16 +1075,32 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 			String tranType = Utils.getTranType(msg,
 					Utils.getTranChannel(msg.getField(Iso8583.Bit._041_CARD_ACCEPTOR_TERM_ID)));
+			String histCons = null;
+			StructuredData histSD = null;
 
 			if (isDeposit(msg) || msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)) {
 				// Logger.logLine("Campo 38 setted " +
 				// msg.getField(Iso8583.Bit._038_AUTH_ID_RSP), this.enableMonitor);
 
-				StructuredData histSD = DBHandler.getHistoricalConsecutive(
-						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.getProcessingCode().toString(),
-						this.enableMonitor);
+				String tranNr = Integer.valueOf(msg.getPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY)).toString();
+				//StructuredData histSD = DBHandler.getHistoricalConsecutive(
+				//		msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.getProcessingCode().toString(),
+				//		this.enableMonitor);
+				
+				
+				if (msg.isFieldSet(Iso8583Post.Bit._059_ECHO_DATA)) {
+					histCons = msg.getField(Iso8583Post.Bit._059_ECHO_DATA);
+					histSD = new StructuredData();
+					Logger.logLine("SETEADO EL CAMPO 59 con :" + histCons, this.enableMonitor);
+				} else {
+					histSD = DBHandler.getHistoricalConsecutiveByTranNr(
+							tranNr, this.enableMonitor);
 
-				String histCons = histSD.get("REFERENCE_KEY");
+					histCons = histSD.get("REFERENCE_KEY");
+					
+					Logger.logLine("Va por base :" + histCons, this.enableMonitor);
+				}
+				
 
 				StructuredData sdIn = msg.getStructuredData();
 
@@ -1602,6 +1630,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 					StructuredData sd = rspISOMsg.getStructuredData();
 					sd.put("ISC210Message", Base64.getEncoder().encodeToString(rspISCMsg.toMsg()));
+					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA,sd.get("REFERENCE_KEY"));
 					rspISOMsg.putStructuredData(sd);
 
 				}
