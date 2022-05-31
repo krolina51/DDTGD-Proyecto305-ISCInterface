@@ -4,6 +4,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import postilion.realtime.iscinterface.message.ISCReqMessage.Constants;
 import postilion.realtime.iscinterface.message.ISCReqMessage.Fields;
 import postilion.realtime.iscinterface.util.UtilidadesMensajeria;
 import postilion.realtime.sdk.message.Validator;
@@ -109,7 +110,12 @@ public class ISCResMessage extends StreamMessage {
 	 * 
 	 **********************************************************************************/
 	public void setConstantFields() {
-
+		this.putField(Fields._02_H_HEADER_FRAME, Transform.fromHexToBin(Constants.HEADER_FRAME));		
+		this.putField(Fields._03_H_CICS_TRAN_CODE, Transform.fromHexToBin(Constants.CICS_TRAN_CODE));	
+		this.putField(Fields._04_H_DELIMITER, Transform.fromHexToBin(Constants.DELIMITER));
+		this.putField(Fields._07_H_FILLER, Transform.fromHexToBin(Constants.HEADER_FILLER));
+		this.putField(Fields._11_H_FILLER_2, Transform.fromHexToBin(Constants.HEADER_FILLER_2));	
+		this.putField(Fields._12_H_SUPER_ID, Transform.fromHexToBin(Constants.SUPER_ID));
 	}
 
 	/**********************************************************************************
@@ -142,6 +148,7 @@ public class ISCResMessage extends StreamMessage {
 		private static final String SUPER_ID = "F0F0F0F0F0F0F0F0";
 		private static final String MSG_DELIMITER = "11C2601D60";
 		private static final String SEPARATOR = "11";
+		private static final String DELIMITER = "114040";
 		
 		
 		private static final String DATE_TAG = "9130";
@@ -202,6 +209,15 @@ public class ISCResMessage extends StreamMessage {
 		public static final String _08_H_CUR_BALANCE = "cur-balance";
 		private static final String _09_H_FILLER = "filler";
 		public static final String _10_H_MSG_DELIMITER = "msg-delimiter";
+		private static final String _03_H_CICS_TRAN_CODE = "cics-tran-code";
+		private static final String _04_H_DELIMITER = "delimiter";
+		public static final String _05_H_TRAN_CODE = "tran-code";
+		private static final String _07_H_FILLER = "filler";
+		public static final String _08_H_TRAN_SEQ_NR = "tran-seq";
+		public static final String _09_H_STATE = "state";
+		public static final String _10_H_TIME = "time";
+		private static final String _11_H_FILLER_2 = "filler-2";
+		private static final String _12_H_SUPER_ID = "super-id";
 		
 		public static final String _VARIABLE_BODY = "var-body";
 		

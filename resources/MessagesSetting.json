@@ -72269,7 +72269,7 @@
 					"tag_value_length": "16",
 					"field_type": "copy",
 					"copy_from": "1",
-					"copy_tag": "DEBIT_CARD__NR",
+					"copy_tag": "DEBIT_CARD_NR",
 					"copy_ini_index": "0",
 					"copy_end_index": "0"
 				},

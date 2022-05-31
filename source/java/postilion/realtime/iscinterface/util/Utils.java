@@ -33,11 +33,13 @@ import java.util.regex.Pattern;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.ISCInterfaceCB;
 import postilion.realtime.iscinterface.auxiliar.TransferAux;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
+import postilion.realtime.iscinterface.message.ISCResMessage;
 import postilion.realtime.iscinterface.web.HttpCryptoServ;
 import postilion.realtime.iscinterface.web.model.Field;
 import postilion.realtime.iscinterface.web.model.Homologation;
@@ -3326,26 +3328,26 @@ public class Utils {
 		return sd.toString();
 	}
 
-	public static IMessage processReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir, String cons) throws XPostilion, FileNotFoundException {
+	public static IMessage processReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir, String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
 		
 		Iso8583Post mappedIso = new Iso8583Post();
 		mappedIso.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
 		
 		//CONSTRUCCION DE LA LLAVE DEL MSG
-		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso);
+		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso, enableMonitor);
 
 		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
-		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, false);
+		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, enableMonitor);
 		
 		//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 		if (tSettings != null && tSettings.getAuxiliarClass() != null) {
 			
-			verifyForAuxClass(mappedIso, iscInReq, tSettings, cons);
+			verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
 		}
 
 		
 		try {
-			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso);
+			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
 		}
 		catch(Exception e) {
 			StringWriter outError = new StringWriter();
@@ -3390,10 +3392,10 @@ public class Utils {
 //		return mappedIso;
 //	}
 
-	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons) {
+	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons, boolean enableMonitor) {
 		
-		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), false);
-		Logger.logLine(TransferAux.class.getCanonicalName(), false);
+		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), enableMonitor);
+		Logger.logLine(TransferAux.class.getCanonicalName(), enableMonitor);
 
 		try {
 			
@@ -3405,16 +3407,16 @@ public class Utils {
             Object obj = constructor.newInstance();
             
             Method methodExec = classRequest.getMethod("processMsg", argtypes);
-            Object[] args = {out, in,  tSettings, cons};
+            Object[] args = {out, in,  tSettings, cons, enableMonitor};
             
             out = (Iso8583Post)methodExec.invoke(obj, args);
             
-            Logger.logLine(out.toString(), false);
+            Logger.logLine(out.toString(), enableMonitor);
 			
 			
 		} catch (ClassNotFoundException | NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			
-			Logger.logLine("ERROR REFLECTION: " + e.getLocalizedMessage(), false);
+			Logger.logLine("ERROR REFLECTION: " + e.getLocalizedMessage(), enableMonitor);
 		}        
 			
 	}
@@ -3424,19 +3426,19 @@ public class Utils {
 
 		TransactionSetting tranSetting = null;
 
-		Logger.logLine("TRANKEY: " + msgTranKey, false);
+		Logger.logLine("TRANKEY: " + msgTranKey, enableLog);
 
 		if (wholeTransConfig != null && wholeTransConfig.getAllTran() != null
 				&& wholeTransConfig.getAllTran().length != 0) {
 
 			for (int i = 0; i < wholeTransConfig.getAllTran().length; i++) {
 
-				Logger.logLine("TRANKEY IN JSON: " + wholeTransConfig.getAllTran()[i].getTranKey(), false);
+				Logger.logLine("TRANKEY IN JSON: " + wholeTransConfig.getAllTran()[i].getTranKey(), enableLog);
 
 				if (wholeTransConfig.getAllTran()[i].getTranKey().equals(msgTranKey)) {
 
-					Logger.logLine("-- TRANKEY MATCHED --", false);
-					Logger.logLine(wholeTransConfig.getAllTran()[i].getDescription(), false);
+					Logger.logLine("-- TRANKEY MATCHED --", enableLog);
+					Logger.logLine(wholeTransConfig.getAllTran()[i].getDescription(), enableLog);
 					tranSetting = wholeTransConfig.getAllTran()[i];
 					break;
 				}
@@ -3444,17 +3446,18 @@ public class Utils {
 		}
 		
 		if (tranSetting == null) {
-			Logger.logLine("NO TRAN MATCH IN JSON: ", false);
+			Logger.logLine("NO TRAN MATCH IN JSON: ", enableLog);
 		}
 
 		return tranSetting;
 	}
 
-	private static Iso8583Post constructMsgISO(TransactionSetting trSetting, ISCReqInMsg inputMsg, Iso8583Post mappedMsg)
+	private static Iso8583Post constructMsgISO(TransactionSetting trSetting, ISCReqInMsg inputMsg, Iso8583Post mappedMsg, boolean enableMonitor)
 			throws XPostilion, FileNotFoundException {
 		
-		Logger.logLine("constructMsgISO 3251:" + trSetting.getFields().length, false);
-		Logger.logLine("constructMsgISO 3252:" + inputMsg.getTotalHexString(), false);
+		Logger.logLine("constructMsgISO 3251:" + trSetting.getFields().length, enableMonitor);
+		Logger.logLine("constructMsgISO 3252:" + inputMsg, enableMonitor);
+		Logger.logLine("constructMsgISO 3253:" + inputMsg.getTotalHexString(), enableMonitor);
 
 		
 		StructuredData sd = null;
@@ -3470,7 +3473,7 @@ public class Utils {
 
 			Field cf = trSetting.getFields()[i];
 			
-			Logger.logLine("Field: " + cf.getDescription(), false);
+			Logger.logLine("Field: " + cf.getDescription(), enableMonitor);
 
 //			mappedMsg.putField(Byte.parseByte(cf.getCopyTag()),
 //					inputMsg.getField(cf.getCopyTag()).substring(cf.getCopyInitialIndex(), cf.getCopyFinalIndex()));
@@ -3485,7 +3488,7 @@ public class Utils {
 				
 			case "copy":
 				
-				copyField(cf, mappedMsg, inputMsg, sd);
+				copyField(cf, mappedMsg, inputMsg, sd, enableMonitor);
 				
 				break;
 				
@@ -3606,14 +3609,14 @@ public class Utils {
 
 	}
 
-	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output) throws XPostilion {
+	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output, boolean enableMonitor) throws XPostilion {
 
-		Logger.logLine("Utils 3353: \n" + msg.toString(), false);
+		Logger.logLine("Utils 3353: \n" + msg.toString(), enableMonitor);
 
 		String msgKey = "";
 
-		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), false);
-		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), false);		
+		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), enableMonitor);
+		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), enableMonitor);		
 		
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
@@ -3625,7 +3628,7 @@ public class Utils {
 				break;
 			case "8550":
 				
-				msgKey = get8850ExtentedKey(msg, output);
+				msgKey = get8850ExtentedKey(msg, output, enableMonitor);
 
 				break;
 
@@ -3701,17 +3704,20 @@ public class Utils {
 
 	}
 
-	private static void copyField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputIscMsg, StructuredData sd)
+	private static void copyField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputIscMsg, StructuredData sd, boolean enableMonitor)
 			throws FileNotFoundException {
 
 		String extractedVal = "";
 
 		try {	
-			
+			Logger.logLine("DATA IN: (HEX)"+Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString())), enableMonitor);
+			Logger.logLine("SUBSTRING : (HEX) init val: "+ curField.getCopyInitialIndex() + " final val:" + curField.getCopyFinalIndex() 
+			+ " value extracted: " + inputIscMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex()), enableMonitor);
 			extractedVal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex())));
+			Logger.logLine("extractedVal without packResize:"+extractedVal, enableMonitor);
 			extractedVal = Pack.resize(extractedVal, curField.getTagValueLength(), '0', false);
 
-			Logger.logLine("Extracted:"+extractedVal, false);
+			Logger.logLine("Extracted:"+extractedVal, enableMonitor);
 			
 			if(curField.getCopyTo().split("\\|")[0].equals("0")) {
 				outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
@@ -3725,7 +3731,7 @@ public class Utils {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(
 					outError + "\n" + "ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
-			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), false);
+			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString(), enableMonitor);
 			EventRecorder.recordEvent(
 					new Exception("ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
 		}
@@ -3789,13 +3795,16 @@ public class Utils {
 		}
 	}
 	
-	private static String get8850ExtentedKey (ISCReqInMsg isc, Iso8583Post out) throws XPostilion {
+	private static String get8850ExtentedKey (ISCReqInMsg isc, Iso8583Post out, boolean enableMonitor) throws XPostilion {
 		
-		Logger.logLine("Utils 3601:", false);
+		Logger.logLine("Utils 3601:", enableMonitor);
 		
 		StructuredData sd = new StructuredData();
 		
 		String hexIsc = isc.getTotalHexString().toUpperCase();
+		Logger.logLine("hexIsc:"+ hexIsc, enableMonitor);
+		
+		Logger.logLine("entra switch :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE))), enableMonitor);
 		
 		//Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		//y se determina que tipo de transaccion es.
@@ -3824,6 +3833,8 @@ public class Utils {
 		default:
 			break;
 		}	
+		
+		Logger.logLine("entra switch 2 :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE))), enableMonitor);
 		
 		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE)))) {
 		case "000":
@@ -3994,6 +4005,39 @@ public class Utils {
 			if(iscMsg != null) {
 				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + iscMsg.toString() :
 					iscMsg.toString(), "ISC", interfaceName));
+//				mon.get
+			}
+		} catch (Exception e) {
+			StringWriter outError = new StringWriter();
+			e.printStackTrace(new PrintWriter(outError));
+			EventRecorder.recordEvent(new Exception("Error Postilion: " + outError.toString()));
+			Logger.logLine("Error Postilion: " + outError.toString(), false);
+		}
+		
+	}
+	
+	
+	/**
+	 * Metodo encargado de enviar mensajes al monitor UDP para su posteo en SQL lite
+	 * 
+	 * @param mon
+	 * @param isoMsg
+	 * @param iscMsg
+	 * @param interfaceName
+	 * @param refNr
+	 * @param msgPrefix
+	 */
+	public static void postLogInMonitor(Client mon, IMessage isoMsg, String output, String interfaceName, String refNr, String msgPrefix) {
+		
+		try {
+			if (isoMsg != null) {
+				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())):
+						Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())), "ISO", interfaceName));
+
+			}
+			if(output != null) {
+				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + output.toString() :
+					output.toString(), "LOG", interfaceName));
 //				mon.get
 			}
 		} catch (Exception e) {
@@ -4251,5 +4295,53 @@ public class Utils {
 		e.printStackTrace(new PrintWriter(outError));
 		
 		return outError;
+	}
+	
+	
+	public static ISCResMessage createRspISCMsg(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
+		ISCResMessage rsp = new ISCResMessage();
+		
+		rsp.setConstantFields();
+		rsp.putField(ISCResMessage.Fields._06_H_ATM_ID, originalReq.getField(ISCReqMessage.Fields._06_H_ATM_ID));
+		rsp.putField(ISCResMessage.Fields._07_H_TRAN_SEQ_NR, originalReq.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR));
+		rsp.putField(ISCResMessage.Fields._07_H_TRAN_SEQ_NR, originalReq.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR));
+		rsp.putField(ISCResMessage.Fields._VARIABLE_BODY, buildRspBody(msg,originalReq));
+		return rsp;
+	}
+
+	public static String buildRspBody(Iso8583Post msg, ISCReqInMsg originalReq) {
+		StringBuilder sd = new StringBuilder("");
+		try {
+		String field126 = msg.isFieldSet(Base24Ath.Bit._126_ATH_ADDITIONAL_DATA) ? msg.getField(Base24Ath.Bit._126_ATH_ADDITIONAL_DATA) : null;
+		String B5 = null;
+		String arqc = null;
+		if(field126!=null) {
+			String parts[] = field126.split("!");
+			
+			int posB5 = 0;
+			for (int i = 0; i < parts.length; i++) {
+				if (parts[i].contains(" B5")) {
+					posB5 = i;
+					B5 = parts[posB5];
+					arqc = B5.substring(13, 29);
+				}
+			}
+			
+		}		
+		
+			sd.append("00701140401D60E2D9D3D5F020").append(originalReq.getTotalHexString().substring(22,30))
+			.append("40404040").append(originalReq.getTotalHexString().substring(38,46))
+			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)))).append("4E4040")
+			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)))).append("404011C2601D60")
+			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))).append("F0F0F0F0F0F0F0F0F0F0F0F0")
+			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1))))
+			.append(arqc != null ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(arqc)) : "0000000000000000000000000000000000");
+		} catch (XPostilion e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		return sd.toString();
 	}
 }
