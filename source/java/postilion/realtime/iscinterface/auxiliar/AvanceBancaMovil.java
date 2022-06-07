@@ -16,9 +16,9 @@ public class AvanceBancaMovil {
 	
 	private static int counter = 0;
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
-		Logger.logLine("Reflected:\n" + in.toString(), true);
+		Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 		
 		StructuredData sd = null;
 		
@@ -53,9 +53,9 @@ public class AvanceBancaMovil {
 		out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "0110052".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(148, 180)))));
 		
 		
-		Logger.logLine("127.02:\n" + "0"+cons.substring(2, 5), true);
-		Logger.logLine("127.02:\n" + Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 4), true);
-		Logger.logLine("127.02:\n" + Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64))), true);
+		Logger.logLine("127.02:\n" + "0"+cons.substring(2, 5), enableMonitor);
+		Logger.logLine("127.02:\n" + Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 4), enableMonitor);
+		Logger.logLine("127.02:\n" + Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64))), enableMonitor);
 		
 		//127.2 SWITCHKEY
 		out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 4))

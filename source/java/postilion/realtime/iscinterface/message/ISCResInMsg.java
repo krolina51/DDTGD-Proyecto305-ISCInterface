@@ -4,6 +4,7 @@ import java.util.regex.MatchResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import postilion.realtime.iscinterface.message.ISCReqMessage.Constants;
 import postilion.realtime.iscinterface.message.ISCReqMessage.Fields;
 import postilion.realtime.iscinterface.util.UtilidadesMensajeria;
 import postilion.realtime.sdk.message.Validator;
@@ -14,7 +15,7 @@ import postilion.realtime.sdk.message.stream.StreamFormatterFieldVar;
 import postilion.realtime.sdk.message.stream.StreamMessage;
 import postilion.realtime.sdk.util.convert.Transform;
 
-public class ISCResMessage extends StreamMessage {
+public class ISCResInMsg extends StreamMessage {
 	
 	protected static IStreamFormatter iscReqFormatter;
 	
@@ -25,13 +26,13 @@ public class ISCResMessage extends StreamMessage {
 	//Variable reservada para llevar el conteo del numero de Bytes que posee el mensaje
 	private int currentSize = 0; 
 
-	public ISCResMessage() {
+	public ISCResInMsg() {
 		super(MAX_SIZE, iscReqFormatter);
 		//setConstantFields();
 	}
 
 	//Recibe el IStream formater y el stream en cuestion
-	public ISCResMessage(IStreamFormatter stream) {
+	public ISCResInMsg(IStreamFormatter stream) {
 		super(MAX_SIZE, stream);
 		//setConstantFields();
 	}
@@ -61,24 +62,26 @@ public class ISCResMessage extends StreamMessage {
 		
 		//StreamFormatterFieldFixed hTotalLenght = new StreamFormatterFieldFixed(Fields._01_H_TOTAL_LENGTH, Validator.getAns(), 4);
 		//containerDestination.add(hTotalLenght);
-		StreamFormatterFieldFixed hHeaderFrame = new StreamFormatterFieldFixed(Fields._02_H_HEADER_FRAME, Validator.getAns(), 12);
-		containerDestination.add(hHeaderFrame);
+		StreamFormatterFieldFixed tranCode = new StreamFormatterFieldFixed(Fields._02_H_TRAN_CODE, Validator.getAns(), 4);
+		containerDestination.add(tranCode);
 		StreamFormatterFieldFixed hDelimiter = new StreamFormatterFieldFixed(Fields._03_H_DELIMITER, Validator.getAns(), 10);
 		containerDestination.add(hDelimiter);
-		StreamFormatterFieldFixed hCicsTranCode = new StreamFormatterFieldFixed(Fields._04_H_CICS_TRAN_CODE, Validator.getAns(), 8);
-		containerDestination.add(hCicsTranCode);
-		StreamFormatterFieldFixed hState = new StreamFormatterFieldFixed(Fields._05_H_STATE, Validator.getAns(), 4);
-		containerDestination.add(hState);
-		StreamFormatterFieldFixed hAtmId = new StreamFormatterFieldFixed(Fields._06_H_ATM_ID, Validator.getAns(), 16);
-		containerDestination.add(hAtmId);
-		StreamFormatterFieldFixed hTransSeqNr = new StreamFormatterFieldFixed(Fields._07_H_TRAN_SEQ_NR, Validator.getAns(), 8);
-		containerDestination.add(hTransSeqNr);
-		StreamFormatterFieldFixed hCurBalance = new StreamFormatterFieldFixed(Fields._08_H_CUR_BALANCE, Validator.getAns(), 26);
-		containerDestination.add(hCurBalance);
-		StreamFormatterFieldFixed hFiller = new StreamFormatterFieldFixed(Fields._09_H_FILLER, Validator.getAns(), 20);
-		containerDestination.add(hFiller);
-		StreamFormatterFieldFixed hDelimiter2 = new StreamFormatterFieldFixed(Fields._10_H_MSG_DELIMITER, Validator.getAns(), 10);
-		containerDestination.add(hDelimiter2);
+		StreamFormatterFieldFixed autraCode = new StreamFormatterFieldFixed(Fields._04_H_AUTRA_CODE, Validator.getAns(), 4);
+		containerDestination.add(autraCode);
+		StreamFormatterFieldFixed terminal = new StreamFormatterFieldFixed(Fields._05_H_TERMINAL, Validator.getAns(), 4);
+		containerDestination.add(terminal);
+		StreamFormatterFieldFixed officeCode = new StreamFormatterFieldFixed(Fields._06_H_OFFICE_CODE, Validator.getAns(), 4);
+		containerDestination.add(officeCode);
+		StreamFormatterFieldFixed tranSeq = new StreamFormatterFieldFixed(Fields._07_H_TRAN_SEQ_NR, Validator.getAns(), 4);
+		containerDestination.add(tranSeq);
+		StreamFormatterFieldFixed state = new StreamFormatterFieldFixed(Fields._08_H_STATE, Validator.getAns(), 3);
+		containerDestination.add(state);
+		StreamFormatterFieldFixed time = new StreamFormatterFieldFixed(Fields._09_H_TIME, Validator.getAns(), 6);
+		containerDestination.add(time);
+		StreamFormatterFieldFixed nextDay = new StreamFormatterFieldFixed(Fields._10_H_NEXTDAY_IND, Validator.getAns(), 1);
+		containerDestination.add(nextDay);
+		StreamFormatterFieldFixed filler = new StreamFormatterFieldFixed(Fields._11_H_FILLER, Validator.getAns(), 15);
+		containerDestination.add(filler);
 
 		
 		return containerDestination;
@@ -108,8 +111,8 @@ public class ISCResMessage extends StreamMessage {
 	 * @param msg
 	 * 
 	 **********************************************************************************/
-	public void setConstantFields() {
-
+	public void setConstantFields() {	
+		this.putField(Fields._03_H_DELIMITER, Constants.DELIMITER);	
 	}
 
 	/**********************************************************************************
@@ -135,13 +138,15 @@ public class ISCResMessage extends StreamMessage {
 	 **********************************************************************************/
 	public static class Constants {
 		
-		private static final String HEADER_FRAME = "313233343536";
-		private static final String CICS_TRAN_CODE = "E5C9C2C1"; //VIBA-->ebcdic-->hex
+		private static final String HEADER_FRAME = "123456";
+		private static final String CICS_TRAN_CODE = "E2D9D3D5"; //SRLN
 		private static final String HEADER_FILLER = "40404040";
 		private static final String HEADER_FILLER_2 = "4040404040404040";
 		private static final String SUPER_ID = "F0F0F0F0F0F0F0F0";
 		private static final String MSG_DELIMITER = "11C2601D60";
 		private static final String SEPARATOR = "11";
+		private static final String DELIMITER = "1140401D60";
+		private static final String STATE = "F120";
 		
 		
 		private static final String DATE_TAG = "9130";
@@ -193,17 +198,31 @@ public class ISCResMessage extends StreamMessage {
 	public static class Fields {
 		
 		public static final String _01_H_TOTAL_LENGTH = "total-length";
+		public static final String _02_H_TRAN_CODE = "tran-code";
+		public static final String _03_H_DELIMITER = "delimiter";
+		public static final String _04_H_AUTRA_CODE = "autra-tran-code";
+		public static final String _05_H_TERMINAL = "terminal";
+		public static final String _06_H_OFFICE_CODE = "office-code";
+		public static final String _07_H_TRAN_SEQ_NR = "tran-seq";
+		public static final String _08_H_STATE = "state";
+		public static final String _09_H_TIME = "time";
+		public static final String _10_H_NEXTDAY_IND = "nextday-ind";
+		public static final String _11_H_FILLER = "filler";
+		public static final String _VARIABLE_BODY = "var-body";
 		private static final String _02_H_HEADER_FRAME = "header-frame";
-		private static final String _03_H_DELIMITER = "delimiter";
 		private static final String _04_H_CICS_TRAN_CODE = "cics-tran-code";
 		public static final String _05_H_STATE = "state";
 		public static final String _06_H_ATM_ID = "atm-id";
-		public static final String _07_H_TRAN_SEQ_NR = "tran-seq";
 		public static final String _08_H_CUR_BALANCE = "cur-balance";
 		private static final String _09_H_FILLER = "filler";
 		public static final String _10_H_MSG_DELIMITER = "msg-delimiter";
-		
-		public static final String _VARIABLE_BODY = "var-body";
+		private static final String _03_H_CICS_TRAN_CODE = "cics-tran-code";
+		private static final String _04_H_DELIMITER = "delimiter";
+		public static final String _05_H_TRAN_CODE = "tran-code";
+		private static final String _07_H_FILLER = "filler";
+		public static final String _08_H_TRAN_SEQ_NR = "tran-seq";
+		public static final String _09_H_STATE = "state";
+		public static final String _10_H_TIME = "time";		
 		
 	}
 	
@@ -247,41 +266,30 @@ public class ISCResMessage extends StreamMessage {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 	    sb.append("ISC RESPONSE:\n");
-	    sb.append("header-frame").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("header-frame"))).append("\n");
-	    sb.append("delimiter").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("delimiter"))).append("\n");
-	    sb.append("cics-tran-code").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("cics-tran-code"))).append("\n");
-	    sb.append("state").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("state"))).append("\n");
-	    sb.append("atm-id").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("atm-id"))).append("\n");
-	    sb.append("tran-seq").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("tran-seq"))).append("\n");
-	    sb.append("cur-balance").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("cur-balance"))).append("\n");
-	    sb.append("filler").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("filler"))).append("\n");
-	    sb.append("msg-delimiter").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(Transform.fromBinToHex(getField("msg-delimiter")))).append("\n");
-	    sb.append("var-body").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("var-body"))).append("\n");
+	    sb.append("tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-code"))).append("\n");
+	    sb.append("delimiter").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("delimiter"))).append("\n");
+	    sb.append("autra-tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("autra-tran-code"))).append("\n");
+	    sb.append("terminal").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("terminal"))).append("\n");
+	    sb.append("office-code").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("office-code"))).append("\n");
+	    sb.append("tran-seq").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-seq"))).append("\n");
+	    sb.append("state").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("state"))).append("\n");
+	    sb.append("time").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("time"))).append("\n");
+	    sb.append("nextday-ind").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("nextday-ind"))).append("\n");
+	    sb.append("filler").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("filler"))).append("\n");
+	    sb.append("var-body").append("\t---> ").append((getField("var-body"))).append("\n");
 
 //	    sb.append("splitted-body:\n");
 //				
-//		        // Get the regex to be checked 
-//		        String regex = "11[^01]{1}[a-zA-Z\\d]{3}"; 
-//		  
-//		        // Create a pattern from regex 
-//		        Pattern pattern = Pattern.compile(regex); 
-//		  
-//		        // Get the String to be matched 
-//		        String stringToBeMatched 
-//		            = Transform.fromBinToHex(this.getField(Fields._VARIABLE_BODY)); 
-//		  
-//		        // Create a matcher for the input String 
-//		        Matcher matcher = pattern.matcher(stringToBeMatched); 
-//		  
-//		        // Get the current matcher state 
-//		        MatchResult result = matcher.toMatchResult(); 
-//				
-//				String[] tags = (stringToBeMatched).split(regex);
-//				
-//				int i = 0;
-//		        while (matcher.find()) {
-//		        	i++;
-//		        	sb.append("		("+matcher.group().substring(2)+") : "+UtilidadesMensajeria.ebcdicToAscii(tags[i])).append("\n");
+//	    sb.append("header-frame").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("header-frame"))).append("\n");
+//	    sb.append("delimiter").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("delimiter"))).append("\n");
+//	    sb.append("cics-tran-code").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("cics-tran-code"))).append("\n");
+//	    sb.append("state").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("state"))).append("\n");
+//	    sb.append("atm-id").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("atm-id"))).append("\n");
+//	    sb.append("tran-seq").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("tran-seq"))).append("\n");
+//	    sb.append("cur-balance").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("cur-balance"))).append("\n");
+//	    sb.append("filler").append("\t\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("filler"))).append("\n");
+//	    sb.append("msg-delimiter").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(Transform.fromBinToHex(getField("msg-delimiter")))).append("\n");
+//	    sb.append("var-body").append("\t---> ").append(UtilidadesMensajeria.ebcdicToAscii(getField("var-body"))).append("\n");
 //		        }
 				
 				//sb.append("\t").append(ISCReqMessage.Constants.da)

@@ -36,6 +36,7 @@ import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
+import postilion.realtime.iscinterface.message.ISCResInMsg;
 import postilion.realtime.iscinterface.message.ISCResMessage;
 import postilion.realtime.iscinterface.message.KeepAliveMessage;
 import postilion.realtime.iscinterface.processors.ISCAssembler;
@@ -1296,7 +1297,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			if (msg != null)
 				Utils.postMsgInMonitor(this.mon, msg, null, this.interName,
 						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
-			ISCResMessage rspMsg = new ISCResMessage();
+			ISCResInMsg rspMsg = new ISCResInMsg();
 			rspMsg = Utils.createRspISCMsg(msg, originalIscReq);
 			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
 
@@ -2285,6 +2286,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		case RSP_TRAN_COSULTA_COSTO:
 		case RSP_TRAN_COSULTA_COSTO_AH:
 		case RSP_TRAN_COSULTA_COSTO_CO:
+		case RSP_TRAN_COSULTA_COSTO_MU:
 			Utils.putB24Field126IntoStructuredData(sd);
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
 
@@ -2504,24 +2506,29 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		String realPCode = b24F126.substring(b24F126.indexOf("QT")).substring(8, 14);
 
 		// Algunas excepciones en las que debe aprobarse la transaccion
-		if (((realPCode.substring(0, 1).equals("5") || realPCode.substring(0, 2).equals("27"))
-				&& sd.get(B24_Field_103).substring(2, 3).equals("1"))) {
-
-			msgKey = "00_1";
-
-		} else if ((realPCode.substring(0, 2).equals("51")
-				&& msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals(PSEUDO_BIN_777760)
-				&& sd.get("TRANSACTION_TYPE_CBN").equals("CREDITO"))) {
-
-			msgKey = "00_1";
-
-		} else if ((realPCode.substring(0, 2).equals("40")
-				&& msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals(PSEUDO_BIN_777760)
-				&& msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("021"))) {
-
-			msgKey = "00_1";
-
-		} 
+//		if (((realPCode.substring(0, 1).equals("5") || realPCode.substring(0, 2).equals("27"))
+//				&& sd.get(B24_Field_103).substring(2, 3).equals("1"))) {
+//
+//			msgKey = "00_1";
+//
+//		} else 
+//			if ((realPCode.substring(0, 2).equals("51")
+//				&& msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals(PSEUDO_BIN_777760)
+//				&& sd.get("TRANSACTION_TYPE_CBN").equals("CREDITO"))) {
+//
+//			msgKey = "00_1";
+//
+//		} else if ((realPCode.substring(0, 2).equals("40")
+//				&& msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals(PSEUDO_BIN_777760)
+//				&& msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("021"))) {
+//
+//			msgKey = "00_1";
+//
+//		}
+		if(false) {
+			//desactivando excepciones anteriores
+		}
+			
 		
 		//flujo normal en caso de no darse ninguna de las condiciones anteriores
 		else {
@@ -4388,6 +4395,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public static final String RSP_TRAN_COSULTA_ULT5_CO = "0210_382000_1";
 	public static final String RSP_TRAN_COSULTA_COSTO_AH = "0210_321000_1";
 	public static final String RSP_TRAN_COSULTA_COSTO_CO = "0210_322000_1";
+	public static final String RSP_TRAN_COSULTA_COSTO_MU = "0210_320100_1";
 	public static final String RSP_TRAN_COSULTA_SALDO_CB_AH = "0210_311000_1";
 	public static final String RSP_TRAN_COSULTA_SALDO_CB_CO = "0210_312000_1";
 	public static final String RSP_TRAN_COSULTA_SALDO_CREDIBANCO_AH = "0210_311000_3";
