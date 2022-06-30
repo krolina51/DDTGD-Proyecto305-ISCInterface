@@ -2516,10 +2516,10 @@ public class Utils {
 							: "05");
 			
 		} catch (Exception e) {
-			StringWriter outError = new StringWriter();
-			e.printStackTrace(new PrintWriter(outError));
-			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), false);
-			EventRecorder.recordEvent(new Exception(outError.toString()));
+//			StringWriter outError = new StringWriter();
+//			e.printStackTrace(new PrintWriter(outError));
+//			Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), false);
+//			EventRecorder.recordEvent(new Exception(outError.toString()));
 			responseCode = new ResponseCode();
 			responseCode.setDescriptionIsc("RSP CODE TRANSLATION ERROR - NOT FOUND");
 			
@@ -4309,16 +4309,16 @@ public class Utils {
 	public static ISCResInMsg createRspISCMsg(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
 		
-		rsp.setConstantFields();
-		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, originalReq.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE));
-		rsp.putField(ISCResInMsg.Fields._04_H_AUTRA_CODE, originalReq.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE));
-		rsp.putField(ISCResInMsg.Fields._05_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
-		rsp.putField(ISCResInMsg.Fields._06_H_OFFICE_CODE, originalReq.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE));
-		rsp.putField(ISCResInMsg.Fields._07_H_TRAN_SEQ_NR, originalReq.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR));
-		rsp.putField(ISCResInMsg.Fields._08_H_STATE, originalReq.getField(ISCReqMessage.Fields._09_H_STATE));
-		rsp.putField(ISCResInMsg.Fields._09_H_TIME, originalReq.getField(ISCReqInMsg.Fields._09_H_TIME));
-		rsp.putField(ISCResInMsg.Fields._10_H_NEXTDAY_IND, originalReq.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND));
-		rsp.putField(ISCResInMsg.Fields._11_H_FILLER, originalReq.getField(ISCReqInMsg.Fields._11_H_FILLER));
+//		rsp.setConstantFields();
+//		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, originalReq.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE));
+//		rsp.putField(ISCResInMsg.Fields._04_H_AUTRA_CODE, originalReq.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE));
+//		rsp.putField(ISCResInMsg.Fields._05_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+//		rsp.putField(ISCResInMsg.Fields._06_H_OFFICE_CODE, originalReq.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE));
+//		rsp.putField(ISCResInMsg.Fields._07_H_TRAN_SEQ_NR, originalReq.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR));
+//		rsp.putField(ISCResInMsg.Fields._08_H_STATE, originalReq.getField(ISCReqMessage.Fields._09_H_STATE));
+//		rsp.putField(ISCResInMsg.Fields._09_H_TIME, originalReq.getField(ISCReqInMsg.Fields._09_H_TIME));
+//		rsp.putField(ISCResInMsg.Fields._10_H_NEXTDAY_IND, originalReq.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND));
+//		rsp.putField(ISCResInMsg.Fields._11_H_FILLER, originalReq.getField(ISCReqInMsg.Fields._11_H_FILLER));
 		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBody(msg,originalReq));
 		return rsp;
 	}
@@ -4343,14 +4343,26 @@ public class Utils {
 			
 		}		
 		
-			sd.append("00701140401D60E2D9D3D5F020").append(originalReq.getTotalHexString().substring(22,30))
-			.append("40404040").append(originalReq.getTotalHexString().substring(38,46))
-			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)))).append("4E4040")
-			.append(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP))) : "F0F0F0F0F0F0")
-			.append("404011C2601D60")
-			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))).append("F0F0F0F0F0F0F0F0F0F0F0F0")
-			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1))))
-			.append(arqc != null ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(arqc)) : "0000000000000000000000000000000000");
+//			sd.append("00701140401D60E2D9D3D5F020").append(originalReq.getTotalHexString().substring(22,30))
+//			.append("40404040").append(originalReq.getTotalHexString().substring(38,46))
+//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).substring(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).length()-12))))
+//			.append("4E4040")
+//			.append(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP))) : "F0F0F0F0F0F0")
+//			.append("404011C2601D60")
+//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))).append("F0F0F0F0F0F0F0F0F0F0F0F0")
+//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1))))
+//			.append(arqc != null ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(arqc)) : "0000000000000000000000000000000000");
+			
+			sd.append(Transform.fromHexToBin("00701140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).substring(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+				.append(Transform.fromAsciiToEbcdic("000000000000"))
+				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1)))
+				.append(arqc != null ? Transform.fromHexToBin(arqc) : Transform.fromAsciiToEbcdic("0000000000000000000000000000000000"));
 		} catch (XPostilion e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

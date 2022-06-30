@@ -160,8 +160,6 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 	public Properties ndPropertyFile = new Properties();
 
-	public TransactionSetting strTranSetting;
-
 	private String ignoreBatch = null;
 
 	boolean localCovValidation = true;
@@ -356,6 +354,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		this.tStart = System.currentTimeMillis();
 		IMessage msg2Remote = null;
 		Iso8583Post msg2TM = null;
+		TransactionSetting strTranSetting = null;
 
 //		Logger.logLine("****processTranReqFromTranmgr****\n" + new String(msg.toMsg()), this.enableMonitor);
 		
@@ -662,6 +661,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			throws Exception {
 
 		Logger.logLine("****processTranAdvFromTranmgr****\n" + new String(msg.toMsg()), this.enableMonitor);
+		
+		TransactionSetting strTranSetting = null;
 
 		Iso8583Post msgClone = (Iso8583Post) msg.clone();
 		msgClone.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
@@ -940,6 +941,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		Logger.logLine("**PROCESANDO REVERSO**", this.enableMonitor);
 		Logger.logLine("ES REPETICION?: " + msg.getMessageType() + "\n" + msg.toString(), this.enableMonitor);
+		TransactionSetting strTranSetting = null;
 
 //		Thread.sleep(10000);
 
@@ -1299,7 +1301,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 			ISCResInMsg rspMsg = new ISCResInMsg();
 			rspMsg = Utils.createRspISCMsg(msg, originalIscReq);
-			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
+			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg.getTotalString(), this.enableMonitor);
 
 			action.putMsgToRemote(rspMsg);
 		} catch (Exception e) {
@@ -1378,7 +1380,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				StructuredData sd = msg2TM.getStructuredData();
 
 				ResponseCode responseCode = new ResponseCode();
-				;
+				
 				try {
 					if (sd.get("ERROR") != null) {
 
@@ -1399,10 +1401,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						sd.put("REVERSE_AUTH_MODE", "0");
 					}
 				} catch (Exception e) {
-					StringWriter outError = new StringWriter();
-					e.printStackTrace(new PrintWriter(outError));
-					Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), this.enableMonitor);
-					EventRecorder.recordEvent(new Exception(outError.toString()));
+//					StringWriter outError = new StringWriter();
+//					e.printStackTrace(new PrintWriter(outError));
+//					Logger.logLine("ERROR JSON TRANS COFIG: " + outError.toString(), this.enableMonitor);
+//					EventRecorder.recordEvent(new Exception(outError.toString()));
 					responseCode = new ResponseCode();
 					responseCode.setDescriptionIsc("RSP CODE TRANSLATION ERROR - NOT FOUND");
 
@@ -2478,6 +2480,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 	@Override
 	public Action processResyncCommand(AInterchangeDriverEnvironment interchange) throws Exception {
+		if(this.mon != null)
+			this.mon.close();
 		this.init(interchange);
 		return super.processResyncCommand(interchange);
 	}
@@ -3139,12 +3143,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				break;
 			case "copy":
 
-				copyField(curField, msgStrBuilder, inputMsg, msgSD);
+				copyField(curField, msgStrBuilder, inputMsg, msgSD, trSetting);
 
 				break;
 			case "homologate":
 
-				homologateField(curField, msgStrBuilder, inputMsg, msgSD);
+				homologateField(curField, msgStrBuilder, inputMsg, msgSD, trSetting);
 
 				break;
 			case "method":
@@ -3252,7 +3256,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		}
 	}
 
-	private void copyField(Field curField, StringBuilder msgStrBuilder, Iso8583Post inputMsg, StructuredData msgSD)
+	private void copyField(Field curField, StringBuilder msgStrBuilder, Iso8583Post inputMsg, StructuredData msgSD, TransactionSetting trSetting)
 			throws FileNotFoundException, XPostilion {
 
 		String extractedVal = "";
@@ -3294,8 +3298,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		} 
 		catch (Exception e) {
 			EventRecorder.recordEvent(
-					new Exception("ERROR COPYING FIELD: " + curField.getTagPrefix() + " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex() + e.toString()));
-			Utils.postLogInMonitor(this.mon, inputMsg, "ERRISO30 Exception en Mensaje: " + curField.getTagPrefix() + " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex(), this.interName,
+					new Exception("ERROR COPYING FIELD: " + curField.getTagPrefix() 
+					+ " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex() 
+					+ " - " + inputMsg.getProcessingCode().toString() + " - " + inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + " \n"
+					+ " - TRANSKEY: " + trSetting.getTranKey() + "\n"
+					+ e.toString()));
+			Utils.postLogInMonitor(this.mon, inputMsg, "ERRISO30 Exception en Mensaje: " 
+					+ curField.getTagPrefix() + " - " 
+					+ curField.getCopyInitialIndex() + " - " 
+					+  curField.getCopyFinalIndex()
+					+ " - " + inputMsg.getProcessingCode().toString() + " - " + inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + " \n"
+					+ " - TRANSKEY: " + trSetting.getTranKey() + "\n", this.interName,
 					inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), "ERRISOJSON");
 			Logger.logLine("ERROR COPYING FIELD: " + curField.getTagPrefix() , this.enableMonitor);
 			EventRecorder.recordEvent(new TryCatchException(new String[] { this.interName, "ISCInterfaceCB",
@@ -3308,7 +3321,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	}
 
 	private void homologateField(Field curField, StringBuilder msgStrBuilder, Iso8583Post inputMsg,
-			StructuredData msgSD) throws XPostilion {
+			StructuredData msgSD, TransactionSetting trSetting) throws XPostilion {
 
 		String extractedVal = "";
 		boolean homolMatch = false;
@@ -3355,8 +3368,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		} catch (XPostilion e) {
 
 			EventRecorder.recordEvent(
-					new Exception("ERROR HOMOLOGATING FIELD: " + curField.getTagPrefix() + " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex() + e.toString()));
-			Utils.postLogInMonitor(this.mon, inputMsg, "ERRISO30 Exception en Mensaje: " + curField.getTagPrefix() + " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex(), this.interName,
+					new Exception("ERROR HOMOLOGATING FIELD: " + curField.getTagPrefix() 
+					+ " - " + curField.getCopyInitialIndex() + " - " +  curField.getCopyFinalIndex() 
+					+ " - " + inputMsg.getProcessingCode().toString() + " - " + inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + " \n"
+					+ " - TRANSKEY: " + trSetting.getTranKey() + "\n"
+					+ e.toString()));
+			Utils.postLogInMonitor(this.mon, inputMsg, "ERRISO30 Exception en Mensaje: " 
+					+ curField.getTagPrefix() + " - " 
+					+ curField.getCopyInitialIndex() + " - " 
+					+  curField.getCopyFinalIndex()
+					+ " - " + inputMsg.getProcessingCode().toString() + " - " + inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR) + " \n"
+					+ " - TRANSKEY: " + trSetting.getTranKey() + "\n", this.interName,
 					inputMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), "ERRISOJSON");
 			Logger.logLine("ERROR HOMOLOGATING FIELD: " + curField.getTagPrefix(),
 					this.enableMonitor);
@@ -3825,6 +3847,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		String t2 = Transform.fromBinToHex(Transform.getString(msg.toMsg()));
 //				test2.fromMsg(Transform.fromHexToBin(t2));
 		Logger.logLine("ISO:" + t2, this.enableMonitor);
+		TransactionSetting strTranSetting = null;
 
 		// MONITOREO
 		try {

@@ -103,6 +103,13 @@ public class Client {
 	public int getPort() {
 		return this.port;
 	}
+	
+	
+	public void close(){
+		if(this.socket != null)
+			this.socket.close();
+		this.socket = null;
+	}
 
 	/**
 	 * Valida si la información en el archivo es una ip.

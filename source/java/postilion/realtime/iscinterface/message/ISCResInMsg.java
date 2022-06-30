@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 import postilion.realtime.iscinterface.message.ISCReqMessage.Constants;
 import postilion.realtime.iscinterface.message.ISCReqMessage.Fields;
 import postilion.realtime.iscinterface.util.UtilidadesMensajeria;
+import postilion.realtime.iscinterface.validator.ValidatorCustom;
 import postilion.realtime.sdk.message.Validator;
 import postilion.realtime.sdk.message.stream.IStreamFormatter;
 import postilion.realtime.sdk.message.stream.StreamFormatterContainer;
@@ -41,7 +42,7 @@ public class ISCResInMsg extends StreamMessage {
 
 		StreamFormatterContainer RequestDataContainer = new StreamFormatterContainer();
 
-		RequestDataContainer = defineHeadersFormatters(RequestDataContainer);
+		//RequestDataContainer = defineHeadersFormatters(RequestDataContainer);
 		RequestDataContainer = defineBodyFormatters(RequestDataContainer);
 
 		StreamFormatterContainer message = new StreamFormatterContainer();
@@ -97,7 +98,7 @@ public class ISCResInMsg extends StreamMessage {
 	 **********************************************************************************/
 	private static StreamFormatterContainer defineBodyFormatters(StreamFormatterContainer containerDestination) {
 		
-		StreamFormatterFieldVar varBody = new StreamFormatterFieldVar(Fields._VARIABLE_BODY, Validator.getAns(), 9216, true);
+		StreamFormatterFieldVar varBody = new StreamFormatterFieldVar(Fields._VARIABLE_BODY, ValidatorCustom.getAnsc(), 9216, true);
 		containerDestination.add(varBody);
 		
 		return containerDestination;
@@ -243,6 +244,29 @@ public class ISCResInMsg extends StreamMessage {
 		
 		return length;
 	}
+	
+	/***********************************************************************************
+	 * Metodo toString para visualizar el contenido del objeto de una forma parecida
+	 * a como debe ir el mensaje hacia el autorizador
+	 **********************************************************************************/
+	public String getTotalHexString() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append(Transform.fromBinToHex(this.getField(Fields._02_H_TRAN_CODE)))
+		.append(Transform.fromBinToHex(this.getField(Fields._03_H_DELIMITER)))
+		.append(Transform.fromBinToHex(this.getField(Fields._04_H_AUTRA_CODE)))
+		.append(Transform.fromBinToHex(this.getField(Fields._05_H_TERMINAL)))
+		.append(Transform.fromBinToHex(this.getField(Fields._06_H_OFFICE_CODE)))
+		.append(Transform.fromBinToHex(this.getField(Fields._07_H_TRAN_SEQ_NR)))
+		.append(Transform.fromBinToHex(this.getField(Fields._08_H_STATE)))
+		.append(Transform.fromBinToHex(this.getField(Fields._09_H_TIME)))
+		.append(Transform.fromBinToHex(this.getField(Fields._10_H_NEXTDAY_IND)))
+		.append(Transform.fromBinToHex(this.getField(Fields._11_H_FILLER)))
+		.append(Transform.fromBinToHex(this.getField(Fields._VARIABLE_BODY)));
+		
+		return sb.toString();
+	}
 
 	/***********************************************************************************
 	 * Metodo toString para visualizar el contenido del objeto de una forma parecida
@@ -252,12 +276,12 @@ public class ISCResInMsg extends StreamMessage {
 		
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append(this.getField(Fields._01_H_TOTAL_LENGTH)).append(this.getField(Fields._02_H_HEADER_FRAME))
-		.append(this.getField(Fields._03_H_DELIMITER)).append(this.getField(Fields._04_H_CICS_TRAN_CODE))
-		.append(this.getField(Fields._05_H_STATE)).append(this.getField(Fields._06_H_ATM_ID))
-		.append(this.getField(Fields._07_H_TRAN_SEQ_NR)).append(this.getField(Fields._08_H_CUR_BALANCE))
-		.append(this.getField(Fields._09_H_FILLER)).append(this.getField(Fields._10_H_MSG_DELIMITER))
-		.append(this.getField(Fields._VARIABLE_BODY));
+//		sb.append(this.getField(Fields._01_H_TOTAL_LENGTH)).append(this.getField(Fields._02_H_HEADER_FRAME))
+//		.append(this.getField(Fields._03_H_DELIMITER)).append(this.getField(Fields._04_H_CICS_TRAN_CODE))
+//		.append(this.getField(Fields._05_H_STATE)).append(this.getField(Fields._06_H_ATM_ID))
+//		.append(this.getField(Fields._07_H_TRAN_SEQ_NR)).append(this.getField(Fields._08_H_CUR_BALANCE))
+//		.append(this.getField(Fields._09_H_FILLER)).append(this.getField(Fields._10_H_MSG_DELIMITER))
+		sb.append(UtilidadesMensajeria.ebcdicToAscii(this.getField(Fields._VARIABLE_BODY)));
 		
 		return sb.toString();
 	}
@@ -265,18 +289,18 @@ public class ISCResInMsg extends StreamMessage {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-	    sb.append("ISC RESPONSE:\n");
-	    sb.append("tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-code"))).append("\n");
-	    sb.append("delimiter").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("delimiter"))).append("\n");
-	    sb.append("autra-tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("autra-tran-code"))).append("\n");
-	    sb.append("terminal").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("terminal"))).append("\n");
-	    sb.append("office-code").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("office-code"))).append("\n");
-	    sb.append("tran-seq").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-seq"))).append("\n");
-	    sb.append("state").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("state"))).append("\n");
-	    sb.append("time").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("time"))).append("\n");
-	    sb.append("nextday-ind").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("nextday-ind"))).append("\n");
-	    sb.append("filler").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("filler"))).append("\n");
-	    sb.append("var-body").append("\t---> ").append((getField("var-body"))).append("\n");
+//	    sb.append("ISC RESPONSE:\n");
+//	    sb.append("tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-code"))).append("\n");
+//	    sb.append("delimiter").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("delimiter"))).append("\n");
+//	    sb.append("autra-tran-code").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("autra-tran-code"))).append("\n");
+//	    sb.append("terminal").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("terminal"))).append("\n");
+//	    sb.append("office-code").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("office-code"))).append("\n");
+//	    sb.append("tran-seq").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("tran-seq"))).append("\n");
+//	    sb.append("state").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("state"))).append("\n");
+//	    sb.append("time").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("time"))).append("\n");
+//	    sb.append("nextday-ind").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("nextday-ind"))).append("\n");
+//	    sb.append("filler").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("filler"))).append("\n");
+	    sb.append(Transform.fromBinToHex((getField("var-body")))).append("\n");
 
 //	    sb.append("splitted-body:\n");
 //				
