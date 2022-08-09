@@ -6,6 +6,7 @@ import java.io.StringWriter;
 
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
+import postilion.realtime.iscinterface.message.ISCReqInMsg.Fields;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
@@ -136,6 +137,10 @@ public class RetiroAux {
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(96, 128)))));
 			Logger.logLine("seteando campo 126:"+ in.getTotalHexString().substring(660, 1494), enableMonitor);
 			sd.put("B24_Field_126", constructField126(parts));
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))"))
+				sd.put("NEXTDAY", "TRUE");
+			
 //			sd.put("B24_Field_126", "& 0000500342! QT00032 0110000000000000000000000000000 "
 //					+ "! B200158 7FF90000808080048800B95259759DCF36970000070000000000000000003800001F17017022041901D0D87DAF000706011203A0B80100000000000000000000000000000000000000000000000000"
 //					+ "! B300080 CF00SmartPOS60D8C8000000000000001100020204000007A0000000031010000000000000000000"

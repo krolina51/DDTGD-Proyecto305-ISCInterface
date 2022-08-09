@@ -23,7 +23,7 @@ public class ISCReqInMsg extends StreamMessage {
 	private static IStreamFormatter iscReqFormatter;
 	
 	//Constantes de uso interno de la clase
-	private static final int MAX_SIZE = 1024;
+	private static final int MAX_SIZE = 2048;
 
 	public ISCReqInMsg() {
 		super(MAX_SIZE, iscReqFormatter);
@@ -96,7 +96,7 @@ public class ISCReqInMsg extends StreamMessage {
 	 **********************************************************************************/
 	private static StreamFormatterContainer defineBodyFormatters(StreamFormatterContainer containerDestination) {
 		
-		containerDestination.add(new StreamFormatterFieldVar(Fields._VARIABLE_BODY, ValidatorCustom.getAnsc(), 1024, true));
+		containerDestination.add(new StreamFormatterFieldVar(Fields._VARIABLE_BODY, ValidatorCustom.getAnsc(), 2048, true));
 		
 		return containerDestination;
 	}

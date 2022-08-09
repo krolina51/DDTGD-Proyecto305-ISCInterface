@@ -2556,6 +2556,9 @@ public class Utils {
 			if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("3")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
 						.append("_").append(sd.get("CHANNEL"));
+			} if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("4")) {
+				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+				.append("_").append(sd.get("CHANNEL"));
 			} else {
 				
 				if(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
@@ -2776,12 +2779,15 @@ public class Utils {
 		String field44 = "";
 
 		try {
-			if (sd.get(Constant.TagNames.SALDOS) != null) {
+			String saldos = sd.get(Constant.TagNames.SALDOS);
+			if (saldos != null) {
 
-				Logger.logLine("AAA:" + sd.get(Constant.TagNames.SALDOS), false);
+				Logger.logLine("AAA:" + saldos, false);
+				if (saldos.length() < 45)
+					saldos = "000000000000000000000000000000000000000000000";
 
-				sd.put(Constant.TagNames.SALDO_TOTAL, sd.get(Constant.TagNames.SALDOS).substring(0, 15));
-				sd.put(Constant.TagNames.SALDO_DISPONIBLE, sd.get(Constant.TagNames.SALDOS).substring(30, 45));
+				sd.put(Constant.TagNames.SALDO_TOTAL, saldos.substring(0, 15));
+				sd.put(Constant.TagNames.SALDO_DISPONIBLE, saldos.substring(30, 45));
 
 				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null && sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
 
@@ -4309,63 +4315,87 @@ public class Utils {
 	public static ISCResInMsg createRspISCMsg(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
 		
-//		rsp.setConstantFields();
-//		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, originalReq.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE));
-//		rsp.putField(ISCResInMsg.Fields._04_H_AUTRA_CODE, originalReq.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE));
-//		rsp.putField(ISCResInMsg.Fields._05_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
-//		rsp.putField(ISCResInMsg.Fields._06_H_OFFICE_CODE, originalReq.getField(ISCReqInMsg.Fields._06_H_OFFICE_CODE));
-//		rsp.putField(ISCResInMsg.Fields._07_H_TRAN_SEQ_NR, originalReq.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR));
-//		rsp.putField(ISCResInMsg.Fields._08_H_STATE, originalReq.getField(ISCReqMessage.Fields._09_H_STATE));
-//		rsp.putField(ISCResInMsg.Fields._09_H_TIME, originalReq.getField(ISCReqInMsg.Fields._09_H_TIME));
-//		rsp.putField(ISCResInMsg.Fields._10_H_NEXTDAY_IND, originalReq.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND));
-//		rsp.putField(ISCResInMsg.Fields._11_H_FILLER, originalReq.getField(ISCReqInMsg.Fields._11_H_FILLER));
-		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBody(msg,originalReq));
+		if(msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00"))
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucess(msg,originalReq));
+		else
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyError(msg,originalReq));
 		return rsp;
 	}
 
-	public static String buildRspBody(Iso8583Post msg, ISCReqInMsg originalReq) {
+	public static String buildRspBodySucess(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		try {
-		String field126 = msg.isFieldSet(Base24Ath.Bit._126_ATH_ADDITIONAL_DATA) ? msg.getField(Base24Ath.Bit._126_ATH_ADDITIONAL_DATA) : null;
-		String B5 = null;
-		String arqc = null;
-		if(field126!=null) {
-			String parts[] = field126.split("!");
-			
-			int posB5 = 0;
-			for (int i = 0; i < parts.length; i++) {
-				if (parts[i].contains(" B5")) {
-					posB5 = i;
-					B5 = parts[posB5];
-					arqc = B5.substring(13, 29);
+			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_126") != null ?
+					msg.getStructuredData().get("B24_Field_126") : null : null;
+			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_102") != null ?
+					msg.getStructuredData().get("B24_Field_102") : msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1) : "000000000000000000";
+			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
+					msg.getStructuredData().get("B24_Field_54") : msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) : "000000000000";
+			String B5 = null;
+			String arqc = null;
+			if(field126!=null) {
+				String parts[] = field126.split("!");
+				
+				int posB5 = 0;
+				for (int i = 0; i < parts.length; i++) {
+					if (parts[i].contains(" B5")) {
+						posB5 = i;
+						B5 = parts[posB5];
+						arqc = B5.substring(13, 29);
+					}
 				}
 			}
-			
-		}		
-		
-//			sd.append("00701140401D60E2D9D3D5F020").append(originalReq.getTotalHexString().substring(22,30))
-//			.append("40404040").append(originalReq.getTotalHexString().substring(38,46))
-//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).substring(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).length()-12))))
-//			.append("4E4040")
-//			.append(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._038_AUTH_ID_RSP))) : "F0F0F0F0F0F0")
-//			.append("404011C2601D60")
-//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))).append("F0F0F0F0F0F0F0F0F0F0F0F0")
-//			.append(Transform.fromBinToHex(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1))))
-//			.append(arqc != null ? Transform.fromBinToHex(Transform.fromAsciiToEbcdic(arqc)) : "0000000000000000000000000000000000");
-			
-			sd.append(Transform.fromHexToBin("00701140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				
+			sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).substring(msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS).length()-12)))
+				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
 				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
 				.append(Transform.fromAsciiToEbcdic("000000000000"))
-				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1)))
-				.append(arqc != null ? Transform.fromHexToBin(arqc) : Transform.fromAsciiToEbcdic("0000000000000000000000000000000000"));
+				.append(Transform.fromAsciiToEbcdic(field102))
+				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+			
 		} catch (XPostilion e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e.toString();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
+		}
+		
+
+		return sd.toString();
+	}
+	
+	
+	
+	public static String buildRspBodyError(Iso8583Post msg, ISCReqInMsg originalReq) {
+		StringBuilder sd = new StringBuilder("");
+		try {
+			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
+					msg.getStructuredData().get("B24_Field_54") : msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) : "000000000000";
+			String field63 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_63") != null ?
+					msg.getStructuredData().get("B24_Field_63") : "8601ERROR EN EL MENSAJE                     " : "8601ERROR EN EL MENSAJE                     ";
+			
+			sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromAsciiToEbcdic("      "))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(field63.substring(0,4)))
+				.append(Transform.fromHexToBin("60"))
+				.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
+		} catch (XPostilion e) {
+			e.toString();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
 		}
 		
 

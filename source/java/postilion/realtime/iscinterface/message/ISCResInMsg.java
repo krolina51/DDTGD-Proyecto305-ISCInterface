@@ -300,7 +300,7 @@ public class ISCResInMsg extends StreamMessage {
 //	    sb.append("time").append("\t\t---> ").append(Transform.fromEbcdicToAscii(getField("time"))).append("\n");
 //	    sb.append("nextday-ind").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("nextday-ind"))).append("\n");
 //	    sb.append("filler").append("\t---> ").append(Transform.fromEbcdicToAscii(getField("filler"))).append("\n");
-	    sb.append(Transform.fromBinToHex((getField("var-body")))).append("\n");
+	    sb.append(Transform.fromEbcdicToAscii((getField("var-body")))).append("\n");
 
 //	    sb.append("splitted-body:\n");
 //				

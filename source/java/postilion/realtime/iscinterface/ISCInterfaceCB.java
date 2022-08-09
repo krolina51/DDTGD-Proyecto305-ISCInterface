@@ -1301,7 +1301,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 			ISCResInMsg rspMsg = new ISCResInMsg();
 			rspMsg = Utils.createRspISCMsg(msg, originalIscReq);
-			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg.getTotalString(), this.enableMonitor);
+			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
 
 			action.putMsgToRemote(rspMsg);
 		} catch (Exception e) {
@@ -2354,6 +2354,21 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			sd.remove(Constant.B24Fields.B24_F_40);
 			sd.remove(Constant.B24Fields.B24_F_54);
 			break;
+		case "0210_230000_4":
+		case "0210_233000_4":
+		case "0210_234000_4":
+		case "0210_234100_4":
+		case "0210_234200_4":
+		case "0210_500100_4":
+		case "0210_500200_4":
+		case "0210_500130_4":
+		case "0210_500230_4":
+		case "0210_500140_4":
+		case "0210_500240_4":
+		case "0210_500141_4":
+		case "0210_500241_4":
+			Utils.putB24Field63IntoStructuredData(sd, rspCode);
+			break;	
 //		case RSP_TRAN_PSP_AHORRO:
 
 //			Logger.logLine("SABOR::0210_501000_1");
