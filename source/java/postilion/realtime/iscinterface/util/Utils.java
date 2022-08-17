@@ -4375,8 +4375,9 @@ public class Utils {
 	public static String buildRspBodyError(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		try {
-			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
-					msg.getStructuredData().get("B24_Field_54") : msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) : "000000000000";
+			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) && msg.getStructuredData().get("B24_Field_54") != null ?
+					msg.getStructuredData().get("B24_Field_54") : msg.isFieldSet(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) ? 
+							msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)	: "000000000000";
 			String field63 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_63") != null ?
 					msg.getStructuredData().get("B24_Field_63") : "8601ERROR EN EL MENSAJE                     " : "8601ERROR EN EL MENSAJE                     ";
 			
