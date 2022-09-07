@@ -315,7 +315,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			Logger.logLine("Config Length :: " + v2CodesIscToIso.size(), this.enableMonitor);
 
-			List<String> strCovenats = Arrays.asList(this.wc.retriveAllCovenatData().split(","));
+			List<String> strCovenats = Arrays.asList(this.wc.retriveAllCovenatData().split("\","));
 
 			Logger.logLine("COVENANT SIZE" + strCovenats.size(), this.enableMonitor);
 
@@ -381,7 +381,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			}
 
 			//Se comprueba si se logro construir una llave para el mensaje
-			if (msgKey != null && msgKey != "") {
+			if (msgKey != null && msgKey != "" && msgKey != "05") {
 
 				//Se comprueba si la llave no es una aprobacion (condiciones de aprobacion 'setSDAndMsgkeyForCostconsult' o 'constructMessageKey')
 				if (!msgKey.substring(0, 2).equals("00")) {
@@ -2676,11 +2676,22 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //						.concat(msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE) != null
 //								&& !msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("010")
 //								&& !msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("021") ? "0" : "1");
+				
+				if ((msg.getStructuredData().get("DEVOLUCION_QR") != null
+						&& msg.getStructuredData().get("DEVOLUCION_QR").equals("TRUE"))) {
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()).concat("_")
+							.concat("7").concat("_").concat("0000")
+							.concat("_");
+					msgTran = msgTran.concat("0000").concat("_").concat("0").concat("_QR");
+					
+				}else {
+					msgTran = msgTran.concat("0000").concat("_").concat("0");
 
-				msgTran = msgTran.concat("0000").concat("_").concat("0");
+					String variation = msg.getStructuredData().get("B24_Field_103").substring(2, 3);
+					msgTran = msgTran.concat("_").concat(variation);
+				}
 
-				String variation = msg.getStructuredData().get("B24_Field_103").substring(2, 3);
-				msgTran = msgTran.concat("_").concat(variation);
+				
 			}
 
 			// ES DEPOSITO
@@ -2689,15 +2700,27 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					&& (msg.getProcessingCode().getToAccount().equals("14")
 							|| msg.getProcessingCode().getToAccount().equals("24"))) {
 
+				
+				if ((msg.getStructuredData().get("TRANSFER_QR") != null
+						&& msg.getStructuredData().get("TRANSFER_QR").equals("TRUE"))) {
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()).concat("_")
+							.concat("7").concat("_").concat("0000")
+							.concat("_");
+					msgTran = msgTran.concat("0000").concat("_").concat("0").concat("_QR");
+					
+				}else {
+					
+					msgTran = msgTran.concat("0000").concat("_").concat("0");
+
+					String variation = msg.getStructuredData().get("B24_Field_103").substring(2, 3);
+					msgTran = msgTran.concat("_").concat(variation);
+				}
 //				msgTran = msgTran.concat(msg.getStructuredData().get("B24_Field_103").substring(5, 9)).concat("_")
 //						.concat(msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE) != null
 //								&& !msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("010")
 //								&& !msg.getField(Iso8583.Bit._022_POS_ENTRY_MODE).equals("021") ? "0" : "1");
 
-				msgTran = msgTran.concat("0000").concat("_").concat("0");
-
-				String variation = msg.getStructuredData().get("B24_Field_103").substring(2, 3);
-				msgTran = msgTran.concat("_").concat(variation);
+				
 			}
 
 			if ((msg.getProcessingCode().getFromAccount().equals("10")
@@ -4304,7 +4327,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 	private void retrieveConvenants() throws IOException {
 
-		List<String> strCovenats = Arrays.asList(this.wc.retriveAllCovenatData().split(","));
+		List<String> strCovenats = Arrays.asList(this.wc.retriveAllCovenatData().split("\","));
 
 		Logger.logLine("COVENANT SIZE" + strCovenats.size(), this.enableMonitor);
 

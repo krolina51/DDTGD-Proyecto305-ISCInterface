@@ -3635,6 +3635,11 @@ public class Utils {
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
 			switch (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE))) {
+			case "8510":
+
+				msgKey = "SRLN_8510_CONSULDIV";
+
+				break;
 			case "8520":
 
 				msgKey = msgKey.concat("_").concat("8520");
