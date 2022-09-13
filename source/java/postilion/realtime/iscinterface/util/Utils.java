@@ -3641,8 +3641,8 @@ public class Utils {
 
 				break;
 			case "8520":
-
-				msgKey = msgKey.concat("_").concat("8520");
+				msgKey = "SRLN_8520_CONSULPAGODIV";
+				//msgKey = msgKey.concat("_").concat("8520");
 
 				break;
 			case "8550":
