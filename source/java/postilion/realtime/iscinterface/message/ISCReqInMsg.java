@@ -294,7 +294,8 @@ public class ISCReqInMsg extends StreamMessage {
 		public static final int POS_ini_ACC_INSCRIPTION_FLAG = 1800;
 		public static final int POS_end_ACC_INSCRIPTION_FLAG = 1802;
 
-	
+		public static final int POS_ini_TYPE_ACCOUNT = 206;
+		public static final int POS_end_TYPE_ACCOUNT = 208;
 	/**********************************************************************************
 	 * Constantes codigos/nombres de campos
 	 * 
