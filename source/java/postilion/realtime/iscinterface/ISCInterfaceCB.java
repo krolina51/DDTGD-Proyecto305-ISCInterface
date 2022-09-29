@@ -2728,8 +2728,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					&& (msg.getProcessingCode().getToAccount().equals("10")
 							|| msg.getProcessingCode().getToAccount().equals("20"))) {
 
-				// TRANSFER
+				// TRANSFER INTERNET
 				if ((msg.getStructuredData().get("CHANNEL") != null
+						&& msg.getStructuredData().get("CHANNEL").equals("8"))) {
+					
+					
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()).concat("_")
+							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
+							.concat("_").concat("0");
+					
+
+				}
+				
+				// TRANSFER
+				else if ((msg.getStructuredData().get("CHANNEL") != null
 						&& msg.getStructuredData().get("CHANNEL").equals("4"))) {
 					
 					Logger.logLine("CASO 1A:" + msgTran, this.enableMonitor);

@@ -1,12 +1,16 @@
 package postilion.realtime.iscinterface.auxiliar;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqInMsg.Fields;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
+import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -24,6 +28,10 @@ public class PagoCreditoEfectivoAux {
 		
 		try {
 			
+			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
+			Date businessCalendarDate = null;
+			String settlementDate = null;
+			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
@@ -33,6 +41,15 @@ public class PagoCreditoEfectivoAux {
 			} else {
 				sd = new StructuredData();
 			}
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+			
 			String p41 = "0001".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356,364))))
 					.concat("00003   ");
 			String bin = "008801";
@@ -127,6 +144,8 @@ public class PagoCreditoEfectivoAux {
 			
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, mes.concat(dia));
 			
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
 			
@@ -146,7 +165,7 @@ public class PagoCreditoEfectivoAux {
 			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(mes).concat(dia).concat(hora).concat("0"+cons.substring(2, 5)));
 
 			//127.22 TAG B24_Field_17
-			sd.put("B24_Field_17", mes.concat(dia));
+			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_35
 			sd.put("B24_Field_35", bin.concat(Pack.resize(cuentaCreditar, 18, '0', false)).concat("=            "));	
 			//127.22 TAG B24_Field_41
@@ -154,8 +173,6 @@ public class PagoCreditoEfectivoAux {
 			//127.22 TAG B24_Field_125
 			sd.put("B24_Field_125", p125);
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))"))
-				sd.put("NEXTDAY", "TRUE");
 			
 			out.putStructuredData(sd);	
 			
