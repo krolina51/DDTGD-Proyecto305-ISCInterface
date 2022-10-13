@@ -3636,21 +3636,18 @@ public class Utils {
 
 			switch (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE))) {
 			case "8510":
-
 				msgKey = "SRLN_8510_CONSULDIV";
-
 				break;
 			case "8520":
 				msgKey = "SRLN_8520_CONSULPAGODIV";
 				//msgKey = msgKey.concat("_").concat("8520");
-
 				break;
-			case "8550":
-				
+			case "8554":
+				msgKey = "SRLN_8554_TRANSFERQR";
+				break;
+			case "8550":				
 				msgKey = get8850ExtentedKey(msg, output, enableMonitor);
-
 				break;
-
 			default:
 
 				msgKey = "06";
