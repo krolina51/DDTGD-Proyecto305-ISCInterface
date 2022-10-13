@@ -1,11 +1,15 @@
 package postilion.realtime.iscinterface.auxiliar;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
+import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -25,6 +29,10 @@ public class ConsulPGDIVAux2 {
 		StructuredData field_structure_w = new StructuredData();
 		try {
 			
+			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
+			Date businessCalendarDate = null;
+			String settlementDate = null;
+			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
@@ -33,6 +41,15 @@ public class ConsulPGDIVAux2 {
 				sd = out.getStructuredData();	
 			} else {
 				sd = new StructuredData();
+			}
+			
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
 
 			String debitAccountType = "";
@@ -75,6 +92,8 @@ public class ConsulPGDIVAux2 {
 			//Field 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, new DateTime().get("MMdd"));
 			
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "008801".concat(cuenta.substring(3).concat("D49120000000100000")));
 			
@@ -95,7 +114,7 @@ public class ConsulPGDIVAux2 {
 			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(new DateTime().get("MMddHHmmss")).concat("0"+cons.substring(2, 5)));
 
 			//127.22 TAG B24_Field_17
-			sd.put("B24_Field_17", new DateTime().get("MMdd"));
+			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_35
 			sd.put("B24_Field_35", "008801".concat(cuenta.substring(3).concat("D49120000000100000")));
 			//127.22 TAG B24_Field_41
@@ -106,10 +125,7 @@ public class ConsulPGDIVAux2 {
 			sd.put("B24_Field_60", "0901BBOG+000");
 			//127.22 TAG B24_Field_62
 			sd.put("B24_Field_62", p62);
-			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
-				sd.put("NEXTDAY", "TRUE");
-			}
+
 			
 			out.putStructuredData(sd);	
 			

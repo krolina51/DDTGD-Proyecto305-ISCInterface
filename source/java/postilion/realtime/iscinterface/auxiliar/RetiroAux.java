@@ -3,6 +3,8 @@ package postilion.realtime.iscinterface.auxiliar;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
@@ -15,6 +17,7 @@ import postilion.realtime.sdk.crypto.CryptoManager;
 import postilion.realtime.sdk.crypto.DesKwp;
 import postilion.realtime.sdk.crypto.XCrypto;
 import postilion.realtime.sdk.crypto.XPinTranslationFailure;
+import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -32,6 +35,10 @@ public class RetiroAux {
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
 		try {
+			
+			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
+			Date businessCalendarDate = null;
+			String settlementDate = null;
 			
 			String decoded = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 			
@@ -107,6 +114,15 @@ public class RetiroAux {
 				sd = new StructuredData();
 			}
 			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			
 			Logger.logLine("sd:" + sd, enableMonitor);
 			//TRACK2 Field 35
 			Logger.logLine("seteando campo 35:"+in.getTotalHexString().substring(468, 542), enableMonitor);
@@ -126,6 +142,9 @@ public class RetiroAux {
 			Logger.logLine("seteando campo 127.2:"+ in.getTotalHexString().substring(248,268), enableMonitor);
 			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));		
 			
+			
+			//127.22 TAG B24_Field_17
+			sd.put("B24_Field_17", settlementDate);
 			sd.put("B24_Field_48", "000000000000               ");
 			Logger.logLine("seteando campo 15:"+ in.getTotalHexString().substring(250, 258), enableMonitor);
 			sd.put("B24_Field_15", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(250, 258))));
@@ -138,8 +157,6 @@ public class RetiroAux {
 			Logger.logLine("seteando campo 126:"+ in.getTotalHexString().substring(660, 1494), enableMonitor);
 			sd.put("B24_Field_126", constructField126(parts));
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))"))
-				sd.put("NEXTDAY", "TRUE");
 			
 //			sd.put("B24_Field_126", "& 0000500342! QT00032 0110000000000000000000000000000 "
 //					+ "! B200158 7FF90000808080048800B95259759DCF36970000070000000000000000003800001F17017022041901D0D87DAF000706011203A0B80100000000000000000000000000000000000000000000000000"

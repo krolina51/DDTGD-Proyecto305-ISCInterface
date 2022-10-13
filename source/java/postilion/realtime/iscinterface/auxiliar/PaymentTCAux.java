@@ -1,11 +1,15 @@
 package postilion.realtime.iscinterface.auxiliar;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
+import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -22,6 +26,10 @@ public class PaymentTCAux {
 		
 		try {
 			
+			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
+			Date businessCalendarDate = null;
+			String settlementDate = null;
+			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
@@ -37,6 +45,14 @@ public class PaymentTCAux {
 			String mes = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(292, 296)));
 			String dia = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(288, 292)));
 			String hora = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)));
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
 			
 			
 			//VERIFICANDO NATURALEZA DE LA TX
@@ -156,6 +172,8 @@ public class PaymentTCAux {
 			//Field 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, mes.concat(dia));
 			
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			
 			//CAMPO 37 Retrieval Reference Number
 			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))))
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406,414)))));
@@ -164,14 +182,12 @@ public class PaymentTCAux {
 			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(mes).concat(dia).concat(hora).concat("0"+cons.substring(2, 5)));
 
 			//127.22 TAG B24_Field_17
-			sd.put("B24_Field_17", mes.concat(dia));
+			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_41
 			sd.put("B24_Field_41", p41);
 			//127.22 TAG B24_Field_125
 			sd.put("B24_Field_125", p125);
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))"))
-				sd.put("NEXTDAY", "TRUE");
 			
 			out.putStructuredData(sd);	
 			

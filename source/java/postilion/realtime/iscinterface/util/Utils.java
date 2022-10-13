@@ -2553,24 +2553,39 @@ public class Utils {
 
 			StructuredData sd = msg.getStructuredData();
 
+			
 			if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("3")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
 						.append("_").append(sd.get("CHANNEL"));
-			} if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("4")) {
+			} else if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("4")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
 				.append("_").append(sd.get("CHANNEL"));
+			} else if(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
+				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+				.append("_").append("GIRO");
 			} else {
-				
-				if(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
-					tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-					.append("_").append("GIRO");
-				}
-				else {
-					tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-					.append("_").append(canal);
-				}
-
+				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+				.append("_").append(canal);
 			}
+			
+//			if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("3")) {
+//				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+//						.append("_").append(sd.get("CHANNEL"));
+//			} if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("4")) {
+//				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+//				.append("_").append(sd.get("CHANNEL"));
+//			} else {
+//				
+//				if(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
+//					tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+//					.append("_").append("GIRO");
+//				}
+//				else {
+//					tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
+//					.append("_").append(canal);
+//				}
+//
+//			}
 
 		}
 
