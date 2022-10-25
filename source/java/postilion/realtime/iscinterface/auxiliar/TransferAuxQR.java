@@ -104,6 +104,9 @@ public class TransferAuxQR {
 			//CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime().get("MMddHHmmss"));
 			
+			//CAMPO 12 TRANSMISSION time
+			out.putField(Iso8583.Bit._012_TIME_LOCAL, new DateTime().get("HHmmss"));
+			
 			//CAMPO 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, new DateTime().get("MMdd"));
 			
@@ -114,9 +117,9 @@ public class TransferAuxQR {
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
 			
 			//CAMPO 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
-			
 		
 			//CAMPO 102 DEBIT ACCOUNT
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "0001".concat(cuentaDebitar));
