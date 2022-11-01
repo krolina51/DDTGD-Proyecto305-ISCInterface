@@ -2737,6 +2737,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
 							.concat("_").concat("0");
 					
+					//ES TRANSFERENCIA INTERNET CEL2CEL
+					if ((msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8590"))||
+						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8591"))||
+						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8593"))||
+						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8594"))) {
+						
+						msgTran = msgTran.concat("_").concat("CEL2CEL");
+					}
+
 
 				}
 				

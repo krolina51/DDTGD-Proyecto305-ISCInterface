@@ -1,12 +1,16 @@
 package postilion.realtime.iscinterface.auxiliar;
 
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqInMsg.Fields;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
+import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -25,6 +29,10 @@ public class TransferAuxQR {
 		
 		try {
 			
+			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
+			Date businessCalendarDate = null;
+			String settlementDate = null;
+	
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
@@ -34,18 +42,22 @@ public class TransferAuxQR {
 			} else {
 				sd = new StructuredData();
 			}
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+			
 			String p41 = "0001820100002   ";
 			String bin = "008801";
-			String p43 = "BOG       INTERNET BTA             BOCCO";
 			String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38)));
 			if(codOficina.startsWith("82")) {
 				p41 = "0001820200002   ";
-				bin = "008801";
-				p43 = "BOG       INTERNET BTA             BOCCO";
 			}else if(codOficina.startsWith("8")) {
 				p41 = "0001820100002   ";
-				bin = "008801";
-				p43 = "BOG       INTERNET BTA             BOCCO";
 			}
 			String tipoCuentaCreditar =  "";
 			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(146, 148))).equals("0")) {
@@ -61,24 +73,32 @@ public class TransferAuxQR {
 				tipoCuentaDebitar = "20";
 			}
 			
+
 			String mes = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(292, 296)));
 			String dia = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(288, 292)));
 			String hora = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)));
 			String cuentaDebitar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR)));
 			
 			Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
-			String p125 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))), 30, ' ', true)
-					.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1732, 1778))), 30, ' ', true))
+			
+			String p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1782, 1830)))
+					.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1830, 1878))), 30, ' ', true))
+					.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1878, 1880))), 30, ' ', true))
+					.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1880, 1882))), 30, ' ', true))
 					.concat("                              ");
 			
 
 			//CAMPO 3 
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "40".concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
 			
-//			//CAMPO 7 TRANSMISSION DATE N TIME
+			//CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime().get("MMddHHmmss"));
 			
+			//CAMPO 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, new DateTime().get("MMdd"));
+			
+			//CAMPO 15
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
 			
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
@@ -87,9 +107,7 @@ public class TransferAuxQR {
 			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
 			
-			//TRACK2 Field 43
-			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, p43);
-			
+		
 			//CAMPO 102 DEBIT ACCOUNT
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "0001".concat(cuentaDebitar));
 			
@@ -102,7 +120,7 @@ public class TransferAuxQR {
 			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(mes).concat(dia).concat(hora).concat("0"+cons.substring(2, 5)));
 
 			//127.22 TAG B24_Field_17
-			sd.put("B24_Field_17", new DateTime().get("MMdd"));
+			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_35
 			sd.put("B24_Field_35", bin.concat(Pack.resize(cuentaDebitar, 18, '0', false)).concat("=991200000001"));	
 			//127.22 TAG B24_Field_41
