@@ -174,8 +174,8 @@ public class Utils {
 	 * NOMBRE CAMPO >> VALOR CAMPO
 	 * 
 	 * @param varBody     String cuerpo msj
-	 * @param regexVar    Expresión regular para extraer campos
-	 * @param outTemplate Expresión regular valores de salida
+	 * @param regexVar    Expresiï¿½n regular para extraer campos
+	 * @param outTemplate Expresiï¿½n regular valores de salida
 	 * @param delimiter   delimitador de campos en el body
 	 * @return
 	 */
@@ -325,7 +325,7 @@ public class Utils {
 
 	/**************************************************************************************
 	 * Construye StreamMessage de prueba con la estructura ISCReqMessage el mismo
-	 * podrá ser enviado a la entidad remota para efectos de prueba
+	 * podrï¿½ ser enviado a la entidad remota para efectos de prueba
 	 * 
 	 * @return
 	 **************************************************************************************/
@@ -2534,7 +2534,7 @@ public class Utils {
 	}
 
 	/**
-	 * Se determina el tipo de transacción "AAAA_BBBBBB_C" AAAA-Tipo de Msg ;
+	 * Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C" AAAA-Tipo de Msg ;
 	 * BBBBBB-Codigo proceso ; C-canal
 	 * 
 	 * @param msg
@@ -2593,7 +2593,7 @@ public class Utils {
 	}
 
 	/**
-	 * Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
+	 * Se determina el canal el mismo viene en la posiciï¿½n 13 del Tag "B24_Field_41"
 	 * 
 	 * @param msg
 	 * @return
@@ -3094,7 +3094,7 @@ public class Utils {
 						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 					} else {
 
-						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ï¿½ï¿½ï¿½"));
 					}
 
 					instance.isNextDay = true;
@@ -3144,7 +3144,7 @@ public class Utils {
 				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 			} else {
 
-				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ï¿½ï¿½ï¿½"));
 			}
 
 		}
@@ -3538,7 +3538,7 @@ public class Utils {
 	}
 	
 	/**************************************************************************************
-	 * Metodo para consultar consecutivo para la transacción
+	 * Metodo para consultar consecutivo para la transacciï¿½n
 	 * 
 	 * @param atmId
 	 * @return
@@ -3651,30 +3651,23 @@ public class Utils {
 
 			switch (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE))) {
 			case "8510":
-
 				msgKey = "SRLN_8510_CONSULDIV";
-
 				break;
 			case "8520":
 				msgKey = "SRLN_8520_CONSULPAGODIV";
 				//msgKey = msgKey.concat("_").concat("8520");
-
 				break;
 			case "8550":
-				
 				msgKey = get8850ExtentedKey(msg, output, enableMonitor);
-
 				break;
-
+			case "8554":
+                msgKey = "SRLN_8554_TRANSFERQR";
+                break;
 			default:
-
 				msgKey = "06";
-
 				break;
 			}
-
 		}
-
 		return msgKey;
 	}
 
@@ -3840,11 +3833,17 @@ public class Utils {
 		
 		Logger.logLine("entra switch :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE))), enableMonitor);
 		
+		String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
+		
 		//Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		//y se determina que tipo de transaccion es.
 		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)))) {
 		case "0":		
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER");		
+			if( codOficina.equals("8592") ) {
+				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER_CEL2CEL");
+			} else {
+				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER");
+			}
 			break;
 		case "1":		
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_HIPOTECARIO");		
