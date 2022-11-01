@@ -158,6 +158,49 @@ public class RetiroAux {
 			sd.put("B24_Field_126", constructField126(parts));
 			
 			
+			
+			
+			
+			///////// TAGS EXTRACT
+			sd.put("VIEW_ROUTER", "V1");
+			
+			sd.put("Codigo_FI_Origen", "1019");
+			sd.put("Nombre_FI_Origen", "CIC");
+			sd.put("Identificacion_Canal", "OF");
+			sd.put("Canal", "01");
+			sd.put("Dispositivo", "D");
+			
+			sd.put("TRANSACTION_INPUT", "RETIRO_OFC_BOG");
+			sd.put("Codigo_Transaccion_Producto", "05");
+			
+			sd.put("Codigo_Transaccion", "20");
+			sd.put("Nombre_Transaccion", "RETIRO");
+			sd.put("Tipo_de_Cuenta_Debitada", "AHO");
+			sd.put("Codigo_de_Red","1019");
+			
+			sd.put("Codigo_Establecimiento", "          ");
+			sd.put("PAN_Tarjeta", out.getTrack2Data().getPan());
+			sd.put("FI_Credito", "0000");
+			sd.put("FI_Debito", "0000");
+			sd.put("Vencimiento", "0000");
+			sd.put("Entidad_Origen", "0000");
+			sd.put("Ent_Adq", "0001");
+			sd.put("Indicador_AVAL", "1");
+			sd.put("Dispositivo", "D");
+			sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
+			sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
+			sd.put("service_restriction_code", "000");
+			sd.put("pos_entry_mode", "000");
+			sd.put("Identificador_Terminal", "0");
+			sd.put("Inscripcion_Indicador", "1");
+			sd.put("Numero_Factura", "                        ");
+			sd.put("Nota", "                        ");
+			sd.put("Mod_Credito", "6");
+			sd.put("CLIENT_CARD_NR", "0077010000000000");
+			sd.put("CLIENT_CARD_CLASS", "00");
+			///////// FIN TAGS EXTRACT
+			
+			
 //			sd.put("B24_Field_126", "& 0000500342! QT00032 0110000000000000000000000000000 "
 //					+ "! B200158 7FF90000808080048800B95259759DCF36970000070000000000000000003800001F17017022041901D0D87DAF000706011203A0B80100000000000000000000000000000000000000000000000000"
 //					+ "! B300080 CF00SmartPOS60D8C8000000000000001100020204000007A0000000031010000000000000000000"

@@ -2833,10 +2833,18 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		else if (msg.getProcessingCode().getTranType().substring(0, 1).equals("3")) {
 
 			if (msg.getStructuredData().get("CHANNEL") != null && msg.getStructuredData().get("CHANNEL").equals("3")) {
+				
+				if(msg.getStructuredData().get("Identificacion_Canal") != null && msg.getStructuredData().get("Identificacion_Canal").equals("AT")) {
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
+					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000")
+							.concat("_").concat("0000").concat("_").concat("0").concat("_ATM");
+				}else {
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
+					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000")
+							.concat("_").concat("0000").concat("_").concat("0");
+				}
 
-				msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
-				msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000")
-						.concat("_").concat("0000").concat("_").concat("0");
+				
 
 			} else if (msg.getStructuredData().get("CHANNEL") != null
 					&& msg.getStructuredData().get("CHANNEL").equals("4")) {
