@@ -211,7 +211,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 	@Override
 	/***************************************************************************************
-	 * Implementación de metodo del SDK, sirve para inicializar
+	 * Implementaciï¿½n de metodo del SDK, sirve para inicializar
 	 ***************************************************************************************/
 	public void init(AInterchangeDriverEnvironment interchange)
 			throws XPostilion, FileNotFoundException, IOException, ParseException {
@@ -344,7 +344,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 
 	/***************************************************************************************
-	 * Implementación de metodo del SDK, sirve para procesar un mensaje 0200 desde
+	 * Implementaciï¿½n de metodo del SDK, sirve para procesar un mensaje 0200 desde
 	 * TM
 	 ***************************************************************************************/
 	public Action processTranReqFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
@@ -410,15 +410,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		}
 
-		// Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
+		// Se determina el canal el mismo viene en la posiciï¿½n 13 del Tag "B24_Field_41"
 		String canal = Utils.getTranChannel(msg.getStructuredData().get("B24_Field_41"));
 
-		// Se determina el tipo de transacción "AAAA_BBBBBB_C"
+		// Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C"
 		// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 		String tranType = Utils.getTranType(msg, canal);
 
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
-		// para la transaación
+		// para la transaaciï¿½n
 		// Se consulta si el tag 'REFERENCE_KEY'
 		String cons = null;
 		if (null != msg.getStructuredData().get("REFERENCE_KEY")) {
@@ -479,7 +479,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		default:
 
-			// verificación del numero consecutivo
+			// verificaciï¿½n del numero consecutivo
 			if (cons == null || cons.trim().equals("")) {
 
 				String errorMsg = "Error recuperando el consecutivo para la transaccion: "
@@ -574,7 +574,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	}
 
 	/**
-	 * Implementación de metodo del SDK, toma msj de respuesta remoto para
+	 * Implementaciï¿½n de metodo del SDK, toma msj de respuesta remoto para
 	 * procesarlo y envia un 0210 al TM
 	 */
 	@Override
@@ -738,20 +738,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			// NUEVA IMPLEMENTACION
 			Logger.logLine("NUEVA IMPLEMENTACION:" + strTranSetting, this.enableMonitor);
 			this.startTime = System.currentTimeMillis();
-			// Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
+			// Se determina el canal el mismo viene en la posiciï¿½n 13 del Tag "B24_Field_41"
 			String canal = Utils.getTranChannel(msgClone.getStructuredData().get("B24_Field_41"));
-			// Se determina el tipo de transacción "AAAA_BBBBBB_C"
+			// Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C"
 			// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 			String tranType = Utils.getTranType(msgClone, canal);
 			// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
-			// para la transaación
+			// para la transaaciï¿½n
 			String cons = getTransactionConsecutive(
 					msgClone.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), "00",
 					this.termConsecutiveSection);
 			Logger.logLine("CONSE:" + cons, this.enableMonitor);
 			msg2Remote = null;
 			msg2TM = null;
-			// verificación del numero consecutivo
+			// verificaciï¿½n del numero consecutivo
 			if (cons == null || cons.trim().equals("")) {
 
 				String errorMsg = "Error recuperando el consecutivo para la transaccion: "
@@ -861,7 +861,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //			throws Exception {
 //
 //		Logger.logLine("**PROCESANDO REVERSO**");
-//		Logger.logLine("ES REPETICIÓN: " + msg.getMessageType());
+//		Logger.logLine("ES REPETICIï¿½N: " + msg.getMessageType());
 //		Logger.logLine(msg.toString());
 //
 //		monitorRevAdv = new MonitorSnapShot(msg.toString(), thisInter.getName(), monitorLogMode);
@@ -870,20 +870,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //
 //		Action act = new Action();
 //
-//		// Se determina el tipo de transacción "AAAA_BBBBBB_C"
+//		// Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C"
 //		// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 //		String tranType = Utils.getTranType(msg, Utils.getTranChannel(msg.getStructuredData().get("B24_Field_41")));
 //
 //		if (msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)) {
 //			// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
-//			// para la transaación
+//			// para la transaaciï¿½n
 //			String cons = getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9),
 //					msg.getField(Iso8583.Bit._038_AUTH_ID_RSP).substring(0, 2), monitorRevAdv);
 //
 //			Logger.logLine(
 //					DBHandler.getHistoricalConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), monitorRevAdv));
 //
-//			// verificación del numero consecutivo
+//			// verificaciï¿½n del numero consecutivo
 //			if (cons == null || cons.trim().equals("")) {
 //				String errorMsg = "Error recuperando el consecutivo para la transaccion: "
 //						+ msg.getField(Iso8583Post.Bit._037_RETRIEVAL_REF_NR);
@@ -904,7 +904,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //					ISCReqMessage reverso = ISCAssembler.createISCMessage(msg);
 //					act.putMsgToRemote(reverso);
 //				} else {
-//					Logger.logLine("0421 para aprobación");
+//					Logger.logLine("0421 para aprobaciï¿½n");
 //					msg.setMessageType(Iso8583.MsgTypeStr._0430_ACQUIRER_REV_ADV_RSP);
 //					msg.putField(Iso8583.Bit._038_AUTH_ID_RSP,
 //							msg.getStructuredData().get(Constant.TagNames.SEQ_TERMINAL).split(",")[0].trim()
@@ -1078,7 +1078,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		default:
 
-			// Se determina el tipo de transacción "AAAA_BBBBBB_C"
+			// Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C"
 			// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 			String tranType = Utils.getTranType(msg,
 					Utils.getTranChannel(msg.getField(Iso8583.Bit._041_CARD_ACCEPTOR_TERM_ID)));
@@ -1186,7 +1186,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 								}
 
 							} else {
-								Logger.logLine("0421 para aprobación", this.enableMonitor);
+								Logger.logLine("0421 para aprobaciï¿½n", this.enableMonitor);
 								msg.setMessageType(Iso8583.MsgTypeStr._0430_ACQUIRER_REV_ADV_RSP);
 								msg.putField(Iso8583.Bit._038_AUTH_ID_RSP,
 										msg.getStructuredData().get(Constant.TagNames.SEQ_TERMINAL).split(",")[0].trim()
@@ -1862,7 +1862,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	}
 
 	/**************************************************************************************
-	 * Metodo para consultar consecutivo para la transacción
+	 * Metodo para consultar consecutivo para la transacciï¿½n
 	 * 
 	 * @param atmId
 	 * @return
@@ -1931,7 +1931,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		String state = msgFromInter.getField(ISCResMessage.Fields._05_H_STATE);
 
-		// Switch para basado en el estado de la respuesta de la transacción (Byte de
+		// Switch para basado en el estado de la respuesta de la transacciï¿½n (Byte de
 		// estado response)
 		Logger.logLine("TRASACTION RSP STATE:" + state, this.enableMonitor);
 
@@ -2155,16 +2155,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		if (sd.get(Constant.B24Fields.B24_F_126) == null)
 			sd.put(Constant.B24Fields.B24_F_126, "& 0000200054! QT00032 0110000000000000000000000000000"); // PRUEBA
 
+		
 		// Campo privado control base 24
 		sd.put("_TOKEN_CONTROL_B24", "01");
 
 		// Campo privado source
 		sd.put(Constant.TagNames.SOURCE, "ATH");
 
-		// Campo privado para secuencia de la transacción
+		// Campo privado para secuencia de la transacciï¿½n
 		sd.put(Constant.TagNames.SEQ_TERMINAL, consecutive);
 		
-		// Campo privado para secuencia de la transacción
+		// Campo privado para secuencia de la transacciï¿½n
 		String r = String.valueOf(Utils.getRandomNumberInRange(1, 999999));
 		sd.put(Constant.TagNames.RANDOM_NR, Pack.resize(r, 8, '0', false));
 
@@ -2174,7 +2175,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			sd.put("GAS_VIRTUAL_IND", "0");
 		}
 
-		// Campo privado para secuencia de la transacción
+		// Campo privado para secuencia de la transacciï¿½n
 		sd.put(Constant.TagNames.RETRIEVED_ACCOUNT, inMsg.getField(Iso8583.Bit._102_ACCOUNT_ID_1));
 
 		sd.put(Constant.TagNames.REFERENCE_KEY, inMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).concat("|")
@@ -2368,7 +2369,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		case "0210_500141_4":
 		case "0210_500241_4":
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
-			break;	
+			break;
+		case "0210_401010_8":
+		case "0210_401020_8":
+		case "0210_402010_8":
+		case "0210_402020_8":
+			sd.remove(Constant.B24Fields.B24_F_48);
+			sd.remove(Constant.B24Fields.B24_F_126);
+			break;
 //		case RSP_TRAN_PSP_AHORRO:
 
 //			Logger.logLine("SABOR::0210_501000_1");
@@ -4043,15 +4051,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			}
 		}
 
-		// Se determina el canal el mismo viene en la posición 13 del Tag "B24_Field_41"
+		// Se determina el canal el mismo viene en la posiciï¿½n 13 del Tag "B24_Field_41"
 		String canal = Utils.getTranChannel(msg.getStructuredData().get("B24_Field_41"));
 
-		// Se determina el tipo de transacción "AAAA_BBBBBB_C"
+		// Se determina el tipo de transacciï¿½n "AAAA_BBBBBB_C"
 		// AAAA-Tipo de Msg ; BBBBBB-Codigo proceso ; C-canal
 		String tranType = Utils.getTranType(msg, canal);
 
 		// Se invoca al metodo getTransactionConsecutive a fin de obtener el consecutivo
-		// para la transaación
+		// para la transaaciï¿½n
 		String cons = getTransactionConsecutive(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR).substring(5, 9), "00",
 				this.termConsecutiveSection);
 
@@ -4130,7 +4138,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		default:
 
-			// verificación del numero consecutivo
+			// verificaciï¿½n del numero consecutivo
 			if (cons == null || cons.trim().equals("")) {
 
 				String errorMsg = "Error recuperando el consecutivo para la transaccion: "
