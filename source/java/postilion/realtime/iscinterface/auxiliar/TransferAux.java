@@ -151,51 +151,60 @@ public class TransferAux {
 			sd.put("B24_Field_125", p125);
 			
 			
-	////////// TAGS EXTRACT 
 			
-				sd.put("VIEW_ROUTER", "V2");
-				
-				sd.put("TRANSACTION_INPUT", "TRANSFERENCIA_BANCAVIRTUAL");
-				sd.put("TRANSACTION_CNB_TYPE", "BANCAVIRTUAL_TRANSFERENCIAS");
-				
-				sd.put("Codigo_FI_Origen", "1019");
-				sd.put("Nombre_FI_Origen", "CIC");			
-				sd.put("Identificacion_Canal", "OF");
-				sd.put("Canal", "01");
-				sd.put("Dispositivo", "D");
-				if(tipoCuentaCreditar.equals("30")) {
-					sd.put("Codigo_Transaccion_Producto", "02");
-					sd.put("Codigo_Transaccion", "01");
-					sd.put("Tipo_de_Cuenta_Debitada", "CRE");
-					sd.put("Mod_Credito", "5");
-				} else {
-					sd.put("Codigo_Transaccion_Producto", "06");
-					sd.put("Codigo_Transaccion", "01");
-					sd.put("Mod_Credito", "3");
-				}
-				sd.put("Nombre_Transaccion", "DEPOSI");
-				sd.put("CLIENT_CARD_NR_1", bin.concat("0000000000000"));
-				sd.put("PRIM_ACCOUNT_NR", Pack.resize(cuentaDebitar, 18, '0', false));
-				sd.put("Codigo_de_Red", "1019");
-				sd.put("Identificacion_Canal", "OF");
-				sd.put("Codigo_Establecimiento", "          ");
-				sd.put("SEC_ACCOUNT_TYPE", "   ");
-				sd.put("PAN_Tarjeta", bin.concat("0000000000000"));
-				sd.put("Indicador_AVAL", "1");
-				sd.put("Vencimiento", "0000");
-				sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
-				sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
-				sd.put("Clase_Pago", "2");
-				sd.put("Ent_Adq", "0001");
-				sd.put("Dispositivo", "0");
-				sd.put("Canal", "01");
-				sd.put("service_restriction_code", "000");
-				sd.put("pos_entry_mode", "000");
-				sd.put("Entidad", "0000");
-				sd.put("Identificador_Terminal", "0");
-				sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
-				sd.put("Inscripcion_Indicador", "1");
-				///////// FIN TAGS EXTRACT
+			////////// TAGS EXTRACT 
+			sd.put("VIEW_ROUTER", "V2");
+			
+			sd.put("TRANSACTION_INPUT", "TRANSFERENCIA_CEL2CEL");
+			sd.put("TRANSACTION_CNB_TYPE", "CEL2CEL_TRANSFERENCIAS");
+			
+			sd.put("Codigo_FI_Origen", "1019");
+			sd.put("Nombre_FI_Origen", "CIC");		
+			sd.put("Canal", "01");
+			sd.put("Dispositivo", "D");
+			
+			sd.put("FI_DEBITO",(out.isFieldSet(Iso8583.Bit._102_ACCOUNT_ID_1)) ? out.getField(Iso8583.Bit._102_ACCOUNT_ID_1).substring(0, 4) : "0000");
+			if (out.isFieldSet(Iso8583.Bit._103_ACCOUNT_ID_2)) {
+				sd.put("FI_CREDITO", out.getField(Iso8583.Bit._103_ACCOUNT_ID_2).substring(3, 7));
+				sd.put("Clase_Pago", out.getField(Iso8583.Bit._103_ACCOUNT_ID_2).substring(0, 1));
+			}
+			sd.put("Ent_Adq",p41.substring(0, 4));
+			
+			sd.put("Codigo_Transaccion_Producto",
+					(out.getProcessingCode().getFromAccount().equals("10")) ? "05" : "04");
+			sd.put("Tipo_de_Cuenta_Debitada",
+					(out.getProcessingCode().getFromAccount().equals("10")) ? "AHO" : "CTE");
+			sd.put("Codigo_Transaccion", "23");
+			sd.put("Nombre_Transaccion", "TRANSD");
+			
+
+			sd.put("CLIENT_CARD_NR_1", bin.concat("0000000000000"));
+			sd.put("PRIM_ACCOUNT_NR", Pack.resize(cuentaDebitar, 18, '0', false));
+			sd.put("Codigo_de_Red", "1019");
+			sd.put("Numero_Terminal", "8201");
+			sd.put("Identificacion_Canal", "IT");
+			sd.put("Codigo_Establecimiento", "          ");
+			sd.put("SEC_ACCOUNT_NR",
+					(out.isFieldSet(Iso8583.Bit._103_ACCOUNT_ID_2))
+							? out.getField(Iso8583.Bit._103_ACCOUNT_ID_2).substring(7).trim()
+							: "00000000000000000");
+			sd.put("SEC_ACCOUNT_TYPE", out.getProcessingCode().getToAccount());
+			sd.put("PAN_Tarjeta", bin.concat(Pack.resize(cuentaDebitar.substring(3), 13, '0', false)));
+			sd.put("Tarjeta_Amparada", bin.concat(Pack.resize(cuentaDebitar.substring(3), 13, '0', false)));
+			sd.put("Indicador_AVAL", "1");
+			sd.put("Vencimiento", "9912");
+			sd.put("Ent_Adq", "0001");
+			sd.put("Dispositivo", "0");
+			sd.put("Canal", "01");
+			sd.put("service_restriction_code", "000");
+			sd.put("pos_entry_mode", "000");
+			sd.put("Entidad", "0000");
+			sd.put("Identificador_Terminal", "0");
+			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
+			sd.put("Inscripcion_Indicador", "1");
+			sd.put("Inscripcion_Cliente", "1");
+			sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
+			///////// FIN TAGS EXTRACT
 			
 			
 			

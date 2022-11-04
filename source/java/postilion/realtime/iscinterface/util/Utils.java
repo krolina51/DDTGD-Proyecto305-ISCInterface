@@ -3094,7 +3094,7 @@ public class Utils {
 						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 					} else {
 
-						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ï¿½ï¿½ï¿½"));
+						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
 					}
 
 					instance.isNextDay = true;
@@ -3144,7 +3144,7 @@ public class Utils {
 				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 			} else {
 
-				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ï¿½ï¿½ï¿½"));
+				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
 			}
 
 		}
