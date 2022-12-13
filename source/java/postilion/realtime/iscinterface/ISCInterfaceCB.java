@@ -2752,6 +2752,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8594"))) {
 						
 						msgTran = msgTran.concat("_").concat("CEL2CEL");
+						
+					} else if((msg.getStructuredData().get("TX_QR") != null
+							&& msg.getStructuredData().get("TX_QR").equals("TRUE"))) {
+						msgTran = msgTran.concat("_").concat("QR");
 					}
 
 
