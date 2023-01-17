@@ -4352,7 +4352,7 @@ public class Utils {
 			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_102") != null ?
 					msg.getStructuredData().get("B24_Field_102") : msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1) : "000000000000000000";
 			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
-					msg.getStructuredData().get("B24_Field_54") : msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) : "000000000000";
+					msg.getStructuredData().get("B24_Field_54") : "000000000000" : "000000000000";
 			String B5 = null;
 			String arqc = null;
 			if(field126!=null) {
