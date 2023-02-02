@@ -340,5 +340,42 @@ public class DBHandler {
 
 		return sd;
 	}
+	
+	
+	public static String getKeyOriginalTxBySeqNr(String SeqNr) {
+
+		String keyOriginal = null;
+		Connection cn = null;
+		CallableStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+
+			cn = JdbcManager.getDefaultConnection();
+			stmt = cn.prepareCall("{call cust_get_srcnode_key_by_src_echodata(?, ?)}");
+			stmt.setString(1, SeqNr);
+			stmt.registerOutParameter(2, java.sql.Types.VARCHAR);
+			stmt.execute();
+			keyOriginal = stmt.getString(2);
+			JdbcManager.commit(cn, stmt, rs);
+		}
+
+		catch (Exception e) {
+
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			Logger.logLine("##ERROR RETRIVING##>" + sw.toString(), false);
+		} finally {
+			try {
+				JdbcManager.cleanup(cn, stmt, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+
+
+		return keyOriginal;
+	}
 
 }

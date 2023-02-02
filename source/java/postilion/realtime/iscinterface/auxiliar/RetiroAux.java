@@ -6,7 +6,11 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.sun.org.apache.xpath.internal.res.XPATHErrorResources;
+
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.iscinterface.ISCInterfaceCB;
+import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqInMsg.Fields;
 import postilion.realtime.iscinterface.util.Logger;
@@ -22,6 +26,7 @@ import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
+import postilion.realtime.sdk.message.bitmap.XFieldUnableToConstruct;
 import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
@@ -35,60 +40,104 @@ public class RetiroAux {
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
 		try {
-			
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
 			Date businessCalendarDate = null;
 			String settlementDate = null;
 			
-			String decoded = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
+			String key = "0200".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5));
+			String seqNr = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414)));
+			String seqNrReverse = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(414, 422)));
+			String keyReverse = null;
 			
-			String parts[] = decoded.split("\\+");
+			StructuredData sd = null;
 			
-			for (int i=0; i<parts.length; i++) {
-				if(parts[i].startsWith("9F27"))
-					pos9f27 = i;
-				if(parts[i].startsWith("95"))
-					pos95 = i;
-				if(parts[i].startsWith("9F26"))
-					pos9f26 = i;
-				if(parts[i].startsWith("9F02"))
-					pos9f02 = i;
-				if(parts[i].startsWith("9F03"))
-					pos9f03 = i;
-				if(parts[i].startsWith("82"))
-					pos82 = i;
-				if(parts[i].startsWith("9F36"))
-					pos9f36 = i;
-				if(parts[i].startsWith("9F1A"))
-					pos9f1a = i;
-				if(parts[i].startsWith("5F2A"))
-					pos5f2a = i;
-				if(parts[i].startsWith("9A"))
-					pos9a = i;
-				if(parts[i].startsWith("9C"))
-					pos9c = i;
-				if(parts[i].startsWith("9F37"))
-					pos9f37 = i;
-				if(parts[i].startsWith("9F10"))
-					pos9f10 = i;
-				if(parts[i].startsWith("9F1E"))
-					pos9f1e = i;
-				if(parts[i].startsWith("9F33"))
-					pos9f33 = i;
-				if(parts[i].startsWith("9F35"))
-					pos9f35 = i;
-				if(parts[i].startsWith("9F09"))
-					pos9f09 = i;
-				if(parts[i].startsWith("9F34"))
-					pos9f34 = i;
-				if(parts[i].startsWith("84"))
-					pos84 = i;
-				if(parts[i].startsWith("9F39"))
-					pos9f39 = i;
-				if(parts[i].startsWith("5F34"))
-					pos5f34 = i;
+			if(out.getStructuredData() != null) {
+				sd = out.getStructuredData();	
+			} else {
+				sd = new StructuredData();
 			}
 			
+			// PROCESAMIENTO DE REVERSO
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
+				
+				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
+				if(keyReverse == null)
+					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				
+				if(keyReverse == null) {
+					keyReverse = "0000000000";
+					sd.put("REV_DECLINED", "TRUE");
+				}
+					
+				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+				
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
+				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				
+			//PROCESAMIENTO TX FINANCIERA	
+			} else {
+				
+				
+				String decoded = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
+				
+				String parts[] = decoded.split("\\+");
+				
+				for (int i=0; i<parts.length; i++) {
+					if(parts[i].startsWith("9F27"))
+						pos9f27 = i;
+					if(parts[i].startsWith("95"))
+						pos95 = i;
+					if(parts[i].startsWith("9F26"))
+						pos9f26 = i;
+					if(parts[i].startsWith("9F02"))
+						pos9f02 = i;
+					if(parts[i].startsWith("9F03"))
+						pos9f03 = i;
+					if(parts[i].startsWith("82"))
+						pos82 = i;
+					if(parts[i].startsWith("9F36"))
+						pos9f36 = i;
+					if(parts[i].startsWith("9F1A"))
+						pos9f1a = i;
+					if(parts[i].startsWith("5F2A"))
+						pos5f2a = i;
+					if(parts[i].startsWith("9A"))
+						pos9a = i;
+					if(parts[i].startsWith("9C"))
+						pos9c = i;
+					if(parts[i].startsWith("9F37"))
+						pos9f37 = i;
+					if(parts[i].startsWith("9F10"))
+						pos9f10 = i;
+					if(parts[i].startsWith("9F1E"))
+						pos9f1e = i;
+					if(parts[i].startsWith("9F33"))
+						pos9f33 = i;
+					if(parts[i].startsWith("9F35"))
+						pos9f35 = i;
+					if(parts[i].startsWith("9F09"))
+						pos9f09 = i;
+					if(parts[i].startsWith("9F34"))
+						pos9f34 = i;
+					if(parts[i].startsWith("84"))
+						pos84 = i;
+					if(parts[i].startsWith("9F39"))
+						pos9f39 = i;
+					if(parts[i].startsWith("5F34"))
+						pos5f34 = i;
+				}
+				
+				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
+				
+				
+				//127.2 SWITCHKEY
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
+				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
+				
+				
+				sd.put("B24_Field_126", constructField126(parts));
+				
+			}
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			String newPin = "FFFFFFFFFFFFFFFF";
 			String encPinBlock = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(622, 654)));
@@ -106,13 +155,7 @@ public class RetiroAux {
 //				EventRecorder.recordEvent(new Exception(e.toString()));
 //			}
 			
-			StructuredData sd = null;
 			
-			if(out.getStructuredData() != null) {
-				sd = out.getStructuredData();	
-			} else {
-				sd = new StructuredData();
-			}
 			
 			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
@@ -138,11 +181,6 @@ public class RetiroAux {
 			Logger.logLine("seteando campo 102: 2"+ in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR), enableMonitor);
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR))), 18, '0', false));
 			
-			//127.2 SWITCHKEY
-			Logger.logLine("seteando campo 127.2:"+ in.getTotalHexString().substring(248,268), enableMonitor);
-			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));		
-			
-			
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
 			sd.put("B24_Field_48", "000000000000               ");
@@ -155,56 +193,9 @@ public class RetiroAux {
 			sd.put("B24_Field_104", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(136,138))).concat("0")
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(96, 128)))));
 			Logger.logLine("seteando campo 126:"+ in.getTotalHexString().substring(660, 1494), enableMonitor);
-			sd.put("B24_Field_126", constructField126(parts));
 			
+			putTagsExtract(sd, out, in);
 			
-			
-			
-			
-			///////// TAGS EXTRACT
-			sd.put("VIEW_ROUTER", "V1");
-			
-			sd.put("Codigo_FI_Origen", "1019");
-			sd.put("Nombre_FI_Origen", "CIC");
-			sd.put("Identificacion_Canal", "OF");
-			sd.put("Canal", "01");
-			sd.put("Dispositivo", "D");
-			
-			sd.put("TRANSACTION_INPUT", "RETIRO_OFC_BOG");
-			sd.put("Codigo_Transaccion_Producto", "05");
-			
-			sd.put("Codigo_Transaccion", "20");
-			sd.put("Nombre_Transaccion", "RETIRO");
-			sd.put("Tipo_de_Cuenta_Debitada", "AHO");
-			sd.put("Codigo_de_Red","1019");
-			
-			sd.put("Codigo_Establecimiento", "          ");
-			sd.put("PAN_Tarjeta", out.getTrack2Data().getPan());
-			sd.put("FI_Credito", "0000");
-			sd.put("FI_Debito", "0000");
-			sd.put("Vencimiento", "0000");
-			sd.put("Entidad_Origen", "0000");
-			sd.put("Ent_Adq", "0001");
-			sd.put("Indicador_AVAL", "1");
-			sd.put("Dispositivo", "D");
-			sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
-			sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
-			sd.put("service_restriction_code", "000");
-			sd.put("pos_entry_mode", "000");
-			sd.put("Identificador_Terminal", "0");
-			sd.put("Inscripcion_Indicador", "1");
-			sd.put("Numero_Factura", "                        ");
-			sd.put("Nota", "                        ");
-			sd.put("Mod_Credito", "6");
-			sd.put("CLIENT_CARD_NR", "0077010000000000");
-			sd.put("CLIENT_CARD_CLASS", "00");
-			///////// FIN TAGS EXTRACT
-			
-			
-//			sd.put("B24_Field_126", "& 0000500342! QT00032 0110000000000000000000000000000 "
-//					+ "! B200158 7FF90000808080048800B95259759DCF36970000070000000000000000003800001F17017022041901D0D87DAF000706011203A0B80100000000000000000000000000000000000000000000000000"
-//					+ "! B300080 CF00SmartPOS60D8C8000000000000001100020204000007A0000000031010000000000000000000"
-//					+ "! B400020 05151000000000000000");
 			out.putStructuredData(sd);		
 			
 			return out;
@@ -306,6 +297,49 @@ public class RetiroAux {
 		}
 		
 		return b4.toString();
+	}
+	
+	public static void putTagsExtract(StructuredData sd, Iso8583Post out, ISCReqInMsg in) throws XFieldUnableToConstruct {
+
+		///////// TAGS EXTRACT
+		sd.put("VIEW_ROUTER", "V1");
+		
+		sd.put("Codigo_FI_Origen", "1019");
+		sd.put("Nombre_FI_Origen", "CIC");
+		sd.put("Identificacion_Canal", "OF");
+		sd.put("Canal", "01");
+		sd.put("Dispositivo", "D");
+		
+		sd.put("TRANSACTION_INPUT", "RETIRO_OFC_BOG");
+		sd.put("Codigo_Transaccion_Producto", "05");
+		
+		sd.put("Codigo_Transaccion", "20");
+		sd.put("Nombre_Transaccion", "RETIRO");
+		sd.put("Tipo_de_Cuenta_Debitada", "AHO");
+		sd.put("Codigo_de_Red","1019");
+		
+		sd.put("Codigo_Establecimiento", "          ");
+		sd.put("PAN_Tarjeta", out.getTrack2Data().getPan());
+		sd.put("FI_Credito", "0000");
+		sd.put("FI_Debito", "0000");
+		sd.put("Vencimiento", "0000");
+		sd.put("Entidad_Origen", "0000");
+		sd.put("Ent_Adq", "0001");
+		sd.put("Indicador_AVAL", "1");
+		sd.put("Dispositivo", "D");
+		sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
+		sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
+		sd.put("service_restriction_code", "000");
+		sd.put("pos_entry_mode", "000");
+		sd.put("Identificador_Terminal", "0");
+		sd.put("Inscripcion_Indicador", "1");
+		sd.put("Numero_Factura", "                        ");
+		sd.put("Nota", "                        ");
+		sd.put("Mod_Credito", "6");
+		sd.put("CLIENT_CARD_NR", "0077010000000000");
+		sd.put("CLIENT_CARD_CLASS", "00");
+		///////// FIN TAGS EXTRACT
+
 	}
 
 }

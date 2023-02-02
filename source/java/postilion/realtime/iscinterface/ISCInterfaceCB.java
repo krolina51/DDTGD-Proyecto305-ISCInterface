@@ -153,6 +153,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public boolean isNextDay = false;
 
 	public static HashMap<String, String> convenios = new HashMap<>();
+	public static TimedHashtable cacheKeyReverseMap = new TimedHashtable(900000, 5000);
 
 	public WholeTransSetting wholeTransConfig = new WholeTransSetting();
 
@@ -1312,6 +1313,35 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		}
 		return action;
 	}
+	
+	
+
+	@Override
+	public Action processAcquirerRevAdvRspFromTranmgr(AInterchangeDriverEnvironment interchange, Iso8583Post msg)
+			throws Exception {
+		Action action = new Action();
+		
+		try {
+			ISCReqInMsg originalIscReq = (ISCReqInMsg) iscReqMsg.get(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR));
+			Logger.logLine("mensaje original ISCREQ:: " + originalIscReq, this.enableMonitor);
+			if (msg != null)
+				Utils.postMsgInMonitor(this.mon, msg, null, this.interName,
+						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+			ISCResInMsg rspMsg = new ISCResInMsg();
+			rspMsg = Utils.createRspISCMsgRev(msg, originalIscReq);
+			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
+
+			action.putMsgToRemote(rspMsg);
+		} catch (Exception e) {
+			StringWriter outError = new StringWriter();
+			e.printStackTrace(new PrintWriter(outError));
+			EventRecorder.recordEvent(new Exception("ERROR " + outError.toString()));
+			Logger.logLine("ERROR " + outError.toString(), this.enableMonitor);
+		}
+		return action;
+	}
+
+
 
 	private boolean isDeposit(Iso8583Post msg) throws XFieldUnableToConstruct {
 

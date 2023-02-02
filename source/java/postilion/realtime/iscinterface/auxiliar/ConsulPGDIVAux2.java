@@ -5,6 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.iscinterface.ISCInterfaceCB;
+import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
@@ -33,6 +35,11 @@ public class ConsulPGDIVAux2 {
 			Date businessCalendarDate = null;
 			String settlementDate = null;
 			
+			String key = "0200".concat(new DateTime().get("MMddHHmmss")).concat("0"+cons.substring(2, 5));
+			String seqNr = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626)));
+			String seqNrReverse = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(626, 634)));
+			String keyReverse = null;
+			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
@@ -41,6 +48,32 @@ public class ConsulPGDIVAux2 {
 				sd = out.getStructuredData();	
 			} else {
 				sd = new StructuredData();
+			}
+			
+			// PROCESAMIENTO DE REVERSO
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
+				
+				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
+				if(keyReverse == null)
+					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				
+				if(keyReverse == null) {
+					keyReverse = "0000000000";
+					sd.put("REV_DECLINED", "TRUE");
+				}
+				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+				
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
+				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				
+			//PROCESAMIENTO TX FINANCIERA	
+			} else {
+				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626))));
+				
+				
+				//127.2 SWITCHKEY
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
+				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
 			}
 			
 			
@@ -110,8 +143,6 @@ public class ConsulPGDIVAux2 {
 			//Field 103
 			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(858))), 18, '0', false));
 						
-			//127.2 SWITCHKEY
-			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0200".concat(new DateTime().get("MMddHHmmss")).concat("0"+cons.substring(2, 5)));
 
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
