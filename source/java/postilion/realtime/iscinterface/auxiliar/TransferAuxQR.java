@@ -23,7 +23,7 @@ import postilion.realtime.sdk.util.convert.Transform;
 public class TransferAuxQR {
 	
 	private static int counter = 0;
-	
+	public static final String IDENTIFICACION_TRANSACCION_DEVOLUCION = "1";
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
 		
@@ -50,7 +50,7 @@ public class TransferAuxQR {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
-			
+
 			String p41 = "0001820100002   ";
 			String bin = "008801";
 			String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38)));
@@ -83,22 +83,34 @@ public class TransferAuxQR {
 			
 			
 			Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
-			
-			String p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
-					.concat(Pack.resize("",  24, '0', true))  // referencia 2, Adenda ref 2
-					.concat(Pack.resize("",  25, '0', true)) // Adenda ref 3
-					.concat(Pack.resize("",  8, '0', true)) // Id registro
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))
-					.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(110),lth( 110 + 14) ))),17,'0',false)) // valor pago
-					.concat(Pack.resize("",  2, '0', true)) // tipo cuenta acreditar
-					.concat(Pack.resize("",  15, '0', true)) // cuenta acreditar
-					.concat(Pack.resize("",  1, '0', true)) // ****** validacion titularidad
-					.concat(Pack.resize("8201",  5, '0', true))		
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
-					.concat(Pack.resize("",  10, '0', true));
-			
+			String idPagQR125 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )));
+			String p125 = "";
+			if(idPagQR125.equals(IDENTIFICACION_TRANSACCION_DEVOLUCION)) {
+				p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) ))))  // referencia 2, Adenda ref 2
+						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(944), lth( 944 + 4) )))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(948), lth( 948 + 6) ))))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(954), lth( 954 + 4) ))))
+								, 25, '0', true)) // Adenda ref 3 Falta validar Devolucion
+						.concat(Pack.resize("",  8, '0', true)) // Id registro
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificación Origen
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))//Numero de Identificación Origen
+						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(110),lth( 110 + 14) ))),17,'0',false)) // valor pago
+						.concat(tipoCuentaCreditar) // tipo cuenta acreditar
+						.concat(cuentaAcreditar) // cuenta acreditar
+						.concat(Pack.resize("",  1, '0', true)) // ****** validacion titularidad
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(14), lth( 14 + 4) ))))	//Terminal	
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
+						.concat(Pack.resize("",  10, '0', true));
+			}else {
+				p125 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
+						.concat(Pack.resize("",  114, '0', true))
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
+						.concat(Pack.resize("",  10, '0', true));
+
+ 			}
 			//CAMPO 3 
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "40".concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
 			
@@ -120,6 +132,7 @@ public class TransferAuxQR {
 			//CAMPO 37 Retrieval Reference Number
 			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					//.concat(secuencialesAlearios(4)));
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
 
 		
@@ -155,9 +168,7 @@ public class TransferAuxQR {
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
 					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
 					Utils.getStringMessageException(e) }));
-		}
-		
-		
+		}		
 		
 		return out;
 	}
@@ -173,6 +184,15 @@ public class TransferAuxQR {
 	
 	public static final int lth( int iIndiceTramaDocumento ) {
 		return limiteTransformadoHexa(iIndiceTramaDocumento); 
+	}
+	
+	public static final String secuencialesAlearios(int iCuantos)
+	{
+		StringBuffer sb = new StringBuffer();
+		for( int i = 0; i< iCuantos; i++ ) {
+			sb.append( "" + (int)( Math.random() * 10 ) );
+		}
+		return sb.toString();
 	}
 
 
