@@ -1725,8 +1725,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			String cons = Utils.getTransactionConsecutive("AT", "00", "1");
 
+			
 			rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
 					FlowDirection.ISC2ISO, cons, this.enableMonitor);
+			ISCReqInMsg msgCopy = (ISCReqInMsg) msg;
+			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")
+					&& Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8580")) {
+
+				ISCResInMsg rsp = new ISCResInMsg();
+				
+				
+				return new Action(null, rsp, null, null);
+			}
+			
+			
 			Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 //			Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
 			putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);

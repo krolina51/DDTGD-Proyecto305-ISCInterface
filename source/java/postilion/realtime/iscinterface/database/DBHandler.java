@@ -6,10 +6,13 @@ import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.HashMap;
 
 import monitor.core.dto.MonitorSnapShot;
 import monitor.core.dto.Observable;
 import monitor.core.dto.SnapShotSeverity;
+import postilion.realtime.genericinterface.eventrecorder.events.SQLExceptionEvent;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.ipc.SecurityManager;
@@ -376,6 +379,138 @@ public class DBHandler {
 
 
 		return keyOriginal;
+	}
+	
+	/*
+	 * Obtiene de la base de datos los identificadores de institución y sus
+	 * respectivos nombres
+	 *
+	 * @return hashMap con la información consultada
+	 */
+	public static HashMap<String, String> loadPinPadKeys() {
+		HashMap<String, String> pinpadKeys = new HashMap<>();
+		Statement st = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = JdbcManager.getDefaultConnection();
+			String query = "SELECT serial, key_ini FROM institution_ids WITH (NOLOCK)";
+			st = con.createStatement();
+			rs = st.executeQuery(query);
+			while (rs.next()) {
+				pinpadKeys.put(rs.getString("serial"), rs.getString("key_ini"));
+			}
+			JdbcManager.commit(con, st, rs);
+			return pinpadKeys;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcManager.cleanup(con, st, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return pinpadKeys;
+	}
+
+	/**
+	 * Activa codigos de respuesta qeu se reciben y no estaban activos en base de
+	 * datos
+	 * 
+	 * @param code    a consultar
+	 * @param process 1
+	 * 
+	 * @return update true si activo false de lo contrario
+	 */
+	public boolean updateResgistry(String code, String process, String version) {
+		boolean update = false;
+		Statement st = null;
+		ResultSet rs = null;
+		Connection con = null;
+		int rows = 0;
+		try {
+			con = JdbcManager.getDefaultConnection();
+			st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+			rs = st.executeQuery(
+					String.format(Queries.SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES, code, process, version));
+			//rows = new Utils(this.params).countRows(rs);
+			rows = rs.getMetaData().getColumnCount();
+			boolean go = true;
+			if (rows > 0)
+				while (go) {
+					if (rs.next()) {
+						if (!rs.getString(ColumnNames.ACTIVE).equals("1")) {
+							st.executeUpdate(String.format(Queries.UPDATE_ACTIVE_CUST_EQUIVALENT_RESPONSE_CODES,
+									rs.getString("id")));
+							con.commit();
+							update = true;
+							go = false;
+						}
+					} else {
+						go = false;
+					}
+				}
+			else {
+				rs = st.executeQuery(String.format(Queries.SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES, code,
+						(process.equals("0") ? "1" : "0"), version));
+				//rows = new Utils(this.params).countRows(rs);
+				rows = rs.getMetaData().getColumnCount();
+				go = true;
+				if (rows > 0)
+					while (go) {
+						if (rs.next()) {
+							if (!rs.getString(ColumnNames.ACTIVE).equals("1")) {
+								st.executeUpdate(
+										String.format(Queries.UPDATE_ACTIVE_AND_PROCESS_CUST_EQUIVALENT_RESPONSE_CODES,
+												process, rs.getString("id")));
+								update = true;
+								con.commit();
+								go = false;
+							}
+						} else {
+							go = false;
+						}
+					}
+			}
+			JdbcManager.commit(con, st, rs);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				JdbcManager.cleanup(con, st, rs);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return update;
+	}
+	
+	/**
+	 * Define sentencias a ejecutar en base de datos.
+	 * 
+	 * @author Cristian Cardozo
+	 *
+	 */
+	public static class Queries {
+		public static final String SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES = "SELECT * FROM cust_equivalent_response_codes WITH (NOLOCK) WHERE code_iso = '%s' and process='%s' and version='%s'";
+		public static final String UPDATE_ACTIVE_CUST_EQUIVALENT_RESPONSE_CODES = "UPDATE cust_equivalent_response_codes SET active = '1' WHERE id='%s'";
+		public static final String UPDATE_ACTIVE_AND_PROCESS_CUST_EQUIVALENT_RESPONSE_CODES = "UPDATE cust_equivalent_response_codes SET active = '1', process = '%s' WHERE id='%s'";
+	}
+	
+	/**
+	 * Define el nombre de las columnas
+	 * 
+	 * @author Cristian Cardozo
+	 *
+	 */
+	public static class ColumnNames {
+		public static final String ACCOUNT_TYPE = "account_type";
+		public static final String ACCOUNT_ID = "account_id_encrypted";
+		public static final String QUALIFIER = "account_type_qualifier";
+		public static final String ACTIVE = "active";
 	}
 
 }
