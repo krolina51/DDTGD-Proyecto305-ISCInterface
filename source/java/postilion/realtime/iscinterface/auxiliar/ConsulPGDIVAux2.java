@@ -156,7 +156,7 @@ public class ConsulPGDIVAux2 {
 			sd.put("B24_Field_60", "0901BBOG+000");
 			//127.22 TAG B24_Field_62
 			sd.put("B24_Field_62", p62);
-
+			sd.put("IN_MSG", in.getTotalHexString());
 			
 			out.putStructuredData(sd);	
 			

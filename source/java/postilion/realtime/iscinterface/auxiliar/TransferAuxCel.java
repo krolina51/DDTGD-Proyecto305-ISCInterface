@@ -182,6 +182,7 @@ public class TransferAuxCel {
 			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
 			sd.put("Transaccion_Unica", "C201");
 			sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
+			sd.put("IN_MSG", in.getTotalHexString());
 			///////// FIN TAGS EXTRACT
 			
 			out.putStructuredData(sd);	

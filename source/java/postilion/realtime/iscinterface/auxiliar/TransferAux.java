@@ -240,6 +240,7 @@ public class TransferAux {
 			sd.put("Inscripcion_Indicador", "1");
 			sd.put("Inscripcion_Cliente", "1");
 			sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
+			sd.put("IN_MSG", in.getTotalHexString());
 			///////// FIN TAGS EXTRACT
 			
 			

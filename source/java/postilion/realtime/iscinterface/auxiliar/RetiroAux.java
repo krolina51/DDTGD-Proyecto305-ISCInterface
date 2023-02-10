@@ -193,6 +193,7 @@ public class RetiroAux {
 			sd.put("B24_Field_104", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(136,138))).concat("0")
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(96, 128)))));
 			Logger.logLine("seteando campo 126:"+ in.getTotalHexString().substring(660, 1494), enableMonitor);
+			sd.put("IN_MSG", in.getTotalHexString());
 			
 			putTagsExtract(sd, out, in);
 			

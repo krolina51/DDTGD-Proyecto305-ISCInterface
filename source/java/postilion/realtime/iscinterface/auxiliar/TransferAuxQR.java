@@ -171,7 +171,6 @@ public class TransferAuxQR {
 			sd.put("Codigo_FI_Origen", "1019");
 			sd.put("Nombre_FI_Origen", "CIC");		
 			sd.put("Canal", "01");
-			sd.put("Dispositivo", "D");
 			
 			sd.put("FI_DEBITO",(out.isFieldSet(Iso8583.Bit._102_ACCOUNT_ID_1)) ? out.getField(Iso8583.Bit._102_ACCOUNT_ID_1).substring(0, 4) : "0000");
 			if (out.isFieldSet(Iso8583.Bit._103_ACCOUNT_ID_2)) {
@@ -204,13 +203,15 @@ public class TransferAuxQR {
 			sd.put("Indicador_AVAL", "1");
 			sd.put("Vencimiento", "9912");
 			sd.put("Ent_Adq", "0001");
-			sd.put("Dispositivo", "0");
+			sd.put("Dispositivo", "_");
 			sd.put("Canal", "01");
 			sd.put("service_restriction_code", "000");
 			sd.put("pos_entry_mode", "000");
 			sd.put("Entidad", "0000");
 			sd.put("Identificador_Terminal", "0");
 			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
+			sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
+			sd.put("IN_MSG", in.getTotalHexString());
 			
 			
 			switch (idPagQR125) {

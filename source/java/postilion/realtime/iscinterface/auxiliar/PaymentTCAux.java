@@ -222,6 +222,7 @@ public class PaymentTCAux {
 			sd.put("B24_Field_41", p41);
 			//127.22 TAG B24_Field_125
 			sd.put("B24_Field_125", p125);
+			sd.put("IN_MSG", in.getTotalHexString());
 			
 			
 			out.putStructuredData(sd);	

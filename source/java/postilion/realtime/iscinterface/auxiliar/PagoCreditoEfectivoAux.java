@@ -253,6 +253,7 @@ public class PagoCreditoEfectivoAux {
 			sd.put("Identificador_Terminal", "0");
 			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
 			sd.put("Inscripcion_Indicador", "1");
+			sd.put("IN_MSG", in.getTotalHexString());
 			///////// FIN TAGS EXTRACT
 			
 			out.putStructuredData(sd);	

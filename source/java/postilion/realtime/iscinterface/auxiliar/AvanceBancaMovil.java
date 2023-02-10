@@ -99,6 +99,7 @@ public class AvanceBancaMovil {
 		//127.22 TAG B24_Field_17
 		sd.put("B24_Field_17", Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 4));	
 
+		sd.put("IN_MSG", in.getTotalHexString());
 		out.putStructuredData(sd);
 		
 		return out;
