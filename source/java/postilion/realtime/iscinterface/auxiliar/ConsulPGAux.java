@@ -68,7 +68,7 @@ public class ConsulPGAux {
 			
 			
 			//CAMPO 7 TRANSMISSION DATE N TIME
-			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime().get("MMddHHmmss"));
+			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
 			//Field 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, new DateTime().get("MMdd"));

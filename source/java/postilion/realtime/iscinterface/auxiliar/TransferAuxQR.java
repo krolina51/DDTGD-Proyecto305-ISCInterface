@@ -117,7 +117,7 @@ public class TransferAuxQR {
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "40".concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
 			
 			//CAMPO 7 TRANSMISSION DATE N TIME
-			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime().get("MMddHHmmss"));
+			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
         	//CAMPO 12 TRANSMISSION time
 			out.putField(Iso8583.Bit._012_TIME_LOCAL, new DateTime().get("HHmmss"));
@@ -139,7 +139,7 @@ public class TransferAuxQR {
 
 		
 			//CAMPO 102 DEBIT ACCOUNT
-			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "0001".concat(cuentaDebitar));
+			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "00010".concat(cuentaDebitar));
 			
 			//CAMPO 103 CREDIT ACCOUNT
 			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "011"

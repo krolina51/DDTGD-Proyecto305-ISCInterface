@@ -171,6 +171,12 @@ public class ISCReqInMsg extends StreamMessage {
 		public static final int POS_ini_PIN = 128;
 		public static final int POS_end_PIN = 136;
 		
+		public static final int POS_ini_COD_OFICINA = 128;
+		public static final int POS_end_COD_OFICINA = 136;
+		
+		public static final int POS_ini_TERMINALPINPAD = 136;
+		public static final int POS_end_TERMINALPINPAD = 156;
+		
 		public static final int POS_ini_IDEN_TYPE = 136;
 		public static final int POS_end_IDEN_TYPE = 138;
 		
@@ -180,8 +186,14 @@ public class ISCReqInMsg extends StreamMessage {
 		public static final int POS_ini_CREDIT_ACC_TYPE = 146;
 		public static final int POS_end_CREDIT_ACC_TYPE = 148;
 		
+		public static final int POS_ini_SERIAL = 156;
+		public static final int POS_end_SERIAL = 176;
+		
 		public static final int POS_ini_CREDIT_ACC_NR = 148;
 		public static final int POS_end_CREDIT_ACC_NR = 180;
+		
+		public static final int POS_ini_MODALIDAD = 176;
+		public static final int POS_end_MODALIDAD = 178;
 		
 		public static final int POS_ini_DEBIT_ACC_TYPE = 180;
 		public static final int POS_end_DEBIT_ACC_TYPE = 182;

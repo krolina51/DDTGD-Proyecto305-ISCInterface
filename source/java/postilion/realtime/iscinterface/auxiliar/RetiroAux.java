@@ -27,6 +27,7 @@ import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.message.bitmap.XFieldUnableToConstruct;
+import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
@@ -155,7 +156,7 @@ public class RetiroAux {
 //				EventRecorder.recordEvent(new Exception(e.toString()));
 //			}
 			
-			
+			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
 			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();

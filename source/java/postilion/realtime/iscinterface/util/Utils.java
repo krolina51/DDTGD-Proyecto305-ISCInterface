@@ -13,9 +13,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import java.nio.file.Paths;
+import java.sql.Timestamp;
 import java.text.Normalizer;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Base64;
@@ -37,6 +40,8 @@ import postilion.realtime.genericinterface.eventrecorder.events.TryCatchExceptio
 import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.ISCInterfaceCB;
 import postilion.realtime.iscinterface.auxiliar.TransferAux;
+import postilion.realtime.iscinterface.crypto.Crypto;
+import postilion.realtime.iscinterface.crypto.PinPad;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
@@ -60,6 +65,7 @@ import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.message.bitmap.XFieldUnableToConstruct;
+import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
@@ -3672,6 +3678,9 @@ public class Utils {
 			case "8554":
                 msgKey = "SRLN_8554_TRANSFERQR";
                 break;
+			case "8570":
+                msgKey = "SRLN_8570_CONSULTATITULARIDAD";
+                break;
 			default:
 				msgKey = "06";
 				break;
@@ -4508,6 +4517,153 @@ public class Utils {
 			.append(Transform.fromAsciiToEbcdic(field63.substring(0,4)))
 			.append(Transform.fromHexToBin("60"))
 			.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
+		
+
+		return sd.toString();
+	}
+	
+	
+	public static ISCResInMsg processMsgSyncPinPad(ISCReqInMsg msg, boolean log) throws XPostilion {
+		ISCResInMsg rsp = new ISCResInMsg();
+		Crypto crypto = new Crypto(log);
+		PinPad pinpad = new PinPad();
+		String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_COD_OFICINA, ISCReqInMsg.POS_end_COD_OFICINA)));
+		String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_SERIAL, ISCReqInMsg.POS_end_SERIAL)));
+		String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_TERMINALPINPAD, ISCReqInMsg.POS_end_TERMINALPINPAD)));
+		
+		
+		try {
+			switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_MODALIDAD, ISCReqInMsg.POS_end_MODALIDAD)))) {
+			case "1":
+				// PROCESA INICIALIZACION DE PINPAD
+				pinpad = crypto.initPinPad(log);
+				Logger.logLine("pinpad.isError():" + pinpad.isError(), log);
+				Logger.logLine("pinpad.getResponseInit():" + pinpad.getResponseInit(), log);
+				Logger.logLine("pinpad.getKey_ini():" + pinpad.getKey_ini(), log);
+				Logger.logLine("pinpad.getKey_ini_snd():" + pinpad.getKey_ini_snd(), log);
+				if(pinpad.isError()) {
+					// RESPUESTA FALLIDA
+					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorInitPinPad(msg));
+				}else {
+					// PROCESO DE CRIPTOGRAFIA EXITOSO
+					pinpad.setCodOficina(codigoOficina);
+					pinpad.setSerial(serial);
+					pinpad.setTerminal1(terminal);
+					LocalDateTime date = LocalDateTime.now();
+					Timestamp timestamp = Timestamp.valueOf(date);
+					pinpad.setFechaInicializacion(timestamp);
+					pinpad.setFecha_creacion(timestamp);
+					pinpad.setFecha_modificacion(timestamp);
+					pinpad.setUsuario_creacion("Postilion");
+					pinpad.setUsuario_modificacion("Postilion");
+					
+					DBHandler.updateInsertPinPadDataInit(pinpad);
+					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessInitPinPad(msg,pinpad));
+				}
+					
+				
+					
+				break;
+			case "2":
+				// PROCESA INTERCAMBIO DE LLAVES PINPAD
+				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+				if(pinpad == null) {
+					ISCInterfaceCB.pinpadData.clear();
+					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+				}
+				if(pinpad == null || pinpad.getKey_ini() == null) {
+					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "PINPAD NO INICIALIZADO"));
+				} else {
+					pinpad = crypto.exchangePinPad(log, pinpad);
+					if(pinpad.isError()) {
+						// RESPUESTA FALLIDA
+						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "FALLO EN INTERCAMBIO"));
+					} else {
+						// PROCESO DE CRIPTOGRAFIA EXITOSO
+						LocalDateTime date = LocalDateTime.now();
+						Timestamp timestamp = Timestamp.valueOf(date);
+						pinpad.setFechaIntercambio(timestamp);
+						pinpad.setFecha_modificacion(timestamp);
+						pinpad.setUsuario_modificacion("Postilion");
+						DBHandler.updateInsertPinPadDataExchange(pinpad);
+						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessExchangePinPad(msg,pinpad));
+					}
+						
+				}
+					
+				break;	
+	
+			default:
+				break;
+			}
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			EventRecorder.recordEvent(
+					new Exception("Aramando mensaje: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+		}
+			
+
+		return rsp;
+	}
+	
+	
+	public static String buildRspBodySucessInitPinPad(ISCReqInMsg originalReq, PinPad pinpad) {
+		StringBuilder sd = new StringBuilder("");
+		
+		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			.append(Transform.fromAsciiToEbcdic("000000000000"))
+			.append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000"))
+			.append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(pinpad.getResponseInit()));
+		
+
+		return sd.toString();
+	}
+	
+	public static String buildRspBodyErrorInitPinPad(ISCReqInMsg originalReq) {
+		StringBuilder sd = new StringBuilder("");
+		
+		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			.append(Transform.fromAsciiToEbcdic("000000000000"))
+			.append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000"))
+			.append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic("ERROR AL CARGAR CONFIGURACION PINPAD"));
+		
+
+		return sd.toString();
+	}
+	
+	public static String buildRspBodySucessExchangePinPad(ISCReqInMsg originalReq, PinPad pinpad) {
+		StringBuilder sd = new StringBuilder("");
+		
+		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			.append(Transform.fromAsciiToEbcdic("000000000000"))
+			.append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000"))
+			.append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(pinpad.getResponseExc()));
+		
+
+		return sd.toString();
+	}
+	
+	public static String buildRspBodyErrorExchangePinPad(ISCReqInMsg originalReq, String error) {
+		StringBuilder sd = new StringBuilder("");
+		
+		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			.append(Transform.fromAsciiToEbcdic("000000000000"))
+			.append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000"))
+			.append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(error));
 		
 
 		return sd.toString();

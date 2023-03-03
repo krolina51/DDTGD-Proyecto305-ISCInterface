@@ -23,6 +23,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -153,6 +154,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public boolean isNextDay = false;
 
 	public static HashMap<String, String> convenios = new HashMap<>();
+	public static ConcurrentHashMap<String, Object> pinpadData = new ConcurrentHashMap<>();
+	public static String ipACryptotalla;
+	public static int portACryptotalla;
 	public static TimedHashtable cacheKeyReverseMap = new TimedHashtable(900000, 5000);
 
 	public WholeTransSetting wholeTransConfig = new WholeTransSetting();
@@ -260,6 +264,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("THRESHOLD_TIMER: " + parameters.get("THRESHOLD_TIMER"), this.enableMonitor);
 			this.calendarInfo.setThreshold(Long.parseLong((String) parameters.get("THRESHOLD_TIMER")));
 			this.freeThreaded = (boolean) parameters.get("FREE_THREADED");
+			ISCInterfaceCB.ipACryptotalla = (String) parameters.get("ipCryptoAtalla");
+			ISCInterfaceCB.portACryptotalla = Integer.valueOf(parameters.get("portCryptoAtalla").toString());
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -293,6 +299,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			this.v1CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "1");
 			this.v2CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "2");
+			
+			ISCInterfaceCB.pinpadData.clear();
+			ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
 
 			if (this.v1CodesIscToIso.size() > 0) {
 				for (Map.Entry<String, ResponseCode> e : v1CodesIscToIso.entrySet()) {
@@ -1724,26 +1733,30 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("ISCMsg:\n" + msg.toString(), this.enableMonitor);
 
 			String cons = Utils.getTransactionConsecutive("AT", "00", "1");
-
-			
-			rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
-					FlowDirection.ISC2ISO, cons, this.enableMonitor);
 			ISCReqInMsg msgCopy = (ISCReqInMsg) msg;
-			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")
-					&& Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8580")) {
+			
+			//PROCESANDO INICIALIZACION E INTERCAMBIO DE LLAVES PINPAD
+			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8580")) {
 
 				ISCResInMsg rsp = new ISCResInMsg();
-				
+				rsp = Utils.processMsgSyncPinPad((ISCReqInMsg) msg, this.enableMonitor);
 				
 				return new Action(null, rsp, null, null);
+			}else {
+				// ARMANDO ISO
+				rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
+						FlowDirection.ISC2ISO, cons, this.enableMonitor);
+				
+				
+				
+				Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
+//				Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
+				putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
+
+				return new Action(rspISOMsg, null, null, null);
 			}
 			
 			
-			Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
-//			Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
-			putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
-
-			return new Action(rspISOMsg, null, null, null);
 
 		}
 

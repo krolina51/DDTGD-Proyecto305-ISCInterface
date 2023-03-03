@@ -4,20 +4,27 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import monitor.core.dto.MonitorSnapShot;
 import monitor.core.dto.Observable;
 import monitor.core.dto.SnapShotSeverity;
 import postilion.realtime.genericinterface.eventrecorder.events.SQLExceptionEvent;
+import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.iscinterface.crypto.PinPad;
 import postilion.realtime.iscinterface.util.Logger;
+import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.ipc.SecurityManager;
 import postilion.realtime.sdk.jdbc.JdbcManager;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
+import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
 
 /**
@@ -387,21 +394,33 @@ public class DBHandler {
 	 *
 	 * @return hashMap con la información consultada
 	 */
-	public static HashMap<String, String> loadPinPadKeys() {
-		HashMap<String, String> pinpadKeys = new HashMap<>();
+	public static ConcurrentHashMap<String, Object> loadPinPadKeys() {
+		ConcurrentHashMap<String, Object> pinpadsData = new ConcurrentHashMap<>();
+		PinPad pinpad = null;
 		Statement st = null;
 		ResultSet rs = null;
 		Connection con = null;
 		try {
 			con = JdbcManager.getDefaultConnection();
-			String query = "SELECT serial, key_ini FROM institution_ids WITH (NOLOCK)";
+			String query = "SELECT * FROM cust_pinpad_data WITH (NOLOCK)";
 			st = con.createStatement();
 			rs = st.executeQuery(query);
 			while (rs.next()) {
-				pinpadKeys.put(rs.getString("serial"), rs.getString("key_ini"));
+				pinpad = new PinPad();
+				pinpad.setCodOficina(rs.getString("codigo_oficina"));
+				pinpad.setSerial(rs.getString("serial"));
+				pinpad.setTerminal1(rs.getString("terminal1"));
+				pinpad.setTerminal2(rs.getString("terminal2"));
+				pinpad.setFechaInicializacion( rs.getTimestamp("fecha_inicializacion"));
+				pinpad.setKey_ini(rs.getString("key_ini"));
+				pinpad.setKey_ini_snd(rs.getString("key_snd"));
+				pinpad.setFechaIntercambio(rs.getTimestamp("fecha_intercambio"));
+				pinpad.setKey_exc(rs.getString("key_exc"));
+				pinpad.setKey_exc_snd(rs.getString("key_exc_snd"));
+				pinpadsData.put(rs.getString("codigo_oficina")+rs.getString("serial"), pinpad);
 			}
 			JdbcManager.commit(con, st, rs);
-			return pinpadKeys;
+			return pinpadsData;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -412,7 +431,7 @@ public class DBHandler {
 			}
 
 		}
-		return pinpadKeys;
+		return pinpadsData;
 	}
 
 	/**
@@ -424,68 +443,125 @@ public class DBHandler {
 	 * 
 	 * @return update true si activo false de lo contrario
 	 */
-	public boolean updateResgistry(String code, String process, String version) {
-		boolean update = false;
+	public static void updateInsertPinPadDataInit(PinPad pinpad) {
 		Statement st = null;
 		ResultSet rs = null;
 		Connection con = null;
 		int rows = 0;
 		try {
 			con = JdbcManager.getDefaultConnection();
-			st = con.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-			rs = st.executeQuery(
-					String.format(Queries.SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES, code, process, version));
-			//rows = new Utils(this.params).countRows(rs);
-			rows = rs.getMetaData().getColumnCount();
-			boolean go = true;
-			if (rows > 0)
-				while (go) {
-					if (rs.next()) {
-						if (!rs.getString(ColumnNames.ACTIVE).equals("1")) {
-							st.executeUpdate(String.format(Queries.UPDATE_ACTIVE_CUST_EQUIVALENT_RESPONSE_CODES,
-									rs.getString("id")));
-							con.commit();
-							update = true;
-							go = false;
-						}
-					} else {
-						go = false;
-					}
-				}
-			else {
-				rs = st.executeQuery(String.format(Queries.SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES, code,
-						(process.equals("0") ? "1" : "0"), version));
-				//rows = new Utils(this.params).countRows(rs);
-				rows = rs.getMetaData().getColumnCount();
-				go = true;
-				if (rows > 0)
-					while (go) {
-						if (rs.next()) {
-							if (!rs.getString(ColumnNames.ACTIVE).equals("1")) {
-								st.executeUpdate(
-										String.format(Queries.UPDATE_ACTIVE_AND_PROCESS_CUST_EQUIVALENT_RESPONSE_CODES,
-												process, rs.getString("id")));
-								update = true;
-								con.commit();
-								go = false;
-							}
-						} else {
-							go = false;
-						}
-					}
+			st = con.createStatement();
+			rs = st.executeQuery(String.format(Queries.SELECT_EXIST_INIT_PINPAD_WITH_CODOFI_SERIAL, 
+					pinpad.getCodOficina(), pinpad.getSerial()));
+			Logger.logLine("CONSULTA PREVIA " + st.toString(), true);
+			Logger.logLine("CONSULTA PREVIA " + rows, true);
+			if (rs.next()) {
+//				st.executeUpdate(String.format(Queries.UPDATE_KEY_INIT_PINPAD, 
+//						pinpad.getKey_ini(), pinpad.getKey_ini_snd(), pinpad.getFechaInicializacion(), pinpad.getCodOficina(), pinpad.getSerial()));
+				PreparedStatement ps = con.prepareStatement(Queries.UPDATE_KEY_INIT_PINPAD);
+				ps.setString(1, pinpad.getKey_ini());
+				ps.setString(2, pinpad.getKey_ini_snd());
+				ps.setTimestamp(3, pinpad.getFechaInicializacion());
+				ps.setTimestamp(4, pinpad.getFecha_modificacion());
+				ps.setString(5, pinpad.getUsuario_modificacion());
+				ps.setString(6, pinpad.getCodOficina());
+				ps.setString(7, pinpad.getSerial());
+				Logger.logLine("CONSULTA PREVIA " + ps.toString(), true);
+				ps.executeUpdate();
+			}else {
+				PreparedStatement ps1 = con.prepareStatement(Queries.INSERT_KEY_INIT_PINPAD);
+//				st.executeUpdate(String.format(Queries.INSERT_KEY_INIT_PINPAD, 
+//						pinpad.getCodOficina(), pinpad.getSerial(), pinpad.getTerminal1(), pinpad.getFechaInicializacion(), pinpad.getKey_ini(), pinpad.getKey_ini_snd()));
+//				Logger.logLine("INSERT " + st.toString(), true);
+				ps1.setString(1, pinpad.getCodOficina());
+				ps1.setString(2, pinpad.getSerial());
+				ps1.setString(3, pinpad.getTerminal1());
+				ps1.setTimestamp(4, pinpad.getFechaInicializacion());
+				ps1.setString(5, pinpad.getKey_ini());
+				ps1.setString(6, pinpad.getKey_ini_snd());
+				ps1.setTimestamp(7, pinpad.getFecha_creacion());
+				ps1.setString(8, pinpad.getUsuario_creacion());
+				Logger.logLine("CONSULTA PREVIA " + ps1.toString(), true);
+				ps1.executeUpdate();
 			}
+				
+			
 			JdbcManager.commit(con, st, rs);
 		} catch (SQLException e) {
-			e.printStackTrace();
+			pinpad.setError(true);
+			EventRecorder.recordEvent(
+					new Exception("SQL: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+		} catch (Exception e) {
+			pinpad.setError(true);
+			EventRecorder.recordEvent(
+					new Exception("SQL Ex: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
 		} finally {
 			try {
 				JdbcManager.cleanup(con, st, rs);
 			} catch (SQLException e) {
-				e.printStackTrace();
+				EventRecorder.recordEvent(
+						new Exception("SQL clean: " + e.toString()));
+				EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+						Utils.getStringMessageException(e) }));
 			}
 
 		}
-		return update;
+	}
+	
+	/**
+	 * Activa codigos de respuesta qeu se reciben y no estaban activos en base de
+	 * datos
+	 * 
+	 * @param code    a consultar
+	 * @param process 1
+	 * 
+	 * @return update true si activo false de lo contrario
+	 */
+	public static void updateInsertPinPadDataExchange(PinPad pinpad) {
+		Statement st = null;
+		ResultSet rs = null;
+		Connection con = null;
+		try {
+			con = JdbcManager.getDefaultConnection();
+			PreparedStatement ps = con.prepareStatement(Queries.UPDATE_KEY_EXC_PINPAD);
+			ps.setString(1, pinpad.getKey_exc());
+			ps.setString(2, pinpad.getKey_exc_snd());
+			ps.setTimestamp(3, pinpad.getFechaIntercambio());
+			ps.setTimestamp(4, pinpad.getFecha_modificacion());
+			ps.setString(5, pinpad.getUsuario_modificacion());
+			ps.setString(6, pinpad.getCodOficina());
+			ps.setString(7, pinpad.getSerial());
+			ps.executeUpdate();
+				
+			
+			JdbcManager.commit(con, ps);
+		} catch (SQLException e) {
+			pinpad.setError(true);
+			EventRecorder.recordEvent(
+					new Exception("SQL: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+		} catch (Exception e) {
+			pinpad.setError(true);
+			EventRecorder.recordEvent(
+					new Exception("SQL Ex: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+		} finally {
+			try {
+				JdbcManager.cleanup(con, st, rs);
+			} catch (SQLException e) {
+				EventRecorder.recordEvent(
+						new Exception("SQL clean: " + e.toString()));
+				EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+						Utils.getStringMessageException(e) }));
+			}
+
+		}
 	}
 	
 	/**
@@ -495,22 +571,11 @@ public class DBHandler {
 	 *
 	 */
 	public static class Queries {
-		public static final String SELECT_ALL_FROM_CUST_EQUIVALENT_RESPONSE_CODES = "SELECT * FROM cust_equivalent_response_codes WITH (NOLOCK) WHERE code_iso = '%s' and process='%s' and version='%s'";
-		public static final String UPDATE_ACTIVE_CUST_EQUIVALENT_RESPONSE_CODES = "UPDATE cust_equivalent_response_codes SET active = '1' WHERE id='%s'";
-		public static final String UPDATE_ACTIVE_AND_PROCESS_CUST_EQUIVALENT_RESPONSE_CODES = "UPDATE cust_equivalent_response_codes SET active = '1', process = '%s' WHERE id='%s'";
+		public static final String SELECT_EXIST_INIT_PINPAD_WITH_CODOFI_SERIAL = "SELECT key_ini, key_snd FROM cust_pinpad_data WITH (NOLOCK) WHERE codigo_oficina = '%s' and serial='%s'";
+		public static final String UPDATE_KEY_INIT_PINPAD = "UPDATE cust_pinpad_data SET key_ini = ?, key_snd = ?, fecha_inicializacion = ?, fecha_modificacion = ?, usuario_modificacion = ? WHERE codigo_oficina=? and serial=?";
+		public static final String INSERT_KEY_INIT_PINPAD = "INSERT INTO cust_pinpad_data(codigo_oficina,serial,terminal1,fecha_inicializacion,key_ini,key_snd,fecha_creacion,usuario_creacion) VALUES(?,?,?,?,?,?,?,?)";
+		public static final String UPDATE_KEY_EXC_PINPAD = "UPDATE cust_pinpad_data SET key_exc = ?, key_exc_snd = ?, fecha_intercambio = ?, fecha_modificacion = ?, usuario_modificacion = ? WHERE codigo_oficina=? and serial=?";
 	}
 	
-	/**
-	 * Define el nombre de las columnas
-	 * 
-	 * @author Cristian Cardozo
-	 *
-	 */
-	public static class ColumnNames {
-		public static final String ACCOUNT_TYPE = "account_type";
-		public static final String ACCOUNT_ID = "account_id_encrypted";
-		public static final String QUALIFIER = "account_type_qualifier";
-		public static final String ACTIVE = "active";
-	}
 
 }
