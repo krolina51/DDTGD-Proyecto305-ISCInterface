@@ -8,6 +8,7 @@ import postilion.realtime.iscinterface.web.model.TransactionSetting;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
+import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
@@ -31,8 +32,7 @@ public class AvanceBancaMovil {
 		
 		
 //		//CAMPO 7 TRANSMISSION DATE N TIME
-		out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 4).concat(
-				Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)))));	
+		out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));	
 		
 		
 		//CAMPO 13 TRANSMISSION DATE N TIME
