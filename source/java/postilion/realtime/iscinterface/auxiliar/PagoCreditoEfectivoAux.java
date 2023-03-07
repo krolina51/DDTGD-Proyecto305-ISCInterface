@@ -57,7 +57,6 @@ public class PagoCreditoEfectivoAux {
 				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
 				if(keyReverse == null)
 					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
-				
 				if(keyReverse == null) {
 					keyReverse = "0000000000";
 					sd.put("REV_DECLINED", "TRUE");

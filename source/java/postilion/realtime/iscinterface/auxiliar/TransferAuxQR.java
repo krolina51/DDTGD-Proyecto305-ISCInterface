@@ -90,9 +90,9 @@ public class TransferAuxQR {
 			if(idPagQR125.equals(IDENTIFICACION_TRANSACCION_DEVOLUCION)) {
 				p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) ))))  // referencia 2, Adenda ref 2
-						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(944), lth( 944 + 4) )))
-								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(948), lth( 948 + 6) ))))
-								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(954), lth( 954 + 4) ))))
+						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(945), lth( 945 + 4) )))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(949), lth( 949 + 6) ))))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(955), lth( 955 + 4) ))))
 								, 25, '0', true)) // Adenda ref 3 Falta validar Devolucion
 						.concat(Pack.resize("",  8, '0', true)) // Id registro
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificación Origen
@@ -101,7 +101,7 @@ public class TransferAuxQR {
 						.concat(tipoCuentaCreditar) // tipo cuenta acreditar
 						.concat(cuentaAcreditar) // cuenta acreditar
 						.concat(Pack.resize("",  1, '0', true)) // ****** validacion titularidad
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(14), lth( 14 + 4) ))))	//Terminal	
+						.concat(Pack.resize("",  4, '0', true))	//Terminal Rellenar con ceros
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
 						.concat(Pack.resize("",  10, '0', true));
