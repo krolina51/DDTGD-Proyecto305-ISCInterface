@@ -2800,18 +2800,19 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
 							.concat("_").concat("0");
 					
-					//ES TRANSFERENCIA INTERNET CEL2CEL
-					if ((msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8590"))||
+					if((msg.getStructuredData().get("TX_QR") != null && msg.getStructuredData().get("TX_QR").equals("TRUE"))) {
+						msgTran = msgTran.concat("_").concat("QR");
+					} else 	if ((msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8590"))||
 						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8591"))||
 						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8593"))||
 						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8594"))) {
+						//ES TRANSFERENCIA INTERNET CEL2CEL
 						
 						msgTran = msgTran.concat("_").concat("CEL2CEL");
 						
-					} else if((msg.getStructuredData().get("TX_QR") != null
-							&& msg.getStructuredData().get("TX_QR").equals("TRUE"))) {
-						msgTran = msgTran.concat("_").concat("QR");
-					}
+					}  
+					
+					
 
 
 				}
@@ -3550,6 +3551,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			sd.put("PRIM_COV_REPRO_INDICATOR", primCov.split("\\|")[4].equals("") ? "0" : primCov.split("\\|")[4]);
 			sd.put("PRIM_COV_ABO", primCov.split("\\|")[5].equals("") ? "0" : primCov.split("\\|")[5]);
 			sd.put("PRIM_COV_PAYMENT_TYPE", primCov.split("\\|")[6].equals("") ? "0" : primCov.split("\\|")[6]);
+			sd.put("PRIM_COV_HAS_SUB", primCov.split("\\|")[7].equals("") ? "0" : primCov.split("\\|")[7]);
 
 			if (primCov.split("\\|")[7].equals("S")) {
 				sd.put("PRIM_COV_HAS_SUB", primCov.split("\\|")[7].equals("") ? "0" : primCov.split("\\|")[7]);

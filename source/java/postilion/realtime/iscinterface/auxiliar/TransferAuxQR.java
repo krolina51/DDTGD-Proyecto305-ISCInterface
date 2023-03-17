@@ -211,6 +211,7 @@ public class TransferAuxQR {
 			sd.put("Identificador_Terminal", "0");
 			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
 			sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
+			sd.put("Nombre_Establecimiento_QR", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 20) ))));
 			sd.put("IN_MSG", in.getTotalHexString());
 			
 			
@@ -227,7 +228,7 @@ public class TransferAuxQR {
 			}
 			
 			
-			sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
+			//sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
 			///////// FIN TAGS EXTRACT
 			
 			out.putStructuredData(sd);	
