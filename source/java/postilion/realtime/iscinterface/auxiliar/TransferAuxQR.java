@@ -98,8 +98,8 @@ public class TransferAuxQR {
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificación Origen
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))//Numero de Identificación Origen
 						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(110),lth( 110 + 14) ))),17,'0',false)) // valor pago
-						.concat(tipoCuentaCreditar) // tipo cuenta acreditar
-						.concat(cuentaAcreditar) // cuenta acreditar
+						.concat(Pack.resize("",  2, '0', true)) // tipo de identificacion destino
+						.concat(Pack.resize("",  16, '0', true)) // Numero de identificacion destino
 						.concat(Pack.resize("",  1, '0', true)) // ****** validacion titularidad
 						.concat(Pack.resize("",  4, '0', true))	//Terminal Rellenar con ceros
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
