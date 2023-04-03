@@ -2726,6 +2726,16 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				}
 
 //				msgTran = msgTran.concat("_").concat(variation);
+//				PSP INTERNET
+				if ((msg.getStructuredData().get("CHANNEL") != null
+						&& msg.getStructuredData().get("CHANNEL").equals("8"))) {
+					
+					
+					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()).concat("_")
+							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
+							.concat("_").concat("1");
+					
+				}
 
 			}
 
@@ -2786,6 +2796,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				
 			}
 
+			// TRANSFER
 			if ((msg.getProcessingCode().getFromAccount().equals("10")
 					|| msg.getProcessingCode().getFromAccount().equals("20"))
 					&& (msg.getProcessingCode().getToAccount().equals("10")
@@ -2800,7 +2811,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
 							.concat("_").concat("0");
 					
+					
+					
 					if((msg.getStructuredData().get("TX_QR") != null && msg.getStructuredData().get("TX_QR").equals("TRUE"))) {
+						// TRANSFER QR INTERAVAL
 						msgTran = msgTran.concat("_").concat("QR");
 					} else 	if ((msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8590"))||
 						(msg.getStructuredData().get("B24_Field_41").substring(4,8).equals("8591"))||
@@ -2817,7 +2831,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				}
 				
-				// TRANSFER
+				// TRANSFER OFICINAS
 				else if ((msg.getStructuredData().get("CHANNEL") != null
 						&& msg.getStructuredData().get("CHANNEL").equals("4"))) {
 					
@@ -2954,8 +2968,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// POBLIG
 		else if (msg.getProcessingCode().getTranType().substring(0, 1).equals("5")) {
-
-			if (msg.getStructuredData().get("CHANNEL") != null && msg.getStructuredData().get("CHANNEL").equals("3")) {
+			
+			// PAGO OBLIGACIONES INTERNET
+			if ((msg.getStructuredData().get("CHANNEL") != null
+					&& msg.getStructuredData().get("CHANNEL").equals("8"))) {
+				
+				
+				msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString()).concat("_")
+						.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
+						.concat("_").concat("1");
+				
+			} else if (msg.getStructuredData().get("CHANNEL") != null && msg.getStructuredData().get("CHANNEL").equals("3")) {
 
 				msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
 
