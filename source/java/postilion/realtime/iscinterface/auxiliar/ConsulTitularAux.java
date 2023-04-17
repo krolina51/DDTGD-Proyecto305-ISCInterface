@@ -104,7 +104,7 @@ public class ConsulTitularAux {
 				bin = "007723";
 				break;
 			case "0052":
-				bin = "007752";
+				bin = "000052";
 				break;
 
 			default:

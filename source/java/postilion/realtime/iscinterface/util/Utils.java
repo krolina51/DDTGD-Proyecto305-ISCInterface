@@ -4364,35 +4364,92 @@ public class Utils {
 		try {
 			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_126") != null ?
 					msg.getStructuredData().get("B24_Field_126") : null : null;
+			String field125 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_125") != null ?
+					msg.getStructuredData().get("B24_Field_125") : null : null;
 			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_102") != null ?
 					msg.getStructuredData().get("B24_Field_102") : msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1) : "000000000000000000";
 			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
 					msg.getStructuredData().get("B24_Field_54") : "000000000000" : "000000000000";
-			String B5 = null;
-			String arqc = null;
-			if(field126!=null) {
-				String parts[] = field126.split("!");
+			String field62 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_62") != null ?
+					msg.getStructuredData().get("B24_Field_62") : "000000000000" : "000000000000";
+			String field4 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_4") != null ?
+					msg.getStructuredData().get("B24_Field_4") : "000000000000" : "000000000000";
+			
+			switch (msg.getProcessingCode().toString()) {
+			case "300040":			
 				
-				int posB5 = 0;
-				for (int i = 0; i < parts.length; i++) {
-					if (parts[i].contains(" B5")) {
-						posB5 = i;
-						B5 = parts[posB5];
-						arqc = B5.substring(13, 29);
-					}
-				}
-			}
-				
-			sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
 				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
-				.append(Transform.fromAsciiToEbcdic("000000000000"))
-				.append(Transform.fromAsciiToEbcdic(field102))
-				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+				.append(Transform.fromAsciiToEbcdic("00"+field4))
+				.append(Transform.fromAsciiToEbcdic("00"+field54.substring(12,24)))
+				.append(Transform.fromAsciiToEbcdic("00"+field54.substring(24,36)))
+				.append(Transform.fromHexToBin("840000000000"))
+				.append(Transform.fromAsciiToEbcdic(field62.substring(30)));
+
+				break;
+				
+			case "401000":			
+			case "402000":			
+				
+				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
+
+				break;	
+				
+			case "320000":			
+				
+				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(Pack.resize(field125.substring(field125.length()-11), 16, '0', false)))
+				.append(Transform.fromAsciiToEbcdic(field125.substring(0,31)))
+				.append(Transform.fromAsciiToEbcdic("00000000000"));
+
+				break;	
+
+			default:
+				
+				String B5 = null;
+				String arqc = null;
+				if(field126!=null) {
+					String parts[] = field126.split("!");
+					
+					int posB5 = 0;
+					for (int i = 0; i < parts.length; i++) {
+						if (parts[i].contains(" B5")) {
+							posB5 = i;
+							B5 = parts[posB5];
+							arqc = B5.substring(13, 29);
+						}
+					}
+				}
+					 
+				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+					.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+					.append(Transform.fromHexToBin("4E4040"))
+					.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
+					.append(Transform.fromHexToBin("404011C2601D60"))
+					.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+					.append(Transform.fromAsciiToEbcdic("000000000000"))
+					.append(Transform.fromAsciiToEbcdic(field102))
+					.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+				break;
+			}
+			
+			
 			
 		} catch (XPostilion e) {
 			e.toString();
