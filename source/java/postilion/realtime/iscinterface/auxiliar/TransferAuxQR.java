@@ -79,9 +79,8 @@ public class TransferAuxQR {
 			String dia = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(288, 292)));
 			String hora = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)));
 			String cuentaDebitar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR)));
-
 			String cuentaAcreditar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_CREDIT_ACC_NR, ISCReqInMsg.POS_end_CREDIT_ACC_NR)));
-			
+			String andendaRef2 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) )));
 			
 			Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
 
@@ -89,7 +88,7 @@ public class TransferAuxQR {
 			String p125 = "";
 			if(idPagQR125.equals(IDENTIFICACION_TRANSACCION_DEVOLUCION)) {
 				p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) ))))  // referencia 2, Adenda ref 2
+						.concat(Pack.resize(andendaRef2.substring(0,12),24,'0',true))// referencia 2, Adenda ref 2
 						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(945), lth( 945 + 4) )))
 								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(949), lth( 949 + 6) ))))
 								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(955), lth( 955 + 4) ))))
