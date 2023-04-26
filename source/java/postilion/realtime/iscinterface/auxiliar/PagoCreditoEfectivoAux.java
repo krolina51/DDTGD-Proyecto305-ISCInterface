@@ -173,11 +173,7 @@ public class PagoCreditoEfectivoAux {
 			
 			
 			String cuentaCreditar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_CREDIT_ACC_NR, ISCReqInMsg.POS_end_CREDIT_ACC_NR)));
-			
-			
-			
-
-			
+				
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "50".concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
 			
 //			//CAMPO 7 TRANSMISSION DATE N TIME

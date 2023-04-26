@@ -3661,7 +3661,8 @@ public class Utils {
 
 		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), enableMonitor);
 		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), enableMonitor);		
-		
+		String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(30, 38)));
+
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
 			switch (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE))) {
@@ -3669,11 +3670,14 @@ public class Utils {
 				msgKey = "SRLN_8510_CONSULDIV";
 				break;
 			case "8520":
-				msgKey = "SRLN_8520_CONSULPAGODIV";
+				if (codOficina.startsWith("80")) {
+					msgKey = "SRLN_8520_PAGOCONVENIOSINT";
+				}else
+					msgKey = "SRLN_8520_CONSULPAGODIV";
 				//msgKey = msgKey.concat("_").concat("8520");
 				break;
 			case "8550":
-				msgKey = get8850ExtentedKey(msg, output, enableMonitor);
+				msgKey = get8550ExtentedKey(msg, output, enableMonitor);
 				break;
 			case "8554":
                 msgKey = "SRLN_8554_TRANSFERQR";
@@ -3840,7 +3844,7 @@ public class Utils {
 		}
 	}
 	
-	private static String get8850ExtentedKey (ISCReqInMsg isc, Iso8583Post out, boolean enableMonitor) throws XPostilion {
+	private static String get8550ExtentedKey (ISCReqInMsg isc, Iso8583Post out, boolean enableMonitor) throws XPostilion {
 		
 		Logger.logLine("Utils 3601:", enableMonitor);
 		
@@ -3869,7 +3873,7 @@ public class Utils {
 		case "2":		
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_ROTATIVO");		
 			break;
-		case "3":		
+		case "3":				
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_CONSUMO");	
 			break;
 		case "4":		
@@ -3884,6 +3888,11 @@ public class Utils {
 		default:
 			break;
 		}	
+		
+		// Se extrae la informacion de la oficina con el fin de identificar la transaccion Pago credito Internet 
+		if (codOficina.equals("5300") || codOficina.equals("5600")) {
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOCREDITOINT");	
+		} 
 		
 		Logger.logLine("entra switch 2 :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE))), enableMonitor);
 		
@@ -3918,7 +3927,7 @@ public class Utils {
 		default:
 			break;
 		}
-		
+			
 		out.putStructuredData(sd);
 		return sd.get("TRAN_KEY_INTERLNAL");
 		
