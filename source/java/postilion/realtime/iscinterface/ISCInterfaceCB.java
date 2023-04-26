@@ -1734,11 +1734,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			String cons = Utils.getTransactionConsecutive("AT", "00", "1");
 			ISCReqInMsg msgCopy = (ISCReqInMsg) msg;
+			ISCResInMsg rsp = new ISCResInMsg();
 			
 			//PROCESANDO INICIALIZACION E INTERCAMBIO DE LLAVES PINPAD
 			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8580")) {
 
-				ISCResInMsg rsp = new ISCResInMsg();
+				
 				rsp = Utils.processMsgSyncPinPad((ISCReqInMsg) msg, this.enableMonitor);
 				
 				return new Action(null, rsp, null, null);
@@ -1747,13 +1748,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
 						FlowDirection.ISC2ISO, cons, this.enableMonitor);
 				
-				
-				
-				Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
-//				Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
-				putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
+				if(rspISOMsg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+						&& rspISOMsg.getStructuredData().get("ERROR") != null) {
+					rsp = Utils.processErrorMsg((ISCReqInMsg) msg, rspISOMsg, rspISOMsg.getStructuredData().get("ERROR"), this.enableMonitor);
+					
+					return new Action(null, rsp, null, null);
+				}else {
+					Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
+//					Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
+					putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
 
-				return new Action(rspISOMsg, null, null, null);
+					return new Action(rspISOMsg, null, null, null);
+				}
+				
+				
 			}
 			
 			

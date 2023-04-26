@@ -10,6 +10,8 @@ import com.sun.org.apache.xpath.internal.res.XPATHErrorResources;
 
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
 import postilion.realtime.iscinterface.ISCInterfaceCB;
+import postilion.realtime.iscinterface.crypto.Crypto;
+import postilion.realtime.iscinterface.crypto.PinPad;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqInMsg.Fields;
@@ -145,16 +147,54 @@ public class RetiroAux {
 			String pan = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(468, 500)));
 			Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
 			Logger.logLine("pan:" + pan, enableMonitor);
-//			try {
-//				CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
-//				DesKwp kwp = crypcfgman.getKwp("ATH_KPE");
-//				Logger.logLine("kwp:" + kwp.getName(), enableMonitor);
-//				newPin = kwp.translatePin(encPinBlock, kwp, pan);
-//				Logger.logLine("newPin:" + newPin, enableMonitor);
-//			} catch (XCrypto e) {
-//				Logger.logLine("KWP ERROR: " + e.toString(), enableMonitor);
-//				EventRecorder.recordEvent(new Exception(e.toString()));
-//			}
+			
+			// ***********************************************************************************************************************
+			// TRANSLATE PIN
+			try {
+				Crypto crypto = new Crypto(enableMonitor);
+				PinPad pinpad = new PinPad();
+				String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364)));
+				String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(548,568)));
+				String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
+				
+				CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
+				DesKwp kwpAth = crypcfgman.getKwp("ATH_KPE");
+				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
+				
+				
+				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
+				if(pinpad == null) {
+					ISCInterfaceCB.pinpadData.clear();
+					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+				}
+				if(pinpad == null || pinpad.getKey_exc() == null) {
+					sd.put("ERROR", "PINPAD NO INICIALIZADO O SIN LLAVE DE INTERCAMBIO");
+				}else {
+					Logger.logLine("pinpad.getKey_exc():" + pinpad.getKey_exc(), enableMonitor);
+					Logger.logLine("kwpAth.getValueUnderKsk():" + kwpAth.getValueUnderKsk(), enableMonitor);
+					Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
+					Logger.logLine("pan:" + pan, enableMonitor);
+					newPin = crypto.translatePin(pinpad.getKey_exc(), kwpAth.getValueUnderKsk(), encPinBlock, pan, enableMonitor);
+				}
+				
+				Logger.logLine("newPin:" + newPin, enableMonitor);
+			} catch (XCrypto e) {
+				sd.put("ERROR", "ERROR CRIPTOGRAFIA");
+				Logger.logLine("KWP ERROR: " + e.toString(), enableMonitor);
+				EventRecorder.recordEvent(new Exception(e.toString()));
+			}
+			
+			// ***********************************************************************************************************************
+			
+			
+			String tipoCuentaDebitar =  "";
+			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("0")) {
+				tipoCuentaDebitar = "10";
+			}else if(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("1")) {
+				tipoCuentaDebitar = "20";
+			}
 			
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
@@ -182,13 +222,15 @@ public class RetiroAux {
 			Logger.logLine("seteando campo 102: 2"+ in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR), enableMonitor);
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR))), 18, '0', false));
 			
+			//127.22 TAG B24_Field_3
+			sd.put("B24_Field_3", "01"+tipoCuentaDebitar+"00");
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
 			sd.put("B24_Field_48", "000000000000               ");
 			Logger.logLine("seteando campo 15:"+ in.getTotalHexString().substring(250, 258), enableMonitor);
 			sd.put("B24_Field_15", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(250, 258))));
 			sd.put("B24_Field_41", "0001".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38)))).concat("00003   "));	
-			sd.put("B24_Field_52", encPinBlock);	
+			sd.put("B24_Field_52", newPin);	
 			Logger.logLine("seteando campo 104:"+ in.getTotalHexString().substring(96, 128), enableMonitor);
 			//sd.put("B24_Field_104", Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(96, 128))), 18, '0', false));
 			sd.put("B24_Field_104", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(136,138))).concat("0")

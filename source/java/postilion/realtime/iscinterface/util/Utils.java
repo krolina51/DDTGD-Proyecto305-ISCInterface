@@ -4627,6 +4627,7 @@ public class Utils {
 				if(pinpad == null) {
 					ISCInterfaceCB.pinpadData.clear();
 					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
 				}
 				if(pinpad == null || pinpad.getKey_ini() == null) {
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "PINPAD NO INICIALIZADO"));
@@ -4725,4 +4726,27 @@ public class Utils {
 
 		return sd.toString();
 	}
+	
+	public static ISCResInMsg processErrorMsg(ISCReqInMsg originalReq, Iso8583Post msg, String error, boolean log ) throws XPostilion {
+		ISCResInMsg rsp = new ISCResInMsg();
+		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, processErrorMsg(originalReq, error));
+		return rsp;
+	}
+	
+	public static String processErrorMsg(ISCReqInMsg originalReq, String error) {
+		StringBuilder sd = new StringBuilder("");
+		
+		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			.append(Transform.fromAsciiToEbcdic("000000000000"))
+			.append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000"))
+			.append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(error));
+		
+
+		return sd.toString();
+	}
+	
+	
 }
