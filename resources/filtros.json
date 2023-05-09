@@ -1,0 +1,46 @@
+[
+  {
+    "Codigo_Transaccion": "8550",
+    "Codigo_Oficina": "4000",
+	"Naturaleza_Presente":true,
+    "Naturaleza": "1,2",
+	"Tarjeta_Presente": true,	
+    "BIN": "457602,450942,421544,491614,457320,457605,457603,464620,457321,457604,491511",
+	"Tarjeta": "-",
+	"Route": "Capa",
+    "Campo100": "-"
+  },
+  {
+    "Codigo_Transaccion": "8550",
+    "Codigo_Oficina": "4000",
+	"Naturaleza_Presente":true,
+    "Naturaleza": "3,4",
+	"Tarjeta_Presente": true,	
+    "BIN": "457602,450942,421544,491614,457320,457605,457603,464620,457321,457604,491511",
+	"Tarjeta": "-",
+	"Route": "Convivencia",
+    "Campo100": "50"
+  },
+  {
+    "Codigo_Transaccion": "8510",
+    "Codigo_Oficina": "4000",
+	"Naturaleza_Presente":false,
+    "Naturaleza": "-",
+	"Tarjeta_Presente": false,	
+    "BIN": "-",
+	"Tarjeta": "-",
+	"Route": "Capa",
+    "Campo100": "-"
+  },
+  {
+    "Codigo_Transaccion": "8550",
+    "Codigo_Oficina": "4000",
+	"Naturaleza_Presente":true,
+    "Naturaleza": "5",
+	"Tarjeta_Presente": true,	
+    "BIN": "ALL",
+	"Tarjeta": "ALL",
+	"Route": "Convivencia",
+    "Campo100": "50"
+  },
+]

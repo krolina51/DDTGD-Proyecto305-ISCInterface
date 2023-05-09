@@ -4660,6 +4660,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				"(.*)COMISION:(.*)SALDO DISPONIBLE:(.*)PIGNORACIONES(.*)IDENTIFI:(.*)SECUENCIA(.*)INDNAL:(.*)TIPTRANS:(.*)NOMBRE2:(.*)",
 				"comision=$2\nsaldo_disponible=$3\npignoraciones=$4\nidentificacion=$5\nsecuencia=$6\ntipo_transaccion=$7tipo_transporte=$8nombre2=$9\n");
 
+//		OUTPUT_TEMPS.put("(.*)COMISION:(.*)SALDO DISPONIBLE:(.*)PIGNORACIONES(.*)IDENTIFI:(.*)SECUENCIA(.*)TIPODOC(.*)COMISIONIVA:(.*)",
+//				"comision=$2\nsaldo_disponible=$3\npignoraciones=$4\nidentificacion=$5\nsecuencia=$6\ntipo_doc=$7\ncomisioniva=$8");
+		
 		OUTPUT_TEMPS.put("(.*)COMISION:(.*)SALDO DISPONIBLE:(.*)PIGNORACIONES(.*)IDENTIFI:(.*)SECUENCIA(.*)TIPODOC(.*)",
 				"comision=$2\nsaldo_disponible=$3\npignoraciones=$4\nidentificacion=$5\nsecuencia=$6\ntipo_doc=$7\n");
 

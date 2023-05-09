@@ -23,6 +23,7 @@ import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
 import postilion.realtime.sdk.ipc.SecurityManager;
 import postilion.realtime.sdk.jdbc.JdbcManager;
+import postilion.realtime.sdk.message.bitmap.Iso8583Post.RspCode;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
 import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
@@ -565,6 +566,142 @@ public class DBHandler {
 	}
 	
 	/**
+	 * El metodo se encarga de validar que la tarjeta del cliente del corresponsal
+	 * exista. Si la tarjeta existe trae informacion de base de datos relacionada a
+	 * la tarjeta y a su cuenta. Modifica al objeto Super almacenando la informacion
+	 * encontrada en base. de lo contrario genera una declinacion.
+	 * 
+	 * @param pCode
+	 * @param pan
+	 * @param typeAccountInput
+	 * @param expiryDate
+	 * @param accountInput
+	 * @param objectValidations
+	 * @throws Exception
+	 */
+	public static void accountsClienteCNB(String pCode, String pan, String typeAccountInput, String expiryDate,
+			String accountInput, StructuredData sd) throws Exception {
+
+			String panHash = Utils.getHashPanCNB(pan);
+
+			CallableStatement cst = null;
+			CallableStatement stmt = null;
+			ResultSet rs = null;
+			Connection con = null;
+			try {
+
+				con = JdbcManager.getConnection(Account.POSTCARD_DATABASE);
+				stmt = con.prepareCall(StoreProcedures.GET_CUSTOMES_ID_DEFAULT_ACCOUNT_TYPE_NAME);
+				stmt.setString(1, panHash);
+				stmt.setString(2, expiryDate);
+				stmt.registerOutParameter(3, java.sql.Types.VARCHAR);// customer id
+				stmt.registerOutParameter(4, java.sql.Types.VARCHAR);// default account type
+				stmt.registerOutParameter(5, java.sql.Types.VARCHAR);// name
+				stmt.registerOutParameter(6, java.sql.Types.INTEGER);// issure
+				stmt.registerOutParameter(7, java.sql.Types.VARCHAR);// extended field
+				stmt.registerOutParameter(8, java.sql.Types.VARCHAR);// sequence nr
+				stmt.registerOutParameter(9, java.sql.Types.CHAR);// id type
+				stmt.execute();
+
+				String customerId = stmt.getString(3);// customer id
+				String defaultAccountType = stmt.getString(4);// default account type
+				String customerName = stmt.getString(5);// name
+				int issuerNr = stmt.getInt(6);// issuer number
+				String extendedField = stmt.getString(7);// extended field
+				String sequenceNr = stmt.getString(8);// sequence number
+				String idType = stmt.getString(9);// id type
+				String accountTypeClient = null;// account Type
+				String accountNumber = null;// account Number
+				String processingCode = pCode;// p Code
+
+				if (!(issuerNr == 0)) {
+					cst = con.prepareCall(StoreProcedures.CM_LOAD_CARD_ACCOUNTS);
+					cst.setInt(1, issuerNr);
+					cst.setString(2, panHash);
+					cst.setString(3, sequenceNr);
+					rs = cst.executeQuery();
+					boolean doWhile = true;
+					boolean byDefault = true;
+					while (rs.next()) {
+						doWhile = false;
+						String accountType = rs.getString(ColumnNames.ACCOUNT_TYPE);// account type
+						String accountId = rs.getString(ColumnNames.ACCOUNT_ID);// account type
+
+						accountInput = ("000000000000000000" + accountInput)
+								.substring(("000000000000000000" + accountInput).length() - 18);
+
+						if (accountInput.equals(Utils.getClearAccount(accountId))) {
+							accountTypeClient = accountType;// account type
+							accountNumber = accountId;// cuenta
+							processingCode = pCode.substring(0, 2) + accountTypeClient + pCode.substring(4, 6);
+							break;
+						} else if (accountType.equals(typeAccountInput) && byDefault) {
+							accountTypeClient = accountType;// account type
+							accountNumber = accountId;// cuenta
+							processingCode = pCode.substring(0, 2) + accountTypeClient + pCode.substring(4, 6);
+							byDefault = false;
+						} else if (accountType.equals(defaultAccountType) && byDefault) {
+							accountTypeClient = accountType;// account type
+							accountNumber = accountId;// cuenta
+							processingCode = pCode.substring(0, 2) + accountTypeClient + pCode.substring(4, 6);
+						}
+					}
+					if (doWhile) {
+						chooseCodeForNoAccount(pCode, sd);
+					} else {
+						if (accountTypeClient == null || accountNumber == null) {
+							sd.put("ERROR","CUENTA NO ASOCIADA");
+
+						} else {
+							sd.put("P_CODE", processingCode);
+
+							sd.put("CLIENT_ACCOUNT_NR", Utils.getClearAccount(accountNumber));
+							sd.put("CLIENT_CARD_NR", pan);
+
+							sd.put("CLIENT_ACCOUNT_TYPE", accountTypeClient);
+							sd.put("CUSTOMER_ID", customerId);
+							sd.put("CLIENT_CARD_CLASS", extendedField);
+							sd.put("CUSTOMER_NAME", customerName);
+							sd.put("CUSTOMER_ID_TYPE", idType);
+
+						}
+					}
+				} else {
+					sd.put("ERROR","NO EXITE TARJETA CLIENTE");
+				}
+
+			} catch (SQLException e) {
+				sd.put("ERROR","Database Connection Failure.");
+				e.printStackTrace();
+				EventRecorder.recordEvent(
+						new Exception("SQL Ex: " + e.toString()));
+				EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+						Utils.getStringMessageException(e) }));
+
+			} finally {
+				JdbcManager.cleanup(con, stmt, rs);
+				JdbcManager.cleanup(con, cst, rs);
+			}
+		
+
+	}
+	
+	public static void chooseCodeForNoAccount(String pCode, StructuredData sd) {
+
+		switch (pCode.substring(2, 4)) {
+		case "20":
+			sd.put("ERROR","NO CHECK ACCOUNT");
+			break;
+		case "10":
+			sd.put("ERROR","NO SAVINGS ACCOUNT");
+			break;
+		default:
+			sd.put("ERROR","Cuenta No Inscrita");
+			break;
+		}
+	}
+	
+	/**
 	 * Define sentencias a ejecutar en base de datos.
 	 * 
 	 * @author Cristian Cardozo
@@ -575,6 +712,58 @@ public class DBHandler {
 		public static final String UPDATE_KEY_INIT_PINPAD = "UPDATE cust_pinpad_data SET key_ini = ?, key_snd = ?, fecha_inicializacion = ?, fecha_modificacion = ?, usuario_modificacion = ? WHERE codigo_oficina=? and serial=?";
 		public static final String INSERT_KEY_INIT_PINPAD = "INSERT INTO cust_pinpad_data(codigo_oficina,serial,terminal1,fecha_inicializacion,key_ini,key_snd,fecha_creacion,usuario_creacion) VALUES(?,?,?,?,?,?,?,?)";
 		public static final String UPDATE_KEY_EXC_PINPAD = "UPDATE cust_pinpad_data SET key_exc = ?, key_exc_snd = ?, fecha_intercambio = ?, fecha_modificacion = ?, usuario_modificacion = ? WHERE codigo_oficina=? and serial=?";
+	}
+	
+	public static class Account {
+		public static final int NUMBER_RESULT_ACCOUNTS = 6;
+		public static final int ID = 0;
+		public static final int TYPE = 1;
+		public static final int CUSTOMER_ID = 2;
+		public static final int CUSTOMER_NAME = 3;
+		public static final int CUSTOMER_NAME_CNB = 2;
+		public static final int CORRECT_PROCESSING_CODE = 4;
+		public static final int PROTECTED_CARD_CLASS = 5;
+		public static final int FULL_LENGHT_FIELD_102 = 18;
+		public static final String TRUE = "true";
+		public static final String FALSE = "false";
+		public static final String NIL = "NIL";
+		public static final String POSTCARD_DATABASE = "postcard";
+		public static final String DEFAULT_PROCESSING_CODE = "000000";
+		public static final String CUSTOMER_NO_NAME = "**CLIENTE NO ENCONTRADO**";
+		public static final String NO_CARD_RECORD = "**ESTA TARJETA NO EXISTE**";
+		public static final String NO_ACCOUNT_LINKED = "**ESTA TARJETA NO TIENE UNA CUENTA ASOCIADA**";
+		public static final String NO_PROTECTED_CARD_CLASS = "**NO HAY CLASE ASOCIADA A ESTA TARJETA**";
+		public static final char ZERO_FILLER = '0';
+	}
+	
+	/**
+	 * Almacena los Store Procedures utilizados en la clase
+	 * 
+	 * @author Cristian Cardozo
+	 *
+	 */
+	public static class StoreProcedures {
+		public static final String GET_CUSTOMES_ID_DEFAULT_ACCOUNT_TYPE_NAME = "{call GET_customer_id_default_account_type_NAME(?,?,?,?,?,?,?,?,?)}";
+		public static final String GET_CUSTOMES_ID_DEFAULT_ACCOUNT_TYPE_NAME2 = "{call GET_customer_id_default_account_type_NAME2(?,?,?,?,?,?,?,?,?)}";
+		public static final String GET_CUSTOMES_ID_DEFAULT_ACCOUNT_TYPE_NAME_WITHOUT_EXPIRYDATE = "{call GET_customer_id_default_account_type_NAME_without_ExpiryDate(?,?,?,?,?,?,?,?)}";
+		public static final String GET_CUSTOMES_ID_DEFAULT_ACCOUNT_TYPE_NAME_CNB = "{call GET_customer_id_default_account_type_NAME_CNB(?,?,?,?,?,?,?)}";
+		public static final String GET_ACCOUNTS_CNB = "{call b_get_account(?,?,?)}";
+		public static final String GET_ACCOUNT_ADITIONAL_INFO_CNB = "{call pc_get_account_aditional_data(?,?,?)}";
+
+		public static final String CM_LOAD_CARD_ACCOUNTS = "{call cm_load_card_accounts(?,?,?)}";
+	}
+	
+	/**
+	 * Define el nombre de las columnas
+	 * 
+	 * @author Cristian Cardozo
+	 *
+	 */
+	public static class ColumnNames {
+		public static final String ACCOUNT_TYPE = "account_type";
+		public static final String ACCOUNT_ID = "account_id_encrypted";
+		public static final String QUALIFIER = "account_type_qualifier";
+		public static final String ACTIVE = "active";
 	}
 	
 

@@ -60,6 +60,8 @@ import postilion.realtime.sdk.crypto.DesKwp;
 import postilion.realtime.sdk.crypto.XCrypto;
 import postilion.realtime.sdk.env.calendar.BusinessCalendar;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
+import postilion.realtime.sdk.ipc.SecurityManager;
+import postilion.realtime.sdk.ipc.XEncryptionKeyError;
 import postilion.realtime.sdk.message.IMessage;
 import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
@@ -75,6 +77,33 @@ public class Utils {
 	private static final String EBCDIC_ENCODING = "IBM-1047";
 	private static final String HEX_CHARS = "0123456789abcdef";
 	private static final String KEY_VALUES_REGEX = "(\\w*)=(.*)";
+	
+	
+	/** Instancia de SecurityManager **/
+	public static SecurityManager securityManager = null;
+
+	static {
+		try {
+			securityManager = new SecurityManager();
+		} catch (Exception e) {
+			System.exit(1);
+		}
+	}
+	
+	public static String getHashPanCNB(String pan) throws Exception {
+		return securityManager.hashToString(pan, SecurityManager.DigestAlgorithm.HMAC_SHA1, true);
+	}
+	
+	/**
+	 * Obtiene el id de cuenta en claro.
+	 * 
+	 * @param object El id de la cuenta cifrado.
+	 * @return Id de cuenta en claro.
+	 * @throws XEncryptionKeyError En caso de error.
+	 */
+	public static String getClearAccount(String encryptedAccId) throws XEncryptionKeyError {
+		return securityManager.decryptToString(encryptedAccId);
+	}
 
 	public static String ebcdicToAscii(String strHexEbcdic) {
 		String strAscii = "";
@@ -2669,12 +2698,22 @@ public class Utils {
 		Logger.logLine("********************************SETING COMISION\n", false);
 		
 		if(null != sd.get(Constant.B24Fields.B24_F_126)) {
-			sd.put(Constant.B24Fields.B24_F_126, sd.get(Constant.TagNames.COMISION) != null
-					? sd.get(Constant.B24Fields.B24_F_126).substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
-							.concat(Pack.resize(sd.get(Constant.TagNames.COMISION).replace(".", ""), 12, '0', false))
-							.concat(sd.get(Constant.B24Fields.B24_F_126)
-									.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
-					: sd.get(Constant.B24Fields.B24_F_126));
+			if(null != sd.get("TRANSFER_QR") && sd.get("TRANSFER_QR").equals("TRUE") && sd.get("COMISIONIVA") != null) {
+				sd.put(Constant.B24Fields.B24_F_126, sd.get("COMISIONIVA") != null
+						? sd.get(Constant.B24Fields.B24_F_126).substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
+								.concat(Pack.resize(sd.get("COMISIONIVA").replace(".", ""), 12, '0', false))
+								.concat(sd.get(Constant.B24Fields.B24_F_126)
+										.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
+						: sd.get(Constant.B24Fields.B24_F_126));
+			}else {
+				sd.put(Constant.B24Fields.B24_F_126, sd.get(Constant.TagNames.COMISION) != null
+						? sd.get(Constant.B24Fields.B24_F_126).substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
+								.concat(Pack.resize(sd.get(Constant.TagNames.COMISION).replace(".", ""), 12, '0', false))
+								.concat(sd.get(Constant.B24Fields.B24_F_126)
+										.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
+						: sd.get(Constant.B24Fields.B24_F_126));
+			}
+			
 		}
 		
 		// String paData =
@@ -3666,6 +3705,9 @@ public class Utils {
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
 			switch (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE))) {
+			case "8500":
+				msgKey = "SRLN_8500_VALIDACIONPIN";
+				break;
 			case "8510":
 				msgKey = "SRLN_8510_CONSULDIV";
 				break;
@@ -4345,6 +4387,8 @@ public class Utils {
 		OUTPUT_FIELDS.put("MOVIMIEN5(.*)", "movimien_5=$1");
 		
 		OUTPUT_FIELDS.put("CUENTA:(.*)", "cuenta_homologada=$1");
+		
+		OUTPUT_FIELDS.put("COMISIONIVA:(.*)", "comisioniva=$1");
 
 	}
 
