@@ -104,12 +104,23 @@ public class TransferAuxQR {
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
 						.concat(Pack.resize("",  10, '0', true));
+				
+				//CAMPO 37 Retrieval Reference Number
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+						//.concat(secuencialesAlearios(4)));
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
+
+			
 			}else {
 				p125 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
 						.concat(Pack.resize("",  114, '0', true))
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
 						.concat(Pack.resize("",  10, '0', true));
+				
+				//CAMPO 37 Retrieval Reference Number
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, andendaRef2.substring(0,12));
 
  			}
 			//CAMPO 3 
@@ -130,12 +141,6 @@ public class TransferAuxQR {
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=2912000");
 			
-			//CAMPO 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					//.concat(secuencialesAlearios(4)));
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
-
 		
 			//CAMPO 102 DEBIT ACCOUNT
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "00010".concat(cuentaDebitar));
