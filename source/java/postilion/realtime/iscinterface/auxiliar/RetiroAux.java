@@ -46,8 +46,23 @@ public class RetiroAux {
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
 			Date businessCalendarDate = null;
 			String settlementDate = null;
+			String tranType = null;
 			
-			String key = "0200".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5));
+			String p37 = "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR))));
+			
+			String p12 = new DateTime().get("HHmmss");
+			String p13 = new DateTime().get("MMdd");
+			
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+			
+			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String seqNr = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414)));
 			String seqNrReverse = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(414, 422)));
 			String keyReverse = null;
@@ -60,8 +75,84 @@ public class RetiroAux {
 				sd = new StructuredData();
 			}
 			
+			
+			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
+			String newPin = "FFFFFFFFFFFFFFFF";
+			String encPinBlock = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(622, 654)));
+			String pan = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(468, 500)));
+			Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
+			Logger.logLine("pan:" + pan, enableMonitor);
+			
+			// ***********************************************************************************************************************
+			// TRANSLATE PIN
+			try {
+				Crypto crypto = new Crypto(enableMonitor);
+				PinPad pinpad = new PinPad();
+				String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364)));
+				String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(548,568)));
+				String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
+				
+				CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
+				DesKwp kwpAth = crypcfgman.getKwp("ATH_KPE_OFI");
+				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
+				
+				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
+				if(pinpad == null) {
+					ISCInterfaceCB.pinpadData.clear();
+					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+				}
+				if(pinpad == null || pinpad.getKey_exc() == null) {
+					sd.put("ERROR", "PINPAD NO INICIALIZADO O SIN LLAVE DE INTERCAMBIO");
+				}else {
+					Logger.logLine("pinpad.getKey_exc():" + pinpad.getKey_exc(), enableMonitor);
+					Logger.logLine("kwpAth.getValueUnderKsk():" + kwpAth.getValueUnderKsk(), enableMonitor);
+					Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
+					Logger.logLine("pan:" + pan, enableMonitor);
+					newPin = crypto.translatePin(pinpad.getKey_exc(), kwpAth.getValueUnderKsk(), encPinBlock, pan, enableMonitor);
+				}
+				
+				Logger.logLine("newPin:" + newPin, enableMonitor);
+			} catch (XCrypto e) {
+				sd.put("ERROR", "ERROR CRIPTOGRAFIA");
+				Logger.logLine("KWP ERROR: " + e.toString(), enableMonitor);
+				EventRecorder.recordEvent(new Exception(e.toString()));
+			}
+			
+			// ***********************************************************************************************************************
+			
+			tranType = "01";
+			String tipoCuentaDebitar =  "";
+			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("0")) {
+				tipoCuentaDebitar = "10";
+			}else if(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("1")) {
+				tipoCuentaDebitar = "20";
+			}
+			
+			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
+			
+			
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			
+			Logger.logLine("sd:" + sd, enableMonitor);
+			//TRACK2 Field 35
+			Logger.logLine("seteando campo 35:"+in.getTotalHexString().substring(468, 542), enableMonitor);
+			out.putField(Iso8583.Bit._035_TRACK_2_DATA, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(468, 542))), 37, '0', false));
+			
+			//CAMPO 37 Retrieval Reference Number
+			Logger.logLine("seteando campo 37:"+ in.getTotalHexString().substring(30, 46), enableMonitor);
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
+			
+			//CAMPO 102 DEBIT ACCOUNT
+			Logger.logLine("seteando campo 102: 1"+ in.getTotalHexString(), enableMonitor);
+			Logger.logLine("seteando campo 102: 2"+ in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR), enableMonitor);
+			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR))), 18, '0', false));
+			
+			
 			// PROCESAMIENTO DE REVERSO
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
+					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
 				
 				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
 				if(keyReverse == null)
@@ -76,6 +167,9 @@ public class RetiroAux {
 				
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
 				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				
+				if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
+					tranType = "20";
 				
 			//PROCESAMIENTO TX FINANCIERA	
 			} else {
@@ -141,89 +235,8 @@ public class RetiroAux {
 				sd.put("B24_Field_126", constructField126(parts));
 				
 			}
-			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
-			String newPin = "FFFFFFFFFFFFFFFF";
-			String encPinBlock = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(622, 654)));
-			String pan = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(468, 500)));
-			Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
-			Logger.logLine("pan:" + pan, enableMonitor);
-			
-			// ***********************************************************************************************************************
-			// TRANSLATE PIN
-			try {
-				Crypto crypto = new Crypto(enableMonitor);
-				PinPad pinpad = new PinPad();
-				String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364)));
-				String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(548,568)));
-				String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
-				
-				CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
-				DesKwp kwpAth = crypcfgman.getKwp("ATH_KPE_OFI");
-				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
-				
-				
-				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
-				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
-				if(pinpad == null) {
-					ISCInterfaceCB.pinpadData.clear();
-					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
-					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
-				}
-				if(pinpad == null || pinpad.getKey_exc() == null) {
-					sd.put("ERROR", "PINPAD NO INICIALIZADO O SIN LLAVE DE INTERCAMBIO");
-				}else {
-					Logger.logLine("pinpad.getKey_exc():" + pinpad.getKey_exc(), enableMonitor);
-					Logger.logLine("kwpAth.getValueUnderKsk():" + kwpAth.getValueUnderKsk(), enableMonitor);
-					Logger.logLine("encPinBlock:" + encPinBlock, enableMonitor);
-					Logger.logLine("pan:" + pan, enableMonitor);
-					newPin = crypto.translatePin(pinpad.getKey_exc(), kwpAth.getValueUnderKsk(), encPinBlock, pan, enableMonitor);
-				}
-				
-				Logger.logLine("newPin:" + newPin, enableMonitor);
-			} catch (XCrypto e) {
-				sd.put("ERROR", "ERROR CRIPTOGRAFIA");
-				Logger.logLine("KWP ERROR: " + e.toString(), enableMonitor);
-				EventRecorder.recordEvent(new Exception(e.toString()));
-			}
-			
-			// ***********************************************************************************************************************
-			
-			
-			String tipoCuentaDebitar =  "";
-			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("0")) {
-				tipoCuentaDebitar = "10";
-			}else if(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(180, 182))).equals("1")) {
-				tipoCuentaDebitar = "20";
-			}
-			
-			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
-			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}else {
-				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}
-			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
-			
-			Logger.logLine("sd:" + sd, enableMonitor);
-			//TRACK2 Field 35
-			Logger.logLine("seteando campo 35:"+in.getTotalHexString().substring(468, 542), enableMonitor);
-			out.putField(Iso8583.Bit._035_TRACK_2_DATA, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(468, 542))), 37, '0', false));
-			
-			//CAMPO 37 Retrieval Reference Number
-			Logger.logLine("seteando campo 37:"+ in.getTotalHexString().substring(30, 46), enableMonitor);
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
-			
-			//CAMPO 102 DEBIT ACCOUNT
-			Logger.logLine("seteando campo 102: 1"+ in.getTotalHexString(), enableMonitor);
-			Logger.logLine("seteando campo 102: 2"+ in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR), enableMonitor);
-			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR))), 18, '0', false));
-			
 			//127.22 TAG B24_Field_3
-			sd.put("B24_Field_3", "01"+tipoCuentaDebitar+"00");
+			sd.put("B24_Field_3", tranType+tipoCuentaDebitar+"00");
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
 			sd.put("B24_Field_48", "000000000000               ");

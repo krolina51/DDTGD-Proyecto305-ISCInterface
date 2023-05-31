@@ -137,7 +137,6 @@ public class ValidacionPinAux {
 				DesKwp kwpAth = crypcfgman.getKwp("ATH_KPE_OFI");
 				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
 				
-				
 				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
 				Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
 				if(pinpad == null) {

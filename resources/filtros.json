@@ -1,9 +1,9 @@
 [
   {
     "Codigo_Transaccion": "8550",
-    "Codigo_Oficina": "4000",
+    "Codigo_Oficina": "5000",
 	"Naturaleza_Presente":true,
-    "Naturaleza": "1,2",
+    "Naturaleza": "1",
 	"Tarjeta_Presente": true,	
     "BIN": "457602,450942,421544,491614,457320,457605,457603,464620,457321,457604,491511",
 	"Tarjeta": "-",
@@ -12,9 +12,31 @@
   },
   {
     "Codigo_Transaccion": "8550",
+    "Codigo_Oficina": "6000",
+	"Naturaleza_Presente":true,
+    "Naturaleza": "2",
+	"Tarjeta_Presente": true,	
+    "BIN": "457602,450942,421544,491614,457320,457605,457603,464620,457321,457604,491511",
+	"Tarjeta": "-",
+	"Route": "Capa",
+    "Campo100": "-"
+  },
+  {
+    "Codigo_Transaccion": "8550",
+    "Codigo_Oficina": "7000",
+	"Naturaleza_Presente":true,
+    "Naturaleza": "2",
+	"Tarjeta_Presente": false,	
+    "BIN": "-",
+	"Tarjeta": "-",
+	"Route": "Capa",
+    "Campo100": "-"
+  },
+  {
+    "Codigo_Transaccion": "8550",
     "Codigo_Oficina": "4000",
 	"Naturaleza_Presente":true,
-    "Naturaleza": "3,4",
+    "Naturaleza": "3",
 	"Tarjeta_Presente": true,	
     "BIN": "457602,450942,421544,491614,457320,457605,457603,464620,457321,457604,491511",
 	"Tarjeta": "-",

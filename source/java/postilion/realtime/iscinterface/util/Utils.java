@@ -3403,6 +3403,50 @@ public class Utils {
 		
 		Iso8583Post mappedIso = new Iso8583Post();
 		
+		switch (Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE))) {
+		case "080":
+			mappedIso.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
+			break;
+		case "020":
+			mappedIso.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
+			break;
+
+		default:
+			mappedIso.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
+			break;
+		}
+
+		
+		//CONSTRUCCION DE LA LLAVE DEL MSG
+		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso, enableMonitor);
+
+		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
+		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, enableMonitor);
+		try {
+			//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
+			if (tSettings != null && tSettings.getAuxiliarClass() != null) {
+				
+				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
+			}
+			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
+		}
+		catch(Exception e) {
+			e.printStackTrace();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processReqISCMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processReqISCMsg" + "]\n" + "processReqISCMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
+		}
+
+		Logger.logLine("OUTPUT:" + mappedIso.toString(), enableMonitor);
+		return mappedIso;
+	}
+	
+public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir, String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
+		
+		Iso8583Post mappedIso = new Iso8583Post();
+		
 		if (Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
 				|| Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
 			mappedIso.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
@@ -3411,7 +3455,7 @@ public class Utils {
 		}
 		
 		//CONSTRUCCION DE LA LLAVE DEL MSG
-		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso, enableMonitor);
+		String msgKey = "CONVIVENCIA";
 
 		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
 		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, enableMonitor);
@@ -4668,6 +4712,8 @@ public class Utils {
 					pinpad.setUsuario_modificacion("Postilion");
 					
 					DBHandler.updateInsertPinPadDataInit(pinpad);
+					ISCInterfaceCB.pinpadData.clear();
+					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessInitPinPad(msg,pinpad));
 				}
 					
@@ -4697,6 +4743,8 @@ public class Utils {
 						pinpad.setFecha_modificacion(timestamp);
 						pinpad.setUsuario_modificacion("Postilion");
 						DBHandler.updateInsertPinPadDataExchange(pinpad);
+						ISCInterfaceCB.pinpadData.clear();
+						ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
 						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessExchangePinPad(msg,pinpad));
 					}
 						

@@ -34,8 +34,24 @@ public class PagoConvenioInternetAux {
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
 			Date businessCalendarDate = null;
 			String settlementDate = null;
+			String tranType = null;
 			
-			String key = "0200".concat(new DateTime().get("MMddHHmmss")).concat("0"+cons.substring(2, 5));
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+			
+			String p37 = "0901"
+				    .concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(38, 46))));
+			
+			String p12 = new DateTime().get("HHmmss");
+			String p13 = new DateTime().get("MMdd");
+			
+			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String seqNr = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626)));
 			String seqNrReverse = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(626, 634)));
 			String keyReverse = null;
@@ -50,39 +66,8 @@ public class PagoConvenioInternetAux {
 				sd = new StructuredData();
 			}
 			
-			// PROCESAMIENTO DE REVERSO
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
-				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
-				
-				if(keyReverse == null) {
-					keyReverse = "0000000000";
-					sd.put("REV_DECLINED", "TRUE");
-				}
-				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-				
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
-				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-				
-			//PROCESAMIENTO TX FINANCIERA	
-			} else {
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626))));			
-				//127.2 SWITCHKEY
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
-				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
-			}
 			
-			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}else {
-				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}
-
+			tranType = "40";
 			String debitAccountType = "";
 			String valueAccountType = "";
 			String cuenta = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(208,240)));
@@ -109,17 +94,46 @@ public class PagoConvenioInternetAux {
 				debitAccountType ="10";
 				break;
 			}
+			
+			
+			
+			// PROCESAMIENTO DE REVERSO
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
+				
+				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
+				if(keyReverse == null)
+					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				
+				if(keyReverse == null) {
+					keyReverse = "0000000000";
+					sd.put("REV_DECLINED", "TRUE");
+				}
+				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+				
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
+				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				
+				if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
+					tranType = "20";
+				
+			//PROCESAMIENTO TX FINANCIERA	
+			} else {
+				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626))));			
+				//127.2 SWITCHKEY
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
+				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
+			}
 			//Field 3
-			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "40".concat(debitAccountType).concat("00"));
+			out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(debitAccountType).concat("00"));
 			
 			//CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
 			//Field 12
-			out.putField(Iso8583.Bit._012_TIME_LOCAL,new DateTime().get("HHmmss"));
+			out.putField(Iso8583.Bit._012_TIME_LOCAL, p12);
 			
 			//Field 13
-			out.putField(Iso8583.Bit._013_DATE_LOCAL, new DateTime().get("MMdd"));
+			out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
 			
 			//Field 15
 			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
@@ -128,9 +142,7 @@ public class PagoConvenioInternetAux {
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "008801".concat(cuenta.substring(3).concat("D99120000000100000")));
 
 			//Field 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
-					    .concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(38, 46)))));
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
 				
 			//Field 102
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(cuenta, 18, '0', false));

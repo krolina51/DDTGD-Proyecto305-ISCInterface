@@ -34,11 +34,23 @@ public class TransferAux {
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
 			Date businessCalendarDate = null;
 			String settlementDate = null;
+			String tranType = null;
 			
-			String mes = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(292, 296)));
-			String dia = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(288, 292)));
-			String hora = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)));
-			String key = "0200".concat(mes).concat(dia).concat(hora).concat("0"+cons.substring(2, 5));
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}else {
+				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			}
+
+			String p37 = "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR))));
+			
+			String p12 = new DateTime().get("HHmmss");
+			String p13 = new DateTime().get("MMdd");
+			
+			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String seqNr = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414)));
 			String seqNrReverse = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(414, 422)));
 			String keyReverse = null;
@@ -53,49 +65,6 @@ public class TransferAux {
 				sd = new StructuredData();
 			}
 			
-			// PROCESAMIENTO DE REVERSO
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
-				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
-				
-				if(keyReverse == null) {
-					keyReverse = "0000000000";
-					sd.put("REV_DECLINED", "TRUE");
-				}
-				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-				
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
-				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-				
-			//PROCESAMIENTO TX FINANCIERA	
-			} else {
-				Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
-				String p125 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))), 30, ' ', true)
-						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1732, 1778))), 30, ' ', true))
-						.concat("                              ");
-				
-				//127.22 TAG B24_Field_125
-				sd.put("B24_Field_125", p125);
-				
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
-				
-				
-				//127.2 SWITCHKEY
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
-				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
-				
-				
-			}
-
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}else {
-				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			}
 			
 			String p41 = "0001820100002   ";
 			String bin = "008801";
@@ -131,6 +100,7 @@ public class TransferAux {
 				p43 = "BOG            BBS BTA             BOCCO";
 			}
 			
+			tranType = "40";
 			String tipoCuentaCreditar =  "";
 			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(146, 148))).equals("0")) {
 				tipoCuentaCreditar = "10";
@@ -150,13 +120,51 @@ public class TransferAux {
 			
 
 
-			
-			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "40".concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
+			// PROCESAMIENTO DE REVERSO
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
+					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
+				
+				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
+				if(keyReverse == null)
+					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				
+				if(keyReverse == null) {
+					keyReverse = "0000000000";
+					sd.put("REV_DECLINED", "TRUE");
+				}
+				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+				
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
+				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				
+				if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
+					tranType = "20";
+				
+			//PROCESAMIENTO TX FINANCIERA	
+			} else {
+				Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
+				String p125 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))), 30, ' ', true)
+						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1732, 1778))), 30, ' ', true))
+						.concat("                              ");
+				
+				//127.22 TAG B24_Field_125
+				sd.put("B24_Field_125", p125);
+				
+				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
+				
+				
+				//127.2 SWITCHKEY
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
+				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
+				
+				
+			}
+			out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(tipoCuentaDebitar).concat(tipoCuentaCreditar));
 			
 //			//CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
-			out.putField(Iso8583.Bit._013_DATE_LOCAL, mes.concat(dia));
+			out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
 			
 			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
 			
@@ -164,8 +172,7 @@ public class TransferAux {
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
 			
 			//CAMPO 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
 			
 			//TRACK2 Field 43
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, p43);
