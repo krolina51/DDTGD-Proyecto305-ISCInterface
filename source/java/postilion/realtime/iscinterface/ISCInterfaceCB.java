@@ -33,7 +33,6 @@ import postilion.realtime.date.CalendarDTO;
 import postilion.realtime.date.CalendarLoader;
 import postilion.realtime.date.SettlementDate;
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
-import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
@@ -112,7 +111,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	private HashMap<String, ResponseCode> v2CodesIscToIso = new HashMap<>();
 
 	// Variable que almacena durante un tiempo estipulado los mensajes
-	private TimedHashtable transStore = null;
+	public TimedHashtable transStore = null;
 	public TimedHashtable iscReqMsg = null;
 
 	// Variable que dictamina el tiempo en el tiempo de los msg en "tranRequest"
@@ -228,6 +227,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		this.interName = interchange.getName();
 		thisInter = interchange;
 		this.wc = WebClient.getWebClient();
+		filtroISC.clear();
+		filtroISC = new HashMap<>();
 
 		String[] parameterArray = getParameters(interchange);
 
@@ -449,16 +450,18 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		
 		if (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
 				&& msg.getStructuredData().get("ISCREQ_MessageConv") != null) {
-			String sdData = msg.getStructuredData().get("ISCREQ_MessageConv");
-			byte[] decodedBytes = Base64.getDecoder().decode(sdData);
-			String decodedString = new String(decodedBytes);
-			Logger.logLine("ISCREQ_MessageConv: " + decodedString,this.enableMonitor);
+			Action action = new Action();
+			String iscReq = msg.getStructuredData().get("ISCREQ_Message");
 			ISCReqInMsg iscInputReq = new ISCReqInMsg();
-
-			iscInputReq.fromHexStr(decodedString);
+			iscInputReq.fromHexStr(iscReq);
 			
+			String trankey = Transform.fromEbcdicToAscii(iscInputReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL))
+					.concat(Transform.fromEbcdicToAscii(iscInputReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR)));
+			Logger.logLine("TRANKEY IDA ISCReqInMsg:" + trankey, this.enableMonitor);
+			this.transStore.put(trankey, msg);
 			
-			return new Action(null, iscInputReq, null, null);
+			action.putMsgToRemote(iscInputReq);
+			return action;
 		} else {
 		
 			this.tStart = System.currentTimeMillis();
@@ -1419,10 +1422,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				String sdData = msg.getStructuredData().get("ISCREQ_MessageConvRsp");
 				byte[] decodedBytes = Base64.getDecoder().decode(sdData);
 				String decodedString = new String(decodedBytes);
-				Logger.logLine("ISCREQ_MessageConv: " + decodedString,this.enableMonitor);
-				ISCReqInMsg iscResInMsg = new ISCReqInMsg();
+				
+				ISCResInMsg iscResInMsg = new ISCResInMsg();
 
 				iscResInMsg.fromHexStr(decodedString);
+				
+				Logger.logLine("ISCREQ_MessageConv: " + iscResInMsg,this.enableMonitor);
 				
 				action.putMsgToRemote(iscResInMsg);
 				
@@ -1699,7 +1704,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		Logger.logLine("[processSetCommand][param]" + param + "[value]" + value, this.enableMonitor);
 
-		switch (param) {
+		switch (param.toUpperCase()) {
 		case "NEXTDAY":
 			if (value.equals("ON") || value.equals("true")) {
 				this.isNextDay = true;
@@ -1713,6 +1718,13 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			}
 			break;
+		case "REFRESH":
+			if(value.toUpperCase().equals("FILTROS")) {
+				filtroISC.clear();
+				fillFilters();	
+				return new Action();
+			}
+			break;	
 		default:
 			if (value.equals("ON") || value.equals("true")) {
 				this.isNextDay = true;
@@ -1763,14 +1775,18 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			
 			Logger.logLine("PROCESSING ISCResInMsg FROM HOST", this.enableMonitor);
 			ISCResInMsg rspISCMsg = (ISCResInMsg) msg;
+			
+			Logger.logLine("TRANKEY VUELTA ISCReqInMsg" + Transform.fromEbcdicToAscii(rspISCMsg.getField(ISCResInMsg.Fields._04_H_TERMINAL))
+					.concat(Transform.fromEbcdicToAscii(rspISCMsg.getField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR))), this.enableMonitor);
 
-			String tranKey = rspISCMsg.getField(ISCReqInMsg.Fields._05_H_TERMINAL)+rspISCMsg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR);
+			String tranKey = Transform.fromEbcdicToAscii(rspISCMsg.getField(ISCResInMsg.Fields._04_H_TERMINAL))
+					.concat(Transform.fromEbcdicToAscii(rspISCMsg.getField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR)));
 
-			Logger.logLine("tranKey en la vuelta ISCResInMSG" +  tranKey, this.enableMonitor);
+			Logger.logLine("tranKey en la vuelta ISCResInMSG: " +  tranKey, this.enableMonitor);
 			
 			oriISOMsg = (Iso8583Post) this.transStore.get(tranKey);
 			
-			Logger.logLine("oriISOMsg Vuelta" +  oriISOMsg, this.enableMonitor);
+			Logger.logLine("oriISOMsg Vuelta:" +  oriISOMsg, this.enableMonitor);
 			
 			rspISOMsg = mapResponseAutraISCMsg(rspISCMsg, oriISOMsg);
 		}
@@ -1943,10 +1959,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						FlowDirection.ISC2ISO, cons, this.enableMonitor);
 				Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 				
-				Logger.logLine("TRANKEY IDA ISCReqInMsg" + msgCopy.getField(ISCReqInMsg.Fields._05_H_TERMINAL)+msgCopy.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), this.enableMonitor);
+				String trankey = Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._05_H_TERMINAL))
+						.concat(Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR)));
+				Logger.logLine("TRANKEY IDA ISCReqInMsg:" + trankey, this.enableMonitor);
 //				Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
-				this.transStore.put(msgCopy.getField(ISCReqInMsg.Fields._05_H_TERMINAL)+msgCopy.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), rspISOMsg);
+				this.transStore.put(trankey, rspISOMsg);
 				putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
+				
+				
+				Logger.logLine("this.transStore getIso :" + this.transStore.get(trankey), this.enableMonitor);
 
 				return new Action(rspISOMsg, null, null, null);
 				
@@ -2029,8 +2050,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				} else if(trama.substring(0, 18).toUpperCase().equals("1140401D60E2D9D3D5")) {
 					ISCResInMsg iscResInMsg = new ISCResInMsg();
-					iscResInMsg.fromMsg(trama);
-					
+					iscResInMsg.fromHexStr(trama);
 
 					return iscResInMsg;
 				}
@@ -4743,6 +4763,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	
 	public void putRecordIntoIscReqMsg(String key, ISCReqInMsg msg) {
 		iscReqMsg.put(key, msg);
+	}
+	
+	public void putRecordIntoSourceToTmHashtable(String key, Iso8583Post msg) {
+		transStore.put(key, msg);
 	}
 
 

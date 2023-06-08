@@ -4449,10 +4449,23 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static ISCResInMsg createRspISCMsg(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
 		
-		if(msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00"))
+		if(msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00")) {
+			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucess(msg,originalReq));
-		else
+		} else { 
+			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyError(msg,originalReq));
+		}
 		return rsp;
 	}
 
@@ -4475,9 +4488,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			switch (msg.getProcessingCode().toString()) {
 			case "300040":			
 				
-				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4492,9 +4505,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			case "401000":			
 			case "402000":			
 				
-				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4504,9 +4517,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				
 			case "320000":			
 				
-				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4533,9 +4546,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					}
 				}
 					 
-				sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-					.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+					sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 					.append(Transform.fromHexToBin("4E4040"))
 					.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
 					.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4572,9 +4585,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			String field63 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_63") != null ?
 					msg.getStructuredData().get("B24_Field_63") : "8601ERROR EN EL MENSAJE                     " : "8601ERROR EN EL MENSAJE                     ";
 			
-			sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//			.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromAsciiToEbcdic("      "))
 				.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4600,10 +4613,23 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		
 		if(!msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00") 
 				|| (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) && msg.getStructuredData().get("REV_DECLINED") != null
-						&& msg.getStructuredData().get("REV_DECLINED").equals("TRUE")))
+						&& msg.getStructuredData().get("REV_DECLINED").equals("TRUE"))) {
+			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorRev(msg,originalReq));
-		else
+		} else {
+			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessRev(msg,originalReq));
+		}
 		return rsp;
 	}
 	
@@ -4631,9 +4657,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				}
 			}
 				
-			sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//			.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 				.append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromHexToBin("000000000000"))
 				.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4662,9 +4688,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		String field54 = "000000000000";
 		String field63 = "2043NO MATCH FOR REVERSAL                   ";
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromAsciiToEbcdic("      "))
 			.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4697,6 +4723,12 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				Logger.logLine("pinpad.getKey_ini_snd():" + pinpad.getKey_ini_snd(), log);
 				if(pinpad.isError()) {
 					// RESPUESTA FALLIDA
+					rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+					rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorInitPinPad(msg));
 				}else {
 					// PROCESO DE CRIPTOGRAFIA EXITOSO
@@ -4714,6 +4746,12 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					DBHandler.updateInsertPinPadDataInit(pinpad);
 					ISCInterfaceCB.pinpadData.clear();
 					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+					rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+					rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessInitPinPad(msg,pinpad));
 				}
 					
@@ -4729,11 +4767,23 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
 				}
 				if(pinpad == null || pinpad.getKey_ini() == null) {
+					rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+					rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "PINPAD NO INICIALIZADO"));
 				} else {
 					pinpad = crypto.exchangePinPad(log, pinpad);
 					if(pinpad.isError()) {
 						// RESPUESTA FALLIDA
+						rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+						rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+						rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+						rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "FALLO EN INTERCAMBIO"));
 					} else {
 						// PROCESO DE CRIPTOGRAFIA EXITOSO
@@ -4745,6 +4795,12 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 						DBHandler.updateInsertPinPadDataExchange(pinpad);
 						ISCInterfaceCB.pinpadData.clear();
 						ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
+						rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+						rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+						rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+						rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessExchangePinPad(msg,pinpad));
 					}
 						
@@ -4771,9 +4827,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String buildRspBodySucessInitPinPad(ISCReqInMsg originalReq, PinPad pinpad) {
 		StringBuilder sd = new StringBuilder("");
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic("000000000000"))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromHexToBin("000000000000"))
 			.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4786,9 +4842,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String buildRspBodyErrorInitPinPad(ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic("000000000000"))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromHexToBin("000000000000"))
 			.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4801,9 +4857,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String buildRspBodySucessExchangePinPad(ISCReqInMsg originalReq, PinPad pinpad) {
 		StringBuilder sd = new StringBuilder("");
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic("000000000000"))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromHexToBin("000000000000"))
 			.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4816,9 +4872,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String buildRspBodyErrorExchangePinPad(ISCReqInMsg originalReq, String error) {
 		StringBuilder sd = new StringBuilder("");
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic("000000000000"))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromHexToBin("000000000000"))
 			.append(Transform.fromHexToBin("404011C2601D60"))
@@ -4830,6 +4886,12 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	
 	public static ISCResInMsg processErrorMsg(ISCReqInMsg originalReq, Iso8583Post msg, String error, boolean log ) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
+		rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+		rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+		rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+		rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+		rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, processErrorMsg(originalReq, error));
 		return rsp;
 	}
@@ -4837,9 +4899,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String processErrorMsg(ISCReqInMsg originalReq, String error) {
 		StringBuilder sd = new StringBuilder("");
 		
-		sd.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			.append(Transform.fromAsciiToEbcdic("000000000000"))
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
 			.append(Transform.fromHexToBin("4E4040"))
 			.append(Transform.fromHexToBin("000000000000"))
 			.append(Transform.fromHexToBin("404011C2601D60"))
