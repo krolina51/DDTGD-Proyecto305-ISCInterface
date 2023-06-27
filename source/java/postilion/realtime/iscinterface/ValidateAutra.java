@@ -22,7 +22,7 @@ public class ValidateAutra {
 	
 	public ValidateAutra() {
 		this.ruta = "";
-		this.rute = 0;
+		this.rute = 1;
 		this.p100Valor = null;
 	}
 

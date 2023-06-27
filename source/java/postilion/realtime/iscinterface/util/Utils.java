@@ -3965,8 +3965,13 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		case "4":		
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_MOTOSVEHICULOS");		
 			break;
-		case "5":		
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC");		
+		case "5":	
+			if( codOficina.startsWith("4") ) {
+				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_OFICINA");	
+			}else {
+				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_VIRTUAL");
+			}
+				
 			break;
 		case "6":	
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_RETIROAVANCE");	

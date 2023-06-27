@@ -21,7 +21,7 @@ import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
 
-public class PaymentTCAux {
+public class PaymentTCVirtualAux {
 	
 	
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {

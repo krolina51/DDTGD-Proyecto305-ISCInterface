@@ -159,8 +159,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public static TimedHashtable cacheKeyReverseMap = new TimedHashtable(900000, 5000);
 	public static Map<String, String> filtroISC = new HashMap<>();
 	
-	public String routingFilter = "";
-	public String routingFilterPath = "D:\\Apl\\postilion\\iscinterface";
+	public String routingFilter = "capa";
+//	public String routingFilterPath = "D:\\Apl\\postilion\\iscinterface";
 
 	public WholeTransSetting wholeTransConfig = new WholeTransSetting();
 
@@ -227,8 +227,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		this.interName = interchange.getName();
 		thisInter = interchange;
 		this.wc = WebClient.getWebClient();
-		filtroISC.clear();
-		filtroISC = new HashMap<>();
+//		filtroISC.clear();
+//		filtroISC = new HashMap<>();
 
 		String[] parameterArray = getParameters(interchange);
 
@@ -272,8 +272,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			ISCInterfaceCB.ipACryptotalla = (String) parameters.get("ipCryptoAtalla");
 			ISCInterfaceCB.portACryptotalla = Integer.valueOf(parameters.get("portCryptoAtalla").toString());
 			
-			this.routingFilter = parameters.get("ROUTING_FILTER").toString();
-			this.routingFilterPath = parameters.get("ROUTING_FILTER_PATH").toString();
+//			this.routingFilter = parameters.get("ROUTING_FILTER").toString();
+//			this.routingFilterPath = parameters.get("ROUTING_FILTER_PATH").toString();
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -308,7 +308,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			this.v1CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "1");
 			this.v2CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "2");
 			
-			fillFilters();
+			//fillFilters();
 			
 			ISCInterfaceCB.pinpadData.clear();
 			ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
@@ -361,84 +361,84 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		return this.freeThreaded;
 	}
 
-	public void fillFilters() {
-
-		try (FileReader fr = new FileReader(routingFilterPath)) {
-			JSONParser parser = new JSONParser();
-			org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) parser.parse(fr);
-			for (Object object : jsonArray) {
-				StringBuilder sbKey = new StringBuilder();
-				org.json.simple.JSONObject obj = (org.json.simple.JSONObject) object;
-
-				String strCodigoTx = (String) obj.get("Codigo_Transaccion");
-				String strCodigoOficina = (String) obj.get("Codigo_Oficina");
-				boolean isNaturalezaPresente = (boolean) obj.get("Naturaleza_Presente");
-				String strNaturaleza = (String) obj.get("Naturaleza");
-				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
-				String strBin = (String) obj.get("BIN");
-				String strTarjeta = (String) obj.get("Tarjeta");
-				String strRoute = (String) obj.get("Route");
-				String strCampo100 = (String) obj.get("Campo100");
-				
-				
-				sbKey.append(strCodigoTx).append("_");
-				sbKey.append(strCodigoOficina);
-				
-				
-				// iteracion sobre naturaleza
-				if(isNaturalezaPresente) {
-					sbKey.append("_");
-					sbKey.append(strNaturaleza);
-				}
-				
-				if(isTarjetaPresente) {
-					sbKey.append("_");
-					// iteracion sobre bines
-					if (!strBin.equals("-")) {
-						String[] strBines = strBin.split(",");
-						for (int i = 0; i < strBines.length; i++) {
-							if (!filtroISC.containsKey(sbKey.toString() + strBines[i]))
-								filtroISC.put(sbKey.toString() + strBines[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-						}
-					}
-					
-					// iteracion sobre terminales
-					if (!strTarjeta.equals("-")) {
-						String[] strTarjetas = strTarjeta.split(",");
-						for (int i = 0; i < strTarjetas.length; i++) {
-							if (!filtroISC.containsKey(sbKey.toString() + strTarjetas[i]))
-								filtroISC.put(sbKey.toString() + strTarjetas[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-						}
-					}
-					
-					// todos los bines y terminales
-					if(strBin.equals("ALL") && strTarjeta.equals("ALL")) {
-						if (!filtroISC.containsKey(sbKey.toString()))
-							filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-					}
-				}
-				
-				if(isNaturalezaPresente && !isTarjetaPresente)
-					if (!filtroISC.containsKey(sbKey.toString()))
-						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-				
-				if(!isNaturalezaPresente && !isTarjetaPresente)
-					if (!filtroISC.containsKey(sbKey.toString()))
-						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-				
-				
-				
-
-			}
-			fr.close();
-		} catch (Exception e) {
-			EventRecorder.recordEvent(
-					new Exception("Leyendo JSON: " + e.toString()));
-			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-					Utils.getStringMessageException(e) }));
-		}
-
-	}
+//	public void fillFilters() {
+//
+//		try (FileReader fr = new FileReader(routingFilterPath)) {
+//			JSONParser parser = new JSONParser();
+//			org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) parser.parse(fr);
+//			for (Object object : jsonArray) {
+//				StringBuilder sbKey = new StringBuilder();
+//				org.json.simple.JSONObject obj = (org.json.simple.JSONObject) object;
+//
+//				String strCodigoTx = (String) obj.get("Codigo_Transaccion");
+//				String strCodigoOficina = (String) obj.get("Codigo_Oficina");
+//				boolean isNaturalezaPresente = (boolean) obj.get("Naturaleza_Presente");
+//				String strNaturaleza = (String) obj.get("Naturaleza");
+//				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
+//				String strBin = (String) obj.get("BIN");
+//				String strTarjeta = (String) obj.get("Tarjeta");
+//				String strRoute = (String) obj.get("Route");
+//				String strCampo100 = (String) obj.get("Campo100");
+//				
+//				
+//				sbKey.append(strCodigoTx).append("_");
+//				sbKey.append(strCodigoOficina);
+//				
+//				
+//				// iteracion sobre naturaleza
+//				if(isNaturalezaPresente) {
+//					sbKey.append("_");
+//					sbKey.append(strNaturaleza);
+//				}
+//				
+//				if(isTarjetaPresente) {
+//					sbKey.append("_");
+//					// iteracion sobre bines
+//					if (!strBin.equals("-")) {
+//						String[] strBines = strBin.split(",");
+//						for (int i = 0; i < strBines.length; i++) {
+//							if (!filtroISC.containsKey(sbKey.toString() + strBines[i]))
+//								filtroISC.put(sbKey.toString() + strBines[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+//						}
+//					}
+//					
+//					// iteracion sobre terminales
+//					if (!strTarjeta.equals("-")) {
+//						String[] strTarjetas = strTarjeta.split(",");
+//						for (int i = 0; i < strTarjetas.length; i++) {
+//							if (!filtroISC.containsKey(sbKey.toString() + strTarjetas[i]))
+//								filtroISC.put(sbKey.toString() + strTarjetas[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+//						}
+//					}
+//					
+//					// todos los bines y terminales
+//					if(strBin.equals("ALL") && strTarjeta.equals("ALL")) {
+//						if (!filtroISC.containsKey(sbKey.toString()))
+//							filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+//					}
+//				}
+//				
+//				if(isNaturalezaPresente && !isTarjetaPresente)
+//					if (!filtroISC.containsKey(sbKey.toString()))
+//						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+//				
+//				if(!isNaturalezaPresente && !isTarjetaPresente)
+//					if (!filtroISC.containsKey(sbKey.toString()))
+//						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+//				
+//				
+//				
+//
+//			}
+//			fr.close();
+//		} catch (Exception e) {
+//			EventRecorder.recordEvent(
+//					new Exception("Leyendo JSON: " + e.toString()));
+//			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+//					Utils.getStringMessageException(e) }));
+//		}
+//
+//	}
 
 	/***************************************************************************************
 	 * Implementaci�n de metodo del SDK, sirve para procesar un mensaje 0200 desde
@@ -551,7 +551,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			switch (msgKey) {
 			case "05":
 	
-				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "06");
+				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "12");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ5");
@@ -560,7 +560,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	
 			case "05_1":
 	
-				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "06");
+				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "12");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ6");
@@ -1718,13 +1718,13 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			}
 			break;
-		case "REFRESH":
-			if(value.toUpperCase().equals("FILTROS")) {
-				filtroISC.clear();
-				fillFilters();	
-				return new Action();
-			}
-			break;	
+//		case "REFRESH":
+//			if(value.toUpperCase().equals("FILTROS")) {
+//				filtroISC.clear();
+//				fillFilters();	
+//				return new Action();
+//			}
+//			break;	
 		default:
 			if (value.equals("ON") || value.equals("true")) {
 				this.isNextDay = true;
