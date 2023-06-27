@@ -111,7 +111,7 @@ public class HSMDirectorBuild {
 
 			try {
 				socket = new Socket(ipAddress, port);
-				socket.setSoTimeout(6000);
+				socket.setSoTimeout(7000);
 				System.out.println("<<< Sockt s >>> :" + socket);
 			} catch (Exception ex) {
 				try {

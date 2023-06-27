@@ -21,10 +21,10 @@ import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
 
-public class ConsulPGDIVAux2 {
+public class PagoConvenioInternetAux {
 	
 	/*
-	 * Clase Auxiliar para proceso de campos transaccion Consulta,Pago y Reintegro de Dividendos Acciones Aval V2
+	 * Clase Auxiliar para proceso de campos transaccion Pago de convenios que viaja por el canal internet
 	 * */
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
@@ -44,7 +44,10 @@ public class ConsulPGDIVAux2 {
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
 			
-			String p37 = "09013300".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(38, 46))));
+			String p37 = "0901"
+				    .concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(38, 46))));
+			
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 			
@@ -63,24 +66,19 @@ public class ConsulPGDIVAux2 {
 				sd = new StructuredData();
 			}
 			
-
+			
+			tranType = "40";
 			String debitAccountType = "";
 			String valueAccountType = "";
-			tranType = "40";
 			String cuenta = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(208,240)));
 			String factura = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(146,206))).replace(" ", ""), 30, '0', false);
-			String datosAdicionales1 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(296,356))).replace(" ", ""), 30, '0', false);
-			String datosAdicionales2 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356,416))).replace(" ", ""), 30, '0', false);
-			String datosAdicionales3 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(416,456))).replace(" ", ""), 20, '0', false);
-			String datosAdicionales4 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(456,496))).replace(" ", ""), 20, '0', false);
-			String datosAdicionales5 = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(496,536))).replace(" ", ""), 20, '0', false);
-			
-			String p62 = factura.concat(datosAdicionales1)
-					.concat(datosAdicionales2)
-					.concat(datosAdicionales3)
-					.concat(datosAdicionales4)
-					.concat(datosAdicionales5);
-			
+			String datosAdicionales = Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(296,536))).replace(" ", ""), 30, '0', false);
+					
+			String p62 = factura.concat(datosAdicionales);
+	
+			//Construccion Campo 125
+			String p125 = "";
+			p125 = Pack.resize(" ",90,' ',true);		
 			
 			//VERIFICANDO TIPO DE CUENTA DE LA TX
 			valueAccountType = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_TYPE_ACCOUNT, ISCReqInMsg.POS_end_TYPE_ACCOUNT)));
@@ -96,6 +94,8 @@ public class ConsulPGDIVAux2 {
 				debitAccountType ="10";
 				break;
 			}
+			
+			
 			
 			// PROCESAMIENTO DE REVERSO
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
@@ -118,54 +118,52 @@ public class ConsulPGDIVAux2 {
 				
 			//PROCESAMIENTO TX FINANCIERA	
 			} else {
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626))));
-				
-				
+				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(618, 626))));			
 				//127.2 SWITCHKEY
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
 				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
 			}
-			
 			//Field 3
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(debitAccountType).concat("00"));
 			
 			//CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 			
+			//Field 12
+			out.putField(Iso8583.Bit._012_TIME_LOCAL, p12);
+			
 			//Field 13
 			out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
 			
+			//Field 15
 			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
 			
 			//TRACK2 Field 35
-			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "008801".concat(cuenta.substring(3).concat("D49120000000100000")));
-			
-			//CAMPO 37 Retrieval Reference Number
+			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "008801".concat(cuenta.substring(3).concat("D99120000000100000")));
+
+			//Field 37 Retrieval Reference Number
 			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
-			
-			//TRACK2 Field 43
-			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, "BOG  ".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					.concat(" OFICINA BBTA             BOCCO"));
-			
+				
 			//Field 102
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, Pack.resize(cuenta, 18, '0', false));
 			
 			//Field 103
-			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(858))), 18, '0', false));
+			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, 
+					"0"
+					.concat("0001")
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(578,586))))
+					.concat("0")
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(858,874)))));
 						
 
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_35
-			sd.put("B24_Field_35", "008801".concat(cuenta.substring(3).concat("D49120000000100000")));
-			//127.22 TAG B24_Field_41
-			sd.put("B24_Field_41", "0001829700003   ");
-			//127.22 TAG B24_Field_48
-			sd.put("B24_Field_48", "3                       30000000000000000000");
-			//127.22 TAG B24_Field_60
-			sd.put("B24_Field_60", "0901BBOG+000");
+			sd.put("B24_Field_35", "008801".concat(cuenta.substring(3).concat("D99120000000100000")));
 			//127.22 TAG B24_Field_62
 			sd.put("B24_Field_62", p62);
+			//127.22 TAG B24_Field_125
+			sd.put("B24_Field_125", p125);
 			sd.put("IN_MSG", in.getTotalHexString());
 			
 			out.putStructuredData(sd);	

@@ -104,7 +104,7 @@ public class ConsulTitularAux {
 				bin = "007723";
 				break;
 			case "0052":
-				bin = "007752";
+				bin = "000052";
 				break;
 
 			default:
@@ -181,6 +181,7 @@ public class ConsulTitularAux {
 			sd.put("Codigo_Establecimiento", "          ");
 			sd.put("Ent_Adq", "0001");
 			sd.put("Canal", "01");
+			sd.put("Identificacion_Canal", "OF");
 			
 			sd.put("pos_entry_mode", "000");
 			sd.put("service_restriction_code", "000");

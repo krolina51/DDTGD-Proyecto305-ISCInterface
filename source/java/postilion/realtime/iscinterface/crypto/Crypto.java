@@ -198,6 +198,32 @@ public class Crypto {
 		return pinpad;
 	}
 	
+	public String translatePin(String keyExcPinpad, String keyOut, String pinBlock, String pan, boolean log) {
+		String translatedPin = "FFFFFFFFFFFFFFFF";
+		try {
+			String decryptKeyPinpad = decryptionDES(keyStatic, keyExcPinpad.substring(8).replaceAll(",", ""));
+			Logger.logLine("decryptKeyPinpad:" + decryptKeyPinpad, log);
+			String keyPinpad = keyExcPinpad.substring(0,8)+","+decryptKeyPinpad.substring(0,decryptKeyPinpad.length()-16)+","+decryptKeyPinpad.substring(decryptKeyPinpad.length()-16);
+			Logger.logLine("keyPinpad:" + keyPinpad, log);
+			// Comando 31 TRANSLATE PIN
+			String command31 = "<31#1#" + keyPinpad + "#" + keyOut + "#" + pinBlock + "#" + pan.subSequence(3, 15) + "#>";
+			Logger.logLine("command31:" + command31, log);
+			String resCommand31[] = this.hsmComm.sendCommand(command31, ISCInterfaceCB.ipACryptotalla, ISCInterfaceCB.portACryptotalla).split("#");
+			Logger.logLine("resCommand31:" + Arrays.toString(resCommand31), log);
+			if(resCommand31[2].equals("Y"))
+				translatedPin = resCommand31[1];
+		}  catch (Exception e) {
+			EventRecorder.recordEvent(
+					new Exception("Crypyo: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+			e.printStackTrace();
+		} finally {
+			this.hsmComm.closeConnectHSM();
+		}
+		return translatedPin;
+	}
+	
 	/**
 	 * Hace un xor byte por byte de los arreglos, los arreglos debe ser de igual
 	 * tamaño

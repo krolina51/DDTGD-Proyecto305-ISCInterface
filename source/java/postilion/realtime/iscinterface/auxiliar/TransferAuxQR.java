@@ -79,9 +79,8 @@ public class TransferAuxQR {
 			String dia = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(288, 292)));
 			String hora = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(52, 64)));
 			String cuentaDebitar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_DEBIT_ACC_NR, ISCReqInMsg.POS_end_DEBIT_ACC_NR)));
-
 			String cuentaAcreditar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_CREDIT_ACC_NR, ISCReqInMsg.POS_end_CREDIT_ACC_NR)));
-			
+			String andendaRef2 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) )));
 			
 			Logger.logLine("msg in TransferAux:\n" + in.getTotalHexString(), enableMonitor);
 
@@ -89,28 +88,39 @@ public class TransferAuxQR {
 			String p125 = "";
 			if(idPagQR125.equals(IDENTIFICACION_TRANSACCION_DEVOLUCION)) {
 				p125 =Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(918), lth( 918 + 24) ))))  // referencia 2, Adenda ref 2
-						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(944), lth( 944 + 4) )))
-								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(948), lth( 948 + 6) ))))
-								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(954), lth( 954 + 4) ))))
+						.concat(Pack.resize(andendaRef2.substring(0,12),24,'0',true))// referencia 2, Adenda ref 2
+						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(945), lth( 945 + 4) )))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(949), lth( 949 + 6) ))))
+								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(955), lth( 955 + 4) ))))
 								, 25, '0', true)) // Adenda ref 3 Falta validar Devolucion
 						.concat(Pack.resize("",  8, '0', true)) // Id registro
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificación Origen
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))//Numero de Identificación Origen
 						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(110),lth( 110 + 14) ))),17,'0',false)) // valor pago
-						.concat(tipoCuentaCreditar) // tipo cuenta acreditar
-						.concat(cuentaAcreditar) // cuenta acreditar
+						.concat(Pack.resize("",  2, '0', true)) // tipo de identificacion destino
+						.concat(Pack.resize("",  16, '0', true)) // Numero de identificacion destino
 						.concat(Pack.resize("",  1, '0', true)) // ****** validacion titularidad
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(14), lth( 14 + 4) ))))	//Terminal	
+						.concat(Pack.resize("",  4, '0', true))	//Terminal Rellenar con ceros
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
 						.concat(Pack.resize("",  10, '0', true));
+				
+				//CAMPO 37 Retrieval Reference Number
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+						//.concat(secuencialesAlearios(4)));
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
+
+			
 			}else {
 				p125 = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 24) ))) // nombre del comercio
 						.concat(Pack.resize("",  114, '0', true))
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(942), lth( 942 + 1) )))) // flag transf 1
 						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(943), lth( 943 + 1) )))) // flag transf 2
 						.concat(Pack.resize("",  10, '0', true));
+				
+				//CAMPO 37 Retrieval Reference Number
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, andendaRef2.substring(0,12));
 
  			}
 			//CAMPO 3 
@@ -131,12 +141,6 @@ public class TransferAuxQR {
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=2912000");
 			
-			//CAMPO 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, "0901"
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					//.concat(secuencialesAlearios(4)));
-					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR)))));
-
 		
 			//CAMPO 102 DEBIT ACCOUNT
 			out.putField(Iso8583.Bit._102_ACCOUNT_ID_1, "00010".concat(cuentaDebitar));
@@ -211,6 +215,7 @@ public class TransferAuxQR {
 			sd.put("Identificador_Terminal", "0");
 			sd.put("Numero_Cedula", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1662, 1684))));
 			sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
+			sd.put("Nombre_Establecimiento_QR", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(894), lth( 894 + 20) ))));
 			sd.put("IN_MSG", in.getTotalHexString());
 			
 			
@@ -227,7 +232,7 @@ public class TransferAuxQR {
 			}
 			
 			
-			sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
+			//sd.put("Numero_Factura", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732))));
 			///////// FIN TAGS EXTRACT
 			
 			out.putStructuredData(sd);	
