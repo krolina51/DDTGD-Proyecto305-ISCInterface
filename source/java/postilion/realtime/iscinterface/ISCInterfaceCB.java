@@ -3019,6 +3019,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
 							.concat("_").concat("1");
 					
+					// SI ES CREDITO
+					if ((variation.equals("2")
+							&& msg.getStructuredData().get("PRIM_COV_PAYMENT_TYPE").equals("0")))
+						msgTran = "00";
+					
 				}
 
 			}
