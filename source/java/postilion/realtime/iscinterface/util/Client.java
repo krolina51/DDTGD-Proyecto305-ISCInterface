@@ -6,10 +6,15 @@ import java.io.StringWriter;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketTimeoutException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import postilion.realtime.sdk.eventrecorder.EventRecorder;
+import postilion.realtime.sdk.message.bitmap.Iso8583;
+import postilion.realtime.sdk.message.bitmap.Iso8583Post;
+import postilion.realtime.sdk.message.bitmap.StructuredData;
+import postilion.realtime.sdk.util.XPostilion;
 
 
 
@@ -55,6 +60,7 @@ public class Client {
 			}
 		}
 	}
+	
 	
 	public Client(String ipAddress, String port, String portOut) {
 		//Logger.logLine(" Client: 3 parametros " + ipAddress + " " + port + " " + portOut, true);
@@ -112,7 +118,7 @@ public class Client {
 	}
 
 	/**
-	 * Valida si la información en el archivo es una ip.
+	 * Valida si la informaciï¿½n en el archivo es una ip.
 	 * 
 	 * @param ip
 	 * @return true si es un ip
@@ -129,7 +135,7 @@ public class Client {
 	}
 
 	/**
-	 * Valida si la información en el archivo es un puerto.
+	 * Valida si la informaciï¿½n en el archivo es un puerto.
 	 * 
 	 * @param port
 	 * @return true si es un puerto
@@ -226,6 +232,61 @@ public class Client {
 
 		String msg = llKey + lKey + key + llValue + lValue + value;
 		return (Base64.getEncoder().encodeToString(msg.getBytes())).getBytes();
+	}
+	
+	/**
+	 * Open a socket to send data over UDP protocol
+	 * 
+	 * @param data            to send
+	 * @param waitForResponse
+	 * @throws XPostilion
+	 */
+	public String sendMsgForValidationTitular(Iso8583Post msg, boolean log) throws XPostilion {
+		String dataResponse = "";
+		StructuredData sd = msg.getStructuredData();
+		try {
+			
+			Logger.logLine("tc: " + sd.get("B24_Field_35").substring(8,24), log);
+			String tc =  sd.get("B24_Field_35").substring(8,24);
+			byte[] data = ("TX_VALIDA_TITULARIDAD"+tc).getBytes();
+
+			try {
+				DatagramSocket socket = new DatagramSocket();
+				socket.setSoTimeout(1500);
+//				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress, port);
+				Logger.logLine("data: " + data, log);
+				Logger.logLine("data.length: " + data.length, log);
+				Logger.logLine("ipAddress: " + ipAddress, log);
+				Logger.logLine("port: " + port, log);
+//				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress,
+//						50000 + Integer.parseInt(p11.substring(p11.length() - 1)));
+				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress,
+						port);
+				Logger.logLine("request getSocketAddress: " + request.getSocketAddress(), log);
+				Logger.logLine("request getAddress: " + request.getAddress(), log);
+				Logger.logLine("Send request: " + request.getData(), log);
+				socket.send(request);
+				byte[] bufer = new byte[5172];// 4072
+				DatagramPacket respuesta = new DatagramPacket(bufer, bufer.length);
+				socket.receive(respuesta);
+				Logger.logLine("respuesta.getData()).trim(): " + respuesta.getData(), log);
+				dataResponse = new String(respuesta.getData()).trim();
+				Logger.logLine("data incoming: " + dataResponse, log);
+				socket.close();
+			} catch (SocketTimeoutException e) {
+				dataResponse = "TIMEOUT";
+			} catch (IOException e) {
+				StringWriter outError = new StringWriter();
+				e.printStackTrace(new PrintWriter(outError));
+				EventRecorder.recordEvent(new Exception("Exception in Constructor:  Client: " + outError.toString()));
+			} 
+			
+		} catch (Exception e) {
+
+			EventRecorder.recordEvent(e);
+			dataResponse = "ERROR";
+		}
+		return dataResponse;
 	}
 
 }

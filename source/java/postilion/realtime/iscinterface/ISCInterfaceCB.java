@@ -199,6 +199,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	private DesKwp kvpParam5 = null;
 
 	Client mon = null;
+	public static String ipServerValidation = "0";
+	public static String portServerValidation = "0";
+	public Client udpClientValidation = null;
 
 	private String hsmsUrl;
 
@@ -274,6 +277,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			
 			this.routingFilter = parameters.get("ROUTING_FILTER").toString();
 			this.routingFilterPath = parameters.get("ROUTING_FILTER_PATH").toString();
+			
+			ISCInterfaceCB.ipServerValidation = (String) parameters.get("IP_UDP_VALIDATIONS").toString();
+			ISCInterfaceCB.portServerValidation = (String) parameters.get("PORT_UDP_VALIDATIONS").toString();
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -497,7 +503,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (msgKey != null && msgKey != "" && msgKey != "05") {
 	
 					//Se comprueba si la llave no es una aprobacion (condiciones de aprobacion 'setSDAndMsgkeyForCostconsult' o 'constructMessageKey')
-					if (!msgKey.substring(0, 2).equals("00")) {
+					if (!msgKey.substring(0, 2).equals("00") && !msgKey.equals("TCTITULAR")
+							&& !msgKey.equals("CARDSTATE")) {
 	
 						strTranSetting = findTranSetting(msgKey);
 						if (strTranSetting == null) {
@@ -551,7 +558,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			switch (msgKey) {
 			case "05":
 	
-				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "12");
+				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "06");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ5");
@@ -560,7 +567,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	
 			case "05_1":
 	
-				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "12");
+				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "06");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ6");
@@ -589,7 +596,50 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
 						cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
 				break;
-	
+			case "TCTITULAR":
+				StructuredData sd = msg.getStructuredData();
+				if (sd == null)
+					sd = new StructuredData();
+				Logger.logLine("VALIDACION TITULARIDAD TC:" + msg.getStructuredData().toString(), this.enableMonitor);
+				Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);
+				
+				String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(msg, this.enableMonitor);
+				
+				sd.put("TITULAR_TC",msgFromValidationTC);
+				
+				if(msgFromValidationTC.equals("ERROR")
+						|| msgFromValidationTC.equals("TIMEOUT")
+						|| msgFromValidationTC.substring(0,2).equals("NO")) {
+					msg2TM = createErrorRspMsg(msg, "Tarjeta No Existe", "56");
+					sd.put("B24_Field_63","2012Tarjeta no existe                       ");
+					sd.put("B24_Field_125","000000000000000000000000000000000000000000 ");
+					
+				}else {
+					msg2TM = createErrorRspMsg(msg, "VALIDACION TITULARIDAD", "00");
+					sd.put("B24_Field_125", Pack.resize(msgFromValidationTC.substring(2), 43, ' ', true));
+					msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
+							cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
+				}
+				msg.putStructuredData(sd);
+				
+				break;
+			case "CARDSTATE":
+				StructuredData sd1 = msg.getStructuredData();
+				if (sd1 == null)
+					sd1 = new StructuredData();
+
+				if(!sd1.get("CARDSTATUS").equals("1") || sd1.get("HOLDRSPCODE") != null) {
+					msg2TM = createErrorRspMsg(msg, "TRANSACCION NO PERMITIDA", "14");
+				}else {
+					msg2TM = createErrorRspMsg(msg, "ESTADO TARJETA EXITOSO", "00");
+					msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
+							cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
+				}
+				
+				msg.putStructuredData(sd1);
+				
+				break;
+				
 			default:
 	
 				// verificaci�n del numero consecutivo
@@ -810,9 +860,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				StructuredData sd = msgClone.getStructuredData();
 				sd.put("IS_COST_INQUIRY", "FALSE");
-				msgClone.putStructuredData(sd);
+				
 
 				msgKey = constructMessageKey(msgClone);
+				sd.put("MSG_KEY", msgKey);
+				msgClone.putStructuredData(sd);
 
 				Logger.logLine(
 						"AAAA NUEVA IMPLEMENTACION ::  <msg type>_<p code>_<canal>_<acq entity>_<aut entity>_<efectivo (0 tarjeta - 1 efectivo)>_<variation> ",
@@ -3214,7 +3266,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			if (msg.getStructuredData().get("CHANNEL") != null && msg.getStructuredData().get("CHANNEL").equals("3")) {
 				
-				if(msg.getStructuredData().get("Identificacion_Canal") != null && msg.getStructuredData().get("Identificacion_Canal").equals("AT")) {
+				if(msg.getStructuredData().get("B24_Field_3").equals("810000")) {
+					msgTran = "CARDSTATE";
+				} else if(msg.getStructuredData().get("Identificacion_Canal") != null && msg.getStructuredData().get("Identificacion_Canal").equals("AT")) {
 					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
 					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000")
 							.concat("_").concat("0000").concat("_").concat("0").concat("_ATM");
@@ -3232,10 +3286,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (null != msg.getStructuredData().get("B24_Field_3")
 						&& msg.getStructuredData().get("B24_Field_3").substring(0, 2).equals("33")) {
 
-					msgTran = msg.getMessageType().concat("_")
-							.concat("TITULA");
-					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_")
-							.concat("0000").concat("_").concat("0000").concat("_").concat("0");
+					if(msg.getStructuredData().get("B24_Field_3").equals("333000")) {
+						msgTran = "TCTITULAR";
+					}else {
+						msgTran = msg.getMessageType().concat("_")
+								.concat("TITULA");
+						msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_")
+								.concat("0000").concat("_").concat("0000").concat("_").concat("0");
+					}
+					
 
 				} else {
 
@@ -4765,6 +4824,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		}
 
 	}
+	
+	
 	
 	public void putRecordIntoIscReqMsg(String key, ISCReqInMsg msg) {
 		iscReqMsg.put(key, msg);
