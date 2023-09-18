@@ -160,7 +160,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public static Map<String, String> filtroISC = new HashMap<>();
 	
 	public String routingFilter = "capa";
-//	public String routingFilterPath = "D:\\Apl\\postilion\\iscinterface";
+
+	public String routingFilterPath = "D:\\Apl\\postilion\\iscinterface";
 
 	public WholeTransSetting wholeTransConfig = new WholeTransSetting();
 
@@ -199,6 +200,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	private DesKwp kvpParam5 = null;
 
 	Client mon = null;
+	public static String ipServerValidation = "0";
+	public static String portServerValidation = "0";
+	public Client udpClientValidation = null;
 
 	private String hsmsUrl;
 
@@ -227,8 +231,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		this.interName = interchange.getName();
 		thisInter = interchange;
 		this.wc = WebClient.getWebClient();
-//		filtroISC.clear();
-//		filtroISC = new HashMap<>();
+
+		filtroISC.clear();
+		filtroISC = new HashMap<>();
 
 		String[] parameterArray = getParameters(interchange);
 
@@ -271,9 +276,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			this.freeThreaded = (boolean) parameters.get("FREE_THREADED");
 			ISCInterfaceCB.ipACryptotalla = (String) parameters.get("ipCryptoAtalla");
 			ISCInterfaceCB.portACryptotalla = Integer.valueOf(parameters.get("portCryptoAtalla").toString());
+			this.routingFilter = parameters.get("ROUTING_FILTER").toString();
+			this.routingFilterPath = parameters.get("ROUTING_FILTER_PATH").toString();
 			
-//			this.routingFilter = parameters.get("ROUTING_FILTER").toString();
-//			this.routingFilterPath = parameters.get("ROUTING_FILTER_PATH").toString();
+			ISCInterfaceCB.ipServerValidation = (String) parameters.get("IP_UDP_VALIDATIONS").toString();
+			ISCInterfaceCB.portServerValidation = (String) parameters.get("PORT_UDP_VALIDATIONS").toString();
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -308,7 +315,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			this.v1CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "1");
 			this.v2CodesIscToIso = postilion.realtime.library.common.db.DBHandler.getResponseCodes(true, "0", "2");
 			
-			//fillFilters();
+
+			fillFilters();
 			
 			ISCInterfaceCB.pinpadData.clear();
 			ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
@@ -361,84 +369,85 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		return this.freeThreaded;
 	}
 
-//	public void fillFilters() {
-//
-//		try (FileReader fr = new FileReader(routingFilterPath)) {
-//			JSONParser parser = new JSONParser();
-//			org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) parser.parse(fr);
-//			for (Object object : jsonArray) {
-//				StringBuilder sbKey = new StringBuilder();
-//				org.json.simple.JSONObject obj = (org.json.simple.JSONObject) object;
-//
-//				String strCodigoTx = (String) obj.get("Codigo_Transaccion");
-//				String strCodigoOficina = (String) obj.get("Codigo_Oficina");
-//				boolean isNaturalezaPresente = (boolean) obj.get("Naturaleza_Presente");
-//				String strNaturaleza = (String) obj.get("Naturaleza");
-//				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
-//				String strBin = (String) obj.get("BIN");
-//				String strTarjeta = (String) obj.get("Tarjeta");
-//				String strRoute = (String) obj.get("Route");
-//				String strCampo100 = (String) obj.get("Campo100");
-//				
-//				
-//				sbKey.append(strCodigoTx).append("_");
-//				sbKey.append(strCodigoOficina);
-//				
-//				
-//				// iteracion sobre naturaleza
-//				if(isNaturalezaPresente) {
-//					sbKey.append("_");
-//					sbKey.append(strNaturaleza);
-//				}
-//				
-//				if(isTarjetaPresente) {
-//					sbKey.append("_");
-//					// iteracion sobre bines
-//					if (!strBin.equals("-")) {
-//						String[] strBines = strBin.split(",");
-//						for (int i = 0; i < strBines.length; i++) {
-//							if (!filtroISC.containsKey(sbKey.toString() + strBines[i]))
-//								filtroISC.put(sbKey.toString() + strBines[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-//						}
-//					}
-//					
-//					// iteracion sobre terminales
-//					if (!strTarjeta.equals("-")) {
-//						String[] strTarjetas = strTarjeta.split(",");
-//						for (int i = 0; i < strTarjetas.length; i++) {
-//							if (!filtroISC.containsKey(sbKey.toString() + strTarjetas[i]))
-//								filtroISC.put(sbKey.toString() + strTarjetas[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-//						}
-//					}
-//					
-//					// todos los bines y terminales
-//					if(strBin.equals("ALL") && strTarjeta.equals("ALL")) {
-//						if (!filtroISC.containsKey(sbKey.toString()))
-//							filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-//					}
-//				}
-//				
-//				if(isNaturalezaPresente && !isTarjetaPresente)
-//					if (!filtroISC.containsKey(sbKey.toString()))
-//						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-//				
-//				if(!isNaturalezaPresente && !isTarjetaPresente)
-//					if (!filtroISC.containsKey(sbKey.toString()))
-//						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
-//				
-//				
-//				
-//
-//			}
-//			fr.close();
-//		} catch (Exception e) {
-//			EventRecorder.recordEvent(
-//					new Exception("Leyendo JSON: " + e.toString()));
-//			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-//					Utils.getStringMessageException(e) }));
-//		}
-//
-//	}
+
+	public void fillFilters() {
+
+		try (FileReader fr = new FileReader(routingFilterPath)) {
+			JSONParser parser = new JSONParser();
+			org.json.simple.JSONArray jsonArray = (org.json.simple.JSONArray) parser.parse(fr);
+			for (Object object : jsonArray) {
+				StringBuilder sbKey = new StringBuilder();
+				org.json.simple.JSONObject obj = (org.json.simple.JSONObject) object;
+
+				String strCodigoTx = (String) obj.get("Codigo_Transaccion");
+				String strCodigoOficina = (String) obj.get("Codigo_Oficina");
+				boolean isNaturalezaPresente = (boolean) obj.get("Naturaleza_Presente");
+				String strNaturaleza = (String) obj.get("Naturaleza");
+				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
+				String strBin = (String) obj.get("BIN");
+				String strTarjeta = (String) obj.get("Tarjeta");
+				String strRoute = (String) obj.get("Route");
+				String strCampo100 = (String) obj.get("Campo100");
+				
+				
+				sbKey.append(strCodigoTx).append("_");
+				sbKey.append(strCodigoOficina);
+				
+				
+				// iteracion sobre naturaleza
+				if(isNaturalezaPresente) {
+					sbKey.append("_");
+					sbKey.append(strNaturaleza);
+				}
+				
+				if(isTarjetaPresente) {
+					sbKey.append("_");
+					// iteracion sobre bines
+					if (!strBin.equals("-")) {
+						String[] strBines = strBin.split(",");
+						for (int i = 0; i < strBines.length; i++) {
+							if (!filtroISC.containsKey(sbKey.toString() + strBines[i]))
+								filtroISC.put(sbKey.toString() + strBines[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+						}
+					}
+					
+					// iteracion sobre terminales
+					if (!strTarjeta.equals("-")) {
+						String[] strTarjetas = strTarjeta.split(",");
+						for (int i = 0; i < strTarjetas.length; i++) {
+							if (!filtroISC.containsKey(sbKey.toString() + strTarjetas[i]))
+								filtroISC.put(sbKey.toString() + strTarjetas[i], strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+						}
+					}
+					
+					// todos los bines y terminales
+					if(strBin.equals("ALL") && strTarjeta.equals("ALL")) {
+						if (!filtroISC.containsKey(sbKey.toString()))
+							filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+					}
+				}
+				
+				if(isNaturalezaPresente && !isTarjetaPresente)
+					if (!filtroISC.containsKey(sbKey.toString()))
+						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+				
+				if(!isNaturalezaPresente && !isTarjetaPresente)
+					if (!filtroISC.containsKey(sbKey.toString()))
+						filtroISC.put(sbKey.toString(), strRoute + "_" + (strCampo100.equals("-") ? "0" : strCampo100));
+				
+				
+				
+
+			}
+			fr.close();
+		} catch (Exception e) {
+			EventRecorder.recordEvent(
+					new Exception("Leyendo JSON: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					Utils.getStringMessageException(e) }));
+		}
+
+	}
 
 	/***************************************************************************************
 	 * Implementaci�n de metodo del SDK, sirve para procesar un mensaje 0200 desde
@@ -497,7 +506,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (msgKey != null && msgKey != "" && msgKey != "05") {
 	
 					//Se comprueba si la llave no es una aprobacion (condiciones de aprobacion 'setSDAndMsgkeyForCostconsult' o 'constructMessageKey')
-					if (!msgKey.substring(0, 2).equals("00")) {
+
+					if (!msgKey.substring(0, 2).equals("00") && !msgKey.equals("TCTITULAR")
+							&& !msgKey.equals("CARDSTATE")) {
 	
 						strTranSetting = findTranSetting(msgKey);
 						if (strTranSetting == null) {
@@ -551,7 +562,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			switch (msgKey) {
 			case "05":
 	
-				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "12");
+
+				msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "06");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ5");
@@ -560,7 +572,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	
 			case "05_1":
 	
-				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "12");
+
+				msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "06");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ6");
@@ -589,7 +602,51 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
 						cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
 				break;
-	
+
+			case "TCTITULAR":
+				StructuredData sd = msg.getStructuredData();
+				if (sd == null)
+					sd = new StructuredData();
+				Logger.logLine("VALIDACION TITULARIDAD TC:" + msg.getStructuredData().toString(), this.enableMonitor);
+				Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);
+				
+				String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(msg, this.enableMonitor);
+				
+				sd.put("TITULAR_TC",msgFromValidationTC);
+				
+				if(msgFromValidationTC.equals("ERROR")
+						|| msgFromValidationTC.equals("TIMEOUT")
+						|| msgFromValidationTC.substring(0,2).equals("NO")) {
+					msg2TM = createErrorRspMsg(msg, "Tarjeta No Existe", "56");
+					sd.put("B24_Field_63","2012Tarjeta no existe                       ");
+					sd.put("B24_Field_125","000000000000000000000000000000000000000000 ");
+					
+				}else {
+					msg2TM = createErrorRspMsg(msg, "VALIDACION TITULARIDAD", "00");
+					sd.put("B24_Field_125", Pack.resize(msgFromValidationTC.substring(2), 43, ' ', true));
+					msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
+							cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
+				}
+				msg.putStructuredData(sd);
+				
+				break;
+			case "CARDSTATE":
+				StructuredData sd1 = msg.getStructuredData();
+				if (sd1 == null)
+					sd1 = new StructuredData();
+
+				if(!sd1.get("CARDSTATUS").equals("1") || sd1.get("HOLDRSPCODE") != null) {
+					msg2TM = createErrorRspMsg(msg, "TRANSACCION NO PERMITIDA", "14");
+				}else {
+					msg2TM = createErrorRspMsg(msg, "ESTADO TARJETA EXITOSO", "00");
+					msg2TM.putField(Iso8583.Bit._038_AUTH_ID_RSP,
+							cons.split(",")[0].trim().substring(2).concat(cons.split(",")[1].trim().substring(1)));
+				}
+				
+				msg.putStructuredData(sd1);
+				
+				break;
+				
 			default:
 	
 				// verificaci�n del numero consecutivo
@@ -810,9 +867,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				StructuredData sd = msgClone.getStructuredData();
 				sd.put("IS_COST_INQUIRY", "FALSE");
-				msgClone.putStructuredData(sd);
+				
 
 				msgKey = constructMessageKey(msgClone);
+				sd.put("MSG_KEY", msgKey);
+				msgClone.putStructuredData(sd);
 
 				Logger.logLine(
 						"AAAA NUEVA IMPLEMENTACION ::  <msg type>_<p code>_<canal>_<acq entity>_<aut entity>_<efectivo (0 tarjeta - 1 efectivo)>_<variation> ",
@@ -1718,13 +1777,13 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			}
 			break;
-//		case "REFRESH":
-//			if(value.toUpperCase().equals("FILTROS")) {
-//				filtroISC.clear();
-//				fillFilters();	
-//				return new Action();
-//			}
-//			break;	
+		case "REFRESH":
+			if(value.toUpperCase().equals("FILTROS")) {
+				filtroISC.clear();
+				fillFilters();	
+				return new Action();
+			}
+			break;	
 		default:
 			if (value.equals("ON") || value.equals("true")) {
 				this.isNextDay = true;
@@ -3019,6 +3078,11 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 							.concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000").concat("_").concat("0000")
 							.concat("_").concat("1");
 					
+					// SI ES CREDITO
+					if ((variation.equals("2")
+							&& msg.getStructuredData().get("PRIM_COV_PAYMENT_TYPE").equals("0")))
+						msgTran = "00";
+			
 				}
 
 			}
@@ -3209,7 +3273,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			if (msg.getStructuredData().get("CHANNEL") != null && msg.getStructuredData().get("CHANNEL").equals("3")) {
 				
-				if(msg.getStructuredData().get("Identificacion_Canal") != null && msg.getStructuredData().get("Identificacion_Canal").equals("AT")) {
+				if(msg.getStructuredData().get("B24_Field_3").equals("810000")) {
+					msgTran = "CARDSTATE";
+				} else if(msg.getStructuredData().get("Identificacion_Canal") != null && msg.getStructuredData().get("Identificacion_Canal").equals("AT")) {
 					msgTran = msg.getMessageType().concat("_").concat(msg.getProcessingCode().toString());
 					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_").concat("0000")
 							.concat("_").concat("0000").concat("_").concat("0").concat("_ATM");
@@ -3227,10 +3293,15 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (null != msg.getStructuredData().get("B24_Field_3")
 						&& msg.getStructuredData().get("B24_Field_3").substring(0, 2).equals("33")) {
 
-					msgTran = msg.getMessageType().concat("_")
-							.concat("TITULA");
-					msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_")
-							.concat("0000").concat("_").concat("0000").concat("_").concat("0");
+					if(msg.getStructuredData().get("B24_Field_3").equals("333000")) {
+						msgTran = "TCTITULAR";
+					}else {
+						msgTran = msg.getMessageType().concat("_")
+								.concat("TITULA");
+						msgTran = msgTran.concat("_").concat(msg.getStructuredData().get("CHANNEL")).concat("_")
+								.concat("0000").concat("_").concat("0000").concat("_").concat("0");
+					}
+					
 
 				} else {
 
@@ -4760,6 +4831,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		}
 
 	}
+	
+	
 	
 	public void putRecordIntoIscReqMsg(String key, ISCReqInMsg msg) {
 		iscReqMsg.put(key, msg);
