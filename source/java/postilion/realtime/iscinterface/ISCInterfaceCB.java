@@ -1972,6 +1972,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			}
 			
+			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8554"))
+				validateAutra.setRute(ValidateAutra.TransactionRouting.INT_CAPA_DE_INTEGRACION);
+			
 			
 			switch (validateAutra.getRute()) {
 			
