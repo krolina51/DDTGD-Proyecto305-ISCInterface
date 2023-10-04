@@ -44,8 +44,9 @@ public class TransferAuxCel {
 				sd = new StructuredData();
 			}
 			
-			String p37 = "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
-					.concat(secuencialesAlearios(4));
+			String p37 = "0901"
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR))));
 			
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
@@ -65,9 +66,11 @@ public class TransferAuxCel {
 			String keyReverse = null;
 			
 			String bin = "008801";
-			String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38)));
-			String p41 =  "0001" + codOficina + "00006   ";
+			String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38)));			
+			String canalp41 = (codOficina.equals("8592")) ? "00006   " : (codOficina.equals("8593")) ? "00002   " : "";
+			String canalp35 = (codOficina.equals("8592")) ? "=291200000001" : (codOficina.equals("8593")) ? "=091200000001" : "";
 			
+			String p41 =  "00018592" + canalp41;			
 			tranType = "40";
 			String tipoCuentaCreditar =  "";
 			if (Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(146, 148))).equals("0")) {
@@ -102,7 +105,7 @@ public class TransferAuxCel {
 					Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(1684, 1732)))
 							.concat(Pack.resize("",  24, ' ', true) )
 							.concat("1")
-							.concat((Pack.resize(celular,  24, ' ', true))), 90, ' ', true);
+							.concat((Pack.resize(celular,  24, ' ', true))), 150, ' ', true);
 			
 			// PROCESAMIENTO DE REVERSO
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
@@ -165,7 +168,7 @@ public class TransferAuxCel {
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
 			//127.22 TAG B24_Field_35
-			sd.put("B24_Field_35", bin.concat(Pack.resize(cuentaDebitar, 18, '0', false)).concat("=291200000001"));	
+			sd.put("B24_Field_35", bin.concat(Pack.resize(cuentaDebitar, 18, '0', false)).concat(canalp35));	
 			//127.22 TAG B24_Field_41
 			sd.put("B24_Field_41", p41);
 			//127.22 TAG B24_Field_125
