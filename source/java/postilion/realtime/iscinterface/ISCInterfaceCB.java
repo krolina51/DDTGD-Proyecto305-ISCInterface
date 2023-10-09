@@ -187,6 +187,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	private String monitorPort = "";
 
 	private String outGoingPort;
+	
+	private String monitorIPV2 = "";
+
+	private String monitorPortV2 = "";
+
+	private String outGoingPortV2;
+	
+	Client monV2 = null;
 
 	// CRYPTO
 
@@ -280,6 +288,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			
 			ISCInterfaceCB.ipServerValidation = (String) parameters.get("IP_UDP_VALIDATIONS").toString();
 			ISCInterfaceCB.portServerValidation = (String) parameters.get("PORT_UDP_VALIDATIONS").toString();
+			
+			this.monitorIPV2 = parameters.get("MONITOR_IPV2").toString();
+			this.monitorPortV2 = parameters.get("MONITOR_PORTV2").toString();
+			this.outGoingPortV2 = parameters.get("MONITOR_OUT_PORTV2").toString();
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -290,6 +302,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					+ this.monitorPort + " Monitor OutPort:" + this.outGoingPort, this.enableMonitor);
 
 			mon = new Client(this.monitorIP, this.monitorPort, this.outGoingPort);
+			monV2 = new Client(this.monitorIPV2, this.monitorPortV2, this.outGoingPortV2);
 
 			wholeTransConfig = Utils.retriveJsonConfig(this.jsonURL, true);
 
@@ -750,9 +763,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg != null)
+			if (msg != null) {
 				mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
 						"ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
+					"ISO", this.interName));
+			}
 
 		} catch (Exception e) {
 
