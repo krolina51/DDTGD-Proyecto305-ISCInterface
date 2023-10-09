@@ -206,7 +206,12 @@ public class TransferAuxCel {
 			sd.put("PRIM_ACCOUNT_NR", Pack.resize(cuentaDebitar, 18, '0', false));
 			sd.put("Codigo_de_Red", "1019");
 			sd.put("Numero_Terminal", "8201");
-			sd.put("Identificacion_Canal", "IT");
+			if(codOficina.equals("8593")) {
+				sd.put("Identificacion_Canal", "PB");
+			}else {
+				sd.put("Identificacion_Canal", "IT");
+			}
+			
 			sd.put("Codigo_Establecimiento", "          ");
 			sd.put("SEC_ACCOUNT_NR",
 					(out.isFieldSet(Iso8583.Bit._103_ACCOUNT_ID_2))
