@@ -3947,7 +3947,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		//y se determina que tipo de transaccion es.
 		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)))) {
 		case "0":		
-			if( codOficina.equals("8592") ) {
+			if(codOficina.equals("8592") || codOficina.equals("8593")) {
 				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER_CEL2CEL");
 			} else {
 				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER");

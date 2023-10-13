@@ -188,6 +188,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	private String monitorPort = "";
 
 	private String outGoingPort;
+	
+	private String monitorIPV2 = "";
+
+	private String monitorPortV2 = "";
+
+	private String outGoingPortV2;
+	
+	Client monV2 = null;
 
 	// CRYPTO
 
@@ -281,6 +289,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			
 			ISCInterfaceCB.ipServerValidation = (String) parameters.get("IP_UDP_VALIDATIONS").toString();
 			ISCInterfaceCB.portServerValidation = (String) parameters.get("PORT_UDP_VALIDATIONS").toString();
+			
+			this.monitorIPV2 = parameters.get("MONITOR_IPV2").toString();
+			this.monitorPortV2 = parameters.get("MONITOR_PORTV2").toString();
+			this.outGoingPortV2 = parameters.get("MONITOR_OUT_PORTV2").toString();
 			Timer timer = new Timer();
 			TimerTask task = new CalendarLoader(this.calendarInfo, this.interName);
 			timer.schedule(task, this.delay, this.period);
@@ -291,6 +303,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					+ this.monitorPort + " Monitor OutPort:" + this.outGoingPort, this.enableMonitor);
 
 			mon = new Client(this.monitorIP, this.monitorPort, this.outGoingPort);
+			monV2 = new Client(this.monitorIPV2, this.monitorPortV2, this.outGoingPortV2);
 
 			wholeTransConfig = Utils.retriveJsonConfig(this.jsonURL, true);
 
@@ -483,6 +496,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			// MONITOREO
 			Utils.postMsgInMonitor(this.mon, msg, null, this.interName,
 					msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+			Utils.postMsgInMonitor(this.monV2, msg, null, this.interName,
+					msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 	
 			// [Bloque LLAVE MENSAJE - open]
 			String msgKey = "";
@@ -521,6 +536,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	
 					// MONITOREO
 					Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
+							Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ERRISOZ4");
+					Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
 							Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ERRISOZ4");
 	
 					Logger.logLine("ERROR CREANDO MSG KEY ", this.enableMonitor);
@@ -567,6 +584,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ5");
+				Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
+						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ5");
 	
 				break;
 	
@@ -577,6 +596,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ6");
+				Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
+						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ6");
 	
 				break;
 	
@@ -585,6 +606,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				msg2TM = createErrorRspMsg(msg, "TRANSACCION NO CONFIGURADA", "06");
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
+						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ7");
+				Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ7");
 	
 				break;
@@ -738,6 +761,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			// MONITOREO
 			Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
 					msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+			Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
+					msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 	
 			return new Action(msg2TM, msg2Remote, null, null);
 		}
@@ -757,9 +782,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg != null)
+			if (msg != null) {
 				mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
 						"ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
+					"ISO", this.interName));
+			}
 
 		} catch (Exception e) {
 
@@ -808,9 +836,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg2TM != null)
+			if (msg2TM != null) {
 				mon.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
 						"ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
+						"ISO", this.interName));
+			}
 
 		} catch (Exception e) {
 
@@ -858,6 +889,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			// MONITOREO
 			Utils.postMsgInMonitor(this.mon, msgClone, null, this.interName,
 					Transform.fromBinToHex(Transform.getString(msgClone.toMsg())), null);
+			Utils.postMsgInMonitor(this.monV2, msgClone, null, this.interName,
+					Transform.fromBinToHex(Transform.getString(msgClone.toMsg())), null);
 			boolean echoMsg = msgClone.getStructuredData() != null
 					? msgClone.getStructuredData().get("ECHO_TEST_MSG") != null ? true : false
 					: false;
@@ -894,10 +927,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 					// MONITOREO
 					try {
-						if (msgClone != null)
+						if (msgClone != null) {
 							mon.sendData(Client.getMsgKeyValue(msgClone.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 									"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msgClone.toMsg())), "ISO",
 									this.interName));
+							monV2.sendData(Client.getMsgKeyValue(msgClone.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+									"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msgClone.toMsg())), "ISO",
+									this.interName));
+						}
 					} catch (Exception e) {
 						StringWriter outError = new StringWriter();
 						e.printStackTrace(new PrintWriter(outError));
@@ -1004,6 +1041,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			}
 			// MONITOREO
 			Utils.postMsgInMonitor(this.mon, msg2TM, msg2Remote, this.interName,
+					msgClone.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+			Utils.postMsgInMonitor(this.monV2, msg2TM, msg2Remote, this.interName,
 					msgClone.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 		} else {
 			msg2TM = (Iso8583Post) msgClone.clone();
@@ -1127,9 +1166,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg != null)
+			if (msg != null) {
 				mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
 						"ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
+						"ISO", this.interName));
+			}
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
@@ -1173,10 +1215,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				EventRecorder.recordEvent(new Exception("ERROR CREANDO MSG KEY "));
 
 				try {
-					if (msg != null)
+					if (msg != null) {
 						mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 								"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 								this.interName));
+						monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+								"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+								this.interName));
+					}
 				} catch (Exception e) {
 					StringWriter outError = new StringWriter();
 					e.printStackTrace(new PrintWriter(outError));
@@ -1203,10 +1249,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ5" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ5" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -1221,10 +1271,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ6" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ6" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -1239,10 +1293,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ7" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ7" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -1442,13 +1500,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (null != msg2TM)
+			if (null != msg2TM) {
 				mon.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 						msg2TM.toString(), "ISO", this.interName));
-			if (msg2Remote != null)
+				monV2.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+						msg2TM.toString(), "ISO", this.interName));
+			}
+			if (msg2Remote != null) {
 				mon.sendData(Client.getMsgKeyValue(
 						((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR),
 						msg2Remote.toString(), "ISC", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(
+						((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR),
+						msg2Remote.toString(), "ISC", this.interName));
+			}
 
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
@@ -1493,9 +1558,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			}else {
 				ISCReqInMsg originalIscReq = (ISCReqInMsg) iscReqMsg.get(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR));
 				Logger.logLine("mensaje original ISCREQ:: " + originalIscReq, this.enableMonitor);
-				if (msg != null)
+				if (msg != null) {
 					Utils.postMsgInMonitor(this.mon, msg, null, this.interName,
 							msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+					Utils.postMsgInMonitor(this.monV2, msg, null, this.interName,
+							msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+				}
 				ISCResInMsg rspMsg = new ISCResInMsg();
 				rspMsg = Utils.createRspISCMsg(msg, originalIscReq);
 				Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
@@ -1523,9 +1591,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		try {
 			ISCReqInMsg originalIscReq = (ISCReqInMsg) iscReqMsg.get(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR));
 			Logger.logLine("mensaje original ISCREQ:: " + originalIscReq, this.enableMonitor);
-			if (msg != null)
+			if (msg != null) {
 				Utils.postMsgInMonitor(this.mon, msg, null, this.interName,
 						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+				Utils.postMsgInMonitor(this.monV2, msg, null, this.interName,
+						msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+			}
 			ISCResInMsg rspMsg = new ISCResInMsg();
 			rspMsg = Utils.createRspISCMsgRev(msg, originalIscReq);
 			Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
@@ -1721,6 +1792,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		Utils.postMsgInMonitor(this.mon, rspNextDayMsgRsp, echoReqMsg, this.interName,
 				Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ7");
+		Utils.postMsgInMonitor(this.monV2, rspNextDayMsgRsp, echoReqMsg, this.interName,
+				Transform.fromBinToHex(Transform.getString(msg.toMsg())), "DECISOZ7");
 
 		return new Action(rspNextDayMsgRsp, echoReqMsg, null, null);
 	}
@@ -1731,9 +1804,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg != null)
+			if (msg != null) {
 				mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
 						"ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), msg.toString(),
+						"ISO", this.interName));
+			}
 
 		} catch (Exception e) {
 
@@ -1869,6 +1945,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, null, (ISCResMessage) msg, this.interName,
 						((ISCResMessage) msg).getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
+				Utils.postMsgInMonitor(this.monV2, null, (ISCResMessage) msg, this.interName,
+						((ISCResMessage) msg).getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
 
 				String outError = "TRANS ABNORMAL END-CAL -- La data recibida fue: ".concat(msg.toMsg().toString());
 				Logger.logLine("TRANS ABNORMAL END-CAL " + outError.toString(), this.enableMonitor);
@@ -1933,6 +2011,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, rspISOMsg, null, this.interName,
 						rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
+				Utils.postMsgInMonitor(this.monV2, rspISOMsg, null, this.interName,
+						rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), null);
 
 			}
 
@@ -1978,6 +2058,9 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				break;
 
 			}
+			
+			if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8554"))
+				validateAutra.setRute(ValidateAutra.TransactionRouting.INT_CAPA_DE_INTEGRACION);
 			
 			
 			switch (validateAutra.getRute()) {
@@ -2104,6 +2187,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					// MONITOREO
 					Utils.postMsgInMonitor(this.mon, null, iscInputReq, this.interName,
 							iscInputReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
+					Utils.postMsgInMonitor(this.monV2, null, iscInputReq, this.interName,
+							iscInputReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR), null);
 
 					return iscInputReq;
 
@@ -2121,6 +2206,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					// MONITOREO
 					Utils.postMsgInMonitor(this.mon, null, msgISCMsg, this.interName,
 							msgISCMsg.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR), null);
+					Utils.postMsgInMonitor(this.monV2, null, msgISCMsg, this.interName,
+							msgISCMsg.getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR), null);
 
 					return msgISCMsg;
 
@@ -2135,6 +2222,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				
 				// MONITOREO
 				Utils.postMsgInMonitor(this.mon, null, networkISCMsg, this.interName,
+						"00000000", null);
+				Utils.postMsgInMonitor(this.monV2, null, networkISCMsg, this.interName,
 						"00000000", null);
 
 				return networkISCMsg;
@@ -2300,6 +2389,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				mon.sendData(Client.getMsgKeyValue(originalMsgReq.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 						"DECISC" + bodyFields.get("ERROR")
 								+ Transform.fromBinToHex(Transform.getString(msgFromInter.toMsg())),
+						"ISC", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(originalMsgReq.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+						"DECISC" + bodyFields.get("ERROR")
+						+ Transform.fromBinToHex(Transform.getString(msgFromInter.toMsg())),
 						"ISC", this.interName));
 
 			} catch (Exception e) {
@@ -2903,6 +2996,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 	public Action processResyncCommand(AInterchangeDriverEnvironment interchange) throws Exception {
 		if(this.mon != null)
 			this.mon.close();
+		if(this.monV2 != null)
+			this.monV2.close();
 		this.init(interchange);
 		return super.processResyncCommand(interchange);
 	}
@@ -4401,9 +4496,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg != null)
+			if (msg != null) {
 				mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO", this.interName));
+				monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+						Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO", this.interName));
+			}
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
@@ -4499,10 +4597,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 				// MONITOREO
 				try {
-					if (msg != null)
+					if (msg != null) {
 						mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 								"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 								this.interName));
+						monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+								"ERRISOZ4" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+								this.interName));
+					}
 				} catch (Exception e) {
 					StringWriter outError = new StringWriter();
 					e.printStackTrace(new PrintWriter(outError));
@@ -4556,10 +4658,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ5" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ5" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -4574,10 +4680,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ6" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ6" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -4592,10 +4702,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 			// MONITOREO
 			try {
-				if (msg != null)
+				if (msg != null) {
 					mon.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 							"DECISOZ7" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
 							this.interName));
+					monV2.sendData(Client.getMsgKeyValue(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+							"DECISOZ7" + Transform.fromBinToHex(Transform.getString(msg.toMsg())), "ISO",
+							this.interName));
+				}
 			} catch (Exception e) {
 				StringWriter outError = new StringWriter();
 				e.printStackTrace(new PrintWriter(outError));
@@ -4703,12 +4817,18 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg2TM != null)
+			if (msg2TM != null) {
 				mon.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 						msg2TM.toString(), "ISO", this.interName));
-			if (msg2Remote != null)
+				monV2.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+						msg2TM.toString(), "ISO", this.interName));
+			}
+			if (msg2Remote != null) {
 				mon.sendData(Client.getMsgKeyValue((msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)),
 						msg2Remote.toString(), "ISC", this.interName));
+				monV2.sendData(Client.getMsgKeyValue((msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)),
+						msg2Remote.toString(), "ISC", this.interName));
+			}
 
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
@@ -4815,13 +4935,20 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		// MONITOREO
 		try {
-			if (msg2TM != null)
+			if (msg2TM != null) {
 				mon.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
 						msg2TM.toString(), logType1, this.interName));
-			if (msg2Remote != null)
+				monV2.sendData(Client.getMsgKeyValue(msg2TM.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR),
+						msg2TM.toString(), logType1, this.interName));
+			}
+			if (msg2Remote != null) {
 				mon.sendData(Client.getMsgKeyValue(
 						((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR),
 						msg2Remote.toString(), logType2, this.interName));
+				monV2.sendData(Client.getMsgKeyValue(
+						((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._08_H_TRAN_SEQ_NR),
+						msg2Remote.toString(), logType2, this.interName));
+			}
 
 		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
