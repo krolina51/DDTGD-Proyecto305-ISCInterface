@@ -135,6 +135,11 @@ public class RetiroAux {
 			
 			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
 			
+			//TRACK2 Field 43
+			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))) 
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(432, 468))))
+					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(422, 432)))), 40, ' ', true));
+			
 			Logger.logLine("sd:" + sd, enableMonitor);
 			//TRACK2 Field 35
 			Logger.logLine("seteando campo 35:"+in.getTotalHexString().substring(468, 542), enableMonitor);
@@ -167,9 +172,7 @@ public class RetiroAux {
 				
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
 				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-				
-				if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
-					tranType = "20";
+				out.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
 				
 			//PROCESAMIENTO TX FINANCIERA	
 			} else {
@@ -386,15 +389,16 @@ public class RetiroAux {
 		sd.put("Dispositivo", "D");
 		sd.put("SECUENCIA", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(242, 282))));
 		sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
+		sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364))));
 		sd.put("service_restriction_code", "000");
 		sd.put("pos_entry_mode", "000");
 		sd.put("Identificador_Terminal", "0");
-		sd.put("Inscripcion_Indicador", "1");
+		sd.put("Inscripcion_Indicador", "0");
 		sd.put("Numero_Factura", "                        ");
 		sd.put("Nota", "                        ");
 		sd.put("Mod_Credito", "6");
 		sd.put("CLIENT_CARD_NR", "0077010000000000");
-		sd.put("CLIENT_CARD_CLASS", "00");
+		sd.put("CLIENT_CARD_CLASS", "15CLASE12000");
 		///////// FIN TAGS EXTRACT
 
 	}

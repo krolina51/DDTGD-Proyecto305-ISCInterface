@@ -25,12 +25,19 @@ public class Convivencia {
 		
 		StructuredData sd = null;
 		
+		out.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
+		
 		if(out.getStructuredData() != null) {
 			sd = out.getStructuredData();
 		}
 		else {
 			sd = new StructuredData();
 		}
+		
+		if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080"))
+			sd.put("REVERSO", "TRUE");
+		if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
+			sd.put("ANULACION", "TRUE");
 		
 		
 		//CAMPO 7 TRANSMISSION DATE N TIME

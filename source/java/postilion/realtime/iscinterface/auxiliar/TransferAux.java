@@ -199,8 +199,8 @@ public class TransferAux {
 			////////// TAGS EXTRACT 
 			sd.put("VIEW_ROUTER", "V2");
 			
-			sd.put("TRANSACTION_INPUT", "TRANSFERENCIA_CEL2CEL");
-			sd.put("TRANSACTION_CNB_TYPE", "CEL2CEL_TRANSFERENCIAS");
+			sd.put("TRANSACTION_INPUT", "TRANSFERENCIA");
+			sd.put("TRANSACTION_CNB_TYPE", "TRANSFERENCIAS");
 			
 			sd.put("Codigo_FI_Origen", "1019");
 			sd.put("Nombre_FI_Origen", "CIC");		
