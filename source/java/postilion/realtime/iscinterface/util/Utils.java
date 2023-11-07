@@ -3142,7 +3142,7 @@ public class Utils {
 						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 					} else {
 
-						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("Ã°Ã¼Ã°"));
 					}
 
 					instance.isNextDay = true;
@@ -3192,7 +3192,7 @@ public class Utils {
 				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 			} else {
 
-				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("Ã°Ã¼Ã°"));
 			}
 
 		}
@@ -3965,12 +3965,8 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		case "4":		
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_MOTOSVEHICULOS");		
 			break;
-		case "5":	
-			if( codOficina.startsWith("4") ) {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_OFICINA");	
-			}else {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_VIRTUAL");
-			}
+		case "5":
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC");	
 				
 			break;
 		case "6":	
@@ -4489,6 +4485,23 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					msg.getStructuredData().get("B24_Field_62") : "000000000000" : "000000000000";
 			String field4 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_4") != null ?
 					msg.getStructuredData().get("B24_Field_4") : "000000000000" : "000000000000";
+			String claseTarjeta = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("CLIENT_CARD_CLASS") != null ?
+					msg.getStructuredData().get("CLIENT_CARD_CLASS") : "000000000000" : "000000000000";
+			
+			String B5 = null;
+			String arqc = null;
+			if(field126!=null) {
+				String parts[] = field126.split("!");
+				
+				int posB5 = 0;
+				for (int i = 0; i < parts.length; i++) {
+					if (parts[i].contains(" B5")) {
+						posB5 = i;
+						B5 = parts[posB5];
+						arqc = B5.substring(13, 29);
+					}
+				}
+			}
 			
 			switch (msg.getProcessingCode().toString()) {
 			case "300040":			
@@ -4533,23 +4546,25 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				.append(Transform.fromAsciiToEbcdic("00000000000"));
 
 				break;	
+			
+			case "351000":			
+			case "352000":			
+				
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E40404040"))
+				.append(Transform.fromHexToBin("11C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(claseTarjeta.substring(9,11)))
+				.append(Transform.fromAsciiToEbcdic(msg.getTrack2Data().getPan()))
+				.append(Transform.fromAsciiToEbcdic(Pack.resize(field102, 17, '0', false)))
+				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+
+				break;
 
 			default:
 				
-				String B5 = null;
-				String arqc = null;
-				if(field126!=null) {
-					String parts[] = field126.split("!");
-					
-					int posB5 = 0;
-					for (int i = 0; i < parts.length; i++) {
-						if (parts[i].contains(" B5")) {
-							posB5 = i;
-							B5 = parts[posB5];
-							arqc = B5.substring(13, 29);
-						}
-					}
-				}
+				
 					 
 //				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
