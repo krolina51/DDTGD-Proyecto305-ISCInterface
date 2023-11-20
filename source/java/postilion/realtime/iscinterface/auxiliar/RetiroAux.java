@@ -43,6 +43,56 @@ public class RetiroAux {
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
 		try {
+			
+			String decoded = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
+			
+			String parts[] = decoded.split("\\+");
+			
+			for (int i=0; i<parts.length; i++) {
+				if(parts[i].startsWith("9F27"))
+					pos9f27 = i;
+				if(parts[i].startsWith("95"))
+					pos95 = i;
+				if(parts[i].startsWith("9F26"))
+					pos9f26 = i;
+				if(parts[i].startsWith("9F02"))
+					pos9f02 = i;
+				if(parts[i].startsWith("9F03"))
+					pos9f03 = i;
+				if(parts[i].startsWith("82"))
+					pos82 = i;
+				if(parts[i].startsWith("9F36"))
+					pos9f36 = i;
+				if(parts[i].startsWith("9F1A"))
+					pos9f1a = i;
+				if(parts[i].startsWith("5F2A"))
+					pos5f2a = i;
+				if(parts[i].startsWith("9A"))
+					pos9a = i;
+				if(parts[i].startsWith("9C"))
+					pos9c = i;
+				if(parts[i].startsWith("9F37"))
+					pos9f37 = i;
+				if(parts[i].startsWith("9F10"))
+					pos9f10 = i;
+				if(parts[i].startsWith("9F1E"))
+					pos9f1e = i;
+				if(parts[i].startsWith("9F33"))
+					pos9f33 = i;
+				if(parts[i].startsWith("9F35"))
+					pos9f35 = i;
+				if(parts[i].startsWith("9F09"))
+					pos9f09 = i;
+				if(parts[i].startsWith("9F34"))
+					pos9f34 = i;
+				if(parts[i].startsWith("84"))
+					pos84 = i;
+				if(parts[i].startsWith("9F39"))
+					pos9f39 = i;
+				if(parts[i].startsWith("5F34"))
+					pos5f34 = i;
+			}
+			
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
 			Date businessCalendarDate = null;
 			String settlementDate = null;
@@ -173,59 +223,13 @@ public class RetiroAux {
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
 				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
 				out.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
+				sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+				sd.put("B24_Field_90", keyReverse+"0000000000");
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, keyReverse.substring(4,16));
+				sd.put("B24_Field_37", keyReverse.substring(4,16));
 				
 			//PROCESAMIENTO TX FINANCIERA	
 			} else {
-				
-				
-				String decoded = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
-				
-				String parts[] = decoded.split("\\+");
-				
-				for (int i=0; i<parts.length; i++) {
-					if(parts[i].startsWith("9F27"))
-						pos9f27 = i;
-					if(parts[i].startsWith("95"))
-						pos95 = i;
-					if(parts[i].startsWith("9F26"))
-						pos9f26 = i;
-					if(parts[i].startsWith("9F02"))
-						pos9f02 = i;
-					if(parts[i].startsWith("9F03"))
-						pos9f03 = i;
-					if(parts[i].startsWith("82"))
-						pos82 = i;
-					if(parts[i].startsWith("9F36"))
-						pos9f36 = i;
-					if(parts[i].startsWith("9F1A"))
-						pos9f1a = i;
-					if(parts[i].startsWith("5F2A"))
-						pos5f2a = i;
-					if(parts[i].startsWith("9A"))
-						pos9a = i;
-					if(parts[i].startsWith("9C"))
-						pos9c = i;
-					if(parts[i].startsWith("9F37"))
-						pos9f37 = i;
-					if(parts[i].startsWith("9F10"))
-						pos9f10 = i;
-					if(parts[i].startsWith("9F1E"))
-						pos9f1e = i;
-					if(parts[i].startsWith("9F33"))
-						pos9f33 = i;
-					if(parts[i].startsWith("9F35"))
-						pos9f35 = i;
-					if(parts[i].startsWith("9F09"))
-						pos9f09 = i;
-					if(parts[i].startsWith("9F34"))
-						pos9f34 = i;
-					if(parts[i].startsWith("84"))
-						pos84 = i;
-					if(parts[i].startsWith("9F39"))
-						pos9f39 = i;
-					if(parts[i].startsWith("5F34"))
-						pos5f34 = i;
-				}
 				
 				out.putField(Iso8583Post.Bit._059_ECHO_DATA,Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
 				
@@ -234,14 +238,12 @@ public class RetiroAux {
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
 				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
 				
-				
-				sd.put("B24_Field_126", constructField126(parts));
-				
 			}
 			//127.22 TAG B24_Field_3
 			sd.put("B24_Field_3", tranType+tipoCuentaDebitar+"00");
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
+			sd.put("B24_Field_35", out.getField(Iso8583.Bit._035_TRACK_2_DATA));
 			sd.put("B24_Field_48", "000000000000               ");
 			Logger.logLine("seteando campo 15:"+ in.getTotalHexString().substring(250, 258), enableMonitor);
 			sd.put("B24_Field_15", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(250, 258))));
@@ -253,6 +255,8 @@ public class RetiroAux {
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(96, 128)))));
 			Logger.logLine("seteando campo 126:"+ in.getTotalHexString().substring(660, 1494), enableMonitor);
 			sd.put("IN_MSG", in.getTotalHexString());
+			
+			sd.put("B24_Field_126", constructField126(parts));
 			
 			putTagsExtract(sd, out, in);
 			
@@ -301,7 +305,7 @@ public class RetiroAux {
 			b2.append(tokens[pos9a].substring(4,10)); //9a
 			b2.append(tokens[pos9c].substring(4,6)); //9c
 			b2.append(tokens[pos9f37].substring(6,14)); //9f37
-			b2.append("00").append(Pack.resize(tokens[pos9f10].substring(4,20), 66, '0', true)); //9f10
+			b2.append(tokens[pos9f10].length()>20 ? "00" : "000").append(Pack.resize(tokens[pos9f10].substring(4), 66, '0', true)); //9f10
 		}catch(Exception e) {
 			e.printStackTrace();
 			EventRecorder.recordEvent(

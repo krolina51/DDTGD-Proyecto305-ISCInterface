@@ -2461,6 +2461,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 						origSD.put(entry.getKey().toUpperCase(), tagRspValOrig);
 
+					} else if (entry.getKey().toUpperCase().contains("COMISION")) {
+
+						Logger.logLine(entry.getKey().toUpperCase() + " :: " + entry.getValue(), this.enableMonitor);
+
+						origSD.put(entry.getKey().toUpperCase(), esNumerica(tagRspValEdit) ? tagRspValEdit : "0000000000");
+
 					} else {
 
 						Logger.logLine(entry.getKey().toUpperCase() + " :: " + tagRspValEdit, this.enableMonitor);
@@ -2486,6 +2492,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		return originalMsgReq;
 
+	}
+	
+	public boolean esNumerica(String cadena) {
+		  return cadena.matches("^-?\\d+(\\.\\d+)?$");
 	}
 	
 	private Iso8583Post mapResponseAutraISCMsg(ISCResInMsg msgFromInter, Iso8583Post originalMsgReq)
