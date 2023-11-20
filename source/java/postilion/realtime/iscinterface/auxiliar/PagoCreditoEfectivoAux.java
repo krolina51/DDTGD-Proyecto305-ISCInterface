@@ -150,6 +150,9 @@ public class PagoCreditoEfectivoAux {
 			tranType = "50";
 			String cuentaCreditar = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_CREDIT_ACC_NR, ISCReqInMsg.POS_end_CREDIT_ACC_NR)));
 			
+			//CAMPO 37 Retrieval Reference Number
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
+			
 			// PROCESAMIENTO DE REVERSO
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
 					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
@@ -165,6 +168,10 @@ public class PagoCreditoEfectivoAux {
 				
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
 				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+				sd.put("B24_Field_90", keyReverse+"0000000000");
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, keyReverse.substring(4,16));
+				sd.put("B24_Field_37", keyReverse.substring(4,16));
 				
 				if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020"))
 					tranType = "20";
@@ -198,9 +205,6 @@ public class PagoCreditoEfectivoAux {
 			
 			//TRACK2 Field 35
 			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
-			
-			//CAMPO 37 Retrieval Reference Number
-			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
 			
 			//TRACK2 Field 43
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, p43);

@@ -288,5 +288,59 @@ public class Client {
 		}
 		return dataResponse;
 	}
+	
+	/**
+	 * Open a socket to send data over UDP protocol
+	 * 
+	 * @param data            to send
+	 * @param waitForResponse
+	 * @throws XPostilion
+	 */
+	public String sendMsgForValidationTitular(String tarjeta, boolean log) throws XPostilion {
+		String dataResponse = "";
+		try {
+			
+			Logger.logLine("tc: " + tarjeta, log);
+			String tc =  tarjeta;
+			byte[] data = ("TX_VALIDA_TITULARIDAD"+tc).getBytes();
+
+			try {
+				DatagramSocket socket = new DatagramSocket();
+				socket.setSoTimeout(1500);
+//				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress, port);
+				Logger.logLine("data: " + data, log);
+				Logger.logLine("data.length: " + data.length, log);
+				Logger.logLine("ipAddress: " + ipAddress, log);
+				Logger.logLine("port: " + port, log);
+//				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress,
+//						50000 + Integer.parseInt(p11.substring(p11.length() - 1)));
+				DatagramPacket request = new DatagramPacket(data, data.length, ipAddress,
+						port);
+				Logger.logLine("request getSocketAddress: " + request.getSocketAddress(), log);
+				Logger.logLine("request getAddress: " + request.getAddress(), log);
+				Logger.logLine("Send request: " + request.getData(), log);
+				socket.send(request);
+				byte[] bufer = new byte[5172];// 4072
+				DatagramPacket respuesta = new DatagramPacket(bufer, bufer.length);
+				socket.receive(respuesta);
+				Logger.logLine("respuesta.getData()).trim(): " + respuesta.getData(), log);
+				dataResponse = new String(respuesta.getData()).trim();
+				Logger.logLine("data incoming: " + dataResponse, log);
+				socket.close();
+			} catch (SocketTimeoutException e) {
+				dataResponse = "TIMEOUT";
+			} catch (IOException e) {
+				StringWriter outError = new StringWriter();
+				e.printStackTrace(new PrintWriter(outError));
+				EventRecorder.recordEvent(new Exception("Exception in Constructor:  Client: " + outError.toString()));
+			} 
+			
+		} catch (Exception e) {
+
+			EventRecorder.recordEvent(e);
+			dataResponse = "ERROR";
+		}
+		return dataResponse;
+	}
 
 }

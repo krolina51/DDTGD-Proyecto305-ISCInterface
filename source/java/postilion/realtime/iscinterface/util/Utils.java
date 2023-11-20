@@ -3142,7 +3142,7 @@ public class Utils {
 						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 					} else {
 
-						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+						output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("Ã°Ã¼Ã°"));
 					}
 
 					instance.isNextDay = true;
@@ -3192,7 +3192,7 @@ public class Utils {
 				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("040"));
 			} else {
 
-				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("ðüð"));
+				output.putField(ISCReqMessage.Fields._09_H_STATE, Transform.fromAsciiToEbcdic("Ã°Ã¼Ã°"));
 			}
 
 		}
@@ -3965,12 +3965,8 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		case "4":		
 			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_MOTOSVEHICULOS");		
 			break;
-		case "5":	
-			if( codOficina.startsWith("4") ) {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_OFICINA");	
-			}else {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC_VIRTUAL");
-			}
+		case "5":
+			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC");	
 				
 			break;
 		case "6":	
@@ -4489,6 +4485,23 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					msg.getStructuredData().get("B24_Field_62") : "000000000000" : "000000000000";
 			String field4 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_4") != null ?
 					msg.getStructuredData().get("B24_Field_4") : "000000000000" : "000000000000";
+			String claseTarjeta = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("CLIENT_CARD_CLASS") != null ?
+					msg.getStructuredData().get("CLIENT_CARD_CLASS") : "000000000000" : "000000000000";
+			
+			String B5 = null;
+			String arqc = null;
+			if(field126!=null) {
+				String parts[] = field126.split("!");
+				
+				int posB5 = 0;
+				for (int i = 0; i < parts.length; i++) {
+					if (parts[i].contains(" B5")) {
+						posB5 = i;
+						B5 = parts[posB5];
+						arqc = B5.substring(13, 29);
+					}
+				}
+			}
 			
 			switch (msg.getProcessingCode().toString()) {
 			case "300040":			
@@ -4533,23 +4546,48 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				.append(Transform.fromAsciiToEbcdic("00000000000"));
 
 				break;	
+			
+			case "351000":			
+			case "352000":			
+				
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000"))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(claseTarjeta.substring(9,11)))
+				.append(Transform.fromAsciiToEbcdic(msg.getTrack2Data().getPan()))
+				.append(Transform.fromAsciiToEbcdic(Pack.resize(field102, 17, '0', false)))
+				.append(Transform.fromHexToBin("000000"))
+				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+
+				break;
+				
+			case "500100":			
+			case "500200":			
+			case "500140":			
+			case "500240":			
+			case "500141":			
+			case "500241":			
+			case "500142":			
+			case "500242":			
+				
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
+				.append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+				.append(Transform.fromAsciiToEbcdic("000000000000"))
+				.append(Transform.fromAsciiToEbcdic(field102))
+				.append(Transform.fromAsciiToEbcdic(field125.substring(1,17)))
+				.append(Transform.fromAsciiToEbcdic(field125.substring(0,1)));
+
+				break;
 
 			default:
 				
-				String B5 = null;
-				String arqc = null;
-				if(field126!=null) {
-					String parts[] = field126.split("!");
-					
-					int posB5 = 0;
-					for (int i = 0; i < parts.length; i++) {
-						if (parts[i].contains(" B5")) {
-							posB5 = i;
-							B5 = parts[posB5];
-							arqc = B5.substring(13, 29);
-						}
-					}
-				}
+				
 					 
 //				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
@@ -4621,7 +4659,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 						&& msg.getStructuredData().get("REV_DECLINED").equals("TRUE"))) {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
-			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
 			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
@@ -4629,7 +4667,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		} else {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
-			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
+			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
 			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
