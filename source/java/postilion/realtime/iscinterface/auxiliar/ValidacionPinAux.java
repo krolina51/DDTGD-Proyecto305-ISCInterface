@@ -264,7 +264,7 @@ public class ValidacionPinAux {
 			b2.append(tokens[pos9a].substring(4,10)); //9a
 			b2.append(tokens[pos9c].substring(4,6)); //9c
 			b2.append(tokens[pos9f37].substring(6,14)); //9f37
-			b2.append("00").append(Pack.resize(tokens[pos9f10].substring(4,20), 66, '0', true)); //9f10
+			b2.append(tokens[pos9f10].length()>=20 ? "00" : "000").append(Pack.resize(tokens[pos9f10].substring(4), 66, '0', true)); //9f10
 		}catch(Exception e) {
 			e.printStackTrace();
 			EventRecorder.recordEvent(
