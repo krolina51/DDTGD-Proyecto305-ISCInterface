@@ -54,7 +54,7 @@ public class ConsulPGDIVAux2 {
 			String keyReverse = null;
 			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
-			
+			StructuredData sdOriginal = new StructuredData();
 			StructuredData sd = null;
 			
 			if(out.getStructuredData() != null) {
@@ -100,10 +100,8 @@ public class ConsulPGDIVAux2 {
 			// PROCESAMIENTO DE REVERSO
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
 				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
-				
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
 				if(keyReverse == null) {
 					keyReverse = "0000000000";
 					sd.put("REV_DECLINED", "TRUE");
@@ -123,7 +121,6 @@ public class ConsulPGDIVAux2 {
 				
 				//127.2 SWITCHKEY
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);		
-				ISCInterfaceCB.cacheKeyReverseMap.put(seqNr,key);
 			}
 			
 			//Field 3
