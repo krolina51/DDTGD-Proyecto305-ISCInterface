@@ -118,6 +118,7 @@ public class RetiroAux {
 			String keyReverse = null;
 			
 			StructuredData sd = null;
+			StructuredData sdOriginal = new StructuredData();
 			
 			if(out.getStructuredData() != null) {
 				sd = out.getStructuredData();	
@@ -209,9 +210,8 @@ public class RetiroAux {
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
 					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
 				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
 				
 				if(keyReverse == null) {
 					keyReverse = "0000000000";

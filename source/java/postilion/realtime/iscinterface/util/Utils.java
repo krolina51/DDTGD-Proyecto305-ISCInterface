@@ -324,7 +324,9 @@ public class Utils {
 			for (String s : varBody.split("11C2601D60")) {
 
 				for (Map.Entry<String, String> e : OUTPUT_FIELDS.entrySet()) {
+					Logger.logLine("***OUTPUTFIELDS :\n" + e.getKey() + "->" + e.getValue() + "\n", enableLog);
 					String temp = Utils.ebcdicToAscii(s).replaceAll(e.getKey(), e.getValue());
+					Logger.logLine("***temp :\n" + temp + "\n", enableLog);
 
 					if (temp != null && !temp.equals("") && !temp.equals(" ")) {
 						Utils.putStringIntoHashmap(innerFields, temp);
@@ -2951,6 +2953,120 @@ public class Utils {
 		sd.put(Constant.B24Fields.B24_F_44, field44);
 	}
 	
+	public static void putB24Field44ConsulUtilizacionCrediserviceIntoStructuredData(StructuredData sd) {
+
+		String field44 = "";
+
+		try {
+			String saldos = sd.get(Constant.TagNames.SALDOS);
+			if (saldos != null) {
+
+				Logger.logLine("AAA:" + saldos, false);
+				if (saldos.length() < 45)
+					saldos = "000000000000000000000000000000000000000000000";
+
+				sd.put(Constant.TagNames.SALDO_DISPONIBLE, saldos.substring(0, 15));
+				sd.put(Constant.TagNames.SALDO_TOTAL, saldos.substring(30, 45));
+
+				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null && sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+
+					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
+							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
+						field44 += "3".concat("-").concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
+								11, '0', false));
+					} else {
+						field44 += "3".concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12, '0', false));
+					}
+
+					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+							.substring(sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1)).equals("-")) {
+						field44 += "-".concat(Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
+								.replace(".", ""), 11, '0', false));
+					} else {
+						field44 = field44.concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
+										12, '0', false));
+					}
+
+				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
+						&& sd.get(Constant.TagNames.SALDO_DISPONIBLE) == null) {
+
+					Logger.logLine("BBB:" + sd.get(Constant.TagNames.SALDO_TOTAL), false);
+
+					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
+							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
+						field44 += "1".concat("-").concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
+								11, '0', false)).concat("000000000000");
+					} else {
+						field44 += "1"
+								.concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""),
+										12, '0', false))
+								.concat("000000000000");
+					}
+
+				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) == null
+						&& sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+
+					Logger.logLine("CCC:" + sd.get(Constant.TagNames.SALDO_DISPONIBLE), false);
+
+					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+							.substring(sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1)).equals("-")) {
+						field44 += "2000000000000-".concat(Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
+								.replace(".", ""), 11, '0', false));
+					} else {
+						field44 += "2000000000000".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
+										12, '0', false));
+					}
+
+				}
+
+			} else {
+//			field44 += "0000000000000000000000000";
+
+				Logger.logLine("DDD:" + sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null
+						? sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+						: "", false);
+
+				if (sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+
+					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+							.substring(sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1)).equals("-")) {
+						field44 += "2000000000000-".concat(Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE)
+								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
+								.replace(".", ""), 11, '0', false));
+					} else {
+						field44 += "2000000000000".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
+										12, '0', false));
+					}
+
+				} else {
+
+					field44 += "0000000000000000000000000";
+
+				}
+
+			}
+		} 
+		catch (Exception e) {
+			field44 += "0000000000000000000000000";
+			
+			StringWriter outError = new StringWriter();
+			e.printStackTrace(new PrintWriter(outError));
+			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
+			EventRecorder.recordEvent(new Exception(outError.toString()));
+
+		}
+
+		sd.put(Constant.B24Fields.B24_F_44, field44);
+	}
+	
 	public static void putB24Field4IntoStructuredData(StructuredData sd) {
 
 		String field4 = "";
@@ -3771,6 +3887,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			case "8570":
                 msgKey = "SRLN_8570_CONSULTATITULARIDAD";
                 break;
+			case "9050":
+                msgKey = "SRLN_9050_AVANCE";
+                break;
 			default:
 				msgKey = "06";
 				break;
@@ -3976,10 +4095,6 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			break;
 		}	
 		
-		// Se extrae la informacion de la oficina con el fin de identificar la transaccion Pago credito Internet 
-		if (codOficina.equals("5300") || codOficina.equals("5600")) {
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOCREDITOINT");	
-		} 
 		
 		Logger.logLine("entra switch 2 :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE))), enableMonitor);
 		
@@ -4434,6 +4549,8 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		OUTPUT_FIELDS.put("CUENTA:(.*)", "cuenta_homologada=$1");
 		
 		OUTPUT_FIELDS.put("COMISIONIVA:(.*)", "comisioniva=$1");
+		
+		OUTPUT_FIELDS.put("RIESGO:(.)", "riesgo=$1");
 
 	}
 

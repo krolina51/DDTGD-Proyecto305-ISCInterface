@@ -136,7 +136,7 @@ public class DBHandler {
 			throws SQLException {
 
 		shot.getObservables().put("getAccountInfo", new Observable(
-				"metodo que consume sp, para obtener información de la una cuenta", "getAccountInfo", null));
+				"metodo que consume sp, para obtener informaciï¿½n de la una cuenta", "getAccountInfo", null));
 
 		String consecutive = null;
 		String account_id = "";
@@ -353,9 +353,10 @@ public class DBHandler {
 	}
 	
 	
-	public static String getKeyOriginalTxBySeqNr(String SeqNr) {
+	public static StructuredData getKeyOriginalTxBySeqNr(String SeqNr) {
 
 		String keyOriginal = null;
+		StructuredData sd = new StructuredData();
 		Connection cn = null;
 		CallableStatement stmt = null;
 		ResultSet rs = null;
@@ -363,11 +364,15 @@ public class DBHandler {
 		try {
 
 			cn = JdbcManager.getDefaultConnection();
-			stmt = cn.prepareCall("{call cust_get_srcnode_key_by_src_echodata(?, ?)}");
+			stmt = cn.prepareCall("{call cust_get_srcnode_key_by_src_echodata(?, ?, ?)}");
 			stmt.setString(1, SeqNr);
 			stmt.registerOutParameter(2, java.sql.Types.VARCHAR);
+			stmt.registerOutParameter(3, java.sql.Types.VARCHAR);
 			stmt.execute();
+			
 			keyOriginal = stmt.getString(2);
+			sd.fromMsgString(stmt.getString(3));
+			sd.put("KeyOriginalTx", keyOriginal);
 			JdbcManager.commit(cn, stmt, rs);
 		}
 
@@ -386,14 +391,14 @@ public class DBHandler {
 		}
 
 
-		return keyOriginal;
+		return sd;
 	}
 	
 	/*
-	 * Obtiene de la base de datos los identificadores de institución y sus
+	 * Obtiene de la base de datos los identificadores de instituciï¿½n y sus
 	 * respectivos nombres
 	 *
-	 * @return hashMap con la información consultada
+	 * @return hashMap con la informaciï¿½n consultada
 	 */
 	public static ConcurrentHashMap<String, Object> loadPinPadKeys() {
 		ConcurrentHashMap<String, Object> pinpadsData = new ConcurrentHashMap<>();

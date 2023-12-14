@@ -350,8 +350,8 @@ public class ValidacionPinAux {
 		sd.put("CUSTOMER_ID", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(102, 128))));
 		sd.put("Entidad_Origen", "0000");
 		sd.put("Ent_Adq", "0001");
-		sd.put("Dispositivo", "D");
 		sd.put("Ofi_Adqui", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(336, 344))));
+		sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(336, 344))));
 		sd.put("service_restriction_code", "000");
 		sd.put("pos_entry_mode", "000");
 		sd.put("Identificador_Terminal", "0");
