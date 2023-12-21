@@ -68,6 +68,7 @@ public class PagoCreditoInternetAux {
 			String keyReverse = null;
 
 			StructuredData sd = null;
+			StructuredData sdOriginal = new StructuredData();
 
 			if (out.getStructuredData() != null) {
 				sd = out.getStructuredData();
@@ -158,11 +159,11 @@ public class PagoCreditoInternetAux {
 
 			String nombreTerminal;
 			if (codigoOficina.equals("5300")) {
-				nombreTerminal="     INTN COR BTA";
+				nombreTerminal="ï¿½ï¿½ï¿½ï¿½ INTN COR BTA";
 			}else if (codigoOficina.equals("5600") ){
-				nombreTerminal="     INTN BSE BTA";
+				nombreTerminal="ï¿½ï¿½ï¿½ï¿½ INTN BSE BTA";
 			} else {
-				nombreTerminal="     INTN aaa BTA";
+				nombreTerminal="ï¿½ï¿½ï¿½ï¿½ INTN aaa BTA";
 			}
 			
 			String clasePago = Transform.fromEbcdicToAscii( Transform.fromHexToBin( in.getTotalHexString().substring(286, 288) ) );
@@ -192,9 +193,8 @@ public class PagoCreditoInternetAux {
 			// PROCESAMIENTO DE REVERSO
 			if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
 
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if (keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
 				if (keyReverse == null) {
 					keyReverse = "0000000000";
 					sd.put("REV_DECLINED", "TRUE");

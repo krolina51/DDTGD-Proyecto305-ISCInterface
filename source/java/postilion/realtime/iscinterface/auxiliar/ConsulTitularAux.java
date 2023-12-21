@@ -15,6 +15,7 @@ import postilion.realtime.sdk.message.bitmap.Iso8583;
 import postilion.realtime.sdk.message.bitmap.Iso8583Post;
 import postilion.realtime.sdk.message.bitmap.ProcessingCode;
 import postilion.realtime.sdk.message.bitmap.StructuredData;
+import postilion.realtime.sdk.message.bitmap.XFieldUnableToConstruct;
 import postilion.realtime.sdk.util.DateTime;
 import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
@@ -22,6 +23,11 @@ import postilion.realtime.sdk.util.convert.Transform;
 
 public class ConsulTitularAux {
 	
+	public static final String PCODE_CONSULTATITUL_PAGO_HIPOTECARIO = "330000";
+	public static final String PCODE_CONSULTATITUL_PAGO_ROTATIVO = "334000";
+	public static final String PCODE_CONSULTATITUL_PAGO_OTROSCREDITOS = "334100";
+	public static final String PCODE_CONSULTATITUL_PAGO_VEHICULOS = "334200";
+	public static final String PCODE_CONSULTATITUL_PAGO_TC = "333000";
 	
 	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
 		
@@ -64,30 +70,40 @@ public class ConsulTitularAux {
 				sd.put("Codigo_Transaccion_Producto", "06");
 				sd.put("Tipo_de_Cuenta_Debitada", "OTR");
 				sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(236,244))));
+				sd.put("Mod_Credito", "1");
+				sd.put("Mod_CreditoX1", "1");
 				break;
 			case "2":
 				pcode = "334000";		
 				sd.put("Codigo_Transaccion_Producto", "06");
 				sd.put("Tipo_de_Cuenta_Debitada", "OTR");
 				sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(236,244))));
+				sd.put("Mod_Credito", "2");
+				sd.put("Mod_CreditoX1", "2");
 				break;
 			case "3":
 				pcode = "334100";
 				sd.put("Codigo_Transaccion_Producto", "06");
 				sd.put("Tipo_de_Cuenta_Debitada", "OTR");
 				sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(236,244))));
+				sd.put("Mod_Credito", "3");
+				sd.put("Mod_CreditoX1", "3");
 				break;
 			case "4":
 				pcode = "334200";
 				sd.put("Codigo_Transaccion_Producto", "06");
 				sd.put("Tipo_de_Cuenta_Debitada", "OTR");
 				sd.put("Numero_Terminal", Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(236,244))));
+				sd.put("Mod_Credito", "4");
+				sd.put("Mod_CreditoX1", "4");
 				break;
 			case "5":
 				pcode = "333000";
 				sd.put("Codigo_Transaccion_Producto", "02");
 				sd.put("Tipo_de_Cuenta_Debitada", "CRE");
 				sd.put("Numero_Terminal", "0000");
+				sd.put("Mod_Credito", "5");
+				sd.put("Mod_CreditoX1", "5");
 				break;
 
 			default:
@@ -180,6 +196,7 @@ public class ConsulTitularAux {
 			sd.put("SEC_ACCOUNT_TYPE", "   ");
 			sd.put("Codigo_Establecimiento", "          ");
 			sd.put("Ent_Adq", "0001");
+			sd.put("Entidad", "0000");
 			sd.put("Canal", "01");
 			sd.put("Identificacion_Canal", "OF");
 			

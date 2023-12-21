@@ -1352,6 +1352,19 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				sdIn = getHistoricalTranType(histSD, sdIn);
 
 				sdIn.put("HIST_CONS", histCons);
+				boolean riesgo = false;
+				String[] p59Data = histCons.split("\\|");
+				if(p59Data.length > 2 && p59Data[2].equals("S")
+						&& !msgKey.equals("00")) {
+					riesgo = true;
+					sdIn.put("DECLINACION POR MITIGACION DE RIESGO", "TRUE");
+					msg2TM = (Iso8583Post) msg.clone();
+					msg2TM.setMessageType(Iso8583.MsgTypeStr._0430_ACQUIRER_REV_ADV_RSP);
+					msg2TM.putField(Iso8583.Bit._039_RSP_CODE, "34");
+					strTranSetting = null;
+					msg2Remote = null;
+					return new Action(msg2TM, msg2Remote, null, null);
+				}
 
 				msg.putStructuredData(sdIn);
 
@@ -1384,44 +1397,51 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 						if (strTranSetting == null) {
 
 							if (msg.getMessageType().equals("0420")) {
-								this.transStore.put(cons.split(",")[0].trim().concat(cons.split(",")[1].trim()), msg);
+								
+								if(riesgo) {
+									msg2Remote = null;
+									msg2TM = createErrorRspMsg(msg, "DECLINACION POR MITIGACION DE RIESGO", "34");
+								}else {
+									this.transStore.put(cons.split(",")[0].trim().concat(cons.split(",")[1].trim()), msg);
 
-								msg2Remote = (ISCReqMessage) ISCAssembler.createISCMessage(msg, this.hour4Check,
-										this.isNextDay, this.localCovValidation, this);
+									msg2Remote = (ISCReqMessage) ISCAssembler.createISCMessage(msg, this.hour4Check,
+											this.isNextDay, this.localCovValidation, this);
 
-								// Agrega msg a map de mensajes usando como key la llave alojada en "tranKey"
-								StructuredData sd = msg.getStructuredData();
-								sd.put(Constant.TagNames.I2_REQ_TIME,
-										String.valueOf(System.currentTimeMillis() - this.startTime));
+									// Agrega msg a map de mensajes usando como key la llave alojada en "tranKey"
+									StructuredData sd = msg.getStructuredData();
+									sd.put(Constant.TagNames.I2_REQ_TIME,
+											String.valueOf(System.currentTimeMillis() - this.startTime));
 
-								Logger.logLine("VAR BODY:"
-										+ ((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY),
-										this.enableMonitor);
+									Logger.logLine("VAR BODY:"
+											+ ((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY),
+											this.enableMonitor);
 
-								if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
-										.equals("BATCH_APPROVED")) {
-									msg2Remote = null;
-									msg2TM = createErrorRspMsg(msg, "BATCH_APPROVED", "00");
-								} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
-										.equals("NOT_ON_US_COVENANT")) {
-									msg2Remote = null;
-									msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "06");
-								} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
-										.equals("COVENENT_NOT_FOUND")) {
-									msg2Remote = null;
-									msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "06");
-								} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
-										.equals("TRAN_NOT_ALLOWED")) {
-									msg2Remote = null;
-									msg2TM = createErrorRspMsg(msg, "TRAN_NOT_ALLOWED", "06");
-								} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
-										.equals("SHARE_COVENANT")) {
-									msg2Remote = null;
-									msg2TM = createErrorRspMsg(msg, "SHARE_COVENANT", "06");
-								} else {
-									sd.put("ISC420Message", Base64.getEncoder().encodeToString(Transform
-											.fromBinToHex(((ISCReqMessage) msg2Remote).getTotalString()).getBytes()));
+									if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
+											.equals("BATCH_APPROVED")) {
+										msg2Remote = null;
+										msg2TM = createErrorRspMsg(msg, "BATCH_APPROVED", "00");
+									} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
+											.equals("NOT_ON_US_COVENANT")) {
+										msg2Remote = null;
+										msg2TM = createErrorRspMsg(msg, "NOT_ON_US_COVENANT", "06");
+									} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
+											.equals("COVENENT_NOT_FOUND")) {
+										msg2Remote = null;
+										msg2TM = createErrorRspMsg(msg, "COVENENT_NOT_FOUND", "06");
+									} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
+											.equals("TRAN_NOT_ALLOWED")) {
+										msg2Remote = null;
+										msg2TM = createErrorRspMsg(msg, "TRAN_NOT_ALLOWED", "06");
+									} else if (((ISCReqMessage) msg2Remote).getField(ISCReqMessage.Fields._VARIABLE_BODY)
+											.equals("SHARE_COVENANT")) {
+										msg2Remote = null;
+										msg2TM = createErrorRspMsg(msg, "SHARE_COVENANT", "06");
+									} else {
+										sd.put("ISC420Message", Base64.getEncoder().encodeToString(Transform
+												.fromBinToHex(((ISCReqMessage) msg2Remote).getTotalString()).getBytes()));
+									}
 								}
+								
 
 							} else {
 								Logger.logLine("0421 para aprobaci�n", this.enableMonitor);
@@ -1567,8 +1587,21 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				ISCResInMsg rspMsg = new ISCResInMsg();
 				rspMsg = Utils.createRspISCMsg(msg, originalIscReq);
 				Logger.logLine("Mensaje respuesta ISC:: " + rspMsg, this.enableMonitor);
+				if(msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+						&& msg.getStructuredData().get("ANULACION") != null
+						&& msg.getStructuredData().get("ANULACION").equals("TRUE")
+						&& msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00")
+						&& msg.getStructuredData().get("KeyOriginalTx") != null) {
+					msg.putMsgType(Iso8583.MsgType._0420_ACQUIRER_REV_ADV);
+					msg.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, msg.getStructuredData().get("KeyOriginalTx"));
+					msg.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420"+msg.getPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY).substring(4));
+					msg.putField(Iso8583.Bit._039_RSP_CODE, "68");
+					return new Action(msg, rspMsg, null, null);
+				}else {
+					action.putMsgToRemote(rspMsg);
+				}
 
-				action.putMsgToRemote(rspMsg);
+				
 			}
 			
 			
@@ -2003,7 +2036,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 					StructuredData sd = rspISOMsg.getStructuredData();
 					sd.put("ISC210Message", Base64.getEncoder().encodeToString(rspISCMsg.toMsg()));
-					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA,sd.get("REFERENCE_KEY"));
+					String dataToP59 = sd.get("REFERENCE_KEY");
+					if(sd.get("RIESGO")!= null) {
+						dataToP59 = dataToP59.concat("|").concat(sd.get("RIESGO"));
+					}
+					
+					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
 					rspISOMsg.putStructuredData(sd);
 
 				}
@@ -2606,6 +2644,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 		sd.put("SYS_TIME", Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 6));
 		sd.put("SYS_TIME_DDMMYY", Utils.getStringDate(Utils.DDMMYYhhmmss).substring(0, 6));
+		sd.put("SYS_TIME_MMDDYY", Utils.getStringDate(Utils.MMDDYYhhmmss).substring(0, 6));
 		sd.put("SYS_TIME_YYYYMMDD", Utils.getStringDate(Utils.YYYYMMDDhhmmss).substring(0, 8));
 
 //		sd.put("SYS_TIME", inMsg.getStructuredData().get("B24_Field_17").concat(Utils.getStringDate().substring(4, 6)));
@@ -2842,7 +2881,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Utils.putB24Field126IntoStructuredData(sd);
 			Utils.putB24Field63IntoStructuredData(sd, rspCode);
 //			Utils.putB24Field48IntoStructuredData(sd, false);
-			Utils.putB24Field44IntoStructuredData(sd);
+			Utils.putB24Field44ConsulUtilizacionCrediserviceIntoStructuredData(sd);
 			sd.remove(Constant.B24Fields.B24_F_40);
 //			sd.remove(Constant.B24Fields.B24_F_54);
 			break;
@@ -3009,7 +3048,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		if(this.monV2 != null)
 			this.monV2.close();
 		this.init(interchange);
-		return super.processResyncCommand(interchange);
+		return new Action();
+		//return super.processResyncCommand(interchange);
 	}
 
 	public Action processInterchangeConnected() {

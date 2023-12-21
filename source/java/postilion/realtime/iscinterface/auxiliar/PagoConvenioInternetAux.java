@@ -59,6 +59,7 @@ public class PagoConvenioInternetAux {
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
 			StructuredData sd = null;
+			StructuredData sdOriginal = new StructuredData();
 			
 			if(out.getStructuredData() != null) {
 				sd = out.getStructuredData();	
@@ -100,9 +101,8 @@ public class PagoConvenioInternetAux {
 			// PROCESAMIENTO DE REVERSO
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")) {
 				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
 				
 				if(keyReverse == null) {
 					keyReverse = "0000000000";

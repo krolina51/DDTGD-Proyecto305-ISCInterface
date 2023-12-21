@@ -65,6 +65,8 @@ public class TransferAuxCel {
 	public static final int NUMERO_CEDULA_PERSONA_QUE_PAGA_CON_CHEQUE_FIN = 834 + 11;
 	public static final int NUMERO_FACTURA_INI = 845; 
 	public static final int NUMERO_FACTURA_FIN = 845 + 24; 
+	public static final int NUMERO_CEL_INI = 894; 
+	public static final int NUMERO_CEL_FIN = 894 + 13;
 	public static final int POS_INICIAL_CELULAR = 1782; 
 	
 	public static final String TERMINAL_BANCA_MOVIL= "8592";
@@ -85,7 +87,8 @@ public class TransferAuxCel {
 					
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 
-			StructuredData sd = null;			
+			StructuredData sd = null;	
+			StructuredData sdOriginal = new StructuredData();
 			if(out.getStructuredData() != null) {
 				sd = out.getStructuredData();	
 			} else {
@@ -105,6 +108,7 @@ public class TransferAuxCel {
 			String celular = "";
 			String tranType = "";	
 			String bin = "008801";
+			String secuenciaTS = tramaCompletaAscii.substring(SECUENCIA_TS_INI,SECUENCIA_TS_FIN);
 			String seqNr = tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI,NUM_SEQ_TX_ACTUAL_FIN);
 			String seqNrReverse = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI,NUM_SEQ_TX_ACTUAL_FIN);					
 			String codOficina = tramaCompletaAscii.substring(COD_OFICINA_INI,COD_OFICINA_FIN);	
@@ -145,10 +149,8 @@ public class TransferAuxCel {
 			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
 				|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
 				
-				keyReverse = (String) ISCInterfaceCB.cacheKeyReverseMap.get(seqNrReverse);
-				
-				if(keyReverse == null)
-					keyReverse = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
 				
 				if(keyReverse == null) {
 					keyReverse = "0000000000";
@@ -156,7 +158,7 @@ public class TransferAuxCel {
 				}
 				
 				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));	
-				//Valdiar porque las posiciones del hexa no coinciden con la documentación LMM
+				//Valdiar porque las posiciones del hexa no coinciden con la documentaciï¿½n LMM
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
 				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
 				
@@ -192,7 +194,7 @@ public class TransferAuxCel {
 					.concat(tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_INI,CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_FIN)).concat("0")
 					.concat(tramaCompletaAscii.substring(NUMERO_CUENTA_ACREDITAR_INI,NUMERO_CUENTA_ACREDITAR_FIN)));
 			
-			////////// INFORMACIÓN QUE DEBE VIAJAR EN EL 127.22 PARA ARMAR MENSAJERIA B24
+			////////// INFORMACIï¿½N QUE DEBE VIAJAR EN EL 127.22 PARA ARMAR MENSAJERIA B24
 			
 			//127.22 TAG B24_Field_17
 			sd.put("B24_Field_17", settlementDate);
@@ -237,6 +239,7 @@ public class TransferAuxCel {
 							: "00000000000000000");
 			sd.put("SEC_ACCOUNT_TYPE", out.getProcessingCode().getToAccount());
 			sd.put("PAN_Tarjeta", bin.concat(Pack.resize(cuentaDebitar.substring(3), 13, '0', false)));
+			sd.put("SECUENCIA", secuenciaTS);
 			sd.put("Tarjeta_Amparada", bin.concat(Pack.resize(cuentaDebitar.substring(3), 13, '0', false)));
 			sd.put("Indicador_AVAL", "1");
 			sd.put("Vencimiento", "9912");
@@ -250,6 +253,7 @@ public class TransferAuxCel {
 			sd.put("Numero_Cedula", tramaCompletaAscii.substring(NUMERO_CEDULA_PERSONA_QUE_PAGA_CON_CHEQUE_INI,NUMERO_CEDULA_PERSONA_QUE_PAGA_CON_CHEQUE_FIN));
 			sd.put("Transaccion_Unica", "C201");
 			sd.put("Numero_Factura", tramaCompletaAscii.substring(NUMERO_FACTURA_INI,NUMERO_FACTURA_FIN));
+			sd.put("NUMERO_CELULAR_CEL2CEL", tramaCompletaAscii.substring(NUMERO_CEL_INI,NUMERO_CEL_FIN));
 			sd.put("IN_MSG", in.getTotalHexString());
 			///////// FIN TAGS EXTRACT			
 			out.putStructuredData(sd);			
