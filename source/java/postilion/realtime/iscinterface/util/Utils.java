@@ -4543,6 +4543,8 @@ public class Utils {
 		OUTPUT_FIELDS.put("CUOTAPA(.*)", "pa_cuota=$1");
 
 		OUTPUT_FIELDS.put("FORZAPA(.*)", "pa_forza=$1");
+		
+		OUTPUT_FIELDS.put("PLAZOPA(.*)", "pa_plazo=$1");
 
 		OUTPUT_FIELDS.put("INDNAL:(.*)", "ind_nal=$1");
 
