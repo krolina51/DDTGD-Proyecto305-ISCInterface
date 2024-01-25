@@ -136,8 +136,8 @@ public class PagoCreditoEfectivoAux {
 
 			String keyReverse = "";
 
-			String p37 = "0901".concat(tramaCompletaAscii.substring(COD_OFICINA_INI, COD_OFICINA_FIN))
-					.concat(tramaCompletaAscii.substring(NUM_SEQ_TX_INI, NUM_SEQ_TX_FIN));
+			String p37 = "0901".concat(tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN))
+					.concat(tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN));
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 
@@ -147,7 +147,7 @@ public class PagoCreditoEfectivoAux {
 			String seqNr = tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN);
 			String seqNrReverse = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI, NUM_SEQ_TX_ACTUAL_FIN);
 
-			String p41 = "0001".concat(tramaCompletaAscii.substring(COD_OFICINA_INI, COD_OFICINA_FIN))
+			String p41 = "0001".concat(tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN))
 					.concat("00003   ");
 			String bin = "008801";
 			String binExtract = "008801";
@@ -182,7 +182,7 @@ public class PagoCreditoEfectivoAux {
 
 			String naturaleza = tramaCompletaAscii.substring(NATURALEZA_TRANSACCION_INI, NATURALEZA_TRANSACCION_FIN);
 			String ValiTipoCuentaAcreditar = tramaCompletaAscii.substring(TIPO_CUENTA_ACREDITAR_INI,
-					TIPO_CUENTA_ACREDITAR_INI);
+					TIPO_CUENTA_ACREDITAR_FIN);
 			String tipoCuentaCreditar = "";
 			if (ValiTipoCuentaAcreditar.equals("3")) {
 				switch (naturaleza) {
@@ -310,7 +310,7 @@ public class PagoCreditoEfectivoAux {
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, p43);
 
 			// CAMPO 103 CREDIT ACCOUNT
-			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "11"
+			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "011"
 					.concat(tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_INI,
 							CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_FIN))
 					.concat("0")
