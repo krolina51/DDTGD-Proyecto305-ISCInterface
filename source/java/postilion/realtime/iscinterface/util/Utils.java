@@ -4071,7 +4071,7 @@ public class Utils {
 		String codOficina = Transform
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
 		String tipoCuenDebito = Transform
-				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(92, 93)));
+				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(180, 182)));
 
 		// Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		// y se determina que tipo de transaccion es.
