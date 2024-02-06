@@ -2108,14 +2108,21 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				}else {
 					// ARMANDO ISO
 					rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
-							FlowDirection.ISC2ISO, cons, this.enableMonitor);
+							FlowDirection.ISC2ISO, cons, this.enableMonitor, this.isNextDay);
 					
 					if(rspISOMsg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
 							&& rspISOMsg.getStructuredData().get("ERROR") != null) {
 						rsp = Utils.processErrorMsg((ISCReqInMsg) msg, rspISOMsg, rspISOMsg.getStructuredData().get("ERROR"), this.enableMonitor);
 						
 						return new Action(null, rsp, null, null);
-					}else {
+					} else if(rspISOMsg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+							&& rspISOMsg.getStructuredData().get("RESPONSE") != null) {
+						
+						rsp = Utils.processMsgRspSucess((ISCReqInMsg) msg, rspISOMsg, rspISOMsg.getStructuredData().get("RESPONSE"), this.enableMonitor);
+						
+						return new Action(null, rsp, null, null);
+						
+					} else {
 						Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 //						Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
 						putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
@@ -2129,7 +2136,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			default:
 				// ARMANDO ISO
 				rspISOMsg = (Iso8583Post) Utils.processAutraReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
-						FlowDirection.ISC2ISO, cons, this.enableMonitor);
+						FlowDirection.ISC2ISO, cons, this.enableMonitor, this.isNextDay);
 				Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 				
 				String trankey = Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._05_H_TERMINAL))

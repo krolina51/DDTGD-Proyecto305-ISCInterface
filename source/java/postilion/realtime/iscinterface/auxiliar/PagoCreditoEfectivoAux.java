@@ -103,7 +103,7 @@ public class PagoCreditoEfectivoAux {
 	public static final String INITIAL_SPACE = "   ";
 
 	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,
-			boolean enableMonitor) throws XPostilion {
+			boolean enableMonitor, boolean isNextDay) throws XPostilion {
 
 		String tramaCompletaAscii = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 		tramaCompletaAscii = INITIAL_SPACE.concat(tramaCompletaAscii);
@@ -125,19 +125,19 @@ public class PagoCreditoEfectivoAux {
 				sd = new StructuredData();
 			}
 
-			if (tramaCompletaAscii.substring(BYTES_ESTADO_INI, BYTES_ESTADO_FIN)
-					.matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")
+					|| isNextDay) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			} else {
+			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
 
 			String keyReverse = "";
 
-			String p37 = "0901".concat(tramaCompletaAscii.substring(COD_OFICINA_INI, COD_OFICINA_FIN))
-					.concat(tramaCompletaAscii.substring(NUM_SEQ_TX_INI, NUM_SEQ_TX_FIN));
+			String p37 = "0901".concat(tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN))
+					.concat(tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN));
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 
@@ -145,9 +145,9 @@ public class PagoCreditoEfectivoAux {
 			String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String seqNr = tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN);
-			String seqNrReverse = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI, NUM_SEQ_TX_ACTUAL_FIN);
+			String seqNrReverse = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI, NUM_SEQ_TX_ORIG_A_REVERSAR_FIN);
 
-			String p41 = "0001".concat(tramaCompletaAscii.substring(COD_OFICINA_INI, COD_OFICINA_FIN))
+			String p41 = "0001".concat(tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN))
 					.concat("00003   ");
 			String bin = "008801";
 			String binExtract = "008801";
@@ -182,7 +182,7 @@ public class PagoCreditoEfectivoAux {
 
 			String naturaleza = tramaCompletaAscii.substring(NATURALEZA_TRANSACCION_INI, NATURALEZA_TRANSACCION_FIN);
 			String ValiTipoCuentaAcreditar = tramaCompletaAscii.substring(TIPO_CUENTA_ACREDITAR_INI,
-					TIPO_CUENTA_ACREDITAR_INI);
+					TIPO_CUENTA_ACREDITAR_FIN);
 			String tipoCuentaCreditar = "";
 			if (ValiTipoCuentaAcreditar.equals("3")) {
 				switch (naturaleza) {
@@ -310,7 +310,7 @@ public class PagoCreditoEfectivoAux {
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, p43);
 
 			// CAMPO 103 CREDIT ACCOUNT
-			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "11"
+			out.putField(Iso8583.Bit._103_ACCOUNT_ID_2, "011"
 					.concat(tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_INI,
 							CODIGO_ENTIDAD_QUE_AUTORIZA_EL_CREDITO_FIN))
 					.concat("0")
