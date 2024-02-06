@@ -26,7 +26,7 @@ public class PagoConvenioInternetAux {
 	/*
 	 * Clase Auxiliar para proceso de campos transaccion Pago de convenios que viaja por el canal internet
 	 * */
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		StructuredData field_structure_w = new StructuredData();
 		try {
@@ -36,7 +36,8 @@ public class PagoConvenioInternetAux {
 			String settlementDate = null;
 			String tranType = null;
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")
+					|| isNextDay) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}else {
