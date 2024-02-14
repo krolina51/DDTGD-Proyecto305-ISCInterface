@@ -89,7 +89,7 @@ public class CashAdvanceTCOficinaAux {
 	public static final String INITIAL_SPACE = "   ";
 	
 
-	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		String tramaCompletaAscii = INITIAL_SPACE + Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 
@@ -307,7 +307,7 @@ public class CashAdvanceTCOficinaAux {
 				/* En el archivo "JsonHashPrd.json" en la línea 170, veo que para el p3=013000 se eliminan los siguientes campos: 
 				 * 14, 15, 25, 26, 40, 52, 56, 102, 103, 104, 123 
 				 * PREGUNTAR A MENESES CÓMO QUITAR EL CAMPO 42 Y EL 98 SIN AFECTAR LAS OTRAS TX CON p3=013000 QUE SÍ CONTIENEN CAMPO 42 O 98 */	
-				// desarrollo pendiente por parte de Meneses.
+				
  				// 127.22 TAG B24_Field_17
 				sd.put("B24_Field_17", settlementDate);
 				// 127.22 TAG B24_Field_18
@@ -348,7 +348,7 @@ public class CashAdvanceTCOficinaAux {
 						out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
 						out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
 						//out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-						sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+						//sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
 						sd.put("KEY_REVERSE", keyReverse);
 						sd.put("B24_Field_90", keyReverse+"0000000000");
 						//sd.put("B24_Field_37", keyReverse.substring(4,16));
