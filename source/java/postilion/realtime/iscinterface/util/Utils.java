@@ -3644,7 +3644,7 @@ public class Utils {
 			Object obj = constructor.newInstance();
 
 			Method methodExec = classRequest.getMethod("processMsg", argtypes);
-			Object[] args = { out, in, tSettings, cons, enableMonitor };
+			Object[] args = { out, in, tSettings, cons, enableMonitor, isNextDay };
 
 			out = (Iso8583Post) methodExec.invoke(obj, args);
 
