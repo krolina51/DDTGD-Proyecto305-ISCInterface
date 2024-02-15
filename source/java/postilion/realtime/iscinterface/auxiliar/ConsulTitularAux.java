@@ -147,6 +147,17 @@ public class ConsulTitularAux {
 				//Validacion Titularidad, trae informacion nombre e identificacion del tarjetahabiente solo para tarjeta Bco Bta
 				Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);				
 				String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(cuenta, enableMonitor);
+				
+				if(msgFromValidationTC.startsWith("SI")) {
+					String response = msgFromValidationTC.substring(33) // IDENTIFICACION
+							.concat(msgFromValidationTC.substring(2,3)) // TIPO IDENTIFICACION
+							.concat(msgFromValidationTC.substring(3,33)); // NOMBRE
+					sd.put("CUSTOMER_NAME", msgFromValidationTC.substring(3,33));
+					sd.put("ID_CLIENT", msgFromValidationTC.substring(33));
+					sd.put("RESPONSE", response);
+				}else {
+					sd.put("ERROR", "TARJETA NO EXISTE");
+				}
 			}
 			
 			//CAMPO 3
