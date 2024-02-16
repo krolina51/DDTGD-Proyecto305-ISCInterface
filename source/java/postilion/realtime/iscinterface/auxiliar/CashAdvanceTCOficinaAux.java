@@ -147,7 +147,7 @@ public class CashAdvanceTCOficinaAux {
 			String naturalezaPago = tramaCompletaAscii.substring(NATURALEZA_PAGO_INI,NATURALEZA_PAGO_FIN); // 5: Pago TC, 6: Avance TC
 			String clasePagoCredito = tramaCompletaAscii.substring(CLASE_PAGO_INI,CLASE_PAGO_FIN);
 			String secuenciaTS = tramaCompletaAscii.substring(SECUENCIA_TS_INI,SECUENCIA_TS_FIN);
-			String codigoEntidadAutorizadora = tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_INI, CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_FIN);	// Se corrigió posición 72 por posición 160.
+			String codigoEntidadAutorizadoraDebito = tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_INI, CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_FIN);	// Se corrigió posición 72 por posición 160.
 			String codigoEntidadAdquiriente = "0001";
 			String codigoOficinaAdquiriente = tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN);
 			String base24Field41 = codigoEntidadAdquiriente.concat(codigoOficinaAdquiriente).concat("00003   ");
@@ -231,7 +231,7 @@ public class CashAdvanceTCOficinaAux {
 			//Token 03
 			String cardVerifyFlag = "  ";
 			//String typeMsg = "  ";
-			String typeMsg = codigoEntidadAutorizadora.equals("0001") ? MENSAJE_BASE24_FORMATO_ATM : MENSAJE_BASE24_FORMATO_POS;	// Para TC BBOG es "1". Para otras TC es "2".
+			String typeMsg = codigoEntidadAutorizadoraDebito.equals("0001") ? MENSAJE_BASE24_FORMATO_ATM : MENSAJE_BASE24_FORMATO_POS;	// Para TC BBOG es "1". Para otras TC es "2".
 			
 			if (typeMsg.equals(MENSAJE_BASE24_FORMATO_ATM)) //Si formato mensaje es ATM
 				cardVerifyFlag = " Y";
@@ -266,13 +266,15 @@ public class CashAdvanceTCOficinaAux {
 			if(naturalezaPago.equals("6")			// si es AVANCE
 				&& codigoOficina.startsWith("4")	// y si es en OFICINA
 			)
-			if (codigoEntidadAutorizadora.equals("0001")) {	// INICIO LÓGICA PARA TARJETAS BBOG (FIRSTDATA)
+			if (codigoEntidadAutorizadoraDebito.equals("0001")) {	// INICIO LÓGICA PARA TARJETAS BBOG (FIRSTDATA)
 				sd.put("indicator_product", MENSAJE_BASE24_FORMATO_ATM);	// INDICADOR DE MENSAJE BASE24 EN FORMATO "ATM"
+				sd.put("CHANNEL_PCODE", "OFICINA");	// INDICADOR DE TRANSACCIÓN EN OFICINA. 
 				
 				/* ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS:	
 				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.*/
 				// CAMPO 3 PROCESSING CODE
-				out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
+				//out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
+				out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
 				//CAMPO 7 TRANSMISSION DATE N TIME
 				out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 				// CAMPO 12 TIME LOCAL
@@ -303,10 +305,7 @@ public class CashAdvanceTCOficinaAux {
 				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_FIRSTDATA);	//Enruta a FirstData
 				
 				/* BASE24 DEBE TENER LOS SIGUIENTES CAMPOS:	3, 4, 7, 11, 12, 13, 17, 18, 22, 32, 35, 37, 41, 43, 48, 49, 52, 60, 61, 100, 126. 
-				 * Entonces, quitar del mensaje ISO8583Post los campos simples: 15, 25, 26, 42, 98, 123 */
-				/* En el archivo "JsonHashPrd.json" en la línea 170, veo que para el p3=013000 se eliminan los siguientes campos: 
-				 * 14, 15, 25, 26, 40, 52, 56, 102, 103, 104, 123 
-				 * PREGUNTAR A MENESES CÓMO QUITAR EL CAMPO 42 Y EL 98 SIN AFECTAR LAS OTRAS TX CON p3=013000 QUE SÍ CONTIENEN CAMPO 42 O 98 */	
+				 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 15, 25, 26, 42, 98, 123 */
 				
  				// 127.22 TAG B24_Field_17
 				sd.put("B24_Field_17", settlementDate);
@@ -380,11 +379,13 @@ public class CashAdvanceTCOficinaAux {
 			} // FIN LÓGICA PARA TARJETAS BBOG (FIRSTDATA)
 			else {	// INICIO DE LÓGICA PARA TARJETAS AVAL (ATH)
 				sd.put("indicator_product", MENSAJE_BASE24_FORMATO_POS);	// INDICADOR DE MENSAJE BASE24 EN FORMATO "POS"
+				sd.put("CHANNEL_PCODE", "OFICINA");	// INDICADOR DE TRANSACCIÓN EN OFICINA. 
 				
 				/* ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS:	
 				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.*/
 				// CAMPO 3 PROCESSING CODE
-				out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
+				//out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
+				out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
 				//CAMPO 7 TRANSMISSION DATE N TIME
 				out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
 				// CAMPO 12 TIME LOCAL
@@ -415,12 +416,9 @@ public class CashAdvanceTCOficinaAux {
 				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_ATH_CONEXION_OFICINAS);	//Enruta a ATH 
 				
 				/* BASE24 DEBE TENER LOS SIGUIENTES CAMPOS:		3, 4, 7, 11, 12, 13, 15, 17, 32, 35, 37, 41, 42, 43, 48, 49, 52, 102, 104, 126. 
-				 * Quitar del mensaje ISO8583Post los campos: 	22, 25, 26, 42, 59, 98, 100, 123 */
-				/* En el archivo "JsonHashPrd.json" en la línea 170, veo que para el p3=013000 se eliminan los siguientes campos: 
-				 * 14, 15, 25, 26, 40, 52, 56, 102, 103, 104, 123 
-				 * PREGUNTAR A MENESES CÓMO QUITAR EL CAMPO 42 Y EL 98 SIN AFECTAR LAS OTRAS TX CON p3=013000 */
-				// Desarrollo pendiente por parte de Andres Meneses.
- 				// 127.22 TAG B24_Field_17
+				 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 22, 25, 26, 42, 59, 98, 100, 123 */
+
+				// 127.22 TAG B24_Field_17
 				sd.put("B24_Field_17", settlementDate);
 				// 127.22 TAG B24_Field_35
 				sd.put("B24_Field_35", track2.substring(0,37));
@@ -499,7 +497,7 @@ public class CashAdvanceTCOficinaAux {
 			//127.22 TAG MSG_HEXA
 			sd.put("IN_MSG", in.getTotalHexString());
 			//127.22 TAG Entidad Autorizadora
-			sd.put("ENT_AUT", codigoEntidadAutorizadora);
+			sd.put("ENT_AUT", codigoEntidadAutorizadoraDebito);
 			
 			////////// TAGS EXTRACT 
 			
@@ -509,7 +507,7 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Ind_4xmil", "1");
 			sd.put("Tarjeta_Amparada", cuentaAAcreditar);
 			
-			if (codigoEntidadAutorizadora.equals("0001"))  //Si es Banco de Bogotá
+			if (codigoEntidadAutorizadoraDebito.equals("0001"))  //Si es Banco de Bogotá
 			{	
 				sd.put("Codigo_Transaccion_Producto", "02");
 				sd.put("Tipo_de_Cuenta_Debitada", "CRE");
@@ -544,7 +542,7 @@ public class CashAdvanceTCOficinaAux {
 				sd.put("BIN_Cuenta", "000000");
 				sd.put("PRIM_ACCOUNT_NR", cuentaADebitar);
 				sd.put("FI_DEBITO", "0001");
-				sd.put("FI_CREDITO", codigoEntidadAutorizadora);
+				sd.put("FI_CREDITO", codigoEntidadAutorizadoraDebito);
 				sd.put("SEC_ACCOUNT_NR_PAGOTC", cuentaAAcreditar);
 				sd.put("SEC_ACCOUNT_TYPE", "CRE");
 				sd.put("PAN_Tarjeta", binTarjeta.substring(0,16).concat("   "));
@@ -597,7 +595,7 @@ public class CashAdvanceTCOficinaAux {
 			//}	
 			
 			//sd.put("TITULAR_TC",msgFromValidationTC);
-			sd.put("TRANSACTION_INPUT", "PAGO_TC_CANALVIRTUAL");	// DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA. 
+			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL");	// DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA. 
 			sd.put("Indicador_AVAL", "1");	
 			sd.put("SECUENCIA_REQ", secuenciaTS);
 			sd.put("Mod_Credito", naturalezaPago);
