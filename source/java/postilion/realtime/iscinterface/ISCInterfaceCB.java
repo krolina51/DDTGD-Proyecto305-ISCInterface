@@ -2016,6 +2016,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					Logger.logLine("PHASE 2", this.enableMonitor);
 					Iso8583Post p2Msg = (Iso8583Post) rspISOMsg.clone();
 					p2Msg.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
+					
+					this.transStore.put(rspISOMsg.getPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY), p2Msg);
 
 					StructuredData s = p2Msg.getStructuredData();
 					s.put("PHASE", "P2");
