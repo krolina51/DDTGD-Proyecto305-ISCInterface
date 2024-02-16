@@ -4103,7 +4103,7 @@ public class Utils {
 		case "6":
 			// sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
 			if (tipoCuenDebito.equals(2)) { // Avance
-				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_PAGOTDC");
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_AVANCEOFICINA");
 			} else { // retiro
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
 			}
