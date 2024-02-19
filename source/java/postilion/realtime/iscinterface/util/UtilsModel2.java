@@ -36,7 +36,7 @@ public class UtilsModel2 extends Utils{
 		//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 		if (tSettings != null && tSettings.getAuxiliarClass() != null) {
 			
-			verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, false);
+			verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, false, false);
 		}
 
 		

@@ -25,7 +25,7 @@ public class TransferAuxQR {
 	private static int counter = 0;
 	public static final String IDENTIFICACION_TRANSACCION_DEVOLUCION = "1";
 	public static final String IDENTIFICACION_TRANSACCION_ORIGINAL = "0";
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		
 		try {
@@ -94,8 +94,8 @@ public class TransferAuxQR {
 								.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(955), lth( 955 + 4) ))))
 								, 25, '0', true)) // Adenda ref 3 Falta validar Devolucion
 						.concat(Pack.resize("",  8, '0', true)) // Id registro
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificación Origen
-						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))//Numero de Identificación Origen
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(71), lth( 71 + 1) ))))//Tipo de IDentificaciï¿½n Origen
+						.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(51), lth( 51 + 16) ))))//Numero de Identificaciï¿½n Origen
 						.concat(Pack.resize(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(lth(110),lth( 110 + 14) ))),17,'0',false)) // valor pago
 						.concat(Pack.resize("",  2, '0', true)) // tipo de identificacion destino
 						.concat(Pack.resize("",  16, '0', true)) // Numero de identificacion destino

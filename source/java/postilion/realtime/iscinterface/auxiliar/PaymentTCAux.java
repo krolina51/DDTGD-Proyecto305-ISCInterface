@@ -78,7 +78,7 @@ public class PaymentTCAux {
 	public static final String INITIAL_SPACE = "   ";
 	
 
-	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		String tramaCompletaAscii = INITIAL_SPACE + Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 
@@ -99,10 +99,10 @@ public class PaymentTCAux {
 				sd = new StructuredData();
 			}
 		
-			if (tramaCompletaAscii.substring(BYTES_ESTADO_INI,BYTES_ESTADO_FIN).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			} else {
+			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
@@ -436,7 +436,7 @@ public class PaymentTCAux {
 				if (tramaCompletaAscii.substring(TIPO_CUENTA_DEBITADA_INI, TIPO_CUENTA_DEBITADA_FIN).equals("0")) {
 					fromAccount = "10";	// cuenta de ahorros
 					sd.put("Codigo_Transaccion_Producto", "05");
-					if (modalidadPago.equals("1") && modalidadPago.equals("2")  ) //Si es Efectivo y Cheque
+					if (modalidadPago.equals("1") || modalidadPago.equals("2")) //Si es Efectivo o Cheque
 					sd.put("Tipo_de_Cuenta_Debitada", "CRE");
 					else
 					sd.put("Tipo_de_Cuenta_Debitada", "AHO");
@@ -606,19 +606,19 @@ public class PaymentTCAux {
 				sd.put("Nombre_Transaccion", "ONESID");
 				sd.put("FI_CREDITO", "0001");
 				sd.put("FI_DEBITO", "0001");
-					if (codigoOficina.substring(0, 1).equals("4")) //Canal Oficina
+					if (codigoOficina.substring(0, 1).equals("4") ) //Canal Oficina
 					sd.put("Ind_4xmil", "0");
 				}
-					else //Efectivo o Cheque
-					{	
-					sd.put("Codigo_Transaccion", "01");
-					sd.put("Nombre_Transaccion", "DEPOSI");
-					sd.put("FI_CREDITO", "0000");
-					sd.put("FI_DEBITO", "0000");
-					sd.put("Ind_4xmil", "1");
-					sd.put("SEC_ACCOUNT_TYPE", "   ");
-					sd.put("Ofi_Adqui", codigoOfiAdqui);
-					}
+				else //Efectivo o Cheque
+				{	
+				sd.put("Codigo_Transaccion", "01");
+				sd.put("Nombre_Transaccion", "DEPOSI");
+				sd.put("FI_CREDITO", "0000");
+				sd.put("FI_DEBITO", "0000");
+				sd.put("Ind_4xmil", "1");
+				sd.put("SEC_ACCOUNT_TYPE", "   ");
+				sd.put("Ofi_Adqui", codigoOfiAdqui);
+				}
 			}
 			else  //Si es Aval
 			{
@@ -675,9 +675,14 @@ public class PaymentTCAux {
 			sd.put("CUSTOMER_NAME",Pack.resize(msgFromValidationTC.substring(4,25), 28,' ', true));	
 			sd.put("ID_CLIENT",Pack.resize(msgFromValidationTC.substring(25,33), 13, '0', false));
 			}
-
-			sd.put("TITULAR_TC",msgFromValidationTC);
+			else
+			{
+			sd.put("CUSTOMER_NAME", "                            ");	
+			sd.put("ID_CLIENT", "0000000000000");
+			}	
 			
+			sd.put("TITULAR_TC",msgFromValidationTC);
+			sd.put("TRANSACTION_INPUT", "PAGO_TC_CANALVIRTUAL");
 			
 			sd.put("Indicador_AVAL", "1");	
 			sd.put("SECUENCIA_REQ", secuenciaTS);
