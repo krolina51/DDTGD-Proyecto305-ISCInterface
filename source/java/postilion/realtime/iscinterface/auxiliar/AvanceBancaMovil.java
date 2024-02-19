@@ -17,7 +17,7 @@ public class AvanceBancaMovil {
 	
 	private static int counter = 0;
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 		

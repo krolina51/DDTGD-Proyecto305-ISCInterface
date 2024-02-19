@@ -77,8 +77,7 @@ public class Utils {
 	private static final String EBCDIC_ENCODING = "IBM-1047";
 	private static final String HEX_CHARS = "0123456789abcdef";
 	private static final String KEY_VALUES_REGEX = "(\\w*)=(.*)";
-	
-	
+
 	/** Instancia de SecurityManager **/
 	public static SecurityManager securityManager = null;
 
@@ -89,11 +88,11 @@ public class Utils {
 			System.exit(1);
 		}
 	}
-	
+
 	public static String getHashPanCNB(String pan) throws Exception {
 		return securityManager.hashToString(pan, SecurityManager.DigestAlgorithm.HMAC_SHA1, true);
 	}
-	
+
 	/**
 	 * Obtiene el id de cuenta en claro.
 	 * 
@@ -159,10 +158,9 @@ public class Utils {
 		while (matcher.find()) {
 			String key = matcher.group(1);
 			String value = matcher.group(2);
-			if(key.toUpperCase().contains("MOVIMIE")) {
+			if (key.toUpperCase().contains("MOVIMIE")) {
 				hm.put(key, value);
-			}
-			else {
+			} else {
 				hm.put(key, value.trim());
 			}
 		}
@@ -236,7 +234,8 @@ public class Utils {
 //		return innerFields;
 //	}
 
-	public static HashMap<String, String> getBodyInnerFields(String varBody, String tranCode, String isCostInq, boolean enableLog) {
+	public static HashMap<String, String> getBodyInnerFields(String varBody, String tranCode, String isCostInq,
+			boolean enableLog) {
 
 		HashMap<String, String> innerFields = new HashMap<String, String>();
 
@@ -245,24 +244,24 @@ public class Utils {
 		Logger.logLine("***Recuperando campos del msg variable:\n" + varBody + "\n" + varBodyHex + "\n"
 				+ UtilidadesMensajeria.ebcdicToAscii(varBody), enableLog);
 
-		//CUPO CREDITO ROTATIVO
+		// CUPO CREDITO ROTATIVO
 		if (tranCode != null && tranCode.equals("AT2I") && isCostInq != null && isCostInq.equals("FALSE")) {
-			
+
 			String[] tagx = varBody.split("11C2601D60");
-			
+
 			int targetIndex = 0;
-			
+
 			String consulResult = "";
-			
+
 			for (int i = 0; i < tagx.length; i++) {
-				
+
 				if (UtilidadesMensajeria.ebcdicToAscii(tagx[i]).contains("CCCON0")) {
-					
-					consulResult = UtilidadesMensajeria.ebcdicToAscii(tagx[i+1]);
+
+					consulResult = UtilidadesMensajeria.ebcdicToAscii(tagx[i + 1]);
 
 					break;
 				}
-				
+
 			}
 
 			Logger.logLine("CONSUL RES:" + consulResult, enableLog);
@@ -285,26 +284,25 @@ public class Utils {
 			Logger.logLine("SALDOS ROT:" + innerFields.get("SALDOS"), enableLog);
 
 		}
-		
-		if(tranCode != null && tranCode.equals("AT1I") && isCostInq != null && isCostInq.equals("FALSE")) {
-			
+
+		if (tranCode != null && tranCode.equals("AT1I") && isCostInq != null && isCostInq.equals("FALSE")) {
+
 			String rspBody = UtilidadesMensajeria.ebcdicToAscii(varBody);
 			Logger.logLine("CONSUL RES:" + rspBody, enableLog);
-			
-			String[] rspFields = rspBody.split("\\s+");	
-			
+
+			String[] rspFields = rspBody.split("\\s+");
+
 			innerFields.put("TIT_IDEN", rspFields[1]);
 			innerFields.put("TIT_TYPE", rspFields[2]);
 			innerFields.put("TIT_NOMBRE", rspBody.substring(rspBody.indexOf(rspFields[3])));
-			
-				
+
 		}
 
 		if (tranCode != null && tranCode.equals("ATCG") && isCostInq != null && isCostInq.equals("FALSE")) {
 
 			String consulResult = UtilidadesMensajeria.ebcdicToAscii(varBody);
 			Logger.logLine("CONSUL RES:" + consulResult, enableLog);
-			
+
 			innerFields.put("ATCG_ID_TYPE", consulResult.substring(39, 40));
 			innerFields.put("ATCG_ID_NR", consulResult.substring(40, 56));
 			innerFields.put("ATCG_GIRO_NR", consulResult.substring(56, 74));
@@ -312,8 +310,9 @@ public class Utils {
 			innerFields.put("ATCG_ACCOUNT_TYPE", consulResult.substring(89, 90));
 			innerFields.put("ATCG_ACCOUNT_NR", consulResult.substring(90, 100));
 			innerFields.put("ATCG_FLAG", consulResult.substring(100, 101));
-			
-			innerFields.put("ATCG_GIRO_KEY", innerFields.get("ATCG_ID_TYPE").concat(innerFields.get("ATCG_ID_NR").concat(innerFields.get("ATCG_GIRO_NR"))));
+
+			innerFields.put("ATCG_GIRO_KEY", innerFields.get("ATCG_ID_TYPE")
+					.concat(innerFields.get("ATCG_ID_NR").concat(innerFields.get("ATCG_GIRO_NR"))));
 
 //			String saldoT = consulResult.substring(39, 55).replaceAll("\\s", "").replaceAll("\\.", "").replaceAll("\\,", "");
 
@@ -336,7 +335,6 @@ public class Utils {
 
 			}
 		}
-
 
 		return innerFields;
 	}
@@ -2477,11 +2475,11 @@ public class Utils {
 		}
 
 		Random r = new Random();
-		
+
 		int out = r.nextInt((max - min) + 1) + min;
-		
-		Logger.logLine("RANDOM:"+out, false);
-		
+
+		Logger.logLine("RANDOM:" + out, false);
+
 		return out;
 	}
 
@@ -2492,66 +2490,63 @@ public class Utils {
 	 * @param allCodesIscToIso
 	 * @throws XPostilion
 	 */
-	public static ResponseCode set38And39Fields(Iso8583Post msg, HashMap<String, ResponseCode> v1CodesIscToIso, HashMap<String, ResponseCode> v2CodesIscToIso)
-			throws XPostilion {
+	public static ResponseCode set38And39Fields(Iso8583Post msg, HashMap<String, ResponseCode> v1CodesIscToIso,
+			HashMap<String, ResponseCode> v2CodesIscToIso) throws XPostilion {
 
 		StructuredData sd = msg.getStructuredData();
 		ResponseCode responseCode = new ResponseCode();
 //		ResponseCode responseCode = null;
 
 		Logger.logLine("SETING 38 y 39\n" + sd, false);
-		
+
 		Logger.logLine("MAP SIZE" + v1CodesIscToIso.size(), false);
-		
+
 //		for(Map.Entry<String, ResponseCode> e: v1CodesIscToIso.entrySet()) {
 //			Logger.logLine("KEY: " + e.getKey() + " VAL: " + e.getValue().getKeyIsc(), true);
 //		}
-		
+
 		try {
 			if (sd.get("ERROR") != null) {
-				
+
 				responseCode.setKeyIsc(sd.get("ERROR"));
-				
-				if(isMassiveTransfer(msg)) {
-					
+
+				if (isMassiveTransfer(msg)) {
+
 					Logger.logLine("HAY CODIGO DE ERROR EN RSP", false);
-					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"),
-							v2CodesIscToIso);
+					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"), v2CodesIscToIso);
 					Logger.logLine(">>> " + sd.get("ERROR") + " >>> " + responseCode.getKeyIsc() + "::"
 							+ responseCode.getDescriptionIsc(), false);
 					msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
-					
-				}
-				else {
-					
+
+				} else {
+
 					Logger.logLine("HAY CODIGO DE ERROR EN RSP", false);
-					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"),
-							 v1CodesIscToIso);
+					responseCode = InitialLoadFilter.getFilterCodeISCToIso(sd.get("ERROR"), v1CodesIscToIso);
 					Logger.logLine(">>> " + sd.get("ERROR") + " >>> " + responseCode.getKeyIsc() + "::"
 							+ responseCode.getDescriptionIsc(), false);
 					msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
-					
+
 				}
-						
-				
+
 			} else {
 				Logger.logLine("NO HAY CODIGO DE ERROR EN RSP", false);
 				responseCode = InitialLoadFilter.getFilterCodeISCToIso("0000",
 						(HashMap<String, ResponseCode>) v1CodesIscToIso);
-				Logger.logLine(">>> 0000 >>> " + responseCode.getKeyIsc() + "::" + responseCode.getDescriptionIsc(), false);
+				Logger.logLine(">>> 0000 >>> " + responseCode.getKeyIsc() + "::" + responseCode.getDescriptionIsc(),
+						false);
 				msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, sd.get(Constant.TagNames.SEQ_TERMINAL).split(",")[0].trim()
 						.substring(2).concat(sd.get(Constant.TagNames.SEQ_TERMINAL).split(",")[1].trim().substring(1)));
 			}
 
-			Logger.logLine("RESPOSE CODE ISC>>>".concat(responseCode.getKeyIsc()).concat(" ").concat("RESPOSE CODE ISO>>>")
-					.concat(responseCode.getKeyIso()).concat(" ").concat("RESPOSE CODE DESCRIP>>>")
-					.concat(responseCode.getDescriptionIsc()), false);
+			Logger.logLine("RESPOSE CODE ISC>>>".concat(responseCode.getKeyIsc()).concat(" ")
+					.concat("RESPOSE CODE ISO>>>").concat(responseCode.getKeyIso()).concat(" ")
+					.concat("RESPOSE CODE DESCRIP>>>").concat(responseCode.getDescriptionIsc()), false);
 
 			msg.putField(Iso8583.Bit._039_RSP_CODE,
 					responseCode.getKeyIso() != null && !responseCode.getKeyIso().equals("")
 							? Pack.resize(responseCode.getKeyIso(), 2, '0', false)
 							: "05");
-			
+
 		} catch (Exception e) {
 //			StringWriter outError = new StringWriter();
 //			e.printStackTrace(new PrintWriter(outError));
@@ -2559,7 +2554,7 @@ public class Utils {
 //			EventRecorder.recordEvent(new Exception(outError.toString()));
 			responseCode = new ResponseCode();
 			responseCode.setDescriptionIsc("RSP CODE TRANSLATION ERROR - NOT FOUND");
-			
+
 			msg.putField(Iso8583.Bit._038_AUTH_ID_RSP, "000000");
 			msg.putField(Iso8583.Bit._039_RSP_CODE,
 					responseCode.getKeyIso() != null && !responseCode.getKeyIso().equals("")
@@ -2590,24 +2585,23 @@ public class Utils {
 
 			StructuredData sd = msg.getStructuredData();
 
-			
 			if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("3")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
 						.append("_").append(sd.get("CHANNEL"));
 			} else if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("4")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-				.append("_").append(sd.get("CHANNEL"));
+						.append("_").append(sd.get("CHANNEL"));
 			} else if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("8")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-				.append("_").append(sd.get("CHANNEL"));
-			}else if(msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
+						.append("_").append(sd.get("CHANNEL"));
+			} else if (msg.getField(Iso8583.Bit._035_TRACK_2_DATA).substring(0, 6).equals("777790")) {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-				.append("_").append("GIRO");
+						.append("_").append("GIRO");
 			} else {
 				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
-				.append("_").append(canal);
+						.append("_").append(canal);
 			}
-			
+
 //			if (sd.get("CHANNEL") != null && sd.get("CHANNEL").equals("3")) {
 //				tranTypeBuilder.append(msg.getMessageType()).append("_").append(msg.getProcessingCode().toString())
 //						.append("_").append(sd.get("CHANNEL"));
@@ -2662,17 +2656,17 @@ public class Utils {
 	}
 
 	public static void putB24Field102IntoStructuredData(StructuredData sd, String tranType) throws XPostilion {
-		
-		Logger.logLine("REVISION GIRO SD: "+sd.toString(), false);
-		
+
+		Logger.logLine("REVISION GIRO SD: " + sd.toString(), false);
+
 //		if(tranType.equals("0210_011000_GIRO") || tranType.equals("0210_011000_GIRO") && (null != sd.get("B24_Field_102")) && (null != sd.get("ATCG_ACCOUNT_NR"))) {
 //			sd.put(Constant.B24Fields.B24_F_102, sd.get("B24_Field_102").substring(0, 4)
 //					+ (Pack.resize(sd.get("ATCG_ACCOUNT_NR"), 17, '0', false)));
 //		}
-		if(tranType.equals("0210_011000_GIRO") || tranType.equals("0210_011000_GIRO") && (null != sd.get("B24_Field_102")) && (null != sd.get("ATCG_ACCOUNT_NR"))) {
+		if (tranType.equals("0210_011000_GIRO") || tranType.equals("0210_011000_GIRO")
+				&& (null != sd.get("B24_Field_102")) && (null != sd.get("ATCG_ACCOUNT_NR"))) {
 			sd.put(Constant.B24Fields.B24_F_102, Pack.resize(sd.get("ATCG_ACCOUNT_NR"), 18, '0', false));
-		}
-		else {
+		} else {
 			if (null != sd.get("B24_Field_102") && null != sd.get("CLIENT_ACCOUNT_NR")) {
 				sd.put(Constant.B24Fields.B24_F_102, sd.get("B24_Field_102").substring(0, 4)
 						+ (Pack.resize(sd.get("CLIENT_ACCOUNT_NR"), 17, '0', false)));
@@ -2698,26 +2692,32 @@ public class Utils {
 
 	public static void putB24Field126IntoStructuredData(StructuredData sd) {
 		Logger.logLine("********************************SETING COMISION\n", false);
-		
-		if(null != sd.get(Constant.B24Fields.B24_F_126)) {
-			if(null != sd.get("TRANSFER_QR") && sd.get("TRANSFER_QR").equals("TRUE") && sd.get("COMISIONIVA") != null) {
-				sd.put(Constant.B24Fields.B24_F_126, sd.get("COMISIONIVA") != null
-						? sd.get(Constant.B24Fields.B24_F_126).substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
-								.concat(Pack.resize(sd.get("COMISIONIVA").replace(".", ""), 12, '0', false))
-								.concat(sd.get(Constant.B24Fields.B24_F_126)
-										.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
-						: sd.get(Constant.B24Fields.B24_F_126));
-			}else {
-				sd.put(Constant.B24Fields.B24_F_126, sd.get(Constant.TagNames.COMISION) != null
-						? sd.get(Constant.B24Fields.B24_F_126).substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
-								.concat(Pack.resize(sd.get(Constant.TagNames.COMISION).replace(".", ""), 12, '0', false))
-								.concat(sd.get(Constant.B24Fields.B24_F_126)
-										.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
-						: sd.get(Constant.B24Fields.B24_F_126));
+
+		if (null != sd.get(Constant.B24Fields.B24_F_126)) {
+			if (null != sd.get("TRANSFER_QR") && sd.get("TRANSFER_QR").equals("TRUE")
+					&& sd.get("COMISIONIVA") != null) {
+				sd.put(Constant.B24Fields.B24_F_126,
+						sd.get("COMISIONIVA") != null
+								? sd.get(Constant.B24Fields.B24_F_126)
+										.substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
+										.concat(Pack.resize(sd.get("COMISIONIVA").replace(".", ""), 12, '0', false))
+										.concat(sd.get(Constant.B24Fields.B24_F_126)
+												.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
+								: sd.get(Constant.B24Fields.B24_F_126));
+			} else {
+				sd.put(Constant.B24Fields.B24_F_126,
+						sd.get(Constant.TagNames.COMISION) != null
+								? sd.get(Constant.B24Fields.B24_F_126)
+										.substring(0, sd.get(Constant.B24Fields.B24_F_126).length() - 14)
+										.concat(Pack.resize(sd.get(Constant.TagNames.COMISION).replace(".", ""), 12,
+												'0', false))
+										.concat(sd.get(Constant.B24Fields.B24_F_126)
+												.substring(sd.get(Constant.B24Fields.B24_F_126).length() - 2))
+								: sd.get(Constant.B24Fields.B24_F_126));
 			}
-			
+
 		}
-		
+
 		// String paData =
 
 		Logger.logLine("********************************SD\n" + sd, false);
@@ -2728,25 +2728,22 @@ public class Utils {
 	}
 
 	public static void putB24Field62IntoStructuredData(StructuredData sd) {
-		
-		if(sd.get("NOMBRE2") != null) {
-			Logger.logLine("NOMBRE2 RSP "+sd.get("NOMBRE2"), false);
-		}
-		if(sd.get("NOMBRE1") != null) {
-			Logger.logLine("NOMBRE1 RSP "+sd.get("NOMBRE1"), false);
-		}
 
+		if (sd.get("NOMBRE2") != null) {
+			Logger.logLine("NOMBRE2 RSP " + sd.get("NOMBRE2"), false);
+		}
+		if (sd.get("NOMBRE1") != null) {
+			Logger.logLine("NOMBRE1 RSP " + sd.get("NOMBRE1"), false);
+		}
 
 		sd.put(Constant.B24Fields.B24_F_62, sd.get("NOMBRE2") != null
 				? Constant.Misce.STR_THIRTY_ZEROS
-						.concat(Pack.resize(sd.get("NOMBRE2")
-								.replaceAll("[^a-zA-Z\\s]", " "), 30, '0', true))
+						.concat(Pack.resize(sd.get("NOMBRE2").replaceAll("[^a-zA-Z\\s]", " "), 30, '0', true)).concat(
+								Constant.Misce.STR_THIRTY_ZEROS)
 						.concat(Constant.Misce.STR_THIRTY_ZEROS).concat(Constant.Misce.STR_THIRTY_ZEROS)
-						.concat(Constant.Misce.STR_THIRTY_ZEROS)
 				: (sd.get("NOMBRE") != null
 						? Constant.Misce.STR_THIRTY_ZEROS
-								.concat(Pack.resize(sd.get("NOMBRE")
-										.replaceAll("[^a-zA-Z\\s]", " "), 30, '0', true))
+								.concat(Pack.resize(sd.get("NOMBRE").replaceAll("[^a-zA-Z\\s]", " "), 30, '0', true))
 								.concat(Constant.Misce.STR_THIRTY_ZEROS).concat(Constant.Misce.STR_THIRTY_ZEROS)
 								.concat(Constant.Misce.STR_THIRTY_ZEROS)
 
@@ -2754,64 +2751,63 @@ public class Utils {
 								.concat(Constant.Misce.STR_THIRTY_ZEROS).concat(Constant.Misce.STR_THIRTY_ZEROS)
 								.concat(Constant.Misce.STR_THIRTY_ZEROS)));
 
-		if(sd.get(Constant.B24Fields.B24_F_62) != null) {
-			Logger.logLine(Constant.B24Fields.B24_F_62+" RSP "+sd.get("NOMBRE1"), false);
+		if (sd.get(Constant.B24Fields.B24_F_62) != null) {
+			Logger.logLine(Constant.B24Fields.B24_F_62 + " RSP " + sd.get("NOMBRE1"), false);
 		}
 	}
 
 	public static void fixLast5Movements(StructuredData sd) {
-		
+
 		HashMap<String, String> movs = new HashMap<>();
-		
+
 //		Logger.logLine("MOVS_1:"+sd.get("MOVIMIEN_1") , true);
 //		Logger.logLine("MOVS_2:"+sd.get("MOVIMIEN_2") , true);
 //		Logger.logLine("MOVS_3:"+sd.get("MOVIMIEN_3") , true);
 
 		if (sd.get("MOVIMIEN_1") != null) {
-			
+
 			movs.put("MOVIMIEN_1", sd.get("MOVIMIEN_1").substring(1, 31));
 			movs.put("MOVIMIEN_2", sd.get("MOVIMIEN_1").substring(31, 61));
-			
+
 //			sd.put("MOVIMIEN_1", Pack.resize(sd.get("MOVIMIEN_1"), 30, ' ', false));
 		} else {
-			
+
 			movs.put("MOVIMIEN_1", Pack.resize("", 30, ' ', false));
 			movs.put("MOVIMIEN_2", Pack.resize("", 30, ' ', false));
-			
+
 //			sd.put("MOVIMIEN_1", Pack.resize("", 30, ' ', false));
 		}
 
 		if (sd.get("MOVIMIEN_2") != null) {
-			
+
 			movs.put("MOVIMIEN_3", sd.get("MOVIMIEN_2").substring(1, 31));
 			movs.put("MOVIMIEN_4", sd.get("MOVIMIEN_2").substring(31, 61));
-			
+
 //			sd.put("MOVIMIEN_2", Pack.resize(sd.get("MOVIMIEN_2"), 30, ' ', false));
 		} else {
-			
+
 			movs.put("MOVIMIEN_3", Pack.resize("", 30, ' ', false));
 			movs.put("MOVIMIEN_4", Pack.resize("", 30, ' ', false));
-			
+
 //			sd.put("MOVIMIEN_2", Pack.resize("", 30, ' ', false));
 		}
 
 		if (sd.get("MOVIMIEN_3") != null) {
-			
+
 			movs.put("MOVIMIEN_5", sd.get("MOVIMIEN_3").substring(1, 31));
-			
+
 //			sd.put("MOVIMIEN_3", Pack.resize(sd.get("MOVIMIEN_3"), 30, ' ', false));
 		} else {
-			
+
 			movs.put("MOVIMIEN_5", Pack.resize("", 30, ' ', false));
-			
+
 //			sd.put("MOVIMIEN_3", Pack.resize("", 30, ' ', false));
 		}
-		
-		
-		for(Map.Entry<String, String> c: movs.entrySet()) {
-			
+
+		for (Map.Entry<String, String> c : movs.entrySet()) {
+
 			sd.put(c.getKey(), c.getValue());
-			
+
 		}
 
 //		if (sd.get("MOVIMIEN_4") != null) {
@@ -2830,9 +2826,10 @@ public class Utils {
 
 	public static void putB24Field63IntoStructuredData(StructuredData sd, ResponseCode rspCode) {
 		sd.put(Constant.B24Fields.B24_F_63,
-				rspCode.getKeyIsc() != null? rspCode.getKeyIsc().concat(Pack.resize(rspCode.getDescriptionIsc(), 40, ' ', true)) 
+				rspCode.getKeyIsc() != null
+						? rspCode.getKeyIsc().concat(Pack.resize(rspCode.getDescriptionIsc(), 40, ' ', true))
 						: "ERROR: ".concat(Pack.resize("VALOR NO ENCONTRADO", 40, ' ', true)));
-		
+
 	}
 
 	public static void putB24Field40IntoStructuredData(StructuredData sd) {
@@ -2854,16 +2851,17 @@ public class Utils {
 				sd.put(Constant.TagNames.SALDO_TOTAL, saldos.substring(0, 15));
 				sd.put(Constant.TagNames.SALDO_DISPONIBLE, saldos.substring(30, 45));
 
-				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null && sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
+						&& sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field44 += "3".concat("-").concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
-								11, '0', false));
+						field44 += "3".concat("-").concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL)
+								.substring(0, 12).replace(",", "").replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "3".concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12, '0', false));
+						field44 += "3".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12,
+										'0', false));
 					}
 
 					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
@@ -2872,9 +2870,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 = field44.concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 = field44.concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
@@ -2884,13 +2882,13 @@ public class Utils {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field44 += "1".concat("-").concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
-								11, '0', false)).concat("000000000000");
+						field44 += "1".concat("-").concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL)
+								.substring(0, 12).replace(",", "").replace(".", ""), 11, '0', false))
+								.concat("000000000000");
 					} else {
-						field44 += "1"
-								.concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""),
-										12, '0', false))
+						field44 += "1".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12,
+										'0', false))
 								.concat("000000000000");
 					}
 
@@ -2905,9 +2903,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "2000000000000".concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 += "2000000000000".concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				}
@@ -2927,9 +2925,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "2000000000000".concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 += "2000000000000".concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				} else {
@@ -2939,10 +2937,9 @@ public class Utils {
 				}
 
 			}
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			field44 += "0000000000000000000000000";
-			
+
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
 			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
@@ -2952,7 +2949,7 @@ public class Utils {
 
 		sd.put(Constant.B24Fields.B24_F_44, field44);
 	}
-	
+
 	public static void putB24Field44ConsulUtilizacionCrediserviceIntoStructuredData(StructuredData sd) {
 
 		String field44 = "";
@@ -2968,16 +2965,17 @@ public class Utils {
 				sd.put(Constant.TagNames.SALDO_DISPONIBLE, saldos.substring(0, 15));
 				sd.put(Constant.TagNames.SALDO_TOTAL, saldos.substring(30, 45));
 
-				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null && sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
+						&& sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field44 += "3".concat("-").concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
-								11, '0', false));
+						field44 += "3".concat("-").concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL)
+								.substring(0, 12).replace(",", "").replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "3".concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12, '0', false));
+						field44 += "3".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12,
+										'0', false));
 					}
 
 					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
@@ -2986,9 +2984,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 = field44.concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 = field44.concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
@@ -2998,13 +2996,13 @@ public class Utils {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field44 += "1".concat("-").concat(Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
-								11, '0', false)).concat("000000000000");
+						field44 += "1".concat("-").concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL)
+								.substring(0, 12).replace(",", "").replace(".", ""), 11, '0', false))
+								.concat("000000000000");
 					} else {
-						field44 += "1"
-								.concat(Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""),
-										12, '0', false))
+						field44 += "1".concat(
+								Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12,
+										'0', false))
 								.concat("000000000000");
 					}
 
@@ -3019,9 +3017,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "2000000000000".concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 += "2000000000000".concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				}
@@ -3041,9 +3039,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 11, '0', false));
 					} else {
-						field44 += "2000000000000".concat(
-								Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false));
+						field44 += "2000000000000".concat(Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false));
 					}
 
 				} else {
@@ -3053,10 +3051,9 @@ public class Utils {
 				}
 
 			}
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			field44 += "0000000000000000000000000";
-			
+
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
 			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
@@ -3066,7 +3063,7 @@ public class Utils {
 
 		sd.put(Constant.B24Fields.B24_F_44, field44);
 	}
-	
+
 	public static void putB24Field4IntoStructuredData(StructuredData sd) {
 
 		String field4 = "";
@@ -3079,14 +3076,16 @@ public class Utils {
 				sd.put(Constant.TagNames.SALDO_TOTAL, sd.get(Constant.TagNames.SALDOS).substring(0, 15));
 				sd.put(Constant.TagNames.SALDO_DISPONIBLE, sd.get(Constant.TagNames.SALDOS).substring(30, 45));
 
-				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null && sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
+				if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
+						&& sd.get(Constant.TagNames.SALDO_DISPONIBLE) != null) {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field4 = Pack.resize(
-								sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""), 12, '0', false);
+						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "")
+								.replace(".", ""), 12, '0', false);
 					} else {
-						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""), 12, '0', false);
+						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""),
+								12, '0', false);
 					}
 
 					if ((sd.get(Constant.TagNames.SALDO_DISPONIBLE)
@@ -3095,8 +3094,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 12, '0', false);
 					} else {
-						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false);
+						field4 = Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false);
 					}
 
 				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) != null
@@ -3106,11 +3106,11 @@ public class Utils {
 
 					if ((sd.get(Constant.TagNames.SALDO_TOTAL)
 							.substring(0, sd.get(Constant.TagNames.SALDO_TOTAL).length() - 1).equals("-"))) {
-						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "").replace(".", ""),
-								12, '0', false);
+						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).substring(0, 12).replace(",", "")
+								.replace(".", ""), 12, '0', false);
 					} else {
 						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_TOTAL).replace(",", "").replace(".", ""),
-										12, '0', false);
+								12, '0', false);
 					}
 
 				} else if (sd.get(Constant.TagNames.SALDO_TOTAL) == null
@@ -3124,8 +3124,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 12, '0', false);
 					} else {
-						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false);
+						field4 = Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false);
 					}
 
 				}
@@ -3144,8 +3145,9 @@ public class Utils {
 								.substring(0, sd.get(Constant.TagNames.SALDO_DISPONIBLE).length() - 1).replace(",", "")
 								.replace(".", ""), 12, '0', false);
 					} else {
-						field4 = Pack.resize(sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""),
-										12, '0', false);
+						field4 = Pack.resize(
+								sd.get(Constant.TagNames.SALDO_DISPONIBLE).replace(",", "").replace(".", ""), 12, '0',
+								false);
 					}
 
 				} else {
@@ -3155,10 +3157,9 @@ public class Utils {
 				}
 
 			}
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			field4 += "0000000000000000000000000";
-			
+
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
 			Logger.logError("SALDOS NO ENCONTRADOS: " + outError.toString(), false);
@@ -3515,10 +3516,11 @@ public class Utils {
 		return sd.toString();
 	}
 
-	public static IMessage processReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir, String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
-		
+	public static IMessage processReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir,
+			String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion, FileNotFoundException {
+
 		Iso8583Post mappedIso = new Iso8583Post();
-		
+
 		switch (Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE))) {
 		case "080":
 			mappedIso.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
@@ -3532,24 +3534,21 @@ public class Utils {
 			break;
 		}
 
-		
-		//CONSTRUCCION DE LA LLAVE DEL MSG
+		// CONSTRUCCION DE LA LLAVE DEL MSG
 		String msgKey = constructMessageKeyISC2ISO(iscInReq, mappedIso, enableMonitor);
 
-		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
+		// RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
 		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, enableMonitor);
 		try {
-			//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
+			// VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 			if (tSettings != null && tSettings.getAuxiliarClass() != null) {
-				
-				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
+
+				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor, isNextDay);
 			}
 			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			EventRecorder.recordEvent(
-					new Exception("ERROR processReqISCMsg: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR processReqISCMsg: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
 					"Method :[" + "processReqISCMsg" + "]\n" + "processReqISCMsg: " + "\n",
 					Utils.getStringMessageException(e) }));
@@ -3558,35 +3557,34 @@ public class Utils {
 		Logger.logLine("OUTPUT:" + mappedIso.toString(), enableMonitor);
 		return mappedIso;
 	}
-	
-public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir, String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
-		
+
+	public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq,
+			FlowDirection dir, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion, FileNotFoundException {
+
 		Iso8583Post mappedIso = new Iso8583Post();
-		
+
 		if (Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080")
 				|| Transform.fromEbcdicToAscii(iscInReq.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
 			mappedIso.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
-		}else {
+		} else {
 			mappedIso.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
 		}
-		
-		//CONSTRUCCION DE LA LLAVE DEL MSG
+
+		// CONSTRUCCION DE LA LLAVE DEL MSG
 		String msgKey = "CONVIVENCIA";
 
-		//RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
+		// RECUPERACION DE LA CONFIGURACION JSON PARA LA LLAVE
 		TransactionSetting tSettings = findTranSetting(transMsgsConfig, msgKey, enableMonitor);
 		try {
-			//VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
+			// VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 			if (tSettings != null && tSettings.getAuxiliarClass() != null) {
-				
-				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
+
+				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor, isNextDay);
 			}
 			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
-		}
-		catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
-			EventRecorder.recordEvent(
-					new Exception("ERROR processReqISCMsg: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR processReqISCMsg: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
 					"Method :[" + "processReqISCMsg" + "]\n" + "processReqISCMsg: " + "\n",
 					Utils.getStringMessageException(e) }));
@@ -3595,7 +3593,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		Logger.logLine("OUTPUT:" + mappedIso.toString(), enableMonitor);
 		return mappedIso;
 	}
-	
+
 //	public static IMessage processReqISOMsg(WholeTransSetting transMsgsConfig, Iso8583Post isoInReq) throws XPostilion, FileNotFoundException {
 //		
 //		Iso8583Post mappedIso = new Iso8583Post();
@@ -3629,39 +3627,40 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 //		return mappedIso;
 //	}
 
-	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons, boolean enableMonitor) {
-		
+	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons,
+			boolean enableMonitor, boolean isNextDay) {
+
 		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), enableMonitor);
 
 		try {
-			
-//			Class<?> classRequest = Class.forName("postilion.realtime.iscinterface.auxliar.".concat(tSettings.getAuxiliarClass()));	
-			Class<?> classRequest = Class.forName("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass());
-            Class<?>[] argtypes = { Iso8583Post.class, ISCReqInMsg.class, TransactionSetting.class, String.class, boolean.class};
 
-            Constructor<?> constructor = classRequest.getConstructor();
-            Object obj = constructor.newInstance();
-            
-            Method methodExec = classRequest.getMethod("processMsg", argtypes);
-            Object[] args = {out, in,  tSettings, cons, enableMonitor};
-            
-            out = (Iso8583Post)methodExec.invoke(obj, args);
-            
-            Logger.logLine("salida reflection: ISO"+out.toString(), enableMonitor);
-			
-			
+//			Class<?> classRequest = Class.forName("postilion.realtime.iscinterface.auxliar.".concat(tSettings.getAuxiliarClass()));	
+			Class<?> classRequest = Class
+					.forName("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass());
+			Class<?>[] argtypes = { Iso8583Post.class, ISCReqInMsg.class, TransactionSetting.class, String.class,
+					boolean.class, boolean.class };
+
+			Constructor<?> constructor = classRequest.getConstructor();
+			Object obj = constructor.newInstance();
+
+			Method methodExec = classRequest.getMethod("processMsg", argtypes);
+			Object[] args = { out, in, tSettings, cons, enableMonitor, isNextDay };
+
+			out = (Iso8583Post) methodExec.invoke(obj, args);
+
+			Logger.logLine("salida reflection: ISO" + out.toString(), enableMonitor);
+
 		} catch (Exception e) {
-			
+
 			Logger.logLine("ERROR REFLECTION: " + e.getLocalizedMessage(), enableMonitor);
 			Logger.logLine("ERROR REFLECTION: " + e.toString(), enableMonitor);
 			e.printStackTrace();
-			EventRecorder.recordEvent(
-					new Exception("ERROR verifyForAuxClass: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR verifyForAuxClass: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
 					"Method :[" + "verifyForAuxClass" + "]\n" + "verifyForAuxClass: " + "\n",
 					Utils.getStringMessageException(e) }));
-		}        
-			
+		}
+
 	}
 
 	public static TransactionSetting findTranSetting(WholeTransSetting wholeTransConfig, String msgTranKey,
@@ -3687,7 +3686,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				}
 			}
 		}
-		
+
 		if (tranSetting == null) {
 			Logger.logLine("NO TRAN MATCH IN JSON: ", enableLog);
 		}
@@ -3695,46 +3694,44 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		return tranSetting;
 	}
 
-	private static Iso8583Post constructMsgISO(TransactionSetting trSetting, ISCReqInMsg inputMsg, Iso8583Post mappedMsg, boolean enableMonitor)
-			throws XPostilion, FileNotFoundException {
-		
+	private static Iso8583Post constructMsgISO(TransactionSetting trSetting, ISCReqInMsg inputMsg,
+			Iso8583Post mappedMsg, boolean enableMonitor) throws XPostilion, FileNotFoundException {
+
 		Logger.logLine("constructMsgISO 3251:" + trSetting.getFields().length, enableMonitor);
 		Logger.logLine("constructMsgISO 3252:" + inputMsg, enableMonitor);
 		Logger.logLine("constructMsgISO 3253:" + inputMsg.getTotalHexString(), enableMonitor);
 
-		
 		StructuredData sd = null;
-		
+
 		if (mappedMsg.getStructuredData() != null) {
 			sd = mappedMsg.getStructuredData();
-		}
-		else {
+		} else {
 			sd = new StructuredData();
 		}
 
 		for (int i = 0; i < trSetting.getFields().length; i++) {
 
 			Field cf = trSetting.getFields()[i];
-			
+
 			Logger.logLine("Field: " + cf.getDescription(), enableMonitor);
 
 //			mappedMsg.putField(Byte.parseByte(cf.getCopyTag()),
 //					inputMsg.getField(cf.getCopyTag()).substring(cf.getCopyInitialIndex(), cf.getCopyFinalIndex()));
-			
+
 			switch (cf.getFieldType()) {
-			
+
 			case "fixed":
-				
+
 				fixedField(cf, mappedMsg, sd);
-				
+
 				break;
-				
+
 			case "copy":
-				
+
 				copyField(cf, mappedMsg, inputMsg, sd, enableMonitor);
-				
+
 				break;
-				
+
 //			case "homologate":
 //				
 //				break;
@@ -3742,7 +3739,6 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			default:
 				break;
 			}
-			
 
 		}
 
@@ -3750,7 +3746,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 		return mappedMsg;
 	}
-	
+
 	/**************************************************************************************
 	 * Metodo para consultar consecutivo para la transacci�n
 	 * 
@@ -3852,15 +3848,19 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 	}
 
-	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output, boolean enableMonitor) throws XPostilion {
+	private static String constructMessageKeyISC2ISO(ISCReqInMsg msg, Iso8583Post output, boolean enableMonitor)
+			throws XPostilion {
 
 		Logger.logLine("Utils 3353: \n" + msg.toString(), enableMonitor);
 
 		String msgKey = "";
 
-		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)), enableMonitor);
-		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)), enableMonitor);		
-		String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(30, 38)));
+		Logger.logLine("TRAN CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)),
+				enableMonitor);
+		Logger.logLine("AUTRA CODE: " + Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)),
+				enableMonitor);
+		String codOficina = Transform
+				.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(30, 38)));
 
 		if (Transform.fromEbcdicToAscii(msg.getField(ISCReqInMsg.Fields._02_H_TRAN_CODE)).equals("SRLN")) {
 
@@ -3874,22 +3874,22 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			case "8520":
 				if (codOficina.startsWith("80")) {
 					msgKey = "SRLN_8520_PAGOCONVENIOSINT";
-				}else
+				} else
 					msgKey = "SRLN_8520_CONSULPAGODIV";
-				//msgKey = msgKey.concat("_").concat("8520");
+				// msgKey = msgKey.concat("_").concat("8520");
 				break;
 			case "8550":
 				msgKey = get8550ExtentedKey(msg, output, enableMonitor);
 				break;
 			case "8554":
-                msgKey = "SRLN_8554_TRANSFERQR";
-                break;
+				msgKey = "SRLN_8554_TRANSFERQR";
+				break;
 			case "8570":
-                msgKey = "SRLN_8570_CONSULTATITULARIDAD";
-                break;
+				msgKey = "SRLN_8570_CONSULTATITULARIDAD";
+				break;
 			case "9050":
-                msgKey = "SRLN_9050_AVANCE";
-                break;
+				msgKey = "SRLN_9050_AVANCE";
+				break;
 			default:
 				msgKey = "06";
 				break;
@@ -3898,7 +3898,8 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		return msgKey;
 	}
 
-	private boolean getCovenantISC2ISO(Iso8583Post isoMsg,String covNr, String cov2Nr, StructuredData sd) throws XPostilion {
+	private boolean getCovenantISC2ISO(Iso8583Post isoMsg, String covNr, String cov2Nr, StructuredData sd)
+			throws XPostilion {
 
 		boolean foundedCovenant = false;
 
@@ -3918,7 +3919,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 			if (cov2Nr != null) {
 				String secCov = ISCInterfaceCB.convenios.get(covNr.concat(cov2Nr));
-				
+
 				Logger.logLine("SEC COVENANT:" + secCov, false);
 
 				if (secCov != "" && secCov != null) {
@@ -3939,49 +3940,53 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 		return foundedCovenant;
 	}
-	
-	private static void fixedField(Field curField, Iso8583Post outputMsg, StructuredData sd) throws  XPostilion {
+
+	private static void fixedField(Field curField, Iso8583Post outputMsg, StructuredData sd) throws XPostilion {
 
 		String extractedVal = "";
 
 		extractedVal = curField.getValue();
 		extractedVal = Pack.resize(extractedVal, curField.getTagValueLength(), '0', false);
-		
-		Logger.logLine("Extracted:"+extractedVal, false);
-		
-		if(curField.getCopyTo().split("\\|")[0].equals("0")) {
+
+		Logger.logLine("Extracted:" + extractedVal, false);
+
+		if (curField.getCopyTo().split("\\|")[0].equals("0")) {
 			outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
-		}
-		else if (curField.getCopyTo().split("\\|")[0].equals("1")) {	
-			sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);		
+		} else if (curField.getCopyTo().split("\\|")[0].equals("1")) {
+			sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);
 		}
 
 	}
 
-	private static void copyField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputIscMsg, StructuredData sd, boolean enableMonitor)
-			throws FileNotFoundException {
+	private static void copyField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputIscMsg, StructuredData sd,
+			boolean enableMonitor) throws FileNotFoundException {
 
 		String extractedVal = "";
 
-		try {	
-			Logger.logLine("DATA IN: (HEX)"+Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString())), enableMonitor);
-			Logger.logLine("SUBSTRING : (HEX) init val: "+ curField.getCopyInitialIndex() + " final val:" + curField.getCopyFinalIndex() 
-			+ " value extracted: " + inputIscMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex()), enableMonitor);
-			extractedVal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex())));
-			Logger.logLine("extractedVal without packResize:"+extractedVal, enableMonitor);
+		try {
+			Logger.logLine(
+					"DATA IN: (HEX)"
+							+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString())),
+					enableMonitor);
+			Logger.logLine(
+					"SUBSTRING : (HEX) init val: " + curField.getCopyInitialIndex() + " final val:"
+							+ curField.getCopyFinalIndex() + " value extracted: " + inputIscMsg.getTotalHexString()
+									.substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex()),
+					enableMonitor);
+			extractedVal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(inputIscMsg.getTotalHexString()
+					.substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex())));
+			Logger.logLine("extractedVal without packResize:" + extractedVal, enableMonitor);
 			extractedVal = Pack.resize(extractedVal, curField.getTagValueLength(), '0', false);
 
-			Logger.logLine("Extracted:"+extractedVal, enableMonitor);
-			
-			if(curField.getCopyTo().split("\\|")[0].equals("0")) {
+			Logger.logLine("Extracted:" + extractedVal, enableMonitor);
+
+			if (curField.getCopyTo().split("\\|")[0].equals("0")) {
 				outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
+			} else if (curField.getCopyTo().split("\\|")[0].equals("1")) {
+				sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);
 			}
-			else if (curField.getCopyTo().split("\\|")[0].equals("1")) {	
-				sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);		
-			}
-			
-		} 
-		catch (Exception e) {
+
+		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(
 					outError + "\n" + "ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
@@ -3996,18 +4001,20 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 	}
 
-	private static void homologateField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputMsg, StructuredData sd) throws NumberFormatException, XPostilion, FileNotFoundException {
+	private static void homologateField(Field curField, Iso8583Post outputMsg, ISCReqInMsg inputMsg, StructuredData sd)
+			throws NumberFormatException, XPostilion, FileNotFoundException {
 
 		String extractedVal = "";
 		boolean homolMatch = false;
 
 		try {
-			
-			extractedVal = inputMsg.getTotalHexString().substring(curField.getCopyInitialIndex(), curField.getCopyFinalIndex());
-			extractedVal = UtilidadesMensajeria.ebcdicToAscii(Pack.resize(extractedVal, curField.getTagValueLength(), '0', false));
-			
-		} 
-		catch (Exception e) {
+
+			extractedVal = inputMsg.getTotalHexString().substring(curField.getCopyInitialIndex(),
+					curField.getCopyFinalIndex());
+			extractedVal = UtilidadesMensajeria
+					.ebcdicToAscii(Pack.resize(extractedVal, curField.getTagValueLength(), '0', false));
+
+		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(
 					outError + "\n" + "ERROR COPYING FIELD: " + curField.getTagPrefix() + outError.toString()));
@@ -4025,16 +4032,13 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				Logger.logLine("HOMOLOGACION MATCH-- homologation: " + h.getValue() + " ExtracVal" + extractedVal
 						+ " convertion" + h.getConvertion(), false);
 				extractedVal = h.getConvertion();
-				
 
-				if(curField.getCopyTo().split("\\|")[0].equals("0")) {
+				if (curField.getCopyTo().split("\\|")[0].equals("0")) {
 					outputMsg.putField(Integer.parseInt(curField.getCopyTo().split("\\|")[1]), extractedVal);
+				} else if (curField.getCopyTo().split("\\|")[0].equals("1")) {
+					sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);
 				}
-				else if (curField.getCopyTo().split("\\|")[0].equals("1")) {	
-					sd.put(curField.getCopyTo().split("\\|")[1], extractedVal);		
-				}
-				
-				
+
 				homolMatch = true;
 				Logger.logLine("VAL homologated: " + extractedVal, false);
 				break;
@@ -4048,204 +4052,217 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 
 		}
 	}
-	
-	private static String get8550ExtentedKey (ISCReqInMsg isc, Iso8583Post out, boolean enableMonitor) throws XPostilion {
-		
+
+	private static String get8550ExtentedKey(ISCReqInMsg isc, Iso8583Post out, boolean enableMonitor)
+			throws XPostilion {
+
 		Logger.logLine("Utils 3601:", enableMonitor);
-		
+
 		StructuredData sd = new StructuredData();
-		
+
 		String hexIsc = isc.getTotalHexString().toUpperCase();
-		Logger.logLine("hexIsc:"+ hexIsc, enableMonitor);
-		
-		Logger.logLine("entra switch :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE))), enableMonitor);
-		
-		String codOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
-		
-		//Se extrae la naturaleza del mensaje para ser evaluada en el switch
-		//y se determina que tipo de transaccion es.
-		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)))) {
-		case "0":		
-			if(codOficina.equals("8592") || codOficina.equals("8593")) {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER_CEL2CEL");
+		Logger.logLine("hexIsc:" + hexIsc, enableMonitor);
+
+		Logger.logLine(
+				"entra switch :" + Transform.fromEbcdicToAscii(Transform.fromHexToBin(
+						hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE))),
+				enableMonitor);
+
+		String codOficina = Transform
+				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
+		String tipoCuenDebito = Transform
+				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(180, 182)));
+
+		// Se extrae la naturaleza del mensaje para ser evaluada en el switch
+		// y se determina que tipo de transaccion es.
+		switch (Transform.fromEbcdicToAscii(Transform
+				.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)))) {
+		case "0":
+			if (codOficina.equals("8592") || codOficina.equals("8593")) {
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER_CEL2CEL");
 			} else {
-				sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_TRANSFER");
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER");
 			}
 			break;
-		case "1":		
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_HIPOTECARIO");		
+		case "1":
+			sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_HIPOTECARIO");
 			break;
-		case "2":		
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_ROTATIVO");		
+		case "2":
+			sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_ROTATIVO");
 			break;
-		case "3":				
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_CONSUMO");	
+		case "3":
+			sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_CONSUMO");
 			break;
-		case "4":		
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_MOTOSVEHICULOS");		
+		case "4":
+			sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_MOTOSVEHICULOS");
 			break;
 		case "5":
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_PAGOTDC");	
-				
+			sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_PAGOTDC");
+
 			break;
-		case "6":	
-			sd.put("TRAN_KEY_INTERLNAL","SRLN_8550_RETIROAVANCE");	
-			break;
-		default:
-			break;
-		}	
-		
-		
-		Logger.logLine("entra switch 2 :"+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE))), enableMonitor);
-		
-		switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE)))) {
-		case "000":
-			sd.put("STATE_BYTE_INTERLNAL","NORMAL");
-			break;
-		case "010":
-			sd.put("STATE_BYTE_INTERLNAL","DEVOLUCION");
-			break;
-		case "020":
-			sd.put("STATE_BYTE_INTERLNAL","ANULACION");
-			break;
-		case "030":
-			sd.put("STATE_BYTE_INTERLNAL","ANULACIONDEV");
-			break;
-		case "040":
-			sd.put("STATE_BYTE_INTERLNAL","NORMAL_ND");
-			break;
-		case "050":
-			sd.put("STATE_BYTE_INTERLNAL","DEVOLUCION_ND");
-			break;
-		case "060":
-			sd.put("STATE_BYTE_INTERLNAL","ANULACION_ND");
-			break;
-		case "070":
-			sd.put("STATE_BYTE_INTERLNAL","ANULACIONDEV_ND");
-			break;
-		case "080":
-			sd.put("STATE_BYTE_INTERLNAL","REVERSO");
+		case "6":
+			// sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
+			if (tipoCuenDebito.equals(2)) { // Avance
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_AVANCEOFICINA");
+			} else { // retiro
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
+			}
 			break;
 		default:
 			break;
 		}
-			
+
+		Logger.logLine(
+				"entra switch 2 :" + Transform.fromEbcdicToAscii(Transform
+						.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE))),
+				enableMonitor);
+
+		switch (Transform.fromEbcdicToAscii(
+				Transform.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_MSG_TYPE, ISCReqInMsg.POS_end_MSG_TYPE)))) {
+		case "000":
+			sd.put("STATE_BYTE_INTERLNAL", "NORMAL");
+			break;
+		case "010":
+			sd.put("STATE_BYTE_INTERLNAL", "DEVOLUCION");
+			break;
+		case "020":
+			sd.put("STATE_BYTE_INTERLNAL", "ANULACION");
+			break;
+		case "030":
+			sd.put("STATE_BYTE_INTERLNAL", "ANULACIONDEV");
+			break;
+		case "040":
+			sd.put("STATE_BYTE_INTERLNAL", "NORMAL_ND");
+			break;
+		case "050":
+			sd.put("STATE_BYTE_INTERLNAL", "DEVOLUCION_ND");
+			break;
+		case "060":
+			sd.put("STATE_BYTE_INTERLNAL", "ANULACION_ND");
+			break;
+		case "070":
+			sd.put("STATE_BYTE_INTERLNAL", "ANULACIONDEV_ND");
+			break;
+		case "080":
+			sd.put("STATE_BYTE_INTERLNAL", "REVERSO");
+			break;
+		default:
+			break;
+		}
+
 		out.putStructuredData(sd);
 		return sd.get("TRAN_KEY_INTERLNAL");
-		
+
 	}
-	
-	private static TagCreationResult extractTokenFromPinBlock(Field curField, StringBuilder msgStrBuilder, Iso8583Post msg)
-			throws XPostilion {
-		
+
+	private static TagCreationResult extractTokenFromPinBlock(Field curField, StringBuilder msgStrBuilder,
+			Iso8583Post msg) throws XPostilion {
+
 		TagCreationResult res = new TagCreationResult(curField.getTagPrefix(), null, null);
 
 		String token = "";
 
 		String encodParam0 = "BASE64";
-		
+
 		DesKwp kwpParam1 = null;
 
 //		try {
-			CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
-			kwpParam1 = crypcfgman.getKwp("ATH_KPE");
-			
-			
-			//////////////
-			
-			String param1 = Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes());
+		CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
+		kwpParam1 = crypcfgman.getKwp("ATH_KPE");
+
+		//////////////
+
+		String param1 = Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes());
 
 //			String kvpParam2 = "MVBVTkUwMDAsRUJDOEJDNjM0MEM2RkUyRjYxMTU2M0Y0MjY4MDdEMjM0OUI5QjdCNDU4NDNCMDk2LDg4Q0NEOTk5MDNFMjE2QTY";
-			DesKwp kvpParam2 = crypcfgman.getKwp("ATH_GIROS");
-			
-			Logger.logLine("PIN DATA: " + msg.getField(Iso8583.Bit._052_PIN_DATA), false);
-			Logger.logLine("PIN DATA to HEX: " + Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)), false);
-			Logger.logLine("PIN DATA to HEX to B64: " + Base64.getEncoder()
-					.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes()), false);
+		DesKwp kvpParam2 = crypcfgman.getKwp("ATH_GIROS");
 
-			String param3 = Base64.getEncoder()
-					.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes());
+		Logger.logLine("PIN DATA: " + msg.getField(Iso8583.Bit._052_PIN_DATA), false);
+		Logger.logLine("PIN DATA to HEX: " + Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)), false);
+		Logger.logLine(
+				"PIN DATA to HEX to B64: " + Base64.getEncoder()
+						.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes()),
+				false);
 
-			String param4 = Base64.getEncoder().encodeToString(msg.getTrack2Data().getPan().getBytes());
+		String param3 = Base64.getEncoder()
+				.encodeToString(Transform.fromBinToHex(msg.getField(Iso8583.Bit._052_PIN_DATA)).getBytes());
+
+		String param4 = Base64.getEncoder().encodeToString(msg.getTrack2Data().getPan().getBytes());
 
 //			String hexSeedParam5 = "MEIxQTJDM0Q0RjVFNjc4OTk4NzZGNEU1RDNDMkIwQTEwQjFBMkMzRDRGNUU2Nzg5";
-			DesKwp hexSeedParam5 = crypcfgman.getKwp("ATH_GIROS_SEED");
-			
-			Logger.logLine("1 PARAM 2: " + kvpParam2.getName(), false);
-			Logger.logLine("2 PARAM 2: " + kvpParam2.getValueUnderParent(), false);
-			String param2 = kvpParam2.getValueUnderKsk();
+		DesKwp hexSeedParam5 = crypcfgman.getKwp("ATH_GIROS_SEED");
 
-			Logger.logLine("KWP: " + Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes()), false);
+		Logger.logLine("1 PARAM 2: " + kvpParam2.getName(), false);
+		Logger.logLine("2 PARAM 2: " + kvpParam2.getValueUnderParent(), false);
+		String param2 = kvpParam2.getValueUnderKsk();
 
-			String endPoint = "https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s";
-			String[] params = new String[6];
-			params[0] = encodParam0;
-			params[1] = param1;
+		Logger.logLine("KWP: " + Base64.getEncoder().encodeToString(kwpParam1.getValueUnderKsk().getBytes()), false);
+
+		String endPoint = "https://10.89.0.169:8081/entry-point/getPIN?encoding=%s&workingKey1=%s&workingKey2=%s&pinBlock=%s&pan=%s&seeds=%s";
+		String[] params = new String[6];
+		params[0] = encodParam0;
+		params[1] = param1;
 //			params[2] = kvpParam2;
-			Logger.logLine("3 PARAM 2: " + param2, false);
-			params[2] = Base64.getEncoder().encodeToString(param2.getBytes());
-			params[3] = param3;
-			params[4] = param4;
+		Logger.logLine("3 PARAM 2: " + param2, false);
+		params[2] = Base64.getEncoder().encodeToString(param2.getBytes());
+		params[3] = param3;
+		params[4] = param4;
 //			params[5] = hexSeedParam5;
-			String param5 = hexSeedParam5.getValueUnderKsk();
-			Logger.logLine("PARAM 5: " + param5, false);
-			params[5] = Base64.getEncoder().encodeToString(param5.getBytes());
-			
-			token = HttpCryptoServ.httpConnection(endPoint, params);
-			token = new String(Base64.getMimeDecoder().decode(token));
+		String param5 = hexSeedParam5.getValueUnderKsk();
+		Logger.logLine("PARAM 5: " + param5, false);
+		params[5] = Base64.getEncoder().encodeToString(param5.getBytes());
 
-			Logger.logLine("TOKEN: " + token, false);
-			
-			msgStrBuilder.append(curField.getTagPrefix().concat(UtilidadesMensajeria
-					.asciiToEbcdic(Pack.resize(token, curField.getTagValueLength(), '0', false)).toUpperCase()));
-			
-			if (token.equals("E: Sanity - 080000")) {
-				
-				res.setTagError("CRYPTO ERROR : E: Sanity - 080000");
-			}
-			else if (token.equals("E: Sanity - N")) {
-				
-				res.setTagError("CRYPTO ERROR : E: Sanity - N");
-			}
-			
-			
-			
+		token = HttpCryptoServ.httpConnection(endPoint, params);
+		token = new String(Base64.getMimeDecoder().decode(token));
+
+		Logger.logLine("TOKEN: " + token, false);
+
+		msgStrBuilder.append(curField.getTagPrefix().concat(UtilidadesMensajeria
+				.asciiToEbcdic(Pack.resize(token, curField.getTagValueLength(), '0', false)).toUpperCase()));
+
+		if (token.equals("E: Sanity - 080000")) {
+
+			res.setTagError("CRYPTO ERROR : E: Sanity - 080000");
+		} else if (token.equals("E: Sanity - N")) {
+
+			res.setTagError("CRYPTO ERROR : E: Sanity - N");
+		}
+
 //		} catch (Exception e) {
 //			StringWriter outError = new StringWriter();
 //			e.printStackTrace(new PrintWriter(outError));
 //			Logger.logLine("KWP ERROR: " + outError.toString(), true);
 //			EventRecorder.recordEvent(new Exception(outError.toString()));
 //		}
-		
+
 		return res;
 
 	}
 
-	private static boolean isMassiveTransfer (Iso8583Post msg) throws XFieldUnableToConstruct, XPostilion {
-		
-		if ( (msg.getStructuredData().get("B24_Field_41").substring(12, 13).equals("2")
+	private static boolean isMassiveTransfer(Iso8583Post msg) throws XFieldUnableToConstruct, XPostilion {
+
+		if ((msg.getStructuredData().get("B24_Field_41").substring(12, 13).equals("2")
 				&& (msg.getProcessingCode().getFromAccount().equals("10")
 						|| msg.getProcessingCode().getFromAccount().equals("20"))
 				&& (msg.getProcessingCode().getToAccount().equals("10")
 						|| msg.getProcessingCode().getToAccount().equals("20"))
 				&&
-				
+
 				(msg.getStructuredData().get("B24_Field_41").substring(4, 8).equals("8354")
 						|| msg.getStructuredData().get("B24_Field_41").substring(4, 8).equals("8206")
 						|| msg.getStructuredData().get("B24_Field_41").substring(4, 8).equals("8110")
 						|| msg.getStructuredData().get("B24_Field_41").substring(4, 8).equals("9631")
 						|| msg.getStructuredData().get("B24_Field_41").substring(4, 8).equals("9632"))
-				
-				) ){
-			
+
+		)) {
+
 			return true;
-			
-		}
-		else
+
+		} else
 			return false;
-		
+
 	}
-	
+
 	/**
 	 * Metodo encargado de enviar mensajes al monitor UDP para su posteo en SQL lite
 	 * 
@@ -4256,17 +4273,20 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	 * @param refNr
 	 * @param msgPrefix
 	 */
-	public static void postMsgInMonitor(Client mon, IMessage isoMsg, IMessage iscMsg, String interfaceName, String refNr, String msgPrefix) {
-		
+	public static void postMsgInMonitor(Client mon, IMessage isoMsg, IMessage iscMsg, String interfaceName,
+			String refNr, String msgPrefix) {
+
 		try {
 			if (isoMsg != null) {
-				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())):
-						Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())), "ISO", interfaceName));
+				mon.sendData(Client.getMsgKeyValue(refNr,
+						msgPrefix != null ? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg()))
+								: Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())),
+						"ISO", interfaceName));
 
 			}
-			if(iscMsg != null) {
-				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + iscMsg.toString() :
-					iscMsg.toString(), "ISC", interfaceName));
+			if (iscMsg != null) {
+				mon.sendData(Client.getMsgKeyValue(refNr,
+						msgPrefix != null ? msgPrefix + iscMsg.toString() : iscMsg.toString(), "ISC", interfaceName));
 //				mon.get
 			}
 		} catch (Exception e) {
@@ -4275,10 +4295,9 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			EventRecorder.recordEvent(new Exception("Error Postilion: " + outError.toString()));
 			Logger.logLine("Error Postilion: " + outError.toString(), false);
 		}
-		
+
 	}
-	
-	
+
 	/**
 	 * Metodo encargado de enviar mensajes al monitor UDP para su posteo en SQL lite
 	 * 
@@ -4289,17 +4308,20 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	 * @param refNr
 	 * @param msgPrefix
 	 */
-	public static void postLogInMonitor(Client mon, IMessage isoMsg, String output, String interfaceName, String refNr, String msgPrefix) {
-		
+	public static void postLogInMonitor(Client mon, IMessage isoMsg, String output, String interfaceName, String refNr,
+			String msgPrefix) {
+
 		try {
 			if (isoMsg != null) {
-				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())):
-						Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())), "ISO", interfaceName));
+				mon.sendData(Client.getMsgKeyValue(refNr,
+						msgPrefix != null ? msgPrefix + Transform.fromBinToHex(Transform.getString(isoMsg.toMsg()))
+								: Transform.fromBinToHex(Transform.getString(isoMsg.toMsg())),
+						"ISO", interfaceName));
 
 			}
-			if(output != null) {
-				mon.sendData(Client.getMsgKeyValue(refNr, msgPrefix != null? msgPrefix + output.toString() :
-					output.toString(), "LOG", interfaceName));
+			if (output != null) {
+				mon.sendData(Client.getMsgKeyValue(refNr,
+						msgPrefix != null ? msgPrefix + output.toString() : output.toString(), "LOG", interfaceName));
 //				mon.get
 			}
 		} catch (Exception e) {
@@ -4308,122 +4330,116 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 			EventRecorder.recordEvent(new Exception("Error Postilion: " + outError.toString()));
 			Logger.logLine("Error Postilion: " + outError.toString(), false);
 		}
-		
+
 	}
-	
+
 	public static <E> String getBitMap(Iso8583Post msg) throws XPostilion {
-		
-        try {
-        	
-            String trama = new String(msg.getBinaryData());
-            Logger.logLine("ISO:" + trama, false);
-            
-            
-            Enumeration<E> enu = msg.enumerateSetFields();
-            while(enu.hasMoreElements()) {
-                Logger.logLine("ISO:" + enu.nextElement().toString(), false);
-            }
-            
-            StringBuilder bitMap = new StringBuilder().append(trama.substring(16, 32));
 
-            BigInteger initial = new BigInteger(trama.substring(16, 17), 16);
-            StringBuilder bitMapBinario = new StringBuilder();
-            
-            switch (initial.compareTo(BigInteger.valueOf(4))) {
-            case -1:
-                bitMapBinario.append("00");
-                break;
-            case 0:
-            case 1:
-            	
-                switch (initial.compareTo(BigInteger.valueOf(8))) {
-                case -1:
-                    bitMapBinario.append("0");
-                    break;
-                case 0:
-                case 1:
-                    bitMap.append(trama.substring(32, 48));
-                    break;
-                default:
-                    break;
-                }
-                break;
-                
-            default:
-                break;
-            }
-            
-            bitMapBinario.append(new BigInteger(bitMap.toString(), 16).toString(2)); 
-            return bitMapBinario.toString();
-        } 
-        catch (Exception e) {
+		try {
+
+			String trama = new String(msg.getBinaryData());
+			Logger.logLine("ISO:" + trama, false);
+
+			Enumeration<E> enu = msg.enumerateSetFields();
+			while (enu.hasMoreElements()) {
+				Logger.logLine("ISO:" + enu.nextElement().toString(), false);
+			}
+
+			StringBuilder bitMap = new StringBuilder().append(trama.substring(16, 32));
+
+			BigInteger initial = new BigInteger(trama.substring(16, 17), 16);
+			StringBuilder bitMapBinario = new StringBuilder();
+
+			switch (initial.compareTo(BigInteger.valueOf(4))) {
+			case -1:
+				bitMapBinario.append("00");
+				break;
+			case 0:
+			case 1:
+
+				switch (initial.compareTo(BigInteger.valueOf(8))) {
+				case -1:
+					bitMapBinario.append("0");
+					break;
+				case 0:
+				case 1:
+					bitMap.append(trama.substring(32, 48));
+					break;
+				default:
+					break;
+				}
+				break;
+
+			default:
+				break;
+			}
+
+			bitMapBinario.append(new BigInteger(bitMap.toString(), 16).toString(2));
+			return bitMapBinario.toString();
+		} catch (Exception e) {
 			StringWriter outError = new StringWriter();
 			e.printStackTrace(new PrintWriter(outError));
 			EventRecorder.recordEvent(new Exception(outError.toString()));
-        }
-        return null;
-    }
-	
-	public static HashMap<Integer, String> convertFields2Hash(Iso8583Post msg, boolean enableLog){
-		
+		}
+		return null;
+	}
+
+	public static HashMap<Integer, String> convertFields2Hash(Iso8583Post msg, boolean enableLog) {
+
 		HashMap<Integer, String> msgFields = new HashMap<>();
-		
+
 		try {
-			for(int i = 0; i <= 128; i++) {	
-				if(msg.isFieldSet(i)) {	
-					
-					if(i == 127) {
-						if(msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)) {
-							
+			for (int i = 0; i <= 128; i++) {
+				if (msg.isFieldSet(i)) {
+
+					if (i == 127) {
+						if (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)) {
+
 							msgFields.put(i, msg.getPrivField(Iso8583Post.PrivBit._022_STRUCT_DATA));
-							
+
 							HashMap<String, String> tags = getStructuredDataKeyValues(msg.getStructuredData());
-							
+
 							int j = 128;
-							for(Map.Entry<String, String> e: tags.entrySet()) {
+							for (Map.Entry<String, String> e : tags.entrySet()) {
 								msgFields.put(j, e.getKey().concat("|").concat(e.getValue()));
 								j++;
 							}
-							
+
 						}
-					}
-					else {
+					} else {
 						msgFields.put(i, msg.getField(i));
 					}
-				}
-				else {
+				} else {
 					msgFields.put(i, "");
-				}	
+				}
 			}
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			// TODO: handle exception
 		}
-		
-		
+
 		return msgFields;
 	}
-	
+
 	public static HashMap<String, String> getStructuredDataKeyValues(StructuredData sd) {
-		
+
 		HashMap<String, String> sdFields = new HashMap<>();
-		
+
 		Enumeration e = sd.getTypeNames();
-		
-	  	while ( e.hasMoreElements() ) {
-	    String tagName = e.nextElement().toString();
-	    	sdFields.put(tagName, sd.get(tagName));
-	    }
-		
-	  	return sdFields;
+
+		while (e.hasMoreElements()) {
+			String tagName = e.nextElement().toString();
+			sdFields.put(tagName, sd.get(tagName));
+		}
+
+		return sdFields;
 	}
-	
+
 	public static String getStringMessageException(Exception e) {
 		StringWriter outError = new StringWriter();
 		e.printStackTrace(new PrintWriter(outError));
 		return outError.toString();
 	}
-	
+
 	private static final Map<String, String> TRANS_HOMOLOGATION = new LinkedHashMap<>();
 
 	static {
@@ -4527,11 +4543,13 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		OUTPUT_FIELDS.put("CUOTAPA(.*)", "pa_cuota=$1");
 
 		OUTPUT_FIELDS.put("FORZAPA(.*)", "pa_forza=$1");
+		
+		OUTPUT_FIELDS.put("PLAZOPA(.*)", "pa_plazo=$1");
 
 		OUTPUT_FIELDS.put("INDNAL:(.*)", "ind_nal=$1");
 
 		OUTPUT_FIELDS.put("TIPTRANS:(.*)", "tipo_transporte=$1");
-		
+
 		OUTPUT_FIELDS.put("NOMBRE2:(.*)", "NOMBRE2=$1");
 
 		OUTPUT_FIELDS.put("CCCON01(.*)", "saldos=$1");
@@ -4545,44 +4563,45 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		OUTPUT_FIELDS.put("MOVIMIEN4(.*)", "movimien_4=$1");
 
 		OUTPUT_FIELDS.put("MOVIMIEN5(.*)", "movimien_5=$1");
-		
+
 		OUTPUT_FIELDS.put("CUENTA:(.*)", "cuenta_homologada=$1");
-		
+
 		OUTPUT_FIELDS.put("COMISIONIVA:(.*)", "comisioniva=$1");
-		
+
 		OUTPUT_FIELDS.put("RIESGO:(.)", "riesgo=$1");
 
 	}
 
 	public static StringWriter printStackAndReturnErrorString(Exception e) {
 		// TODO Auto-generated method stub
-		
+
 		StringWriter outError = new StringWriter();
 		e.printStackTrace(new PrintWriter(outError));
-		
+
 		return outError;
 	}
-	
-	
+
 	public static ISCResInMsg createRspISCMsg(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
-		
-		if(msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00")) {
+
+		if (msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00")) {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucess(msg,originalReq));
-		} else { 
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+					originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucess(msg, originalReq));
+		} else {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyError(msg,originalReq));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+					originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyError(msg, originalReq));
 		}
 		return rsp;
 	}
@@ -4590,26 +4609,44 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 	public static String buildRspBodySucess(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		try {
-			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_126") != null ?
-					msg.getStructuredData().get("B24_Field_126") : null : null;
-			String field125 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_125") != null ?
-					msg.getStructuredData().get("B24_Field_125") : null : null;
-			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_102") != null ?
-					msg.getStructuredData().get("B24_Field_102") : msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1) : "000000000000000000";
-			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_54") != null ?
-					msg.getStructuredData().get("B24_Field_54") : "000000000000" : "000000000000";
-			String field62 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_62") != null ?
-					msg.getStructuredData().get("B24_Field_62") : "000000000000" : "000000000000";
-			String field4 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_4") != null ?
-					msg.getStructuredData().get("B24_Field_4") : "000000000000" : "000000000000";
-			String claseTarjeta = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("CLIENT_CARD_CLASS") != null ?
-					msg.getStructuredData().get("CLIENT_CARD_CLASS") : "000000000000" : "000000000000";
-			
+			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_126") != null
+							? msg.getStructuredData().get("B24_Field_126")
+							: null
+					: null;
+			String field125 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_125") != null
+							? msg.getStructuredData().get("B24_Field_125")
+							: null
+					: null;
+			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_102") != null
+							? msg.getStructuredData().get("B24_Field_102")
+							: msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1)
+					: "000000000000000000";
+			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_54") != null ? msg.getStructuredData().get("B24_Field_54")
+							: "000000000000"
+					: "000000000000";
+			String field62 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_62") != null ? msg.getStructuredData().get("B24_Field_62")
+							: "000000000000"
+					: "000000000000";
+			String field4 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_4") != null ? msg.getStructuredData().get("B24_Field_4")
+							: "000000000000"
+					: "000000000000";
+			String claseTarjeta = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("CLIENT_CARD_CLASS") != null
+							? msg.getStructuredData().get("CLIENT_CARD_CLASS")
+							: "000000000000"
+					: "000000000000";
+
 			String B5 = null;
 			String arqc = null;
-			if(field126!=null) {
+			if (field126 != null) {
 				String parts[] = field126.split("!");
-				
+
 				int posB5 = 0;
 				for (int i = 0; i < parts.length; i++) {
 					if (parts[i].contains(" B5")) {
@@ -4619,194 +4656,204 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					}
 				}
 			}
-			
+
 			switch (msg.getProcessingCode().toString()) {
-			case "300040":			
-				
+			case "300040":
+
 //				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic("00"+field4))
-				.append(Transform.fromAsciiToEbcdic("00"+field54.substring(12,24)))
-				.append(Transform.fromAsciiToEbcdic("00"+field54.substring(24,36)))
-				.append(Transform.fromHexToBin("840000000000"))
-				.append(Transform.fromAsciiToEbcdic(field62.substring(30)));
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040"))
+						.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)
+								? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)
+								: "000000"))
+						.append(Transform.fromHexToBin("404011C2601D60"))
+						.append(Transform.fromAsciiToEbcdic("00" + field4))
+						.append(Transform.fromAsciiToEbcdic("00" + field54.substring(12, 24)))
+						.append(Transform.fromAsciiToEbcdic("00" + field54.substring(24, 36)))
+						.append(Transform.fromHexToBin("840000000000"))
+						.append(Transform.fromAsciiToEbcdic(field62.substring(30)));
 
 				break;
-				
-			case "401000":			
-			case "402000":			
-				
-//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
 
-				break;	
-				
-			case "320000":			
-				
-//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
-//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(Pack.resize(field125.substring(field125.length()-11), 16, '0', false)))
-				.append(Transform.fromAsciiToEbcdic(field125.substring(0,31)))
-				.append(Transform.fromAsciiToEbcdic("00000000000"));
+			case "401000":
+			case "402000":
 
-				break;	
-			
-			case "351000":			
-			case "352000":			
-				
 //				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromHexToBin("000000000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(claseTarjeta.substring(9,11)))
-				.append(Transform.fromAsciiToEbcdic(msg.getTrack2Data().getPan()))
-				.append(Transform.fromAsciiToEbcdic(Pack.resize(field102, 17, '0', false)))
-				.append(Transform.fromHexToBin("000000"))
-				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040"))
+						.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)
+								? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)
+								: "000000"))
+						.append(Transform.fromHexToBin("404011C2601D60")).append(Transform.fromAsciiToEbcdic(
+								"0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"));
 
 				break;
-				
-			case "500100":			
-			case "500200":			
-			case "500140":			
-			case "500240":			
-			case "500141":			
-			case "500241":			
-			case "500142":			
-			case "500242":			
-				
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
-				.append(Transform.fromAsciiToEbcdic("000000000000"))
-				.append(Transform.fromAsciiToEbcdic(field102))
-				.append(Transform.fromAsciiToEbcdic(field125.substring(1,17)))
-				.append(Transform.fromAsciiToEbcdic(field125.substring(0,1)));
+
+			case "320000":
+
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040"))
+						.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)
+								? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)
+								: "000000"))
+						.append(Transform.fromHexToBin("404011C2601D60"))
+						.append(Transform.fromAsciiToEbcdic(
+								Pack.resize(field125.substring(field125.length() - 11), 16, '0', false)))
+						.append(Transform.fromAsciiToEbcdic(field125.substring(0, 31)))
+						.append(Transform.fromAsciiToEbcdic("00000000000"));
+
+				break;
+
+			case "351000":
+			case "352000":
+
+//				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040")).append(Transform.fromHexToBin("000000000000"))
+						.append(Transform.fromHexToBin("404011C2601D60"))
+						.append(Transform.fromAsciiToEbcdic(claseTarjeta.substring(9, 11)))
+						.append(Transform.fromAsciiToEbcdic(msg.getTrack2Data().getPan()))
+						.append(Transform.fromAsciiToEbcdic(Pack.resize(field102, 17, '0', false)))
+						.append(Transform.fromHexToBin("000000"))
+						.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc)
+								: Transform.fromHexToBin("0000000000000000000000000000000000"));
+
+				break;
+
+			case "500100":
+			case "500200":
+			case "500140":
+			case "500240":
+			case "500141":
+			case "500241":
+			case "500142":
+			case "500242":
+
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040"))
+						.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)
+								? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)
+								: "000000"))
+						.append(Transform.fromHexToBin("404011C2601D60"))
+						.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+						.append(Transform.fromAsciiToEbcdic("000000000000"))
+						.append(Transform.fromAsciiToEbcdic(field102))
+						.append(Transform.fromAsciiToEbcdic(field125.substring(1, 17)))
+						.append(Transform.fromAsciiToEbcdic(field125.substring(0, 1)));
 
 				break;
 
 			default:
-				
-				
-					 
+
 //				.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //					.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-					sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-					.append(Transform.fromHexToBin("4E4040"))
-					.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP) ? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP) : "000000"))
-					.append(Transform.fromHexToBin("404011C2601D60"))
-					.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
-					.append(Transform.fromAsciiToEbcdic("000000000000"))
-					.append(Transform.fromAsciiToEbcdic(field102))
-					.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
+				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+						.append(Transform.fromHexToBin("4E4040"))
+						.append(Transform.fromAsciiToEbcdic(msg.isFieldSet(Iso8583.Bit._038_AUTH_ID_RSP)
+								? msg.getField(Iso8583.Bit._038_AUTH_ID_RSP)
+								: "000000"))
+						.append(Transform.fromHexToBin("404011C2601D60"))
+						.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+						.append(Transform.fromAsciiToEbcdic("000000000000"))
+						.append(Transform.fromAsciiToEbcdic(field102))
+						.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc)
+								: Transform.fromHexToBin("0000000000000000000000000000000000"));
 				break;
 			}
-			
-			
-			
+
 		} catch (XPostilion e) {
 			e.toString();
-			EventRecorder.recordEvent(
-					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR processMsg: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
-					Utils.getStringMessageException(e) }));
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n", Utils.getStringMessageException(e) }));
 		}
-		
 
 		return sd.toString();
 	}
-	
-	
-	
+
 	public static String buildRspBodyError(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		try {
-			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) && msg.getStructuredData().get("B24_Field_54") != null ?
-					msg.getStructuredData().get("B24_Field_54") : msg.isFieldSet(Iso8583.Bit._054_ADDITIONAL_AMOUNTS) ? 
-							msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)	: "000000000000";
-			String field63 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_63") != null ?
-					msg.getStructuredData().get("B24_Field_63") : "8601ERROR EN EL MENSAJE                     " : "8601ERROR EN EL MENSAJE                     ";
-			
+			String field54 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					&& msg.getStructuredData().get("B24_Field_54") != null
+							? msg.getStructuredData().get("B24_Field_54")
+							: msg.isFieldSet(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)
+									? msg.getField(Iso8583.Bit._054_ADDITIONAL_AMOUNTS)
+									: "000000000000";
+			String field63 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_63") != null ? msg.getStructuredData().get("B24_Field_63")
+							: "8601ERROR EN EL MENSAJE                     "
+					: "8601ERROR EN EL MENSAJE                     ";
+
 //			.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromAsciiToEbcdic("      "))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(field63.substring(0,4)))
-				.append(Transform.fromHexToBin("60"))
-				.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
+			sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+					.append(Transform.fromHexToBin("4E4040")).append(Transform.fromAsciiToEbcdic("      "))
+					.append(Transform.fromHexToBin("404011C2601D60"))
+					.append(Transform.fromAsciiToEbcdic(field63.substring(0, 4))).append(Transform.fromHexToBin("60"))
+					.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
 		} catch (XPostilion e) {
 			e.toString();
-			EventRecorder.recordEvent(
-					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR processMsg: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
-					Utils.getStringMessageException(e) }));
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n", Utils.getStringMessageException(e) }));
 		}
-		
 
 		return sd.toString();
 	}
-	
-	
+
 	public static ISCResInMsg createRspISCMsgRev(Iso8583Post msg, ISCReqInMsg originalReq) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
-		
-		if(!msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00") 
-				|| (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) && msg.getStructuredData().get("REV_DECLINED") != null
+
+		if (!msg.getField(Iso8583.Bit._039_RSP_CODE).equals("00")
+				|| (msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+						&& msg.getStructuredData().get("REV_DECLINED") != null
 						&& msg.getStructuredData().get("REV_DECLINED").equals("TRUE"))) {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorRev(msg,originalReq));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+					originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorRev(msg, originalReq));
 		} else {
 			rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 			rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 			rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
 			rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 			rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessRev(msg,originalReq));
+			rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+					originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+			rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessRev(msg, originalReq));
 		}
 		return rsp;
 	}
-	
-	
+
 	public static String buildRspBodySucessRev(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		try {
-			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_126") != null ?
-					msg.getStructuredData().get("B24_Field_126") : null : null;
-			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA) ? msg.getStructuredData().get("B24_Field_102") != null ?
-					msg.getStructuredData().get("B24_Field_102") : msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1) : "000000000000000000";
+			String field126 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_126") != null
+							? msg.getStructuredData().get("B24_Field_126")
+							: null
+					: null;
+			String field102 = msg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+					? msg.getStructuredData().get("B24_Field_102") != null
+							? msg.getStructuredData().get("B24_Field_102")
+							: msg.getField(Iso8583.Bit._102_ACCOUNT_ID_1)
+					: "000000000000000000";
 			String field54 = "000000000000";
 			String B5 = null;
 			String arqc = null;
-			if(field126!=null) {
+			if (field126 != null) {
 				String parts[] = field126.split("!");
-				
+
 				int posB5 = 0;
 				for (int i = 0; i < parts.length; i++) {
 					if (parts[i].contains(" B5")) {
@@ -4816,64 +4863,57 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					}
 				}
 			}
-				
+
 //			.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //				.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-				sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-				.append(Transform.fromHexToBin("4E4040"))
-				.append(Transform.fromHexToBin("000000000000"))
-				.append(Transform.fromHexToBin("404011C2601D60"))
-				.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
-				.append(Transform.fromAsciiToEbcdic("000000000000"))
-				.append(Transform.fromAsciiToEbcdic(field102))
-				.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc) : Transform.fromHexToBin("0000000000000000000000000000000000"));
-			
+			sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+					.append(Transform.fromHexToBin("4E4040")).append(Transform.fromHexToBin("000000000000"))
+					.append(Transform.fromHexToBin("404011C2601D60"))
+					.append(Transform.fromAsciiToEbcdic(msg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR)))
+					.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromAsciiToEbcdic(field102))
+					.append(arqc != null ? Transform.fromAsciiToEbcdic(arqc)
+							: Transform.fromHexToBin("0000000000000000000000000000000000"));
+
 		} catch (XPostilion e) {
 			e.toString();
-			EventRecorder.recordEvent(
-					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new Exception("ERROR processMsg: " + e.toString()));
 			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
-					Utils.getStringMessageException(e) }));
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n", Utils.getStringMessageException(e) }));
 		}
-		
 
 		return sd.toString();
 	}
-	
-	
-	
+
 	public static String buildRspBodyErrorRev(Iso8583Post msg, ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
 		String field54 = "000000000000";
 		String field63 = "2043NO MATCH FOR REVERSAL                   ";
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length()-12)))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromAsciiToEbcdic("      "))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic(field63.substring(0,4)))
-			.append(Transform.fromHexToBin("60"))
-			.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
-		
+		sd.append(Transform.fromAsciiToEbcdic(field54.substring(field54.length() - 12)))
+				.append(Transform.fromHexToBin("4E4040")).append(Transform.fromAsciiToEbcdic("      "))
+				.append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(field63.substring(0, 4))).append(Transform.fromHexToBin("60"))
+				.append(Transform.fromAsciiToEbcdic(field63.substring(4)));
 
 		return sd.toString();
 	}
-	
-	
+
 	public static ISCResInMsg processMsgSyncPinPad(ISCReqInMsg msg, boolean log) throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
 		Crypto crypto = new Crypto(log);
 		PinPad pinpad = new PinPad();
-		String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_COD_OFICINA, ISCReqInMsg.POS_end_COD_OFICINA)));
-		String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_SERIAL, ISCReqInMsg.POS_end_SERIAL)));
-		String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_TERMINALPINPAD, ISCReqInMsg.POS_end_TERMINALPINPAD)));
-		
-		
+		String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(
+				msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_COD_OFICINA, ISCReqInMsg.POS_end_COD_OFICINA)));
+		String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(
+				msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_SERIAL, ISCReqInMsg.POS_end_SERIAL)));
+		String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString()
+				.substring(ISCReqInMsg.POS_ini_TERMINALPINPAD, ISCReqInMsg.POS_end_TERMINALPINPAD)));
+
 		try {
-			switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_MODALIDAD, ISCReqInMsg.POS_end_MODALIDAD)))) {
+			switch (Transform.fromEbcdicToAscii(Transform.fromHexToBin(
+					msg.getTotalHexString().substring(ISCReqInMsg.POS_ini_MODALIDAD, ISCReqInMsg.POS_end_MODALIDAD)))) {
 			case "1":
 				// PROCESA INICIALIZACION DE PINPAD
 				pinpad = crypto.initPinPad(log);
@@ -4881,16 +4921,17 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 				Logger.logLine("pinpad.getResponseInit():" + pinpad.getResponseInit(), log);
 				Logger.logLine("pinpad.getKey_ini():" + pinpad.getKey_ini(), log);
 				Logger.logLine("pinpad.getKey_ini_snd():" + pinpad.getKey_ini_snd(), log);
-				if(pinpad.isError()) {
+				if (pinpad.isError()) {
 					// RESPUESTA FALLIDA
 					rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 					rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
 					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+							msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
 					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorInitPinPad(msg));
-				}else {
+				} else {
 					// PROCESO DE CRIPTOGRAFIA EXITOSO
 					pinpad.setCodOficina(codigoOficina);
 					pinpad.setSerial(serial);
@@ -4902,7 +4943,7 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					pinpad.setFecha_modificacion(timestamp);
 					pinpad.setUsuario_creacion("Postilion");
 					pinpad.setUsuario_modificacion("Postilion");
-					
+
 					DBHandler.updateInsertPinPadDataInit(pinpad);
 					ISCInterfaceCB.pinpadData.clear();
 					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
@@ -4911,40 +4952,44 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
 					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessInitPinPad(msg,pinpad));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+							msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessInitPinPad(msg, pinpad));
 				}
-					
-				
-					
+
 				break;
 			case "2":
 				// PROCESA INTERCAMBIO DE LLAVES PINPAD
-				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
-				if(pinpad == null) {
+				pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina + serial);
+				if (pinpad == null) {
 					ISCInterfaceCB.pinpadData.clear();
 					ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
-					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina+serial);
+					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficina + serial);
 				}
-				if(pinpad == null || pinpad.getKey_ini() == null) {
+				if (pinpad == null || pinpad.getKey_ini() == null) {
 					rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 					rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 					rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
 					rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 					rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "PINPAD NO INICIALIZADO"));
+					rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+							msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+					rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY,
+							buildRspBodyErrorExchangePinPad(msg, "PINPAD NO INICIALIZADO"));
 				} else {
 					pinpad = crypto.exchangePinPad(log, pinpad);
-					if(pinpad.isError()) {
+					if (pinpad.isError()) {
 						// RESPUESTA FALLIDA
 						rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 						rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 						rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F120"));
-						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL,
+								msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 						rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodyErrorExchangePinPad(msg, "FALLO EN INTERCAMBIO"));
+						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+								msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY,
+								buildRspBodyErrorExchangePinPad(msg, "FALLO EN INTERCAMBIO"));
 					} else {
 						// PROCESO DE CRIPTOGRAFIA EXITOSO
 						LocalDateTime date = LocalDateTime.now();
@@ -4958,93 +5003,81 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 						rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 						rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
 						rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
-						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+						rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL,
+								msg.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
 						rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
-						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
-						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessExchangePinPad(msg,pinpad));
+						rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR,
+								msg.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+						rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, buildRspBodySucessExchangePinPad(msg, pinpad));
 					}
-						
+
 				}
-					
-				break;	
-	
+
+				break;
+
 			default:
 				break;
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			EventRecorder.recordEvent(
-					new Exception("Aramando mensaje: " + e.toString()));
-			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
-					Utils.getStringMessageException(e) }));
+			EventRecorder.recordEvent(new Exception("Aramando mensaje: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(
+					new String[] { "ISCInterCB-IN", "ISCInterfaceCB", Utils.getStringMessageException(e) }));
 		}
-			
 
 		return rsp;
 	}
-	
-	
+
 	public static String buildRspBodySucessInitPinPad(ISCReqInMsg originalReq, PinPad pinpad) {
 		StringBuilder sd = new StringBuilder("");
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromHexToBin("000000000000"))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic(pinpad.getResponseInit()));
-		
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(pinpad.getResponseInit()));
 
 		return sd.toString();
 	}
-	
+
 	public static String buildRspBodyErrorInitPinPad(ISCReqInMsg originalReq) {
 		StringBuilder sd = new StringBuilder("");
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromHexToBin("000000000000"))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic("ERROR AL CARGAR CONFIGURACION PINPAD"));
-		
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic("ERROR AL CARGAR CONFIGURACION PINPAD"));
 
 		return sd.toString();
 	}
-	
+
 	public static String buildRspBodySucessExchangePinPad(ISCReqInMsg originalReq, PinPad pinpad) {
 		StringBuilder sd = new StringBuilder("");
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F020")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromHexToBin("000000000000"))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic(pinpad.getResponseExc()));
-		
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(pinpad.getResponseExc()));
 
 		return sd.toString();
 	}
-	
+
 	public static String buildRspBodyErrorExchangePinPad(ISCReqInMsg originalReq, String error) {
 		StringBuilder sd = new StringBuilder("");
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromHexToBin("000000000000"))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic(error));
-		
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(error));
 
 		return sd.toString();
 	}
-	
-	public static ISCResInMsg processErrorMsg(ISCReqInMsg originalReq, Iso8583Post msg, String error, boolean log ) throws XPostilion {
+
+	public static ISCResInMsg processErrorMsg(ISCReqInMsg originalReq, Iso8583Post msg, String error, boolean log)
+			throws XPostilion {
 		ISCResInMsg rsp = new ISCResInMsg();
 		rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
 		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
@@ -5056,20 +5089,42 @@ public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, 
 		return rsp;
 	}
 	
+	public static ISCResInMsg processMsgRspSucess(ISCReqInMsg originalReq, Iso8583Post msg, String msgSucess, boolean log)
+			throws XPostilion {
+		ISCResInMsg rsp = new ISCResInMsg();
+		rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+		rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+		rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+		rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+		rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, processSucessMsg(originalReq, msgSucess));
+		return rsp;
+	}
+
 	public static String processErrorMsg(ISCReqInMsg originalReq, String error) {
 		StringBuilder sd = new StringBuilder("");
-		
+
 //		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
 //			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
-			sd.append(Transform.fromAsciiToEbcdic("000000000000"))
-			.append(Transform.fromHexToBin("4E4040"))
-			.append(Transform.fromHexToBin("000000000000"))
-			.append(Transform.fromHexToBin("404011C2601D60"))
-			.append(Transform.fromAsciiToEbcdic(error));
-		
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+				.append(Transform.fromAsciiToEbcdic(error));
 
 		return sd.toString();
 	}
 	
-	
+	public static String processSucessMsg(ISCReqInMsg originalReq, String msgSucess) {
+		StringBuilder sd = new StringBuilder("");
+
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(msgSucess))
+			.append(Transform.fromAsciiToEbcdic("00000000000"));
+
+		return sd.toString();
+	}
+
 }

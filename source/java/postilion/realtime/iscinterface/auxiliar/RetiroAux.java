@@ -40,7 +40,7 @@ public class RetiroAux {
 	public static int pos9f1e,pos9f33,pos9f35,pos9f09,pos9f34,pos84;
 	public static int pos9f39,pos5f34;
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		try {
 			
@@ -104,7 +104,7 @@ public class RetiroAux {
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}else {

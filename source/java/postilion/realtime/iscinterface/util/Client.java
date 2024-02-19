@@ -248,7 +248,7 @@ public class Client {
 			
 			Logger.logLine("tc: " + sd.get("B24_Field_35").substring(8,24), log);
 			String tc =  sd.get("B24_Field_35").substring(8,24);
-			byte[] data = ("TX_VALIDA_TITULARIDAD"+tc).getBytes();
+			byte[] data = ("TX_VALIDA_TITULARIDAD_B24"+tc).getBytes();
 
 			try {
 				DatagramSocket socket = new DatagramSocket();

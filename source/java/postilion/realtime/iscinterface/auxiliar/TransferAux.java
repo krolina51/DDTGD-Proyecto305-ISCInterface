@@ -26,7 +26,7 @@ public class TransferAux {
 	
 	private static int counter = 0;
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		
 		try {
@@ -36,13 +36,16 @@ public class TransferAux {
 			String settlementDate = null;
 			String tranType = null;
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
+			
+		
 
 			String p37 = "0901".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(30, 38))))
 					.concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(ISCReqInMsg.POS_ini_SEQUENCE_NR, ISCReqInMsg.POS_end_SEQUENCE_NR))));
