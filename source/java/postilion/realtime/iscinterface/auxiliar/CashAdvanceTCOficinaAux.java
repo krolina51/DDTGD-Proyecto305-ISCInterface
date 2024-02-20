@@ -180,7 +180,7 @@ public class CashAdvanceTCOficinaAux {
 			
         	//Validacion Titularidad, trae informacion nombre e identificacion del tarjetahabiente solo para tarjeta Bco Bta
 			Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);				
-			String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(cuentaAAcreditar, enableMonitor);
+			String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(cuentaADebitar, enableMonitor);
 			
 			String p22 = "010";
 			if (codigoOficina.substring(0, 1).equals("4") &&
@@ -318,8 +318,9 @@ public class CashAdvanceTCOficinaAux {
 						if(newPin.equals("FFFFFFFFFFFFFFFF")) 
 						{
 							// 127.22 TAG ERROR DE CRIPTOGRAFÍA
-							sd.put("ERROR", "ERROR TRANSLATE PIN");
+							sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");
 							Logger.logLine("ERROR TRANSLATE PIN", enableMonitor);
+							newPin = pinBlock;
 						}
 					}
 					
@@ -332,6 +333,35 @@ public class CashAdvanceTCOficinaAux {
 			}
 			// ***********************************************************************************************************************
 
+			// CAMPO 3 PROCESSING CODE
+			//out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
+			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
+			//CAMPO 7 TRANSMISSION DATE N TIME
+			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
+			// CAMPO 12 TIME LOCAL
+			out.putField(Iso8583.Bit._012_TIME_LOCAL, p12);
+			// CAMPO 13 TRANSMISSION DATE N TIME
+			out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
+			// CAMPO 15 FECHA DE COMPENSACIÓN
+			out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
+			// TRACK2 Field 22
+			out.putField(Iso8583.Bit._022_POS_ENTRY_MODE, p22);
+			// TRACK2 Field 35
+			out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
+			// CAMPO 37 Retrieval Reference Number
+			out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
+			// CAMPO 41 
+			out.putField(Iso8583Post.Bit._041_CARD_ACCEPTOR_TERM_ID, p41);
+			// TRACK2 Field 43
+			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente).concat(codigoDaneCiudadOficinaAdquiriente).concat("             "));
+			// CAMPO 49
+			out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); 	// "170" indica pesos colombianos.
+			// CAMPO 52
+			out.putField(Iso8583Post.Bit._052_PIN_DATA, "FFFFFFFF");
+			// CAMPO 59
+			out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia);
+			// TRACK2 Field 98
+			out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
 			
 			if(naturalezaPago.equals("6")			// si es AVANCE
 				&& codigoOficina.startsWith("4")	// y si es en OFICINA
@@ -344,35 +374,7 @@ public class CashAdvanceTCOficinaAux {
 				
 				/* ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS:	
 				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.*/
-				// CAMPO 3 PROCESSING CODE
-				//out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
-				out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
-				//CAMPO 7 TRANSMISSION DATE N TIME
-				out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
-				// CAMPO 12 TIME LOCAL
-				out.putField(Iso8583.Bit._012_TIME_LOCAL, p12);
-				// CAMPO 13 TRANSMISSION DATE N TIME
-				out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
-				// CAMPO 15 FECHA DE COMPENSACIÓN
-				out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
-				// TRACK2 Field 22
-				out.putField(Iso8583.Bit._022_POS_ENTRY_MODE, p22);
-				// TRACK2 Field 35
-				out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
-				// CAMPO 37 Retrieval Reference Number
-				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
-				// CAMPO 41 
-				out.putField(Iso8583Post.Bit._041_CARD_ACCEPTOR_TERM_ID, p41);
-				// TRACK2 Field 43
-				out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente).concat(codigoDaneCiudadOficinaAdquiriente).concat("        BO CO"));
-				// CAMPO 49
-				out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); 	// "170" indica pesos colombianos.
-				// CAMPO 52
-				out.putField(Iso8583Post.Bit._052_PIN_DATA, "FFFFFFFF");
-				// CAMPO 59
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia);
-				// TRACK2 Field 98
-				out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
+				
 				// CAMPO 100 PARA ENRUTAMIENTO
 				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_FIRSTDATA);	//Enruta a FirstData
 				
@@ -400,7 +402,7 @@ public class CashAdvanceTCOficinaAux {
 				// 127.22 TAG B24_Field_126 	longitud total: 166		Tokens: 03,	24,	B4,	BM,	QT (ojo: token QT varía entre mensajes 0200 y 0210)
 				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
 				// 127.22 TAG ERROR
-				if (msgFromValidationTC.equals("NO"))
+				if (msgFromValidationTC.startsWith("NO"))
 				   sd.put("ERROR", "TARJETA NO EXISTE");
 				
 				// PROCESAMIENTO DE REVERSO
@@ -458,35 +460,7 @@ public class CashAdvanceTCOficinaAux {
 				
 				/* ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS:	
 				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.*/
-				// CAMPO 3 PROCESSING CODE
-				//out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
-				out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
-				//CAMPO 7 TRANSMISSION DATE N TIME
-				out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
-				// CAMPO 12 TIME LOCAL
-				out.putField(Iso8583.Bit._012_TIME_LOCAL, p12);
-				// CAMPO 13 TRANSMISSION DATE N TIME
-				out.putField(Iso8583.Bit._013_DATE_LOCAL, p13);
-				// CAMPO 15 FECHA DE COMPENSACIÓN
-				out.putField(Iso8583.Bit._015_DATE_SETTLE, settlementDate);
-				// TRACK2 Field 22
-				out.putField(Iso8583.Bit._022_POS_ENTRY_MODE, p22);
-				// TRACK2 Field 35
-				out.putField(Iso8583.Bit._035_TRACK_2_DATA, "0088010000000000000=9912000");
-				// CAMPO 37 Retrieval Reference Number
-				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, p37);
-				// CAMPO 41 
-				out.putField(Iso8583Post.Bit._041_CARD_ACCEPTOR_TERM_ID, p41);
-				// TRACK2 Field 43
-				out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC, codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente).concat(codigoDaneCiudadOficinaAdquiriente).concat("             "));
-				// CAMPO 49
-				out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); 	// "170" indica pesos colombianos.
-				// CAMPO 52
-				out.putField(Iso8583Post.Bit._052_PIN_DATA, "FFFFFFFF");
-				// CAMPO 59
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia);
-				// TRACK2 Field 98
-				out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
+				
 				// CAMPO 100 PARA ENRUTAMIENTO
 				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_ATH_CONEXION_OFICINAS);	//Enruta a ATH 
 				
@@ -604,7 +578,7 @@ public class CashAdvanceTCOficinaAux {
 					sd.put("FI_CREDITO", "0000");
 					sd.put("FI_DEBITO", "0000");
 					//if (codigoOficina.substring(0, 1).equals("4") ) //Canal Oficina
-					sd.put("Ind_4xmil", "0");
+					sd.put("Ind_4xmil", "1");
 				}
 				else //Efectivo o Cheque
 				{	
@@ -665,18 +639,18 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Identificacion_Canal", identificacionCanal);
 			sd.put("Codigo_Establecimiento", "          ");
 			
-			if (!msgFromValidationTC.equals("NO") && codigoEntidadAutorizadoraDebito.equals("0001"))
+			if (!msgFromValidationTC.startsWith("NO") && codigoEntidadAutorizadoraDebito.equals("0001"))
 			{
-				sd.put("CUSTOMER_NAME",Pack.resize(msgFromValidationTC.substring(4,25), 28,' ', true));	
-				sd.put("ID_CLIENT",Pack.resize(msgFromValidationTC.substring(25,33), 13, '0', false));
+				sd.put("CUSTOMER_NAME", msgFromValidationTC.substring(3,29));	
+				sd.put("ID_CLIENT", msgFromValidationTC.substring(36,49));
 			}
 			else
 			{
 				sd.put("CUSTOMER_NAME", "                            ");	
 				sd.put("ID_CLIENT", "0000000000000");
-			}	
+			}
 			
-			//sd.put("TITULAR_TC",msgFromValidationTC);
+			sd.put("TITULAR_TC",msgFromValidationTC);
 			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL");	// DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA. 
 			sd.put("Indicador_AVAL", "1");	
 			sd.put("SECUENCIA_REQ", secuenciaTS);
