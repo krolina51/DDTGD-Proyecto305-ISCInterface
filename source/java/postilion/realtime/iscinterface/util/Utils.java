@@ -4072,7 +4072,9 @@ public class Utils {
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
 		String tipoCuenDebito = Transform
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(180, 182)));
-
+		
+		String naturalezaTransaccion = Transform.fromEbcdicToAscii(Transform
+				.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)));
 		// Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		// y se determina que tipo de transaccion es.
 		switch (Transform.fromEbcdicToAscii(Transform
@@ -4102,7 +4104,9 @@ public class Utils {
 			break;
 		case "6":
 			// sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
-			if (tipoCuenDebito.equals(2)) { // Avance
+			sd.put("NATURALEZA_DE_LA_TRANSACCION", naturalezaTransaccion);
+			sd.put("TIPO_DE_CUENTA_DEBITO_1", tipoCuenDebito);
+			if (tipoCuenDebito.equals("2")) { // Avance
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_AVANCEOFICINA");
 			} else { // retiro
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
