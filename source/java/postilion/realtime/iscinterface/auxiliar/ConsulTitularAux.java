@@ -5,7 +5,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.iscinterface.ISCInterfaceCB;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
+import postilion.realtime.iscinterface.util.Client;
 import postilion.realtime.iscinterface.util.Logger;
 import postilion.realtime.iscinterface.util.Utils;
 import postilion.realtime.iscinterface.web.model.TransactionSetting;
@@ -29,7 +31,7 @@ public class ConsulTitularAux {
 	public static final String PCODE_CONSULTATITUL_PAGO_VEHICULOS = "334200";
 	public static final String PCODE_CONSULTATITUL_PAGO_TC = "333000";
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		
 		try {
@@ -49,7 +51,7 @@ public class ConsulTitularAux {
 			}
 			
 			
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}else {
@@ -142,6 +144,20 @@ public class ConsulTitularAux {
 				sd.put("Tarjeta_Amparada", cuenta.substring(2));
 				
 				// SE DEBE CONSULTAR LA TARJETA Y RESPONDER DE INMEDIATO
+				//Validacion Titularidad, trae informacion nombre e identificacion del tarjetahabiente solo para tarjeta Bco Bta
+				Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);				
+				String msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(cuenta, enableMonitor);
+				
+				if(msgFromValidationTC.startsWith("SI")) {
+					String response = msgFromValidationTC.substring(33) // IDENTIFICACION
+							.concat(msgFromValidationTC.substring(2,3)) // TIPO IDENTIFICACION
+							.concat(msgFromValidationTC.substring(3,33)); // NOMBRE
+					sd.put("CUSTOMER_NAME", msgFromValidationTC.substring(3,33));
+					sd.put("ID_CLIENT", msgFromValidationTC.substring(33));
+					sd.put("RESPONSE", response);
+				}else {
+					sd.put("ERROR", "TARJETA NO EXISTE");
+				}
 			}
 			
 			//CAMPO 3

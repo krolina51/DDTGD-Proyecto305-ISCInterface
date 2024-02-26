@@ -3544,7 +3544,7 @@ public class Utils {
 	}
 
 	public static IMessage processReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq, FlowDirection dir,
-			String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
+			String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion, FileNotFoundException {
 
 		Iso8583Post mappedIso = new Iso8583Post();
 
@@ -3570,7 +3570,7 @@ public class Utils {
 			// VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 			if (tSettings != null && tSettings.getAuxiliarClass() != null) {
 
-				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
+				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor, isNextDay);
 			}
 			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
 		} catch (Exception e) {
@@ -3586,7 +3586,7 @@ public class Utils {
 	}
 
 	public static IMessage processAutraReqISCMsg(WholeTransSetting transMsgsConfig, ISCReqInMsg iscInReq,
-			FlowDirection dir, String cons, boolean enableMonitor) throws XPostilion, FileNotFoundException {
+			FlowDirection dir, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion, FileNotFoundException {
 
 		Iso8583Post mappedIso = new Iso8583Post();
 
@@ -3606,7 +3606,7 @@ public class Utils {
 			// VERIFICAR SI LA TRANSACCION TIENE CLASE AUXILIAR
 			if (tSettings != null && tSettings.getAuxiliarClass() != null) {
 
-				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor);
+				verifyForAuxClass(mappedIso, iscInReq, tSettings, cons, enableMonitor, isNextDay);
 			}
 			mappedIso = constructMsgISO(tSettings, iscInReq, mappedIso, enableMonitor);
 		} catch (Exception e) {
@@ -3655,7 +3655,7 @@ public class Utils {
 //	}
 
 	protected static void verifyForAuxClass(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSettings, String cons,
-			boolean enableMonitor) {
+			boolean enableMonitor, boolean isNextDay) {
 
 		Logger.logLine("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass(), enableMonitor);
 
@@ -3665,13 +3665,13 @@ public class Utils {
 			Class<?> classRequest = Class
 					.forName("postilion.realtime.iscinterface.auxiliar." + tSettings.getAuxiliarClass());
 			Class<?>[] argtypes = { Iso8583Post.class, ISCReqInMsg.class, TransactionSetting.class, String.class,
-					boolean.class };
+					boolean.class, boolean.class };
 
 			Constructor<?> constructor = classRequest.getConstructor();
 			Object obj = constructor.newInstance();
 
 			Method methodExec = classRequest.getMethod("processMsg", argtypes);
-			Object[] args = { out, in, tSettings, cons, enableMonitor };
+			Object[] args = { out, in, tSettings, cons, enableMonitor, isNextDay };
 
 			out = (Iso8583Post) methodExec.invoke(obj, args);
 
@@ -4099,7 +4099,9 @@ public class Utils {
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
 		String tipoCuenDebito = Transform
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(180, 182)));
-
+		
+		String naturalezaTransaccion = Transform.fromEbcdicToAscii(Transform
+				.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)));
 		// Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		// y se determina que tipo de transaccion es.
 		switch (Transform.fromEbcdicToAscii(Transform
@@ -4131,8 +4133,10 @@ public class Utils {
 			break;
 		case "6":
 			// sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
-			if (tipoCuenDebito.equals(2)) { // Avance
-				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_PAGOTDC");
+			sd.put("NATURALEZA_DE_LA_TRANSACCION", naturalezaTransaccion);
+			sd.put("TIPO_DE_CUENTA_DEBITO_1", tipoCuenDebito);
+			if (tipoCuenDebito.equals("2")) { // Avance
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_AVANCEOFICINA");
 			} else { // retiro
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
 			}
@@ -5117,6 +5121,19 @@ public class Utils {
 		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, processErrorMsg(originalReq, error));
 		return rsp;
 	}
+	
+	public static ISCResInMsg processMsgRspSucess(ISCReqInMsg originalReq, Iso8583Post msg, String msgSucess, boolean log)
+			throws XPostilion {
+		ISCResInMsg rsp = new ISCResInMsg();
+		rsp.putField(ISCResInMsg.Fields._01_H_DELIMITER, Transform.fromHexToBin("1140401D60"));
+		rsp.putField(ISCResInMsg.Fields._02_H_TRAN_CODE, Transform.fromHexToBin("E2D9D3D5"));
+		rsp.putField(ISCResInMsg.Fields._03_H_STATE, Transform.fromHexToBin("F020"));
+		rsp.putField(ISCResInMsg.Fields._04_H_TERMINAL, originalReq.getField(ISCReqInMsg.Fields._05_H_TERMINAL));
+		rsp.putField(ISCResInMsg.Fields._05_H_FILLER, Transform.fromHexToBin("40404040"));
+		rsp.putField(ISCResInMsg.Fields._06_H_TRAN_SEQ_NR, originalReq.getField(ISCReqInMsg.Fields._07_H_TRAN_SEQ_NR));
+		rsp.putField(ISCResInMsg.Fields._VARIABLE_BODY, processSucessMsg(originalReq, msgSucess));
+		return rsp;
+	}
 
 	public static String processErrorMsg(ISCReqInMsg originalReq, String error) {
 		StringBuilder sd = new StringBuilder("");
@@ -5126,6 +5143,19 @@ public class Utils {
 		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
 				.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
 				.append(Transform.fromAsciiToEbcdic(error));
+
+		return sd.toString();
+	}
+	
+	public static String processSucessMsg(ISCReqInMsg originalReq, String msgSucess) {
+		StringBuilder sd = new StringBuilder("");
+
+//		.append(Transform.fromHexToBin("1140401D60E2D9D3D5F120")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(22,30)))
+//			.append(Transform.fromHexToBin("40404040")).append(Transform.fromHexToBin(originalReq.getTotalHexString().substring(38,46)))
+		sd.append(Transform.fromAsciiToEbcdic("000000000000")).append(Transform.fromHexToBin("4E4040"))
+			.append(Transform.fromHexToBin("000000000000")).append(Transform.fromHexToBin("404011C2601D60"))
+			.append(Transform.fromAsciiToEbcdic(msgSucess))
+			.append(Transform.fromAsciiToEbcdic("00000000000"));
 
 		return sd.toString();
 	}

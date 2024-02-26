@@ -41,7 +41,7 @@ public class ValidacionPinAux {
 	public static int pos9f1e,pos9f33,pos9f35,pos9f09,pos9f34,pos84;
 	public static int pos9f39,pos5f34;
 	
-	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor) throws XPostilion {
+	public Iso8583Post processMsg (Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion {
 		
 		try {
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");

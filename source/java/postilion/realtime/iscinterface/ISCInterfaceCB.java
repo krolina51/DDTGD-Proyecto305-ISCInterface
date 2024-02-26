@@ -1457,6 +1457,33 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 
 							Logger.logLine("NUEVA IMPLEMENTACION :: TRAN SETTING: " + strTranSetting.getTranKey(),
 									this.enableMonitor);
+							
+							Logger.logLine("NUEVA IMPLEMENTACION :: SD IN: " + sdIn,
+									this.enableMonitor);
+							
+							if (sdIn != null 
+									&& sdIn.get("TRANSACTION_INPUT") != null
+									&& sdIn.get("TRANSACTION_INPUT").equals("ATM_COBRO_GIROS_TRADICIONAL_O_WEB_SERVICES")) {
+								if(this.transStore.containsKey(msg.getPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY))) {
+									Iso8583Post msgGiro = (Iso8583Post) this.transStore.get(msg.getPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY));
+									StructuredData sdGiro = msgGiro.getStructuredData();
+									StructuredData sdRev = msg.getStructuredData();
+									Logger.logLine("SD GIRO: " + sdGiro,
+											this.enableMonitor);
+									sdRev.put("ATCG_ID_TYPE", sdGiro.get("ATCG_ID_TYPE"));
+									sdRev.put("ATCG_ID_NR", sdGiro.get("ATCG_ID_NR"));
+									sdRev.put("ATCG_GIRO_NR", sdGiro.get("ATCG_GIRO_NR"));
+									sdRev.put("ATCG_GIRO_AMOUNT", sdGiro.get("ATCG_GIRO_AMOUNT"));
+									sdRev.put("ATCG_ACCOUNT_TYPE", sdGiro.get("ATCG_ACCOUNT_TYPE"));
+									sdRev.put("ATCG_ACCOUNT_NR", sdGiro.get("ATCG_ACCOUNT_NR"));
+									sdRev.put("ATCG_FLAG", sdGiro.get("ATCG_FLAG"));
+									sdRev.put("ATCG_GIRO_KEY", sdGiro.get("ATCG_GIRO_KEY"));
+									
+									msg.putStructuredData(sdRev);
+								}
+								
+							}
+							
 
 							MsgMappedResult resFromMapping = constructMsgString(strTranSetting, msg, true);
 
@@ -2017,6 +2044,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					Logger.logLine("PHASE 2", this.enableMonitor);
 					Iso8583Post p2Msg = (Iso8583Post) rspISOMsg.clone();
 					p2Msg.setMessageType(Iso8583.MsgTypeStr._0200_TRAN_REQ);
+					
+					this.transStore.put(rspISOMsg.getPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY), p2Msg);
 
 					StructuredData s = p2Msg.getStructuredData();
 					s.put("PHASE", "P2");
@@ -2109,14 +2138,21 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				}else {
 					// ARMANDO ISO
 					rspISOMsg = (Iso8583Post) Utils.processReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
-							FlowDirection.ISC2ISO, cons, this.enableMonitor);
+							FlowDirection.ISC2ISO, cons, this.enableMonitor, this.isNextDay);
 					
 					if(rspISOMsg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
 							&& rspISOMsg.getStructuredData().get("ERROR") != null) {
 						rsp = Utils.processErrorMsg((ISCReqInMsg) msg, rspISOMsg, rspISOMsg.getStructuredData().get("ERROR"), this.enableMonitor);
 						
 						return new Action(null, rsp, null, null);
-					}else {
+					} else if(rspISOMsg.isPrivFieldSet(Iso8583Post.PrivBit._022_STRUCT_DATA)
+							&& rspISOMsg.getStructuredData().get("RESPONSE") != null) {
+						
+						rsp = Utils.processMsgRspSucess((ISCReqInMsg) msg, rspISOMsg, rspISOMsg.getStructuredData().get("RESPONSE"), this.enableMonitor);
+						
+						return new Action(null, rsp, null, null);
+						
+					} else {
 						Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 //						Iso8583Post reqISOMsg = Utils.fromISCReqToISOReq(reqISCMsg);
 						putRecordIntoIscReqMsg(rspISOMsg.getField(Iso8583.Bit._037_RETRIEVAL_REF_NR), (ISCReqInMsg)msg);
@@ -2130,7 +2166,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			default:
 				// ARMANDO ISO
 				rspISOMsg = (Iso8583Post) Utils.processAutraReqISCMsg(this.wholeTransConfigIn, (ISCReqInMsg) msg,
-						FlowDirection.ISC2ISO, cons, this.enableMonitor);
+						FlowDirection.ISC2ISO, cons, this.enableMonitor, this.isNextDay);
 				Logger.logLine("REQ MAPPED:\n" + rspISOMsg.toString(), this.enableMonitor);
 				
 				String trankey = Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._05_H_TERMINAL))
