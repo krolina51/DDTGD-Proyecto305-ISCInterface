@@ -2302,7 +2302,32 @@ public class Utils {
 												&& msg.getResponseCode().equals(Iso8583.RspCode._00_SUCCESSFUL)
 														? Transform.fromAsciiToEbcdic("S")
 														: Transform.fromAsciiToEbcdic("N"))
-								: "");
+								: "")
+				
+				// compras parciales
+				.append(tranType.equals(TT_GOOD_N_SERVICES) // 11C3F1 monto de costo
+						? Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11C3F1_VALOR_COMPRA)
+								.concat(Transform.fromAsciiToEbcdic(Utils.padLeft("", "0", 15)))
+						: Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11C3F1_VALOR_COMPRA)
+								.concat(Transform.fromAsciiToEbcdic(
+										Utils.padLeft(msg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION), "0", 15))))
+
+				.append(tranType.equals(TT_GOOD_N_SERVICES) // 11912A indicador de autorizacion parcial
+						? Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11912A_AUT_PAGO_PARCIAL)
+								.concat(Transform.fromAsciiToEbcdic(Utils.padLeft("", "0", 15)))
+						: Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11912A_AUT_PAGO_PARCIAL)
+								.concat(Transform.fromAsciiToEbcdic(
+										Utils.padLeft(msg.getStructuredData().get("CompraParcial").substring(149, 150).equals("0") || msg.getStructuredData().get("CompraParcial").substring(149, 150).equals("2") 
+										        ? "N"
+										                : msg.getStructuredData().get("CompraParcial").substring(149, 150).equals("1") || msg.getStructuredData().get("CompraParcial").substring(149, 150).equals("3") 
+										                    ? "S" 
+										                    : null, "0",1 ))))
+
+				
+				
+				;
+		
+		
 
 //				.append(!tranType.equals(TT_BALANCE_INQUIRY_CB) && !tranType.equals(TT_WITHDRAWAL_CB_ATTF)
 //						&& !tranType.equals(TT_REVERSE_CB_ATTF) && !tranType.equals(TT_REP_REVERSE_CB_ATTF)
@@ -2321,6 +2346,8 @@ public class Utils {
 //								? Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11D141_STANDIN_INDICATOR_1)
 //										.concat(Transform.fromAsciiToEbcdic("N"))
 //								: "");
+		
+		
 
 		return sb.toString();
 	}
@@ -4080,7 +4107,9 @@ public class Utils {
 		case "0":
 			if (codOficina.equals("8592") || codOficina.equals("8593")) {
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER_CEL2CEL");
-			} else {
+			} else  if (codOficina.equals("4000")) {
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER_OFICINA");
+			} else{
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER");
 			}
 			break;

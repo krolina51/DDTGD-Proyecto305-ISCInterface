@@ -107,7 +107,7 @@ public class ISCReqMessage extends StreamMessage {
 	/**********************************************************************************
 	 * 
 	 * Metodo auxiliar el mismo es invocado desde el constructor de la clase de manera
-	 * los separadores se coloquen desde la creación misma de los objetos de tipo
+	 * los separadores se coloquen desde la creaciï¿½n misma de los objetos de tipo
 	 * ISCReqMessage
 	 * @param msg
 	 * 
@@ -188,6 +188,11 @@ public class ISCReqMessage extends StreamMessage {
 		public static final String TAG_11E0E2_TRAN_IDENTIFICATOR_4 = "11E0E2";
 		public static final String TAG_11913D_SECURE_AMOUNT_15 = "11913D";
 		public static final String TAG_11914D_PA_MODE = "11914D";
+		
+		// compras parciales
+
+		public static final String TAG_11912A_AUT_PAGO_PARCIAL = "11912A";
+		public static final String TAG_11C3F1_VALOR_COMPRA = "11C3F1";
 		
 		//Miscelaneos
 		private static final String BIN_TRAN_CODE = "450942";

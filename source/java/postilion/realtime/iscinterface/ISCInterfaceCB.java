@@ -1921,6 +1921,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 		return approbedEcho;
 	}
 
+	// aca llega el hexadecimal 
 	@Override
 	public Action processMsgFromRemote(AInterchangeDriverEnvironment interchange, IMessage msg) throws Exception {
 
@@ -1950,7 +1951,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("oriISOMsg Vuelta:" +  oriISOMsg, this.enableMonitor);
 			
 			rspISOMsg = mapResponseAutraISCMsg(rspISCMsg, oriISOMsg);
-		}
+		} //  respuesta desde host
 		else if (className.equals(ISCResMessage.class.getName())) {
 
 			String body = UtilidadesMensajeria
