@@ -89,23 +89,23 @@ public class CashAdvanceTCOficinaAux {
 	public static final int PINBLOCK_INI = 314;
 	public static final int PINBLOCK_FIN = 314 + 16;
 	/*
-	 * public static final int CANTIDAD_CHEQUES_INI = 832; public static final int
-	 * CANTIDAD_CHEQUES_FIN = 832 + 2;
-	 */ // Se deja comentada para evitar NullPointerException porque la trama es de 831
-		// caracteres en total.
-	String ENRUTAR_A_FIRSTDATA = "100";
-	String ENRUTAR_A_ATH_CONEXION_OFICINAS = "50";
-	// String ENRUTAR_A_ATH_CONEXION_INTERNET = "70";
-	String MENSAJE_BASE24_FORMATO_ATM = "1";
-	String MENSAJE_BASE24_FORMATO_POS = "2";
+	 * public static final int CANTIDAD_CHEQUES_INI = 832; 
+	 * public static final int CANTIDAD_CHEQUES_FIN = 832 + 2;
+	 */ 
+	// Se deja comentada para evitar NullPointerException porque la trama es de 831 caracteres en total.
+	
+	public static final String CODIGO_ENTIDAD_BANCO_DE_BOGOTA = "0001";
+	public static final String ENRUTAR_A_FIRSTDATA = "100";
+	public static final String ENRUTAR_A_ATH_CONEXION_OFICINAS = "50";
+	// public static final String ENRUTAR_A_ATH_CONEXION_INTERNET = "70";
+	public static final String MENSAJE_BASE24_FORMATO_ATM = "1";
+	public static final String MENSAJE_BASE24_FORMATO_POS = "2";
 
 	public static final String INITIAL_SPACE = "   ";
 
-	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,
-			boolean enableMonitor, boolean isNextDay) throws XPostilion {
-
-		String tramaCompletaAscii = INITIAL_SPACE
-				+ Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
+	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons, boolean enableMonitor, boolean isNextDay) throws XPostilion 
+	{
+		String tramaCompletaAscii = INITIAL_SPACE + Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 
 		try {
 			BusinessCalendar objectBusinessCalendar = new BusinessCalendar("DefaultBusinessCalendar");
@@ -117,124 +117,117 @@ public class CashAdvanceTCOficinaAux {
 			StructuredData sd = null;
 			StructuredData sdOriginal = new StructuredData();
 
-			if (out.getStructuredData() != null) {
+			if (out.getStructuredData() != null) 
+			{
 				sd = out.getStructuredData();
-			} else {
+			} 
+			else {
 				sd = new StructuredData();
 			}
 
-			if (tramaCompletaAscii.substring(BYTES_ESTADO_INI, BYTES_ESTADO_FIN)
-					.matches("^((040)|(050)|(060)|(070))")) {
+			if (tramaCompletaAscii.substring(BYTES_ESTADO_INI, BYTES_ESTADO_FIN).matches("^((040)|(050)|(060)|(070))")) 
+			{
 				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-			} else {
+			} 
+			else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
 
-			String tranType = "01";
-			String fromAccount = "30";
-			String toAccount = "00";
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 			String codigoOficina = tramaCompletaAscii.substring(COD_OFICINA_INI, COD_OFICINA_FIN);
 			String numeroSecuencia = tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN);
-			String numeroSecuenciaOriginalAReversar = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI,
-					NUM_SEQ_TX_ORIG_A_REVERSAR_FIN);
+			String numeroSecuenciaOriginalAReversar = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI, NUM_SEQ_TX_ORIG_A_REVERSAR_FIN);
 			String tipoMensaje = tramaCompletaAscii.substring(BYTES_ESTADO_INI, BYTES_ESTADO_FIN);
 			/*
 			 * Para la variable tipoMensaje, va a tener alguno de los siguientes valores:
-			 * 000 = Normal 010 = Devolución 020 = Anulación 030 = Anulación de devolución
-			 * 080 = Reverso 040 = Transacción Next Day 050 = Devolución Next Day 060 =
-			 * Anulación NextDay 070 = Anulación Devolución NextDay
+			 * 000 = Normal 
+			 * 010 = Devolución 
+			 * 020 = Anulación 
+			 * 030 = Anulación de devolución
+			 * 040 = Transacción Next Day 
+			 * 050 = Devolución Next Day 
+			 * 060 = Anulación NextDay 
+			 * 070 = Anulación Devolución NextDay
+			 * 080 = Reverso 
 			 */
+			
 			String keyReverse = null;
 			String terminal = tramaCompletaAscii.substring(TERMINAL_INI, TERMINAL_FIN);
-			String numeroIdentificacion = tramaCompletaAscii.substring(NUMERO_IDENTIFICACION_INI,
-					NUMERO_IDENTIFICACION_FIN);
-			String cuentaAAcreditar = tramaCompletaAscii.substring(NUMERO_CUENTA_ACREDITAR_INI,
-					NUMERO_CUENTA_ACREDITAR_FIN);
-			String cuentaADebitar = tramaCompletaAscii.substring(NUMERO_CUENTA_DEBITADA_INI,
-					NUMERO_CUENTA_DEBITADA_FIN);
-			String identificadorPinpad = tramaCompletaAscii.substring(IDENTIFICADOR_PINPAD_INI,
-					IDENTIFICADOR_PINPAD_FIN);
+			String numeroIdentificacion = tramaCompletaAscii.substring(NUMERO_IDENTIFICACION_INI, NUMERO_IDENTIFICACION_FIN);
+			String cuentaAAcreditar = tramaCompletaAscii.substring(NUMERO_CUENTA_ACREDITAR_INI, NUMERO_CUENTA_ACREDITAR_FIN);
+			String cuentaADebitar = tramaCompletaAscii.substring(NUMERO_CUENTA_DEBITADA_INI, NUMERO_CUENTA_DEBITADA_FIN);
+			String identificadorPinpad = tramaCompletaAscii.substring(IDENTIFICADOR_PINPAD_INI, IDENTIFICADOR_PINPAD_FIN);
 			String identificacionCanal = "OF";
-			String modalidadPago = tramaCompletaAscii.substring(MODALIDAD_PAGO_INI, MODALIDAD_PAGO_FIN); // 0:
-																											// CargoCuenta,
-																											// 1:
-																											// Efectivo,
-																											// 2: Cheque
-			String naturalezaPago = tramaCompletaAscii.substring(NATURALEZA_PAGO_INI, NATURALEZA_PAGO_FIN); // 5: Pago
-																											// TC, 6:
-																											// Avance TC
+			String modalidadPago = tramaCompletaAscii.substring(MODALIDAD_PAGO_INI, MODALIDAD_PAGO_FIN); 
+			String naturalezaPago = tramaCompletaAscii.substring(NATURALEZA_PAGO_INI, NATURALEZA_PAGO_FIN); 
+			/*
+			 * VALORES POSIBLES PARA LA NATURALEZA DEL PAGO: 
+			 * 0: CargoCuenta
+			 * 1: Efectivo
+			 * 2: Cheque
+			 * 5: Pago
+			 * 6: Avance TC
+			 */
+			
 			String clasePagoCredito = tramaCompletaAscii.substring(CLASE_PAGO_INI, CLASE_PAGO_FIN);
 			String secuenciaTS = tramaCompletaAscii.substring(SECUENCIA_TS_INI, SECUENCIA_TS_FIN);
-			String codigoEntidadAutorizadoraDebito = tramaCompletaAscii
-					.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_INI, CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_FIN); // Se
-																														// corrigió
-																														// posición
-																														// 72
-																														// por
-																														// posición
-																														// 160.
+			String codigoEntidadAutorizadoraDebito = tramaCompletaAscii.substring(CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_INI, CODIGO_ENTIDAD_QUE_AUTORIZA_EL_DEBITO_FIN);
 			String numeroCuotas = tramaCompletaAscii.substring(NUMERO_DE_CUOTAS_INI, NUMERO_DE_CUOTAS_FIN);
-			String codigoEntidadAdquiriente = "0001";
-			String codigoOficinaAdquiriente = tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI,
-					COD_OFICINA_ADQUIRIENTE_FIN);
+			String codigoEntidadAdquiriente = CODIGO_ENTIDAD_BANCO_DE_BOGOTA;
+			String codigoOficinaAdquiriente = tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN);
 			String base24Field41 = codigoEntidadAdquiriente.concat(codigoOficinaAdquiriente).concat("00003   ");
 			String p41 = base24Field41.substring(0, 8);
-			String base24Field42 = "380000000000000"; // Examinar en AUTRA si el valor es distinto de espacios, y si es
-														// quemado o calculado o copiado.
-			String codigoDaneCiudadOficinaAdquiriente = tramaCompletaAscii
-					.substring(CODIGO_DANE_OFICINA_ADQUIRIENTE_INI, CODIGO_DANE_OFICINA_ADQUIRIENTE_FIN);
-			String nombreOficinaAdquiriente = tramaCompletaAscii.substring(NOMBRE_OFICINA_ADQUIRIENTE_INI,
-					NOMBRE_OFICINA_ADQUIRIENTE_FIN);
+			String base24Field42 = "380000000000000"; // Examinar en AUTRA si el valor es distinto de espacios, y si es quemado o calculado o copiado.
+			String codigoDaneCiudadOficinaAdquiriente = tramaCompletaAscii.substring(CODIGO_DANE_OFICINA_ADQUIRIENTE_INI, CODIGO_DANE_OFICINA_ADQUIRIENTE_FIN);
+			String nombreOficinaAdquiriente = tramaCompletaAscii.substring(NOMBRE_OFICINA_ADQUIRIENTE_INI, NOMBRE_OFICINA_ADQUIRIENTE_FIN);
 			String tipoCuentaDebito = tramaCompletaAscii.substring(TIPO_CUENTA_DEBITADA_INI, TIPO_CUENTA_DEBITADA_FIN);
 			String FI_Tarjeta = "";
 			String track2 = tramaCompletaAscii.substring(TRACK2_INI, TRACK2_FIN);
 			String fechaVencimiento = track2.substring(17, 21);
-			String serial = tramaCompletaAscii.substring(SERIAL_INI, SERIAL_FIN);
+			String serialPinpad = tramaCompletaAscii.substring(SERIAL_INI, SERIAL_FIN);
 			String pinBlock = tramaCompletaAscii.substring(PINBLOCK_INI, PINBLOCK_FIN);
-			// String cantidadCheques = tramaCompletaAscii.substring(CANTIDAD_CHEQUES_INI,
-			// CANTIDAD_CHEQUES_FIN); // Se deja comentada para evitar NullPointerException
-			// porque la trama es de 831 caracteres en total.
+			// String cantidadCheques = tramaCompletaAscii.substring(CANTIDAD_CHEQUES_INI, CANTIDAD_CHEQUES_FIN); // Se deja comentada para evitar NullPointerException porque la trama es de 831 caracteres en total.
 			String p37 = "0901".concat(codigoOficinaAdquiriente).concat(numeroSecuencia);
 			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String binTarjeta = "000000000000000000";
 
+			/****************************** VALIDACIÓN DE TITULARIDAD ******************************/
 			String msgFromValidationTC = "";
 			//Validacion Titularidad, trae informacion nombre e identificacion del tarjetahabiente solo para tarjeta Bco Bta
-			if( codigoEntidadAutorizadoraDebito.equals("0001") ) {
+			if( codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA) ) {
 				Client udpClientValidation = new Client(ISCInterfaceCB.ipServerValidation, ISCInterfaceCB.portServerValidation);				
 				msgFromValidationTC = udpClientValidation.sendMsgForValidationTitular(cuentaADebitar, enableMonitor);
 			}
+			/****************************** FIN DE VALIDACIÓN DE TITULARIDAD ******************************/
 
 			String p22 = "010";
-			if (codigoOficina.substring(0, 1).equals("4") && identificadorPinpad.equals("PP")) {
+			if (codigoOficina.startsWith("4") && identificadorPinpad.equals("PP")) 
+			{
 				p22 = "051";
 			}
 
 			String franquicia = " ";
-			String typeMsg = "  ";
+			String formatoMensajeBase24 = "  ";
 			String token_BM = "";
 			String token_03 = "";
 			String token_24 = "";
 			String token_B4 = "";
 			String token_QT = "";
-			if (codigoEntidadAutorizadoraDebito.equals("0001")) {
-				typeMsg = MENSAJE_BASE24_FORMATO_ATM;
-			} else {
-				typeMsg = MENSAJE_BASE24_FORMATO_POS;
-			}
-			// typeMsg = codigoEntidadAutorizadoraDebito.equals("0001") ?
-			// MENSAJE_BASE24_FORMATO_ATM : MENSAJE_BASE24_FORMATO_POS; // Para TC BBOG es
-			// "1". Para otras TC es "2".
-
-			// -------------------Lógica Tokens First Data formato POS - Inicio
-			// ---------------------
-			if (typeMsg.equals(MENSAJE_BASE24_FORMATO_POS)) // Si formato mensaje es POS
+			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA)) 
 			{
+				formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_ATM;
+			} 
+			else {
+				formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_POS;
+			}
+			// Para TC BBOG el formato de mensaje Base24 es "1". Para otras TC es "2".
 
+			// -------------------Lógica Tokens First Data formato POS - Inicio ---------------------
+			if (formatoMensajeBase24.equals(MENSAJE_BASE24_FORMATO_POS)) // Si formato mensaje es POS
+			{
 				// Token 04
 				String token_04 = "! 0400020  00000000000Y     Y0";
 				// Token BM
@@ -256,41 +249,48 @@ public class CashAdvanceTCOficinaAux {
 				// Token C0
 				String token_C0 = "! C000026                   2";
 
-				if (cuentaAAcreditar.substring(0, 1).equals("5")) {
+				if (cuentaAAcreditar.startsWith("5")) 
+				{
 					franquicia = "M";
 				}
+				
 				String fld_present = "0";
-				if (identificadorPinpad.equals("PP")) { // Transacción presente
+				if (identificadorPinpad.equals("PP")) // Tarjeta presente 
+				{
 					fld_present = "1";
 				}
 
 				token_C0 = token_C0.concat(franquicia).concat(" ").concat(fld_present).concat("    ");
 				// Token C4
+				
 				String crdhldr_present_ind = "0";
+				
 				String crd_present_ind = "0";
-				if (codigoOficina.substring(0, 1).equals("4")) // Si es en Oficina
+				if (codigoOficina.startsWith("4")) // Si es en Oficina
 				{
 					crdhldr_present_ind = "5";
 					crd_present_ind = "1";
 				}
+
 				String token_C4 = "! C400012 1 2".concat(crdhldr_present_ind).concat(crd_present_ind).concat("00  600");
 				// Token Q4
 				String moneda = "170"; // Moneda Pesos
-				if (codigoOficina.substring(0, 1).equals("4") && codigoOficina.substring(1, 2).equals("1"))
+				if (codigoOficina.startsWith("4") && codigoOficina.substring(1, 2).equals("1"))
 					moneda = "840"; // Moneda Dolares
-				String token_Q4 = "! Q400122 ".concat(
-						"000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-						.concat(moneda).concat("00").concat(settlementDate).concat("00000000000000000000000000");
-			}
-			// -------------------Logica Tokens First Data formato POS - Fin
-			// ---------------------
-			else {
-				// -------------------Logica Tokens First Data formato ATM - Inicio
-				// ---------------------
+				
+				String token_Q4 = "! Q400122 "
+						.concat("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
+						.concat(moneda)
+						.concat("00")
+						.concat(settlementDate)
+						.concat("00000000000000000000000000");
+			}	// -------------------Logica Tokens First Data formato POS - Fin ---------------------
+			else {	// -------------------Logica Tokens First Data formato ATM - Inicio ---------------------
+				
 				// Token 03
 				String cardVerifyFlag = "  ";
 
-				if (typeMsg.equals(MENSAJE_BASE24_FORMATO_ATM)) // Si formato mensaje es ATM
+				if (formatoMensajeBase24.equals(MENSAJE_BASE24_FORMATO_ATM)) // Si formato mensaje es ATM
 					cardVerifyFlag = " Y";
 				else // Si formato mensaje es POS
 					cardVerifyFlag = "PN";
@@ -298,7 +298,7 @@ public class CashAdvanceTCOficinaAux {
 				token_03 = "! 0300006 01".concat(cardVerifyFlag).concat("00");
 
 				// Token 24
-				if (cuentaADebitar.substring(0, 1).equals("4"))
+				if (cuentaADebitar.startsWith("4"))
 					franquicia = "V "; // Visa
 				else
 					franquicia = "M "; // Mastercard
@@ -314,11 +314,9 @@ public class CashAdvanceTCOficinaAux {
 					token_BM = "! BM00036 Q101013000      00000000000000000000";
 
 				// Token QT
-				token_QT = "! QT00032 013000".concat("0000").concat(numeroIdentificacion.substring(4, 12))
-						.concat("00000000000000");
+				token_QT = "! QT00032 013000".concat("0000").concat(numeroIdentificacion.substring(4, 12)).concat("00000000000000");
 			}
-			// -------------------Logica Tokens First Data formato ATM - Fin
-			// ---------------------
+			// -------------------Logica Tokens First Data formato ATM - Fin ---------------------
 
 			// ***********************************************************************************************************************
 			// TRANSLATE PIN
@@ -327,20 +325,18 @@ public class CashAdvanceTCOficinaAux {
 				try {
 					Crypto crypto = new Crypto(enableMonitor);
 					PinPad pinpad = new PinPad();
-//					String codigoOficina = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(356, 364)));
-//					String serial = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(548,568)));
-//					String terminal = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
+					//String terminalPinpad = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
 					String pan = track2.substring(0, 16);
 					CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
 					DesKwp kwpAth = crypcfgman.getKwp("KPE_FIRST_DATA");
 					Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
 
-					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficinaAdquiriente + serial);
+					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficinaAdquiriente + serialPinpad);
 					Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
 					if (pinpad == null) {
 						ISCInterfaceCB.pinpadData.clear();
 						ISCInterfaceCB.pinpadData = DBHandler.loadPinPadKeys();
-						pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficinaAdquiriente + serial);
+						pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficinaAdquiriente + serialPinpad);
 					}
 					if (pinpad == null || pinpad.getKey_exc() == null) {
 						sd.put("ERROR", "PINPAD NO INICIALIZADO O SIN LLAVE DE INTERCAMBIO");
@@ -366,6 +362,7 @@ public class CashAdvanceTCOficinaAux {
 					EventRecorder.recordEvent(new Exception(e.toString()));
 				}
 			}
+			// FIN DE TRANSLATE PIN
 			// ***********************************************************************************************************************
 
 			// CAMPO 3 PROCESSING CODE
@@ -390,8 +387,9 @@ public class CashAdvanceTCOficinaAux {
 			out.putField(Iso8583Post.Bit._041_CARD_ACCEPTOR_TERM_ID, p41);
 			// TRACK2 Field 43
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC,
-					codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente).concat(codigoDaneCiudadOficinaAdquiriente)
-							.concat("             "));
+					codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente)
+					.concat(codigoDaneCiudadOficinaAdquiriente)
+					.concat("             "));
 			// CAMPO 49
 			out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); // "170" indica pesos colombianos.
 			// CAMPO 52
@@ -402,31 +400,29 @@ public class CashAdvanceTCOficinaAux {
 			out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
 
 			if (naturalezaPago.equals("6") // si es AVANCE
-					&& codigoOficina.startsWith("4") // y si es en OFICINA
+				&& codigoOficina.startsWith("4") // y si es en OFICINA
 			)
-				if (codigoEntidadAutorizadoraDebito.equals("0001") && codigoOficina.substring(0, 1).equals("4")
-						&& identificadorPinpad.equals("PP")) {
-					sd.put("indicator_product", MENSAJE_BASE24_FORMATO_ATM); // INDICADOR DE MENSAJE BASE24 EN FORMATO
-																				// "ATM"
-					sd.put("CHANNEL_PCODE", "OFICINA_ATM"); // INDICADOR DE TRANSACCIÓN EN OFICINA. DEBE COINCIDIR CON
-															// LO QUE VA ANTES DEL PROCESSING_CODE EN LA LLAVE EN EL
-															// ARCHIVO JsonHashPrd.json
+				if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA) && codigoOficina.substring(0, 1).equals("4")
+					&& identificadorPinpad.equals("PP")
+					) 
+				{
+					sd.put("indicator_product", MENSAJE_BASE24_FORMATO_ATM); // INDICADOR DE MENSAJE BASE24 EN FORMATO "ATM"
+					sd.put("CHANNEL_PCODE", "OFICINA_ATM"); // INDICADOR DE TRANSACCIÓN EN OFICINA. DEBE COINCIDIR CON LO QUE VA ANTES DEL PROCESSING_CODE EN LA LLAVE EN EL ARCHIVO JsonHashPrd.json
 					binTarjeta = "007701000000000000";
 
 					/*
-					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4 json, 7, 11 json, 12, 13, 15,
-					 * 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52
-					 * json, 59, 98 json, 100, 123 json.
+					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
+					 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
 					 */
 
 					// CAMPO 100 PARA ENRUTAMIENTO
 					out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_FIRSTDATA); // Enruta a FirstData
 
 					/*
-					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 17, 18, 22, 32,
-					 * 35, 37, 41, 43, 48, 49, 52, 60, 61, 100, 126. Entonces, en el archivo
-					 * "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos
-					 * simples: 15, 25, 26, 42, 98, 123
+					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 
+					 * 3, 4, 7, 11, 12, 13, 17, 18, 22, 32, 35, 37, 41, 43, 48, 49, 52, 60, 61, 100, 126. 
+					 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
+					 * 15, 25, 26, 42, 98, 123
 					 */
 
 					// 127.22 TAG B24_Field_17
@@ -447,8 +443,7 @@ public class CashAdvanceTCOficinaAux {
 					sd.put("B24_Field_61", "000100000000000");
 					// 127.22 TAG B24_Field_100 RECV_INST_ID
 					sd.put("B24_Field_100", "10000000001");
-					// 127.22 TAG B24_Field_126 longitud total: 166 Tokens: 03, 24, B4, BM, QT (ojo:
-					// token QT varía entre mensajes 0200 y 0210)
+					// 127.22 TAG B24_Field_126 longitud total: 166 Tokens: 03, 24, B4, BM, QT (ojo: token QT varía entre mensajes 0200 y 0210)
 					sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4)
 							.concat(token_BM).concat(token_QT));
 					// 127.22 TAG ERROR
@@ -474,19 +469,17 @@ public class CashAdvanceTCOficinaAux {
 					sd.put("CHANNEL_PCODE", "OFICINA_POS"); // INDICADOR DE TRANSACCIÓN EN OFICINA.
 
 					/*
-					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4 json, 7, 11 json, 12, 13, 15,
-					 * 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52
-					 * json, 59, 98 json, 100, 123 json.
+					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
+					 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
 					 */
 
 					// CAMPO 100 PARA ENRUTAMIENTO
 					out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_ATH_CONEXION_OFICINAS); // Enruta a ATH
 
 					/*
-					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 32, 35,
-					 * 37, 41, 42, 43, 48, 49, 52, 102, 104, 126. Entonces, en el archivo
-					 * "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos
-					 * simples: 22, 25, 26, 42, 59, 98, 100, 123
+					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 32, 35, 37, 41, 42, 43, 48, 49, 52, 102, 104, 126. 
+					 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
+					 * 22, 25, 26, 42, 59, 98, 100, 123
 					 */
 
 					// 127.22 TAG B24_Field_17
@@ -496,8 +489,7 @@ public class CashAdvanceTCOficinaAux {
 					// 127.22 TAG B24_Field_41
 					sd.put("B24_Field_41", base24Field41);
 					// 127.22 TAG B24_Field_42
-					sd.put("B24_Field_42", base24Field42); // Examinar en AUTRA si el valor es distinto de espacios, y
-															// si es quemado o calculado o copiado.
+					sd.put("B24_Field_42", base24Field42); // Examinar en AUTRA si el valor es distinto de espacios, y si es quemado o calculado o copiado.
 					// CAMPO 48
 					sd.put("B24_Field_48", "000000000000               ");
 					// 127.22 TAG B24_Field_52
@@ -529,7 +521,7 @@ public class CashAdvanceTCOficinaAux {
 				} // FIN DE LÓGICA PARA TARJETAS AVAL (ATH)
 			
 			if (tipoMensaje.equals("080") // Reverso
-					|| tipoMensaje.equals("020") // Anulación
+				|| tipoMensaje.equals("020") // Anulación
 			) {
 				String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00")
@@ -567,11 +559,8 @@ public class CashAdvanceTCOficinaAux {
 
 			} // FIN DE PROCESAMIENTO DE REVERSO
 			else {
-				// out.putField(Iso8583Post.Bit._059_ECHO_DATA,
-				// Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406,
-				// 414))));
-				// out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia); // VALIDAR CON
-				// MENESES SI ESTE CAMPO APLICA A MENSAJE ISO8583 PARA TC BBOG Y TC AVAL
+				// out.putField(Iso8583Post.Bit._059_ECHO_DATA, Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
+				// out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia); // VALIDAR CON MENESES SI ESTE CAMPO APLICA A MENSAJE ISO8583 PARA TC BBOG Y TC AVAL
 				// 127.2 SWITCHKEY
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
 				ISCInterfaceCB.cacheKeyReverseMap.put(numeroSecuencia, key);
@@ -581,43 +570,50 @@ public class CashAdvanceTCOficinaAux {
 
 			// PROCESAMIENTO DE REVERSO
 			/*
-			 * if ( tipoMensaje.equals("080") //Reverso || tipoMensaje.equals("020")
-			 * //Anulación ) { sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN
-			 * DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
+			 * if ( tipoMensaje.equals("080") 	//Reverso 
+			 * || tipoMensaje.equals("020")		//Anulación ) 
+			 * { 
+			 * sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
 			 * 
-			 * String key420 =
-			 * "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate
-			 * ); String keyAnulacion =
-			 * "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate
-			 * );
+			 * String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate); 
+			 * String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			 * 
-			 * Logger.logLine("sdOriginal:\n" + sdOriginal, enableMonitor); keyReverse =
-			 * sdOriginal.get("KeyOriginalTx"); if(keyReverse == null) { keyReverse =
-			 * "0000000000"; sd.put("REV_DECLINED", "TRUE"); } else {
-			 * out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse,
-			 * 42, '0', true)); out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY,
-			 * key420); //out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY,
-			 * keyReverse); sd.put("B24_Field_95",
-			 * "000000000000000000000000000000000000000000"); sd.put("KEY_REVERSE",
-			 * keyReverse); sd.put("B24_Field_90", keyReverse+"0000000000");
+			 * Logger.logLine("sdOriginal:\n" + sdOriginal, enableMonitor);
+			 * keyReverse = sdOriginal.get("KeyOriginalTx");
+			 * if(keyReverse == null) 
+			 * { 
+			 * keyReverse = "0000000000";
+			 * sd.put("REV_DECLINED", "TRUE"); 
+			 * } 
+			 * else {
+			 * out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
+			 * //out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+			 * sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+			 * sd.put("KEY_REVERSE", keyReverse);
+			 * sd.put("B24_Field_90", keyReverse+"0000000000");
 			 * //sd.put("B24_Field_37", keyReverse.substring(4,16));
 			 * 
-			 * if (tipoMensaje.equals("020")) { sd.put("ANULACION", "TRUE");
-			 * sd.put("B24_Field_15", settlementDate); sd.put("B24_Field_38",
-			 * sdOriginal.get("Autorizacion_Original")); sd.put("KeyOriginalTx",
-			 * keyReverse); sd.put("B24_Field_52", "0000000000000000");
-			 * sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original"))
-			 * .concat("000000000000000000") .concat(sdOriginal.get("Monto_Original")));
-			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion); } }
+			 * if (tipoMensaje.equals("020")) 
+			 * {
+			 * sd.put("ANULACION", "TRUE");
+			 * sd.put("B24_Field_15", settlementDate);
+			 * sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
+			 * sd.put("KeyOriginalTx", keyReverse);
+			 * sd.put("B24_Field_52", "0000000000000000");
+			 * sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original")).concat("000000000000000000") .concat(sdOriginal.get("Monto_Original")));
+			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
+			 * }
+			 * }
 			 * 
-			 * } // FIN DE PROCESAMIENTO DE REVERSO else {
-			 * //out.putField(Iso8583Post.Bit._059_ECHO_DATA,
-			 * Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().
-			 * substring(406, 414)))); //out.putField(Iso8583Post.Bit._059_ECHO_DATA,
-			 * numeroSecuencia); // VALIDAR CON MENESES SI ESTE CAMPO APLICA A MENSAJE
-			 * ISO8583 PARA TC BBOG Y TC AVAL // 127.2 SWITCHKEY
+			 * } // FIN DE PROCESAMIENTO DE REVERSO
+			 *  else {
+			 * //out.putField(Iso8583Post.Bit._059_ECHO_DATA, Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
+			 * //out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia); // VALIDAR CON MENESES SI ESTE CAMPO APLICA A MENSAJE ISO8583 PARA TC BBOG Y TC AVAL
+			 * // 127.2 SWITCHKEY
 			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
-			 * ISCInterfaceCB.cacheKeyReverseMap.put(numeroSecuencia, key); }
+			 * ISCInterfaceCB.cacheKeyReverseMap.put(numeroSecuencia, key);
+			 * }
 			 */
 
 			// 127.22 TAG MSG_HEXA
@@ -633,7 +629,7 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Ind_4xmil", "1");
 			sd.put("Tarjeta_Amparada", cuentaADebitar);
 
-			if (codigoEntidadAutorizadoraDebito.equals("0001")) // Si es Banco de Bogotá
+			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA)) // Si es Banco de Bogotá
 			{
 				sd.put("Codigo_Transaccion_Producto", "02");
 				sd.put("Tipo_de_Cuenta_Debitada", "CRE");
@@ -670,7 +666,7 @@ public class CashAdvanceTCOficinaAux {
 				sd.put("Nombre_Transaccion", "ONESID");
 				sd.put("BIN_Cuenta", "000000");
 				sd.put("PRIM_ACCOUNT_NR", cuentaADebitar);
-				sd.put("FI_DEBITO", "0001");
+				sd.put("FI_DEBITO", CODIGO_ENTIDAD_BANCO_DE_BOGOTA);
 				sd.put("FI_CREDITO", codigoEntidadAutorizadoraDebito);
 				sd.put("SEC_ACCOUNT_NR_PAGOTC", cuentaAAcreditar);
 				sd.put("SEC_ACCOUNT_TYPE", "CRE");
@@ -711,7 +707,7 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Identificacion_Canal", identificacionCanal);
 			sd.put("Codigo_Establecimiento", "          ");
 
-			if (!msgFromValidationTC.startsWith("NO") && codigoEntidadAutorizadoraDebito.equals("0001"))
+			if (!msgFromValidationTC.startsWith("NO") && codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA))
 			{
 				sd.put("CUSTOMER_NAME", msgFromValidationTC.substring(3,29));	
 				sd.put("ID_CLIENT", msgFromValidationTC.substring(36,49));
@@ -723,13 +719,12 @@ public class CashAdvanceTCOficinaAux {
 			}
 
 			sd.put("TITULAR_TC",msgFromValidationTC);
-			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL"); // DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN
-																	// OFICINA.
+			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL"); // DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA.
 			sd.put("Indicador_AVAL", "1");
 			sd.put("SECUENCIA_REQ", secuenciaTS);
 			sd.put("Mod_Credito", naturalezaPago);
 			sd.put("Clase_Pago", clasePagoCredito);
-			sd.put("Ent_Adq", "0001");
+			sd.put("Ent_Adq", CODIGO_ENTIDAD_BANCO_DE_BOGOTA);
 			sd.put("Dispositivo", "B");
 			sd.put("Numero_de_cuotas_AV", numeroCuotas);
 			sd.put("Canal", "01");
@@ -738,6 +733,8 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Entidad", "0000");
 			sd.put("Identificador_Terminal", "0");
 			sd.put("Indicador_Efectivo_Cheque", modalidadPago);
+			
+			sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
 
 			out.putStructuredData(sd);
 
