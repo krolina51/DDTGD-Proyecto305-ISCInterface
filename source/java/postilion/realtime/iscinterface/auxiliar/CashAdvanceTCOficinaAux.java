@@ -28,6 +28,9 @@ import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
 
 public class CashAdvanceTCOficinaAux {
+	public static int pos9f27,pos95,pos9f26,pos9f02,pos9f03,pos82,pos9f36,pos9f1a,pos5f2a,pos9a,pos9c,pos9f37,pos9f10;
+	public static int pos9f1e,pos9f33,pos9f35,pos9f09,pos9f34,pos84;
+	public static int pos9f39,pos5f34;
 	public static final int TERMINAL_INI = 14;
 	public static final int TERMINAL_FIN = 14 + 4;
 	public static final int COD_OFICINA_INI = 18;
@@ -88,16 +91,12 @@ public class CashAdvanceTCOficinaAux {
 	public static final int SERIAL_FIN = 277 + 10;
 	public static final int PINBLOCK_INI = 314;
 	public static final int PINBLOCK_FIN = 314 + 16;
-	/*
-	 * public static final int CANTIDAD_CHEQUES_INI = 832; 
-	 * public static final int CANTIDAD_CHEQUES_FIN = 832 + 2;
-	 */ 
-	// Se deja comentada para evitar NullPointerException porque la trama es de 831 caracteres en total.
+	public static final int DATA_EMV_INI = 332;
+	public static final int DATA_EMV_FIN = 332 + 499; 
 	
 	public static final String CODIGO_ENTIDAD_BANCO_DE_BOGOTA = "0001";
 	public static final String ENRUTAR_A_FIRSTDATA = "100";
 	public static final String ENRUTAR_A_ATH_CONEXION_OFICINAS = "50";
-	// public static final String ENRUTAR_A_ATH_CONEXION_INTERNET = "70";
 	public static final String MENSAJE_BASE24_FORMATO_ATM = "1";
 	public static final String MENSAJE_BASE24_FORMATO_POS = "2";
 
@@ -155,7 +154,6 @@ public class CashAdvanceTCOficinaAux {
 			 */
 			
 			String keyReverse = null;
-			String terminal = tramaCompletaAscii.substring(TERMINAL_INI, TERMINAL_FIN);
 			String numeroIdentificacion = tramaCompletaAscii.substring(NUMERO_IDENTIFICACION_INI, NUMERO_IDENTIFICACION_FIN);
 			String cuentaAAcreditar = tramaCompletaAscii.substring(NUMERO_CUENTA_ACREDITAR_INI, NUMERO_CUENTA_ACREDITAR_FIN);
 			String cuentaADebitar = tramaCompletaAscii.substring(NUMERO_CUENTA_DEBITADA_INI, NUMERO_CUENTA_DEBITADA_FIN);
@@ -180,19 +178,17 @@ public class CashAdvanceTCOficinaAux {
 			String codigoOficinaAdquiriente = tramaCompletaAscii.substring(COD_OFICINA_ADQUIRIENTE_INI, COD_OFICINA_ADQUIRIENTE_FIN);
 			String base24Field41 = codigoEntidadAdquiriente.concat(codigoOficinaAdquiriente).concat("00003   ");
 			String p41 = base24Field41.substring(0, 8);
-			String base24Field42 = "380000000000000"; // Examinar en AUTRA si el valor es distinto de espacios, y si es quemado o calculado o copiado.
 			String codigoDaneCiudadOficinaAdquiriente = tramaCompletaAscii.substring(CODIGO_DANE_OFICINA_ADQUIRIENTE_INI, CODIGO_DANE_OFICINA_ADQUIRIENTE_FIN);
 			String nombreOficinaAdquiriente = tramaCompletaAscii.substring(NOMBRE_OFICINA_ADQUIRIENTE_INI, NOMBRE_OFICINA_ADQUIRIENTE_FIN);
 			String tipoCuentaDebito = tramaCompletaAscii.substring(TIPO_CUENTA_DEBITADA_INI, TIPO_CUENTA_DEBITADA_FIN);
-			String FI_Tarjeta = "";
 			String track2 = tramaCompletaAscii.substring(TRACK2_INI, TRACK2_FIN);
 			String fechaVencimiento = track2.substring(17, 21);
 			String serialPinpad = tramaCompletaAscii.substring(SERIAL_INI, SERIAL_FIN);
 			String pinBlock = tramaCompletaAscii.substring(PINBLOCK_INI, PINBLOCK_FIN);
-			// String cantidadCheques = tramaCompletaAscii.substring(CANTIDAD_CHEQUES_INI, CANTIDAD_CHEQUES_FIN); // Se deja comentada para evitar NullPointerException porque la trama es de 831 caracteres en total.
 			String p37 = "0901".concat(codigoOficinaAdquiriente).concat(numeroSecuencia);
 			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-			String binTarjeta = "000000000000000000";
+			String binTarjeta = "007701000000000000";
+			String dataEmv = tramaCompletaAscii.substring(DATA_EMV_INI);
 
 			/****************************** VALIDACIÓN DE TITULARIDAD ******************************/
 			String msgFromValidationTC = "";
@@ -204,47 +200,26 @@ public class CashAdvanceTCOficinaAux {
 			/****************************** FIN DE VALIDACIÓN DE TITULARIDAD ******************************/
 
 			String p22 = "010";
+			/* Para transacciones con tarjeta presente, se usa formato ATM. En caso contrario, formato POS. */
+			String formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_POS;
 			if (codigoOficina.startsWith("4") && identificadorPinpad.equals("PP")) 
 			{
 				p22 = "051";
+				formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_ATM;
 			}
 
 			String franquicia = " ";
-			String formatoMensajeBase24 = "  ";
 			String token_BM = "";
 			String token_03 = "";
 			String token_24 = "";
 			String token_B4 = "";
 			String token_QT = "";
-			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA)) 
-			{
-				formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_ATM;
-			} 
-			else {
-				formatoMensajeBase24 = MENSAJE_BASE24_FORMATO_POS;
-			}
-			// Para TC BBOG el formato de mensaje Base24 es "1". Para otras TC es "2".
-
+			
 			// -------------------Lógica Tokens First Data formato POS - Inicio ---------------------
 			if (formatoMensajeBase24.equals(MENSAJE_BASE24_FORMATO_POS)) // Si formato mensaje es POS
 			{
-				// Token 04
-				String token_04 = "! 0400020  00000000000Y     Y0";
 				// Token BM
-				switch (modalidadPago) {
-				case "0": // Cargo cuenta
-					if (tipoCuentaDebito.equals("1"))
-						token_BM = "! BM00036 Q401502030      00000000000000000000";
-					else
-						token_BM = "! BM00036 Q401501030      00000000000000000000";
-					break;
-				case "1": // Efectivo
-					token_BM = "! BM00036 Q406500130      00000000000000000000";
-					break;
-				case "2": // Cheque
-					token_BM = "! BM00036 Q406500230      00000000000000000000";
-					break;
-				}
+				token_BM = "! BM00036 Q401501030      00000000000000000000";
 
 				// Token C0
 				String token_C0 = "! C000026                   2";
@@ -261,31 +236,11 @@ public class CashAdvanceTCOficinaAux {
 				}
 
 				token_C0 = token_C0.concat(franquicia).concat(" ").concat(fld_present).concat("    ");
-				// Token C4
-				
-				String crdhldr_present_ind = "0";
-				
-				String crd_present_ind = "0";
-				if (codigoOficina.startsWith("4")) // Si es en Oficina
-				{
-					crdhldr_present_ind = "5";
-					crd_present_ind = "1";
-				}
-
-				String token_C4 = "! C400012 1 2".concat(crdhldr_present_ind).concat(crd_present_ind).concat("00  600");
-				// Token Q4
-				String moneda = "170"; // Moneda Pesos
-				if (codigoOficina.startsWith("4") && codigoOficina.substring(1, 2).equals("1"))
-					moneda = "840"; // Moneda Dolares
-				
-				String token_Q4 = "! Q400122 "
-						.concat("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000")
-						.concat(moneda)
-						.concat("00")
-						.concat(settlementDate)
-						.concat("00000000000000000000000000");
-			}	// -------------------Logica Tokens First Data formato POS - Fin ---------------------
-			else {	// -------------------Logica Tokens First Data formato ATM - Inicio ---------------------
+			}	
+			// -------------------Logica Tokens First Data formato POS - Fin ---------------------
+			
+			// -------------------Logica Tokens First Data formato ATM - Inicio ---------------------
+			else {	
 				
 				// Token 03
 				String cardVerifyFlag = "  ";
@@ -325,10 +280,17 @@ public class CashAdvanceTCOficinaAux {
 				try {
 					Crypto crypto = new Crypto(enableMonitor);
 					PinPad pinpad = new PinPad();
-					//String terminalPinpad = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(568,588)));
 					String pan = track2.substring(0, 16);
 					CryptoCfgManager crypcfgman = CryptoManager.getStaticConfiguration();
-					DesKwp kwpAth = crypcfgman.getKwp("KPE_FIRST_DATA");
+					
+					DesKwp kwpAth;
+					if(codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA))
+					{
+						kwpAth = crypcfgman.getKwp("KPE_FIRST_DATA");
+					}
+					else {
+						kwpAth = crypcfgman.getKwp("ATH_KPE_OFI");
+					}
 					Logger.logLine("kwp:" + kwpAth.getName(), enableMonitor);
 
 					pinpad = (PinPad) ISCInterfaceCB.pinpadData.get(codigoOficinaAdquiriente + serialPinpad);
@@ -366,8 +328,6 @@ public class CashAdvanceTCOficinaAux {
 			// ***********************************************************************************************************************
 
 			// CAMPO 3 PROCESSING CODE
-			// out.putField(Iso8583.Bit._003_PROCESSING_CODE,
-			// tranType.concat(fromAccount).concat(toAccount));
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, "013000");
 			// CAMPO 7 TRANSMISSION DATE N TIME
 			out.putField(Iso8583.Bit._007_TRANSMISSION_DATE_TIME, new DateTime(5).get("MMddHHmmss"));
@@ -399,127 +359,162 @@ public class CashAdvanceTCOficinaAux {
 			// TRACK2 Field 98
 			out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
 
-			if (naturalezaPago.equals("6") // si es AVANCE
-				&& codigoOficina.startsWith("4") // y si es en OFICINA
-			)
-				if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA) && codigoOficina.substring(0, 1).equals("4")
-					&& identificadorPinpad.equals("PP")
-					) 
-				{
-					sd.put("indicator_product", MENSAJE_BASE24_FORMATO_ATM); // INDICADOR DE MENSAJE BASE24 EN FORMATO "ATM"
-					sd.put("CHANNEL_PCODE", "OFICINA_ATM"); // INDICADOR DE TRANSACCIÓN EN OFICINA. DEBE COINCIDIR CON LO QUE VA ANTES DEL PROCESSING_CODE EN LA LLAVE EN EL ARCHIVO JsonHashPrd.json
-					binTarjeta = "007701000000000000";
-
-					/*
-					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
-					 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
-					 */
-
-					// CAMPO 100 PARA ENRUTAMIENTO
-					out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_FIRSTDATA); // Enruta a FirstData
-
-					/*
-					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 
-					 * 3, 4, 7, 11, 12, 13, 17, 18, 22, 32, 35, 37, 41, 43, 48, 49, 52, 60, 61, 100, 126. 
-					 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
-					 * 15, 25, 26, 42, 98, 123
-					 */
-
-					// 127.22 TAG B24_Field_17
-					sd.put("B24_Field_17", settlementDate);
-					// 127.22 TAG B24_Field_18
-					sd.put("B24_Field_18", "6010");
-					// 127.22 TAG B24_Field_35
-					sd.put("B24_Field_35", track2.substring(0, 37));
-					// 127.22 TAG B24_Field_41
-					sd.put("B24_Field_41", base24Field41);
-					// CAMPO 48
-					sd.put("B24_Field_48", "1                       10000017000000000000");
-					// 127.22 TAG B24_Field_52
-					sd.put("B24_Field_52", newPin);
-					// 127.22 TAG B24_Field_60
-					sd.put("B24_Field_60", "P801P8010000");
-					// 127.22 TAG B24_Field_61
-					sd.put("B24_Field_61", "000100000000000");
-					// 127.22 TAG B24_Field_100 RECV_INST_ID
-					sd.put("B24_Field_100", "10000000001");
-					// 127.22 TAG B24_Field_126 longitud total: 166 Tokens: 03, 24, B4, BM, QT (ojo: token QT varía entre mensajes 0200 y 0210)
-					sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4)
-							.concat(token_BM).concat(token_QT));
-					// 127.22 TAG ERROR
-					if (msgFromValidationTC.startsWith("NO")) 
-						sd.put("ERROR", "TARJETA NO EXISTE");
-					
-					sd.put("SEC_ACCOUNT_TYPE", "   ");
-
-					// PROCESAMIENTO DE REVERSO
-					/*
-					 * ISO8583post DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 22, 25,
-					 * 41, 42, 43, 49,
-					 */
-					/*
-					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 18, 22,
-					 * 32, 35, 37, 38, 39, 41, 43, 48, 49, 52, 60, 61, 90, 100, 126.
-					 */
-					
-
-				} // FIN LÓGICA PARA TARJETAS BBOG (FIRSTDATA)
-				else { // INICIO DE LÓGICA PARA TARJETAS AVAL (ATH)
-					sd.put("indicator_product", MENSAJE_BASE24_FORMATO_POS); // INDICADOR DE MENSAJE BASE24 EN FORMATO "POS".
-					sd.put("CHANNEL_PCODE", "OFICINA_POS"); // INDICADOR DE TRANSACCIÓN EN OFICINA.
-
-					/*
-					 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
-					 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
-					 */
-
-					// CAMPO 100 PARA ENRUTAMIENTO
-					out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_ATH_CONEXION_OFICINAS); // Enruta a ATH
-
-					/*
-					 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 32, 35, 37, 41, 42, 43, 48, 49, 52, 102, 104, 126. 
-					 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
-					 * 22, 25, 26, 42, 59, 98, 100, 123
-					 */
-
-					// 127.22 TAG B24_Field_17
-					sd.put("B24_Field_17", settlementDate);
-					// 127.22 TAG B24_Field_35
-					sd.put("B24_Field_35", track2.substring(0, 37));
-					// 127.22 TAG B24_Field_41
-					sd.put("B24_Field_41", base24Field41);
-					// 127.22 TAG B24_Field_42
-					sd.put("B24_Field_42", base24Field42); // Examinar en AUTRA si el valor es distinto de espacios, y si es quemado o calculado o copiado.
-					// CAMPO 48
-					sd.put("B24_Field_48", "000000000000               ");
-					// 127.22 TAG B24_Field_52
-					sd.put("B24_Field_52", pinBlock);
-					// 127.22 TAG B24_Field_102
-					sd.put("B24_Field_102", "00".concat(track2.substring(0, 16)));
-					// 127.22 TAG B24_Field_104
-					sd.put("B24_Field_104", "00".concat(numeroIdentificacion));
-					// 127.22 TAG B24_Field_126 longitud total: 342 
-					/* Tokens: 
-					 * QT (longitud 42), B2 (longitud 168), B3 (longitud 90), B4 (longitud 30) 
-					 * Ejemplo: (126)pos_preauth: & 0000500342! QT00032
-						0130000000000000000000000000000 ! B200158
-						7FF9000080808004080001781D35C8E468AB0000000000000000000000003C000027170170210505011347B646000706010A03A0B80100000000000000000000000000000000000000000000000000!
-						B300080
-						CF00SmartPOS60D8C8000000000000001100020204000007A0000000031010000000000000000000!
-						B400020 05151000000000000000	*/
-					token_QT = "! QT00032 0130000000000000000000000000000 ";
-					/* EXTRAER LÓGICA DESDE AUTRA PARA LOS TOKENS B2 Y B3 */
-					String token_B2 = "! B200158 7FF9000080808004080001781D35C8E468AB0000000000000000000000003C000027170170210505011347B646000706010A03A0B80100000000000000000000000000000000000000000000000000";
-					String token_B3 = "! B300080 CF00SmartPOS60D8C8000000000000001100020204000007A0000000031010000000000000000000";
-					// String token_B4 = "! B400020 ".concat(p22).concat("51000000000100520");
-					token_B4 = "! B400020 05151000000000000000";
-					sd.put("B24_Field_126",
-							"& 0000500342".concat(token_QT).concat(token_B2).concat(token_B3).concat(token_B4));
-
-					// VALIDAR EN AUTRA SI EXISTE ANULACIÓN Y REVERSO PARA AVANCE EN OFICINA CON TC AVAL.
-
-				} // FIN DE LÓGICA PARA TARJETAS AVAL (ATH)
 			
+			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA) 
+					&& codigoOficina.startsWith("4")
+					&& identificadorPinpad.equals("PP")) 
+			{
+				sd.put("indicator_product", MENSAJE_BASE24_FORMATO_ATM); // INDICADOR DE MENSAJE BASE24 EN FORMATO "ATM"
+				sd.put("CHANNEL_PCODE", "OFICINA_ATM"); // INDICADOR DE TRANSACCIÓN EN OFICINA. DEBE COINCIDIR CON LO QUE VA ANTES DEL PROCESSING_CODE EN LA LLAVE EN EL ARCHIVO JsonHashPrd.json
+
+				/*
+				 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
+				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
+				 */
+
+				// CAMPO 100 PARA ENRUTAMIENTO
+				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_FIRSTDATA); // Enruta a FirstData
+
+				/*
+				 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 
+				 * 3, 4, 7, 11, 12, 13, 17, 18, 22, 32, 35, 37, 41, 43, 48, 49, 52, 60, 61, 100, 126. 
+				 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
+				 * 15, 25, 26, 42, 98, 123
+				 */
+
+				// 127.22 TAG B24_Field_17
+				sd.put("B24_Field_17", settlementDate);
+				// 127.22 TAG B24_Field_18
+				sd.put("B24_Field_18", "6010");
+				// 127.22 TAG B24_Field_35
+				sd.put("B24_Field_35", track2.substring(0, 37));
+				// 127.22 TAG B24_Field_41
+				sd.put("B24_Field_41", base24Field41);
+				// CAMPO 48
+				sd.put("B24_Field_48", "1                       10000017000000000000");
+				// 127.22 TAG B24_Field_52
+				sd.put("B24_Field_52", newPin);
+				// 127.22 TAG B24_Field_60
+				sd.put("B24_Field_60", "P801P8010000");
+				// 127.22 TAG B24_Field_61
+				sd.put("B24_Field_61", "000100000000000");
+				// 127.22 TAG B24_Field_100 RECV_INST_ID
+				sd.put("B24_Field_100", "10000000001");
+				// 127.22 TAG B24_Field_126 longitud total: 166 Tokens: 03, 24, B4, BM, QT (ojo: token QT varía entre mensajes 0200 y 0210)
+				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4)
+						.concat(token_BM).concat(token_QT));
+				// 127.22 TAG ERROR
+				if (msgFromValidationTC.startsWith("NO")) 
+					sd.put("ERROR", "TARJETA NO EXISTE");
+				
+				sd.put("SEC_ACCOUNT_TYPE", "   ");
+
+				// PROCESAMIENTO DE REVERSO
+				/*
+				 * ISO8583post DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 22, 25,
+				 * 41, 42, 43, 49,
+				 */
+				/*
+				 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 18, 22,
+				 * 32, 35, 37, 38, 39, 41, 43, 48, 49, 52, 60, 61, 90, 100, 126.
+				 */
+				
+
+			} // FIN LÓGICA PARA TARJETAS BBOG (FIRSTDATA)
+			
+			// INICIO DE LÓGICA PARA TARJETAS AVAL (ATH)
+			else { 
+				sd.put("indicator_product", MENSAJE_BASE24_FORMATO_POS); // INDICADOR DE MENSAJE BASE24 EN FORMATO "POS".
+				sd.put("CHANNEL_PCODE", "OFICINA_POS"); // INDICADOR DE TRANSACCIÓN EN OFICINA.
+
+				/*
+				 * ISO8583 DEBE TENER LOS SIGUIENTES CAMPOS: 
+				 * 3, 4 json, 7, 11 json, 12, 13, 15, 22, 25 json, 26 json, 32 json, 35, 37, 41 json, 42 json, 43, 49 json, 52 json, 59, 98 json, 100, 123 json.
+				 */
+
+				// CAMPO 100 PARA ENRUTAMIENTO
+				out.putField(Iso8583.Bit._100_RECEIVING_INST_ID_CODE, ENRUTAR_A_ATH_CONEXION_OFICINAS); // Enruta a ATH
+
+				/*
+				 * BASE24 DEBE TENER LOS SIGUIENTES CAMPOS: 3, 4, 7, 11, 12, 13, 15, 17, 32, 35, 37, 41, 42, 43, 48, 49, 52, 102, 104, 126. 
+				 * Entonces, en el archivo "JsonHashPrd.json" configurar para borrado del mensaje ISO8583Post los campos simples: 
+				 * 22, 25, 26, 42, 59, 98, 100, 123
+				 */
+
+				// 127.22 TAG B24_Field_17
+				sd.put("B24_Field_17", settlementDate);
+				// 127.22 TAG B24_Field_35
+				sd.put("B24_Field_35", track2.substring(0, 37));
+				// 127.22 TAG B24_Field_41
+				sd.put("B24_Field_41", base24Field41);
+				// 127.22 TAG B24_Field_42
+				sd.put("B24_Field_42", numeroCuotas.concat("0000000000000"));
+				// CAMPO 48
+				sd.put("B24_Field_48", "000000000000               ");
+				// 127.22 TAG B24_Field_52
+				sd.put("B24_Field_52", pinBlock);
+				// 127.22 TAG B24_Field_102
+				sd.put("B24_Field_102", "00".concat(track2.substring(0, 16)));
+				// 127.22 TAG B24_Field_104
+				sd.put("B24_Field_104", "00".concat(numeroIdentificacion));
+				
+				// Extracción TLV para que ATH realice validación de ARQC
+				String decoded = dataEmv;
+				sd.put("decoded", decoded);
+				
+				String parts[] = decoded.split("\\+");
+				
+				for (int i=0; i<parts.length; i++) {
+					if(parts[i].startsWith("9F27"))
+						pos9f27 = i;
+					if(parts[i].startsWith("95"))
+						pos95 = i;
+					if(parts[i].startsWith("9F26"))
+						pos9f26 = i;
+					if(parts[i].startsWith("9F02"))
+						pos9f02 = i;
+					if(parts[i].startsWith("9F03"))
+						pos9f03 = i;
+					if(parts[i].startsWith("82"))
+						pos82 = i;
+					if(parts[i].startsWith("9F36"))
+						pos9f36 = i;
+					if(parts[i].startsWith("9F1A"))
+						pos9f1a = i;
+					if(parts[i].startsWith("5F2A"))
+						pos5f2a = i;
+					if(parts[i].startsWith("9A"))
+						pos9a = i;
+					if(parts[i].startsWith("9C"))
+						pos9c = i;
+					if(parts[i].startsWith("9F37"))
+						pos9f37 = i;
+					if(parts[i].startsWith("9F10"))
+						pos9f10 = i;
+					if(parts[i].startsWith("9F1E"))
+						pos9f1e = i;
+					if(parts[i].startsWith("9F33"))
+						pos9f33 = i;
+					if(parts[i].startsWith("9F35"))
+						pos9f35 = i;
+					if(parts[i].startsWith("9F09"))
+						pos9f09 = i;
+					if(parts[i].startsWith("9F34"))
+						pos9f34 = i;
+					if(parts[i].startsWith("84"))
+						pos84 = i;
+					if(parts[i].startsWith("9F39"))
+						pos9f39 = i;
+					if(parts[i].startsWith("5F34"))
+						pos5f34 = i;
+				}
+				
+				String s126 = constructField126(parts);
+				sd.put("B24_Field_126", s126);
+				
+			} // FIN DE LÓGICA PARA TARJETAS AVAL (ATH)
+			
+			// INICIO DE LÓGICA DE REVERSO O ANULACIÓN
 			if (tipoMensaje.equals("080") // Reverso
 				|| tipoMensaje.equals("020") // Anulación
 			) {
@@ -559,8 +554,6 @@ public class CashAdvanceTCOficinaAux {
 
 			} // FIN DE PROCESAMIENTO DE REVERSO
 			else {
-				// out.putField(Iso8583Post.Bit._059_ECHO_DATA, Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
-				// out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia); // VALIDAR CON MENESES SI ESTE CAMPO APLICA A MENSAJE ISO8583 PARA TC BBOG Y TC AVAL
 				// 127.2 SWITCHKEY
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
 				ISCInterfaceCB.cacheKeyReverseMap.put(numeroSecuencia, key);
@@ -628,84 +621,53 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Nombre_FI_Origen", "CIC");
 			sd.put("Ind_4xmil", "1");
 			sd.put("Tarjeta_Amparada", cuentaADebitar);
+			sd.put("Codigo_Transaccion_Producto", "02");
+			sd.put("Tipo_de_Cuenta_Debitada", "CRE");
+			sd.put("CLIENT_CARD_NR_1", binTarjeta);
+			sd.put("PAN_Tarjeta", cuentaADebitar.substring(0, 16).concat("   "));
+			sd.put("Numero_Secuencia", "00" + numeroSecuencia);
+			sd.put("Numero_de_Recibo_de_Terminal", "00" + numeroSecuencia);
+			sd.put("Ofi_Adqui", codigoOficinaAdquiriente);
+			sd.put("Codigo_Transaccion", "20");
+			sd.put("Nombre_Transaccion", "AVANCE");
+			sd.put("FI_CREDITO", "0000");
+			sd.put("FI_DEBITO", "0000");
+			sd.put("SEC_ACCOUNT_TYPE", "   ");
+			sd.put("Codigo_de_Red", "1019");
+			sd.put("Numero_Terminal", codigoOficinaAdquiriente);
+			sd.put("Nombre_Establecimiento_QR", codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente));
+			sd.put("Identificacion_Canal", identificacionCanal);
+			sd.put("Codigo_Establecimiento", "          ");
+			sd.put("TITULAR_TC",msgFromValidationTC);
+			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL"); // DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA.
+			sd.put("Indicador_AVAL", "1");
+			sd.put("SECUENCIA_REQ", secuenciaTS);
+			sd.put("Mod_Credito", naturalezaPago);
+			sd.put("Clase_Pago", clasePagoCredito);
+			sd.put("Ent_Adq", CODIGO_ENTIDAD_BANCO_DE_BOGOTA);
+			sd.put("Numero_de_cuotas_AV", numeroCuotas);
+			sd.put("Canal", "01");
+			sd.put("pos_entry_mode", "000");
+			sd.put("service_restriction_code", "000");
+			sd.put("Entidad", "0000");
+			sd.put("Identificador_Terminal", "0");
+			sd.put("Indicador_Efectivo_Cheque", modalidadPago);
 
 			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA)) // Si es Banco de Bogotá
 			{
-				sd.put("Codigo_Transaccion_Producto", "02");
-				sd.put("Tipo_de_Cuenta_Debitada", "CRE");
-				sd.put("BIN_Cuenta", cuentaADebitar.substring(0, 6));
 				sd.put("PRIM_ACCOUNT_NR", Pack.resize(cuentaADebitar.substring(6, 16), 18, '0', false));
 				sd.put("SEC_ACCOUNT_NR_PAGOTC", "000000000000000000");
-				// sd.put("PAN_Tarjeta", Pack.resize(cuentaAAcreditar, 19, ' ', true));
-				sd.put("PAN_Tarjeta", cuentaADebitar.substring(0, 16).concat("   "));
-				sd.put("Numero_Secuencia", "00" + numeroSecuencia);
-				sd.put("Numero_de_Recibo_de_Terminal", "00" + numeroSecuencia);
 				sd.put("Vencimiento", fechaVencimiento);
-				sd.put("Ofi_Adqui", codigoOficinaAdquiriente);
-				if (modalidadPago.equals("0")) // Si es Cargo cuenta
-				{
-					sd.put("Codigo_Transaccion", "20");
-					sd.put("Nombre_Transaccion", "AVANCE");
-					sd.put("FI_CREDITO", "0000");
-					sd.put("FI_DEBITO", "0000");
-					// if (codigoOficina.substring(0, 1).equals("4") ) //Canal Oficina
-					sd.put("Ind_4xmil", "1");
-				} else // Efectivo o Cheque
-				{
-					sd.put("Codigo_Transaccion", "01");
-					sd.put("Nombre_Transaccion", "DEPOSI");
-					sd.put("FI_CREDITO", "0000");
-					sd.put("FI_DEBITO", "0000");
-					sd.put("Ind_4xmil", "1");
-					sd.put("SEC_ACCOUNT_TYPE", "   ");
-					sd.put("Ofi_Adqui", codigoOficinaAdquiriente);
-				}
+				sd.put("Dispositivo", "B");
+				sd.put("BIN_Cuenta", cuentaADebitar.substring(0, 6));
 			} else // Si es Aval
 			{
-				sd.put("Codigo_Transaccion", "29");
-				sd.put("Nombre_Transaccion", "ONESID");
-				sd.put("BIN_Cuenta", "000000");
 				sd.put("PRIM_ACCOUNT_NR", cuentaADebitar);
-				sd.put("FI_DEBITO", CODIGO_ENTIDAD_BANCO_DE_BOGOTA);
-				sd.put("FI_CREDITO", codigoEntidadAutorizadoraDebito);
 				sd.put("SEC_ACCOUNT_NR_PAGOTC", cuentaAAcreditar);
-				sd.put("SEC_ACCOUNT_TYPE", "CRE");
-				sd.put("PAN_Tarjeta", binTarjeta.substring(0, 16).concat("   "));
 				sd.put("Vencimiento", "0000");
-				sd.put("Tarjeta_Amparada", "0000000000000000");
-				// sd.put("Numero_Cheques", cantidadCheques);
-				// if (codigoOficina.substring(0, 1).equals("4")) //Canal Oficina
-				sd.put("Codigo_Transaccion_Producto", "02");
-				if (modalidadPago.equals("0")) // Si es Cargo cuenta
-				{
-					sd.put("Codigo_Transaccion", "29");
-					sd.put("Nombre_Transaccion", "ONESID");
-				} else // Efectivo o Cheque
-				{
-					sd.put("Codigo_Transaccion", "01");
-					sd.put("Nombre_Transaccion", "DEPOSI");
-					sd.put("PRIM_ACCOUNT_NR", cuentaAAcreditar);
-					sd.put("FI_CREDITO", "0000");
-					sd.put("SEC_ACCOUNT_NR_PAGOTC", "000000000000000000");
-					sd.put("FI_DEBITO", "0000");
-					sd.put("SEC_ACCOUNT_TYPE", "   ");
-					sd.put("Ofi_Adqui", codigoOficinaAdquiriente);
-				}
+				sd.put("Dispositivo", "D");
+				sd.put("BIN_Cuenta", "000000");
 			}
-			sd.put("CLIENT_CARD_NR_1", binTarjeta);
-			sd.put("Codigo_de_Red", "1019");
-
-			// if (codigoOficina.substring(0, 1).equals("4")){ //Canal Oficina
-			sd.put("Numero_Terminal", codigoOficinaAdquiriente);
-			sd.put("Nombre_Establecimiento_QR", codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente));
-			// }
-			/*
-			 * else { //Otros canales sd.put("Numero_Terminal",codigoOficina);
-			 * sd.put("Nombre_Establecimiento_QR", "                    "); }
-			 */
-
-			sd.put("Identificacion_Canal", identificacionCanal);
-			sd.put("Codigo_Establecimiento", "          ");
 
 			if (!msgFromValidationTC.startsWith("NO") && codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA))
 			{
@@ -714,27 +676,12 @@ public class CashAdvanceTCOficinaAux {
 			}
 			else
 			{
-				sd.put("CUSTOMER_NAME", "                            ");	
+				sd.put("CUSTOMER_NAME", "0000000000000000000000000000");
 				sd.put("ID_CLIENT", "0000000000000");
 			}
 
-			sd.put("TITULAR_TC",msgFromValidationTC);
-			sd.put("TRANSACTION_INPUT", "AVANCE_TC_CANALVIRTUAL"); // DEFINIR TEXTO A CONFIGURAR PARA AVANCE TC EN OFICINA.
-			sd.put("Indicador_AVAL", "1");
-			sd.put("SECUENCIA_REQ", secuenciaTS);
-			sd.put("Mod_Credito", naturalezaPago);
-			sd.put("Clase_Pago", clasePagoCredito);
-			sd.put("Ent_Adq", CODIGO_ENTIDAD_BANCO_DE_BOGOTA);
-			sd.put("Dispositivo", "B");
-			sd.put("Numero_de_cuotas_AV", numeroCuotas);
-			sd.put("Canal", "01");
-			sd.put("pos_entry_mode", "000");
-			sd.put("service_restriction_code", "000");
-			sd.put("Entidad", "0000");
-			sd.put("Identificador_Terminal", "0");
-			sd.put("Indicador_Efectivo_Cheque", modalidadPago);
 			
-			sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
+			//sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
 
 			out.putStructuredData(sd);
 
@@ -748,6 +695,93 @@ public class CashAdvanceTCOficinaAux {
 		}
 
 		return out;
+	}
+	
+	public static String constructField126(String[] tokens) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(constructTokenQT(tokens));
+		sb.append(constructTokenB2(tokens));
+		sb.append(constructTokenB3(tokens));
+		sb.append(constructTokenB4(tokens));
+		return sb.toString();
+	}
+	
+	public static String constructTokenQT(String[] tokens) {
+		return "& 0000500342! QT00032 0110000000000000000000000000000 ";
+	}
+	
+	public static String constructTokenB2(String[] tokens) {
+		StringBuilder b2 = new StringBuilder();
+		try {
+			b2.append("! B200158 7FF90000");
+			b2.append(tokens[pos9f27].substring(6,8)); //9f27
+			b2.append(tokens[pos95].substring(4,14)); //95
+			b2.append(tokens[pos9f26].substring(6,22)); //9f26
+			b2.append(tokens[pos9f02].substring(6,18)); //9f02
+			b2.append(tokens[pos9f03].substring(6,18)); //9f03
+			b2.append(tokens[pos82].substring(4,8)); //82
+			b2.append(tokens[pos9f36].substring(6,10)); //9f36
+			b2.append(tokens[pos9f1a].substring(7,10)); //9f1a
+			b2.append(tokens[pos5f2a].substring(7,10)); //5f2a
+			b2.append(tokens[pos9a].substring(4,10)); //9a
+			b2.append(tokens[pos9c].substring(4,6)); //9c
+			b2.append(tokens[pos9f37].substring(6,14)); //9f37
+			b2.append(tokens[pos9f10].length()>15 ? "00" : "000").append(Pack.resize(tokens[pos9f10].substring(4), 66, '0', true)); //9f10
+		}catch(Exception e) {
+			e.printStackTrace();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
+		}
+		
+		return b2.toString();
+	}
+	
+	public static String constructTokenB3(String[] tokens) {
+		StringBuilder b3 = new StringBuilder();
+		
+		try {
+			b3.append("! B300080 CF00");
+			b3.append(Transform.fromHexToBin(tokens[pos9f1e].substring(6,22))); //9f1e
+			b3.append(tokens[pos9f33].substring(6,12)); //9f33
+			b3.append("00000000000000").append(tokens[pos9f35].substring(6,8)); //9f35
+			b3.append(tokens[pos9f09].substring(6,10)); //9f09
+			b3.append(tokens[pos9f34].substring(6,12)); //9f34
+			b3.append("00").append(tokens[pos84].substring(2,18)); //84-4f
+			b3.append("000000000000000000");
+		}catch(Exception e) {
+			e.printStackTrace();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
+		}
+		
+		return b3.toString();
+	}
+	
+	public static String constructTokenB4(String[] tokens) {
+		StringBuilder b4 = new StringBuilder();
+		
+		try {
+			b4.append("! B400020 ");
+			b4.append(tokens[pos9f39].substring(6,8)); //9f39
+			b4.append("151");
+			b4.append(tokens[pos5f34].substring(6,8)); //5f34
+			b4.append("0000000000000");
+		}catch(Exception e) {
+			e.printStackTrace();
+			EventRecorder.recordEvent(
+					new Exception("ERROR processMsg: " + e.toString()));
+			EventRecorder.recordEvent(new TryCatchException(new String[] { "ISCInterCB-IN", "ISCInterfaceCB",
+					"Method :[" + "processMsg" + "]\n" + "processMsg: " + "\n",
+					Utils.getStringMessageException(e) }));
+		}
+		
+		return b4.toString();
 	}
 
 }
