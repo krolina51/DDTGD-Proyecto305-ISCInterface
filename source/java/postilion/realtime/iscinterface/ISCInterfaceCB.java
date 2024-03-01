@@ -33,6 +33,7 @@ import postilion.realtime.date.CalendarDTO;
 import postilion.realtime.date.CalendarLoader;
 import postilion.realtime.date.SettlementDate;
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
@@ -2072,7 +2073,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					
 
 					if(!rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION).equals(sd.get("valorcobrado"))) {					
-						
+
+						sd.put("P57CompraParcial", "0057170C"+rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION));
 						rspISOMsg.putField(Iso8583.Bit._039_RSP_CODE, "10");
 						rspISOMsg.putField(Iso8583.Bit._004_AMOUNT_TRANSACTION, sd.get("valorcobrado"));
 						sd.put("TRANSACTION_AMOUNT", sd.get("valorcobrado"));
