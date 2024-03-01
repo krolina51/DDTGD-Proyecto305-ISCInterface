@@ -815,6 +815,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (sd.get(Constant.B24Fields.B24_F_103) != null && !sd.get(Constant.B24Fields.B24_F_103).equals("")) {
 					msg2TM.putField(Iso8583.Bit._103_ACCOUNT_ID_2, sd.get(Constant.B24Fields.B24_F_103));
 				}
+				
+				
 
 				msg2TM.putStructuredData(sd);
 				act.putMsgToTranmgr(msg2TM);
@@ -855,6 +857,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //		}
 //
 //		monitorMsg210.close();
+		
 		return act;
 	}
 
@@ -2066,6 +2069,14 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					
 					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
 					rspISOMsg.putStructuredData(sd);
+					
+
+					if(!rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION).equals(sd.get("valorcobrado"))) {					
+						
+						rspISOMsg.putField(Iso8583.Bit._039_RSP_CODE, "10");
+						rspISOMsg.putField(Iso8583.Bit._004_AMOUNT_TRANSACTION, sd.get("valorcobrado"));
+						sd.put("TRANSACTION_AMOUNT", sd.get("valorcobrado"));
+					}
 
 				}
 				
