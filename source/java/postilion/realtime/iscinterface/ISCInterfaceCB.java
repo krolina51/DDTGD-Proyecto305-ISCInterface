@@ -396,6 +396,10 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
 				String strBin = (String) obj.get("BIN");
 				String strTarjeta = (String) obj.get("Tarjeta");
+				boolean isSerialPresente = (boolean) obj.get("Serial_Presente");
+				String strSerial = (String) obj.get("Serial");
+				boolean isTerminalPresente = (boolean) obj.get("Terminal_Presente");
+				String strTerminal = (String) obj.get("Terminal");
 				String strRoute = (String) obj.get("Route");
 				String strCampo100 = (String) obj.get("Campo100");
 				
@@ -408,6 +412,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if(isNaturalezaPresente) {
 					sbKey.append("_");
 					sbKey.append(strNaturaleza);
+				}
+				
+				// iteracion sobre serial
+				if(isSerialPresente) {
+					sbKey.append("_");
+					sbKey.append(strSerial);
+				} else
+				// iteracion sobre terminal
+				if(isTerminalPresente) {
+					sbKey.append("_");
+					sbKey.append(strTerminal);
 				}
 				
 				if(isTarjetaPresente) {
