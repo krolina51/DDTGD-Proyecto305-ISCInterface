@@ -311,7 +311,7 @@ public class CashAdvanceTCOficinaAux {
 								enableMonitor);
 						if (newPin.equals("FFFFFFFFFFFFFFFF")) {
 							// 127.22 TAG ERROR DE CRIPTOGRAFÍA
-							sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");
+							//sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");	// Habilitar esta línea cuando finalicemos ANULACIÓN.
 							Logger.logLine("ERROR TRANSLATE PIN", enableMonitor);
 							newPin = pinBlock;
 						}
@@ -349,7 +349,7 @@ public class CashAdvanceTCOficinaAux {
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC,
 					codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente)
 					.concat(codigoDaneCiudadOficinaAdquiriente)
-					.concat("             "));
+					.concat("             "));	// Validar si en AUTRA hay logica para los 5 últimos caracteres (ciudad, país).
 			// CAMPO 49
 			out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); // "170" indica pesos colombianos.
 			// CAMPO 52
@@ -401,8 +401,7 @@ public class CashAdvanceTCOficinaAux {
 				// 127.22 TAG B24_Field_100 RECV_INST_ID
 				sd.put("B24_Field_100", "10000000001");
 				// 127.22 TAG B24_Field_126 longitud total: 166 Tokens: 03, 24, B4, BM, QT (ojo: token QT varía entre mensajes 0200 y 0210)
-				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4)
-						.concat(token_BM).concat(token_QT));
+				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
 				// 127.22 TAG ERROR
 				if (msgFromValidationTC.startsWith("NO")) 
 					sd.put("ERROR", "TARJETA NO EXISTE");
@@ -516,20 +515,23 @@ public class CashAdvanceTCOficinaAux {
 			
 			// INICIO DE LÓGICA DE REVERSO O ANULACIÓN
 			if (tipoMensaje.equals("080") // Reverso
-				|| tipoMensaje.equals("020") // Anulación
+				//|| tipoMensaje.equals("020") // Anulación
 			) {
-				String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00")
-						.concat(settlementDate);
+				Logger.logLine("Inicio de lógica de reverso\n", enableMonitor);
 
-				Logger.logLine("sdOriginal:\n" + sdOriginal, enableMonitor);
+				String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
+				Logger.logLine("key420:\t\t" + key420 + "\n", enableMonitor);
+				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
+				Logger.logLine("keyAnulacion:\t" + keyAnulacion + "\n", enableMonitor);
+				
+				Logger.logLine("sdOriginal:\t" + sdOriginal + "\n", enableMonitor);
 				keyReverse = sdOriginal.get("KeyOriginalTx");
+				Logger.logLine("keyReverse:\t" + keyReverse + "\n", enableMonitor);
 				if (keyReverse == null) {
 					keyReverse = "0000000000";
 					sd.put("REV_DECLINED", "TRUE");
 				} else {
-					out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS,
-							Pack.resize(keyReverse, 42, '0', true));
+					out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
 					out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
 					// out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
 					// sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
@@ -537,21 +539,34 @@ public class CashAdvanceTCOficinaAux {
 					sd.put("B24_Field_90", keyReverse + "0000000000");
 					// sd.put("B24_Field_37", keyReverse.substring(4,16));
 
-					if (tipoMensaje.equals("020")) {
+					/*if (tipoMensaje.equals("020")) {
 						sd.put("ANULACION", "TRUE");
 						sd.put("B24_Field_15", settlementDate);
 						sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
 						sd.put("KeyOriginalTx", keyReverse);
 						sd.put("B24_Field_52", "0000000000000000");
-						sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original"))
-								.concat("000000000000000000").concat(sdOriginal.get("Monto_Original")));
+						sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original")).concat("000000000000000000").concat(sdOriginal.get("Monto_Original")));
 						out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
 						token_QT = "! QT00032 01300000000000000000000000000000";
-						sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24)
-								.concat(token_B4).concat(token_BM).concat(token_QT));
-					}
+						sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
+					}*/
 				}
 
+			} else if (tipoMensaje.equals("020")) // Si es Anulación.
+			{
+				Logger.logLine("Inicio de lógica de Anulación\n", enableMonitor);
+				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate); // keyAnulacion tiene 4 + (4 + 4 + 4) + 4 + 6 + 2 + 4 = 32
+				keyReverse = "0000000000";
+				sd.put("KeyOriginalTx", keyReverse);
+				sd.put("ANULACION", "TRUE");
+				sd.put("B24_Field_15", settlementDate);
+				sd.put("B24_Field_38", "000000");
+				sd.put("B24_Field_39", "17");	// Validar con Carolina si este valor es quemado.
+				sd.put("B24_Field_52", "0000000000000000");
+				sd.put("B24_Field_90", keyAnulacion + "0000000000");
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
+				token_QT = "! QT00032 01300000000000000000000000000000";
+				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
 			} // FIN DE PROCESAMIENTO DE REVERSO
 			else {
 				// 127.2 SWITCHKEY
