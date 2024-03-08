@@ -33,6 +33,7 @@ import postilion.realtime.date.CalendarDTO;
 import postilion.realtime.date.CalendarLoader;
 import postilion.realtime.date.SettlementDate;
 import postilion.realtime.genericinterface.eventrecorder.events.TryCatchException;
+import postilion.realtime.genericinterface.translate.bitmap.Base24Ath;
 import postilion.realtime.iscinterface.database.DBHandler;
 import postilion.realtime.iscinterface.message.ISCReqInMsg;
 import postilion.realtime.iscinterface.message.ISCReqMessage;
@@ -815,6 +816,8 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if (sd.get(Constant.B24Fields.B24_F_103) != null && !sd.get(Constant.B24Fields.B24_F_103).equals("")) {
 					msg2TM.putField(Iso8583.Bit._103_ACCOUNT_ID_2, sd.get(Constant.B24Fields.B24_F_103));
 				}
+				
+				
 
 				msg2TM.putStructuredData(sd);
 				act.putMsgToTranmgr(msg2TM);
@@ -855,6 +858,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 //		}
 //
 //		monitorMsg210.close();
+		
 		return act;
 	}
 
@@ -2066,6 +2070,12 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					
 					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
 					rspISOMsg.putStructuredData(sd);
+					
+
+					if(!rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION).equals(sd.get("valorcobrado"))) {					
+						sd.put("P57CompraParcial", "0057170C"+rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION));
+						rspISOMsg.putField(Iso8583.Bit._004_AMOUNT_TRANSACTION, sd.get("valorcobrado"));
+						}
 
 				}
 				

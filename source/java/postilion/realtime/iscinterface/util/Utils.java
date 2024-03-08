@@ -4578,6 +4578,8 @@ public class Utils {
 
 		OUTPUT_FIELDS.put("RIESGO:(.)", "riesgo=$1");
 
+		OUTPUT_FIELDS.put("VALOR COBRADO:(.)", "valorcobrado=$1");
+
 	}
 
 	public static StringWriter printStackAndReturnErrorString(Exception e) {
