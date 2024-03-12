@@ -2098,13 +2098,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					}
 					
 					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
-					rspISOMsg.putStructuredData(sd);
-					
-
-					if(!rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION).equals(sd.get("valorcobrado"))) {					
-						sd.put("P57CompraParcial", "0057170C"+rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION));
-						rspISOMsg.putField(Iso8583.Bit._004_AMOUNT_TRANSACTION, sd.get("valorcobrado"));
+						
+					sd.put("adri1", ("000" + sd.get("B24_Field_4")));
+					sd.put("adri2", sd.get("VALORCOBRADO"));
+					sd.put("adri3", !("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO")) ? "entro" : "no entro");
+					if (!("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO"))) {
+						   if (sd.get("VALORCOBRADO") != null) {
+						sd.put("P57CompraParcial", "0057170C"+sd.get("B24_Field_4"));
+						rspISOMsg.putField(Iso8583Post.Bit._004_AMOUNT_TRANSACTION, sd.get("VALORCOBRADO"));
 						}
+					}
+					 rspISOMsg.putStructuredData(sd);
 
 				}
 				
