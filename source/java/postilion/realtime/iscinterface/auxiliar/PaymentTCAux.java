@@ -319,7 +319,7 @@ public class PaymentTCAux {
 				// 127.22 TAG B24_Field_18
 				sd.put("B24_Field_18", "6010");
 				// 127.22 TAG B24_Field_35
-				sd.put("B24_Field_35", cuentaCreditar.concat("=99120000000000000000"));
+				sd.put("B24_Field_35", cuentaCreditar.concat("=99122010000000000000"));
 				// 127.22 TAG B24_Field_48
 				sd.put("B24_Field_48", "1                  00000000");
 				// 127.22 TAG B24_Field_60

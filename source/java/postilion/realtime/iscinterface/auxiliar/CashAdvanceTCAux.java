@@ -46,12 +46,12 @@ public class CashAdvanceTCAux {
 	public static final int CUS_FIN = 118 + 10;	
 	public static final int FLAG_TRANSACCION_INI = 128; //0=Avance, 1=Pago Impuesto DIAN, 2=Pago Imp distrital(compra) 
 	public static final int FLAG_TRANSACCION_FIN = 128 + 1;
-	//BNPL public static final int MCC_INI = 129; 
-	//BNPL public static final int MCC_FIN = 129 + 4; 
-	//BNPL public static final int CODIGO_COMERCIO_INI = 133;
-	//BNPL public static final int CODIGO_COMERCIO_FIN = 133 + 16;
-	//BNPL public static final int NUMERO_CUOTAS_INI = 149;
-	//BNPL public static final int NUMERO_CUOTAS_FIN = 149 + 2;
+	public static final int MCC_INI = 129; 
+	public static final int MCC_FIN = 129 + 4; 
+	public static final int CODIGO_COMERCIO_INI = 133;
+	public static final int CODIGO_COMERCIO_FIN = 133 + 16;
+	public static final int NUMERO_CUOTAS_INI = 149;
+	public static final int NUMERO_CUOTAS_FIN = 149 + 2;
 	
 	
 	public static final String INITIAL_SPACE = "   ";
@@ -99,15 +99,13 @@ public class CashAdvanceTCAux {
 			String p13 = new DateTime().get("MMdd");
 			String codigoOficina = tramaCompletaAscii.substring(COD_OFICINA_INI,COD_OFICINA_FIN);
 			String p37 = "0901".concat(codigoOficina).concat(tramaCompletaAscii.substring(NUM_SEQ_TX_INI,NUM_SEQ_TX_FIN));
-			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);	
+			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
 			String keyReverse = null;
 			String terminal = tramaCompletaAscii.substring(TERMINAL_INI, TERMINAL_FIN);
 			String numeroTarjeta = tramaCompletaAscii.substring(NUMERO_TARJETA_INI, NUMERO_TARJETA_FIN);
 			String valorTotal = tramaCompletaAscii.substring(VALOR_TOTAL_INI, VALOR_TOTAL_FIN);
 			String flag_transaccion = tramaCompletaAscii.substring(FLAG_TRANSACCION_INI, FLAG_TRANSACCION_FIN);
-			//BNPL String mcc = tramaCompletaAscii.substring(MCC_INI, MCC_FIN);
-			//BNPLString codigoComercio = tramaCompletaAscii.substring(CODIGO_COMERCIO_INI, CODIGO_COMERCIO_FIN);
-			//BNPLString numeroCuotas = tramaCompletaAscii.substring(NUMERO_CUOTAS_INI, NUMERO_CUOTAS_FIN);
+			
 			
 			String identificacionCanal = "  ";
 			String FI_Tarjeta = "";
@@ -121,8 +119,15 @@ public class CashAdvanceTCAux {
 			String fromAccount = "30";
 			String toAccount = "00";
 
+			String mcc = "    ";
+			String codigoComercio = "                ";
+			String numeroCuotas = "  ";
 			if (flag_transaccion.equals("2") || flag_transaccion.equals("3"))// Es Pago impuesto distrital o Compra BNPL
 			{
+				mcc = tramaCompletaAscii.substring(MCC_INI, MCC_FIN);
+				codigoComercio = tramaCompletaAscii.substring(CODIGO_COMERCIO_INI, CODIGO_COMERCIO_FIN);
+				numeroCuotas = tramaCompletaAscii.substring(NUMERO_CUOTAS_INI, NUMERO_CUOTAS_FIN);
+				
 				tranType = "00";
 				fromAccount = "00";
 				toAccount = "30";
@@ -133,11 +138,8 @@ public class CashAdvanceTCAux {
 			String token_BM ="";
 			String token_Q4 = "";
 			String tx_subtype ="";
-			String codigoOfiAdqui = "";
-			String nombreOficinaAdqui = "";
-			String codigoDaneOfiAdqui = "";
-					
-				switch (codigoOficina.substring(0, 1)) {
+			
+			switch (codigoOficina.substring(0, 1)) {
 			
 				case "8":		
 					identificacionCanal = "IT";
@@ -202,9 +204,9 @@ public class CashAdvanceTCAux {
 				//Token Q4
 				String moneda = "170"; //Moneda Pesos
 				
-				//BNPL if (flag_transaccion.equals("3")) //Es Compra BNPL
-				//BNPL	token_Q4 = "! Q400122 ".concat(numeroCuotas).concat("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000").concat(moneda).concat("00").concat(settlementDate).concat("00000000000000000000000000");
-				//BNPL else  //Avance, Pago impuestos
+				if (flag_transaccion.equals("3")) //Es Compra BNPL
+					token_Q4 = "! Q400122 ".concat(numeroCuotas).concat("0000000000000000000000000000000000000000000000000000000000000000000000000000000000000").concat(moneda).concat("00").concat(settlementDate).concat("00000000000000000000000000");
+				else  //Avance, Pago impuestos
 					token_Q4 = "! Q400122 ".concat("000000000000000000000000000000000000000000000000000000000000000000000000000000000000000").concat(moneda).concat("00").concat(settlementDate).concat("00000000000000000000000000");
 					
 				//Logica Tokens First Data Fin -----------------------------------------
@@ -218,10 +220,10 @@ public class CashAdvanceTCAux {
 					case "2": //Es Pago impuesto distrital
 						sd.put("B24_Field_18", "6015");
 					break;
-					//BNPL case "3": //Es Compra BNPL
-						//BNPL sd.put("B24_Field_18", mcc);
-						//BNPL sd.put("B24_Field_42", codigoComercio.substring(1,16));
-					//BNPL break;
+					case "3": //Es Compra BNPL
+						sd.put("B24_Field_18", mcc);
+						sd.put("B24_Field_42", codigoComercio.substring(1,16));
+					break;
 					default: //Es avance
 						sd.put("B24_Field_18", "6010");
 						sd.put("B24_Field_42", "               ");
@@ -256,54 +258,8 @@ public class CashAdvanceTCAux {
 			   				
 			//FIN LOGICA FIRSDATA	
 
-
-			// PROCESAMIENTO DE REVERSO
-			if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("080") //Reverso
-					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) { //Anulacion
-
-				String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				
-				Logger.logLine("sdOriginal:\n" + sdOriginal, enableMonitor);
-				keyReverse = sdOriginal.get("KeyOriginalTx");
-				if(keyReverse == null) {
-					keyReverse = "0000000000";
-					sd.put("REV_DECLINED", "TRUE");
-				} else {
-					out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-					
-					out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
-					//out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-					sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
-					sd.put("KEY_REVERSE", keyReverse);
-					sd.put("B24_Field_90", keyReverse+"0000000000");
-					//sd.put("B24_Field_37", keyReverse.substring(4,16));
-					
-					if (Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._08_H_STATE)).equals("020")) {
-						tranType = "20";
-						sd.put("ANULACION", "TRUE");
-						sd.put("B24_Field_15", settlementDate);
-						sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
-						sd.put("KeyOriginalTx", keyReverse);
-						sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original"))
-								.concat("000000000000000000")
-								.concat(sdOriginal.get("Monto_Original")));
-						out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
-					}
-				}
-
-
-			// PROCESAMIENTO TX FINANCIERA
-			} else {
-				//Se comenta porque no se usa en la TX Avance Tarjeta Credito BDB- Canales virtuales
-				/*
-				out.putField(Iso8583Post.Bit._059_ECHO_DATA, Transform
-						.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));*/
-				// 127.2 SWITCHKEY
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
-				//ISCInterfaceCB.cacheKeyReverseMap.put(seqNr, key);
-			}
-
+			// 127.2 SWITCHKEY    VALIDAR CON MENESES SI ESTE VALOR VA EN ISO8583
+			out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
 
 			// Field 3
 			out.putField(Iso8583.Bit._003_PROCESSING_CODE, tranType.concat(fromAccount).concat(toAccount));
@@ -337,49 +293,10 @@ public class CashAdvanceTCAux {
 			sd.put("IN_MSG", in.getTotalHexString());
 			
 			////////// TAGS EXTRACT 
-			
 			sd.put("VIEW_ROUTER", null); //No genera registro extract	
 			
-			sd.put("Codigo_FI_Origen", "1019");
-			sd.put("Nombre_FI_Origen", "CIC");		
 			
-			sd.put("Ind_4xmil", "1");
-			sd.put("Tarjeta_Amparada", numeroTarjeta);
-			
-			sd.put("Codigo_Transaccion_Producto", "02");
-			sd.put("Tipo_de_Cuenta_Debitada", "CRE");
-			sd.put("BIN_Cuenta", numeroTarjeta.substring(0,6));
-			sd.put("PRIM_ACCOUNT_NR", Pack.resize(numeroTarjeta.substring(6,16), 18, '0', false));
-			sd.put("SEC_ACCOUNT_NR_PAGOTC",Pack.resize(numeroTarjeta, 18, '0', false));
-			sd.put("PAN_Tarjeta", Pack.resize(numeroTarjeta, 19, ' ', true));	
-			
-			sd.put("Codigo_Transaccion", "20");
-			sd.put("Nombre_Transaccion", "AVANCE");
-			sd.put("FI_CREDITO", "0001");
-			sd.put("FI_DEBITO", "0001");
-			
-			sd.put("CLIENT_CARD_NR_1", binTarjeta);
-			sd.put("Codigo_de_Red", "1019");
-			
-			sd.put("Numero_Terminal",codigoOficina);
-			sd.put("Nombre_Establecimiento_QR", "                    ");
-			
-			sd.put("Identificacion_Canal", identificacionCanal);
-			sd.put("Codigo_Establecimiento", "          ");
-			
-			sd.put("Indicador_AVAL", "1");	
-			sd.put("SECUENCIA_REQ", "00000000000000000000");
-			
-			sd.put("Mod_Credito", "0");
-			sd.put("Clase_Pago", "0");
-			sd.put("Ent_Adq", "0001");
-			sd.put("Dispositivo", "0");
-			sd.put("Canal", "01");
-			sd.put("pos_entry_mode", "000");
-			sd.put("service_restriction_code", "000");
-			sd.put("Entidad", "0000");
-			sd.put("Identificador_Terminal", "0");
-			sd.put("Indicador_Efectivo_Cheque", "0");
+			sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
 							
 			out.putStructuredData(sd);
 
