@@ -117,9 +117,6 @@ public class ValidateAutra {
 				tarjeta = Transform.fromEbcdicToAscii(Transform.fromHexToBin(iscInReq.getTotalHexString().substring(136,168)));
 			}
 			
-			if(codigoTx.equals("8500")) {
-				tarjeta = Transform.fromEbcdicToAscii(Transform.fromHexToBin(iscInReq.getTotalHexString().substring(236,268)));
-			}
 			
 			
 			String keyBinNaturalezaSerial = null;
