@@ -389,16 +389,34 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			for (Object object : jsonArray) {
 				StringBuilder sbKey = new StringBuilder();
 				org.json.simple.JSONObject obj = (org.json.simple.JSONObject) object;
-
+				
 				String strCodigoTx = (String) obj.get("Codigo_Transaccion");
 				String strCodigoOficina = (String) obj.get("Codigo_Oficina");
-				boolean isNaturalezaPresente = (boolean) obj.get("Naturaleza_Presente");
+				boolean isNaturalezaPresente = obj.get("Naturaleza_Presente") != null ? (boolean) obj.get("Naturaleza_Presente") : false;
 				String strNaturaleza = (String) obj.get("Naturaleza");
-				boolean isTarjetaPresente = (boolean) obj.get("Tarjeta_Presente");
+				boolean isTarjetaPresente = obj.get("Tarjeta_Presente") != null ? (boolean) obj.get("Tarjeta_Presente") : false;
 				String strBin = (String) obj.get("BIN");
 				String strTarjeta = (String) obj.get("Tarjeta");
+				boolean isSerialPresente = obj.get("Serial_Presente") != null ? (boolean) obj.get("Serial_Presente") : false;
+				String strSerial = (String) obj.get("Serial");
+				boolean isTerminalPresente = obj.get("Terminal_Presente") != null ? (boolean) obj.get("Terminal_Presente") : false;
+				String strTerminal = (String) obj.get("Terminal");
 				String strRoute = (String) obj.get("Route");
 				String strCampo100 = (String) obj.get("Campo100");
+				
+				Logger.logLine("Codigo_Transaccion :: " + strCodigoTx, this.enableMonitor);
+				Logger.logLine("Codigo_Oficina :: " + strCodigoOficina, this.enableMonitor);
+				Logger.logLine("Naturaleza_Presente :: " + isNaturalezaPresente, this.enableMonitor);
+				Logger.logLine("Naturaleza :: " + strNaturaleza, this.enableMonitor);
+				Logger.logLine("Tarjeta_Presente :: " + isTarjetaPresente, this.enableMonitor);
+				Logger.logLine("BIN :: " + strBin, this.enableMonitor);
+				Logger.logLine("Tarjeta :: " + strTarjeta, this.enableMonitor);
+				Logger.logLine("Serial_Presente :: " + isSerialPresente, this.enableMonitor);
+				Logger.logLine("Serial :: " + strSerial, this.enableMonitor);
+				Logger.logLine("Terminal_Presente :: " + isTerminalPresente, this.enableMonitor);
+				Logger.logLine("Terminal :: " + strTerminal, this.enableMonitor);
+				Logger.logLine("Route :: " + strRoute, this.enableMonitor);
+				Logger.logLine("Campo100 :: " + strCampo100, this.enableMonitor);
 				
 				
 				sbKey.append(strCodigoTx).append("_");
@@ -409,6 +427,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 				if(isNaturalezaPresente) {
 					sbKey.append("_");
 					sbKey.append(strNaturaleza);
+				}
+				
+				// iteracion sobre serial
+				if(isSerialPresente) {
+					sbKey.append("_");
+					sbKey.append(strSerial);
+				} else
+				// iteracion sobre terminal
+				if(isTerminalPresente) {
+					sbKey.append("_");
+					sbKey.append(strTerminal);
 				}
 				
 				if(isTarjetaPresente) {
@@ -2069,13 +2098,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					}
 					
 					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
-					rspISOMsg.putStructuredData(sd);
-					
-
-					if(!rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION).equals(sd.get("valorcobrado"))) {					
-						sd.put("P57CompraParcial", "0057170C"+rspISOMsg.getField(Iso8583.Bit._004_AMOUNT_TRANSACTION));
-						rspISOMsg.putField(Iso8583.Bit._004_AMOUNT_TRANSACTION, sd.get("valorcobrado"));
+						
+					sd.put("adri1", ("000" + sd.get("B24_Field_4")));
+					sd.put("adri2", sd.get("VALORCOBRADO"));
+					sd.put("adri3", !("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO")) ? "entro" : "no entro");
+					if (!("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO"))) {
+						   if (sd.get("VALORCOBRADO") != null) {
+						sd.put("P57CompraParcial", "0057170C"+sd.get("B24_Field_4"));
+						rspISOMsg.putField(Iso8583Post.Bit._004_AMOUNT_TRANSACTION, sd.get("VALORCOBRADO"));
 						}
+					}
+					 rspISOMsg.putStructuredData(sd);
 
 				}
 				
@@ -2100,6 +2133,7 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			Logger.logLine("ISCMsg:\n" + msg.toString(), this.enableMonitor);
 
 			String cons = Utils.getTransactionConsecutive("AT", "00", "1");
+			
 			ISCReqInMsg msgCopy = (ISCReqInMsg) msg;
 			ISCResInMsg rsp = new ISCResInMsg();
 			
@@ -2137,6 +2171,17 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 			switch (validateAutra.getRute()) {
 			
 			case ValidateAutra.TransactionRouting.INT_CAPA_DE_INTEGRACION:
+				
+				// Lectura de archivo
+				InputStream inp = new FileInputStream(this.nextDayFileURL);
+
+				ndPropertyFile.load(inp);
+
+				if (ndPropertyFile.getProperty(NEXTDAY) != null) {
+
+					this.isNextDay = Boolean.valueOf(ndPropertyFile.getProperty(NEXTDAY));
+
+				}
 				
 				//PROCESANDO INICIALIZACION E INTERCAMBIO DE LLAVES PINPAD
 				if (Transform.fromEbcdicToAscii(msgCopy.getField(ISCReqInMsg.Fields._04_H_AUTRA_CODE)).equals("8580")) {
