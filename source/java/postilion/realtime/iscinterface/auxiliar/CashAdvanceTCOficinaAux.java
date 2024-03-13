@@ -555,13 +555,17 @@ public class CashAdvanceTCOficinaAux {
 			} else if (tipoMensaje.equals("020")) // Si es Anulación.
 			{
 				Logger.logLine("Inicio de lógica de Anulación\n", enableMonitor);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(numeroSecuenciaOriginalAReversar);
+				Logger.logLine("sdOriginal:\t" + sdOriginal + "\n", enableMonitor);
+				keyReverse = sdOriginal.get("KeyOriginalTx");
+				Logger.logLine("keyReverse:\t" + keyReverse + "\n", enableMonitor);
 				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate); // keyAnulacion tiene 4 + (4 + 4 + 4) + 4 + 6 + 2 + 4 = 32
-				keyReverse = "0000000000";
 				sd.put("KeyOriginalTx", keyReverse);
 				sd.put("ANULACION", "TRUE");
 				sd.put("B24_Field_15", settlementDate);
 				sd.put("B24_Field_38", "000000");
 				sd.put("B24_Field_39", "17");	// Validar con Carolina si este valor es quemado.
+				sd.put("B24_Field_43", sdOriginal.get("B24_Field_43"));	// Comprobar si, con este cambio, se carga el campo 43 correctamente en el 0420.
 				sd.put("B24_Field_52", "0000000000000000");
 				sd.put("B24_Field_90", keyAnulacion + "0000000000");
 				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
