@@ -187,6 +187,9 @@ public class CashAdvanceTCOficinaAux {
 			String pinBlock = tramaCompletaAscii.substring(PINBLOCK_INI, PINBLOCK_FIN);
 			String p37 = "0901".concat(codigoOficinaAdquiriente).concat(numeroSecuencia);
 			String key = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
+			String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
+			String seqNr = tramaCompletaAscii.substring(NUM_SEQ_TX_ACTUAL_INI, NUM_SEQ_TX_ACTUAL_FIN);
+			String seqNrReverse = tramaCompletaAscii.substring(NUM_SEQ_TX_ORIG_A_REVERSAR_INI, NUM_SEQ_TX_ORIG_A_REVERSAR_FIN);
 			String binTarjeta = "007701000000000000";
 			String dataEmv = tramaCompletaAscii.substring(DATA_EMV_INI);
 
@@ -314,6 +317,7 @@ public class CashAdvanceTCOficinaAux {
 							//sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");	// Habilitar esta línea cuando finalicemos ANULACIÓN.
 							Logger.logLine("ERROR TRANSLATE PIN", enableMonitor);
 							newPin = pinBlock;
+							newPin = "FFFFFFFFFFFFFFFF";	// eliminar esta línea después de pruebas internas.
 						}
 					}
 
@@ -349,7 +353,7 @@ public class CashAdvanceTCOficinaAux {
 			out.putField(Iso8583.Bit._043_CARD_ACCEPTOR_NAME_LOC,
 					codigoOficinaAdquiriente.concat(nombreOficinaAdquiriente)
 					.concat(codigoDaneCiudadOficinaAdquiriente)
-					.concat("             "));	// Validar si en AUTRA hay logica para los 5 últimos caracteres (ciudad, país).
+					.concat("        BO CO"));
 			// CAMPO 49
 			out.putField(Iso8583Post.Bit._049_CURRENCY_CODE_TRAN, "170"); // "170" indica pesos colombianos.
 			// CAMPO 52
@@ -515,31 +519,29 @@ public class CashAdvanceTCOficinaAux {
 			
 			// INICIO DE LÓGICA DE REVERSO O ANULACIÓN
 			if (tipoMensaje.equals("080") // Reverso
-				//|| tipoMensaje.equals("020") // Anulación
+				|| tipoMensaje.equals("020") // Anulación
 			) {
-				Logger.logLine("Inicio de lógica de reverso\n", enableMonitor);
-
-				String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				Logger.logLine("key420:\t\t" + key420 + "\n", enableMonitor);
-				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				Logger.logLine("keyAnulacion:\t" + keyAnulacion + "\n", enableMonitor);
-				
+				/*Logger.logLine("\nInicio de lógica de reverso\n", enableMonitor);
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(numeroSecuenciaOriginalAReversar); //sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
 				Logger.logLine("sdOriginal:\t" + sdOriginal + "\n", enableMonitor);
 				keyReverse = sdOriginal.get("KeyOriginalTx");
 				Logger.logLine("keyReverse:\t" + keyReverse + "\n", enableMonitor);
+				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
+				Logger.logLine("keyAnulacion:\t" + keyAnulacion + "\n", enableMonitor);
 				if (keyReverse == null) {
 					keyReverse = "0000000000";
 					sd.put("REV_DECLINED", "TRUE");
 				} else {
 					out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-					out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
-					// out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-					// sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+					out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+					out.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
+					sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
 					sd.put("KEY_REVERSE", keyReverse);
 					sd.put("B24_Field_90", keyReverse + "0000000000");
-					// sd.put("B24_Field_37", keyReverse.substring(4,16));
-
-					/*if (tipoMensaje.equals("020")) {
+					out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, keyReverse.substring(4,16));
+					sd.put("B24_Field_37", keyReverse.substring(4,16));
+					
+					if (tipoMensaje.equals("020")) {
 						sd.put("ANULACION", "TRUE");
 						sd.put("B24_Field_15", settlementDate);
 						sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
@@ -549,28 +551,29 @@ public class CashAdvanceTCOficinaAux {
 						out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
 						token_QT = "! QT00032 01300000000000000000000000000000";
 						sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
-					}*/
-				}
-
-			} else if (tipoMensaje.equals("020")) // Si es Anulación.
-			{
-				Logger.logLine("Inicio de lógica de Anulación\n", enableMonitor);
-				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(numeroSecuenciaOriginalAReversar);
-				Logger.logLine("sdOriginal:\t" + sdOriginal + "\n", enableMonitor);
+					}
+				}*/
+				
+				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
 				keyReverse = sdOriginal.get("KeyOriginalTx");
-				Logger.logLine("keyReverse:\t" + keyReverse + "\n", enableMonitor);
-				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate); // keyAnulacion tiene 4 + (4 + 4 + 4) + 4 + 6 + 2 + 4 = 32
-				sd.put("KeyOriginalTx", keyReverse);
-				sd.put("ANULACION", "TRUE");
+				if(keyReverse == null) {
+					keyReverse = "0000000000";
+					sd.put("REV_DECLINED", "TRUE");
+				}
+				out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
+				sd.put("B24_Field_52", "0000000000000000");
+				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, "0420".concat(Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(248, 268)))).concat("0"+cons.substring(2, 5)));
+				out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
+				out.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
+				sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
+				sd.put("B24_Field_90", keyReverse+"0000000000");
+				out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, keyReverse.substring(4,16));
+				sd.put("B24_Field_37", keyReverse.substring(4,16));
 				sd.put("B24_Field_15", settlementDate);
 				sd.put("B24_Field_38", "000000");
-				sd.put("B24_Field_39", "17");	// Validar con Carolina si este valor es quemado.
-				sd.put("B24_Field_43", sdOriginal.get("B24_Field_43"));	// Comprobar si, con este cambio, se carga el campo 43 correctamente en el 0420.
-				sd.put("B24_Field_52", "0000000000000000");
-				sd.put("B24_Field_90", keyAnulacion + "0000000000");
-				out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
 				token_QT = "! QT00032 01300000000000000000000000000000";
 				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
+
 			} // FIN DE PROCESAMIENTO DE REVERSO
 			else {
 				// 127.2 SWITCHKEY
@@ -579,54 +582,6 @@ public class CashAdvanceTCOficinaAux {
 			}
 
 			sd.put("Entidad_autoriza_debito", codigoEntidadAutorizadoraDebito);
-
-			// PROCESAMIENTO DE REVERSO
-			/*
-			 * if ( tipoMensaje.equals("080") 	//Reverso 
-			 * || tipoMensaje.equals("020")		//Anulación ) 
-			 * { 
-			 * sd.put("forzar_delay", "true"); // INDICADOR PARA FORZAR UN DELAY. BORRAR ESTA LÍNEA DESPUÉS DE HACER PRUEBA INTERNA.
-			 * 
-			 * String key420 = "0420".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate); 
-			 * String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-			 * 
-			 * Logger.logLine("sdOriginal:\n" + sdOriginal, enableMonitor);
-			 * keyReverse = sdOriginal.get("KeyOriginalTx");
-			 * if(keyReverse == null) 
-			 * { 
-			 * keyReverse = "0000000000";
-			 * sd.put("REV_DECLINED", "TRUE"); 
-			 * } 
-			 * else {
-			 * out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);
-			 * //out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-			 * sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
-			 * sd.put("KEY_REVERSE", keyReverse);
-			 * sd.put("B24_Field_90", keyReverse+"0000000000");
-			 * //sd.put("B24_Field_37", keyReverse.substring(4,16));
-			 * 
-			 * if (tipoMensaje.equals("020")) 
-			 * {
-			 * sd.put("ANULACION", "TRUE");
-			 * sd.put("B24_Field_15", settlementDate);
-			 * sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
-			 * sd.put("KeyOriginalTx", keyReverse);
-			 * sd.put("B24_Field_52", "0000000000000000");
-			 * sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original")).concat("000000000000000000") .concat(sdOriginal.get("Monto_Original")));
-			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
-			 * }
-			 * }
-			 * 
-			 * } // FIN DE PROCESAMIENTO DE REVERSO
-			 *  else {
-			 * //out.putField(Iso8583Post.Bit._059_ECHO_DATA, Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(406, 414))));
-			 * //out.putField(Iso8583Post.Bit._059_ECHO_DATA, numeroSecuencia); // VALIDAR CON MENESES SI ESTE CAMPO APLICA A MENSAJE ISO8583 PARA TC BBOG Y TC AVAL
-			 * // 127.2 SWITCHKEY
-			 * out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key);
-			 * ISCInterfaceCB.cacheKeyReverseMap.put(numeroSecuencia, key);
-			 * }
-			 */
 
 			// 127.22 TAG MSG_HEXA
 			sd.put("IN_MSG", in.getTotalHexString());
