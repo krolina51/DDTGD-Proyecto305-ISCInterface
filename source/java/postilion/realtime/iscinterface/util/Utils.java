@@ -2302,7 +2302,7 @@ public class Utils {
 												&& msg.getResponseCode().equals(Iso8583.RspCode._00_SUCCESSFUL)
 														? Transform.fromAsciiToEbcdic("S")
 														: Transform.fromAsciiToEbcdic("N"))
-								: "");
+								: "");		
 
 //				.append(!tranType.equals(TT_BALANCE_INQUIRY_CB) && !tranType.equals(TT_WITHDRAWAL_CB_ATTF)
 //						&& !tranType.equals(TT_REVERSE_CB_ATTF) && !tranType.equals(TT_REP_REVERSE_CB_ATTF)
@@ -2321,6 +2321,8 @@ public class Utils {
 //								? Transform.fromHexToBin(ISCReqMessage.Constants.TAG_11D141_STANDIN_INDICATOR_1)
 //										.concat(Transform.fromAsciiToEbcdic("N"))
 //								: "");
+		
+		
 
 		return sb.toString();
 	}
@@ -4072,7 +4074,9 @@ public class Utils {
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(30, 38)));
 		String tipoCuenDebito = Transform
 				.fromEbcdicToAscii(Transform.fromHexToBin(isc.getTotalHexString().substring(180, 182)));
-
+		
+		String naturalezaTransaccion = Transform.fromEbcdicToAscii(Transform
+				.fromHexToBin(hexIsc.substring(ISCReqInMsg.POS_ini_TRAN_NATURE, ISCReqInMsg.POS_end_TRAN_NATURE)));
 		// Se extrae la naturaleza del mensaje para ser evaluada en el switch
 		// y se determina que tipo de transaccion es.
 		switch (Transform.fromEbcdicToAscii(Transform
@@ -4080,7 +4084,9 @@ public class Utils {
 		case "0":
 			if (codOficina.equals("8592") || codOficina.equals("8593")) {
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER_CEL2CEL");
-			} else {
+			} else  if (codOficina.equals("4000")) {
+				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER_OFICINA");
+			} else{
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_TRANSFER");
 			}
 			break;
@@ -4102,7 +4108,9 @@ public class Utils {
 			break;
 		case "6":
 			// sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
-			if (tipoCuenDebito.equals(2)) { // Avance
+			sd.put("NATURALEZA_DE_LA_TRANSACCION", naturalezaTransaccion);
+			sd.put("TIPO_DE_CUENTA_DEBITO_1", tipoCuenDebito);
+			if (tipoCuenDebito.equals("2")) { // Avance
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_AVANCEOFICINA");
 			} else { // retiro
 				sd.put("TRAN_KEY_INTERLNAL", "SRLN_8550_RETIROAVANCE");
@@ -4569,6 +4577,8 @@ public class Utils {
 		OUTPUT_FIELDS.put("COMISIONIVA:(.*)", "comisioniva=$1");
 
 		OUTPUT_FIELDS.put("RIESGO:(.)", "riesgo=$1");
+
+		OUTPUT_FIELDS.put("VALOR COBRADO:(.)", "valorcobrado=$1");
 
 	}
 

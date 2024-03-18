@@ -23,7 +23,7 @@ import postilion.realtime.sdk.util.XPostilion;
 import postilion.realtime.sdk.util.convert.Pack;
 import postilion.realtime.sdk.util.convert.Transform;
 
-public class PagoCreditoEfectivoAux {
+public class TransferAuxOficina {
 
 	// PAGO DE OBLIGACIONES
 	public static final String PCODE_PAGO_OBLIGACIONES_CREDITO_HIPOTECARIO_AHORROS = "501000";
@@ -103,7 +103,7 @@ public class PagoCreditoEfectivoAux {
 	public static final String INITIAL_SPACE = "   ";
 
 	public Iso8583Post processMsg(Iso8583Post out, ISCReqInMsg in, TransactionSetting tSetting, String cons,
-			boolean enableMonitor, boolean isNextDay) throws XPostilion {
+			boolean enableMonitor) throws XPostilion {
 
 		String tramaCompletaAscii = Transform.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString()));
 		tramaCompletaAscii = INITIAL_SPACE.concat(tramaCompletaAscii);
@@ -125,19 +125,11 @@ public class PagoCreditoEfectivoAux {
 				sd = new StructuredData();
 			}
 
-			sd.put("TXINNEXTDAY", isNextDay ? "TRUE": "FALSE");
-			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")
-					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
-				
-				if(isNextDay) {
-					businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
-					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-				}else {
-					businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
-				}
-				
-			}else {
+			if (tramaCompletaAscii.substring(BYTES_ESTADO_INI, BYTES_ESTADO_FIN)
+					.matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")) {
+				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			} else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
 			}
