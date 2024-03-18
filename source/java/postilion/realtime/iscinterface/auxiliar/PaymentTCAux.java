@@ -99,9 +99,18 @@ public class PaymentTCAux {
 				sd = new StructuredData();
 			}
 		
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			sd.put("TXINNEXTDAY", isNextDay ? "TRUE": "FALSE");
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")
+					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
+				
+				if(isNextDay) {
+					businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}else {
+					businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}
+				
 			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
@@ -310,7 +319,7 @@ public class PaymentTCAux {
 				// 127.22 TAG B24_Field_18
 				sd.put("B24_Field_18", "6010");
 				// 127.22 TAG B24_Field_35
-				sd.put("B24_Field_35", cuentaCreditar.concat("=99120000000000000000"));
+				sd.put("B24_Field_35", cuentaCreditar.concat("=99122010000000000000"));
 				// 127.22 TAG B24_Field_48
 				sd.put("B24_Field_48", "1                  00000000");
 				// 127.22 TAG B24_Field_60

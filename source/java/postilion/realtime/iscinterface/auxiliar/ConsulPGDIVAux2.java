@@ -35,10 +35,27 @@ public class ConsulPGDIVAux2 {
 			Date businessCalendarDate = null;
 			String settlementDate = null;
 			String tranType = null;
+			StructuredData sdOriginal = new StructuredData();
+			StructuredData sd = null;
 			
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			if(out.getStructuredData() != null) {
+				sd = out.getStructuredData();	
+			} else {
+				sd = new StructuredData();
+			}
+			
+			sd.put("TXINNEXTDAY", isNextDay ? "TRUE": "FALSE");
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")
+					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
+				
+				if(isNextDay) {
+					businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}else {
+					businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}
+				
 			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
@@ -54,14 +71,9 @@ public class ConsulPGDIVAux2 {
 			String keyReverse = null;
 			
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
-			StructuredData sdOriginal = new StructuredData();
-			StructuredData sd = null;
 			
-			if(out.getStructuredData() != null) {
-				sd = out.getStructuredData();	
-			} else {
-				sd = new StructuredData();
-			}
+			
+			
 			
 
 			String debitAccountType = "";

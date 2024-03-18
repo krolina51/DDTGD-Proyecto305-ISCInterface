@@ -34,6 +34,14 @@ public class PagoCreditoInternetAux {
 			Date businessCalendarDate = null;
 			String settlementDate = null;
 			String tranType = null;
+			StructuredData sd = null;
+			StructuredData sdOriginal = new StructuredData();
+
+			if (out.getStructuredData() != null) {
+				sd = out.getStructuredData();
+			} else {
+				sd = new StructuredData();
+			}
 
 			Logger.logLine("Reflected:\n" + in.toString(), enableMonitor);
 			
@@ -54,9 +62,18 @@ public class PagoCreditoInternetAux {
 			String p12 = new DateTime().get("HHmmss");
 			String p13 = new DateTime().get("MMdd");
 			
-			if(Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
-				businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
-				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+			sd.put("TXINNEXTDAY", isNextDay ? "TRUE": "FALSE");
+			if(in.getTotalHexString().substring(46,52).matches("^((F0F4F0)|(F0F5F0)|(F0F6F0)|(F0F7F0))")
+					|| Transform.fromEbcdicToAscii(in.getField(ISCReqInMsg.Fields._10_H_NEXTDAY_IND)).equals("1")) {
+				
+				if(isNextDay) {
+					businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}else {
+					businessCalendarDate = objectBusinessCalendar.getNextBusinessDate();
+					settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
+				}
+				
 			}else {
 				businessCalendarDate = objectBusinessCalendar.getCurrentBusinessDate();
 				settlementDate = new SimpleDateFormat("MMdd").format(businessCalendarDate);
@@ -67,14 +84,7 @@ public class PagoCreditoInternetAux {
 			String seqNrReverse = Transform	.fromEbcdicToAscii(Transform.fromHexToBin(in.getTotalHexString().substring(414, 422)));
 			String keyReverse = null;
 
-			StructuredData sd = null;
-			StructuredData sdOriginal = new StructuredData();
-
-			if (out.getStructuredData() != null) {
-				sd = out.getStructuredData();
-			} else {
-				sd = new StructuredData();
-			}
+			
 
 
 

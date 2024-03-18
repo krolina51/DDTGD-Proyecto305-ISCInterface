@@ -107,7 +107,7 @@ public class ISCReqMessage extends StreamMessage {
 	/**********************************************************************************
 	 * 
 	 * Metodo auxiliar el mismo es invocado desde el constructor de la clase de manera
-	 * los separadores se coloquen desde la creación misma de los objetos de tipo
+	 * los separadores se coloquen desde la creaciï¿½n misma de los objetos de tipo
 	 * ISCReqMessage
 	 * @param msg
 	 * 
