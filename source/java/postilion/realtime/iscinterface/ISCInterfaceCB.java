@@ -2099,9 +2099,6 @@ public class ISCInterfaceCB extends AInterchangeDriver8583 {
 					
 					rspISOMsg.putField(Iso8583Post.Bit._059_ECHO_DATA, dataToP59);
 						
-					sd.put("adri1", ("000" + sd.get("B24_Field_4")));
-					sd.put("adri2", sd.get("VALORCOBRADO"));
-					sd.put("adri3", !("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO")) ? "entro" : "no entro");
 					if (!("000" + sd.get("B24_Field_4")).equals(sd.get("VALORCOBRADO"))) {
 						   if (sd.get("VALORCOBRADO") != null) {
 						sd.put("P57CompraParcial", "0057170C"+sd.get("B24_Field_4"));
