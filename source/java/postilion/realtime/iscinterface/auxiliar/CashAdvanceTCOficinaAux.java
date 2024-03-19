@@ -314,10 +314,9 @@ public class CashAdvanceTCOficinaAux {
 								enableMonitor);
 						if (newPin.equals("FFFFFFFFFFFFFFFF")) {
 							// 127.22 TAG ERROR DE CRIPTOGRAFÍA
-							//sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");	// Habilitar esta línea cuando finalicemos ANULACIÓN.
+							sd.put("SANITY_ERROR", "ERROR TRANSLATE PIN");	
 							Logger.logLine("ERROR TRANSLATE PIN", enableMonitor);
 							newPin = pinBlock;
-							newPin = "FFFFFFFFFFFFFFFF";	// eliminar esta línea después de pruebas internas.
 						}
 					}
 
@@ -363,6 +362,8 @@ public class CashAdvanceTCOficinaAux {
 			// TRACK2 Field 98
 			out.putField(Iso8583.Bit._098_PAYEE, "0054150070650000000000000");
 
+			// 127.22 TAG B24_Field_52
+				sd.put("B24_Field_52", newPin);
 			
 			if (codigoEntidadAutorizadoraDebito.equals(CODIGO_ENTIDAD_BANCO_DE_BOGOTA) 
 					&& codigoOficina.startsWith("4")
@@ -396,8 +397,6 @@ public class CashAdvanceTCOficinaAux {
 				sd.put("B24_Field_41", base24Field41);
 				// CAMPO 48
 				sd.put("B24_Field_48", "1                       10000017000000000000");
-				// 127.22 TAG B24_Field_52
-				sd.put("B24_Field_52", newPin);
 				// 127.22 TAG B24_Field_60
 				sd.put("B24_Field_60", "P801P8010000");
 				// 127.22 TAG B24_Field_61
@@ -454,8 +453,6 @@ public class CashAdvanceTCOficinaAux {
 				sd.put("B24_Field_42", numeroCuotas.concat("0000000000000"));
 				// CAMPO 48
 				sd.put("B24_Field_48", "000000000000               ");
-				// 127.22 TAG B24_Field_52
-				sd.put("B24_Field_52", pinBlock);
 				// 127.22 TAG B24_Field_102
 				sd.put("B24_Field_102", "00".concat(track2.substring(0, 16)));
 				// 127.22 TAG B24_Field_104
@@ -519,41 +516,8 @@ public class CashAdvanceTCOficinaAux {
 			
 			// INICIO DE LÓGICA DE REVERSO O ANULACIÓN
 			if (tipoMensaje.equals("080") // Reverso
-				|| tipoMensaje.equals("020") // Anulación
-			) {
-				/*Logger.logLine("\nInicio de lógica de reverso\n", enableMonitor);
-				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(numeroSecuenciaOriginalAReversar); //sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
-				Logger.logLine("sdOriginal:\t" + sdOriginal + "\n", enableMonitor);
-				keyReverse = sdOriginal.get("KeyOriginalTx");
-				Logger.logLine("keyReverse:\t" + keyReverse + "\n", enableMonitor);
-				String keyAnulacion = "0200".concat(p37).concat(p13).concat(p12).concat("00").concat(settlementDate);
-				Logger.logLine("keyAnulacion:\t" + keyAnulacion + "\n", enableMonitor);
-				if (keyReverse == null) {
-					keyReverse = "0000000000";
-					sd.put("REV_DECLINED", "TRUE");
-				} else {
-					out.putField(Iso8583.Bit._090_ORIGINAL_DATA_ELEMENTS, Pack.resize(keyReverse, 42, '0', true));
-					out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, key420);out.putPrivField(Iso8583Post.PrivBit._011_ORIGINAL_KEY, keyReverse);
-					out.setMessageType(Iso8583.MsgTypeStr._0420_ACQUIRER_REV_ADV);
-					sd.put("B24_Field_95", "000000000000000000000000000000000000000000");
-					sd.put("KEY_REVERSE", keyReverse);
-					sd.put("B24_Field_90", keyReverse + "0000000000");
-					out.putField(Iso8583.Bit._037_RETRIEVAL_REF_NR, keyReverse.substring(4,16));
-					sd.put("B24_Field_37", keyReverse.substring(4,16));
-					
-					if (tipoMensaje.equals("020")) {
-						sd.put("ANULACION", "TRUE");
-						sd.put("B24_Field_15", settlementDate);
-						sd.put("B24_Field_38", sdOriginal.get("Autorizacion_Original"));
-						sd.put("KeyOriginalTx", keyReverse);
-						sd.put("B24_Field_52", "0000000000000000");
-						sd.put("B24_Field_54", "000".concat(sdOriginal.get("Monto_Original")).concat("000000000000000000").concat(sdOriginal.get("Monto_Original")));
-						out.putPrivField(Iso8583Post.PrivBit._002_SWITCH_KEY, keyAnulacion);
-						token_QT = "! QT00032 01300000000000000000000000000000";
-						sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
-					}
-				}*/
-				
+				|| tipoMensaje.equals("020")) // Anulación
+			{
 				sdOriginal = DBHandler.getKeyOriginalTxBySeqNr(seqNrReverse);
 				keyReverse = sdOriginal.get("KeyOriginalTx");
 				if(keyReverse == null) {
