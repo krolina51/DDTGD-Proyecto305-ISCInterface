@@ -571,6 +571,7 @@ public class CashAdvanceTCOficinaAux {
 				sd.put("B24_Field_37", keyReverse.substring(4,16));
 				sd.put("B24_Field_15", settlementDate);
 				sd.put("B24_Field_38", "000000");
+				sd.put("B24_Field_39", "17");	// Validar en AUTRA si este valor debe ir así.
 				token_QT = "! QT00032 01300000000000000000000000000000";
 				sd.put("B24_Field_126", "& 0000600166".concat(token_03).concat(token_24).concat(token_B4).concat(token_BM).concat(token_QT));
 
@@ -602,8 +603,18 @@ public class CashAdvanceTCOficinaAux {
 			sd.put("Numero_Secuencia", "00" + numeroSecuencia);
 			sd.put("Numero_de_Recibo_de_Terminal", "00" + numeroSecuencia);
 			sd.put("Ofi_Adqui", codigoOficinaAdquiriente);
-			sd.put("Codigo_Transaccion", "20");
-			sd.put("Nombre_Transaccion", "AVANCE");
+			if( tipoMensaje.equals("080") // Reverso
+					|| tipoMensaje.equals("020"))	// Anulación 
+			{
+				sd.put("Codigo_Transaccion", "39");
+				sd.put("Nombre_Transaccion", "REVDEB");
+				sd.put("Codigo_de_Autorizacion", "0000000000");
+				sd.put("Indicador_Autorizacion", "0");
+			}
+			else {
+				sd.put("Codigo_Transaccion", "20");
+				sd.put("Nombre_Transaccion", "AVANCE");
+			}
 			sd.put("FI_CREDITO", "0000");
 			sd.put("FI_DEBITO", "0000");
 			sd.put("SEC_ACCOUNT_TYPE", "   ");
